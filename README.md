@@ -5,12 +5,10 @@ scale at a glance. Two scripts, both self-contained:
 
 | Script | |
 | --- | --- |
-| `reascripts/kallums_ScaleView Simple.lua` | Note names are always sharps, or always flats |
-| `reascripts/kallums_ScaleView Pro.lua` | Note names are spelled for the key you pick - see [below](#scaleview-pro) |
-| `reascripts/kallums_ScaleView Detector.lua` | Pro, plus it names the chord you are playing - see [below](#scaleview-detector) |
+| `reascripts/kallums_ScaleView Detector.lua` | Note names spelled for the key, and it names the chord you play - see [below](#scaleview-detector) |
+| `reascripts/kallums_ScaleView Simple.lua` | The stripped-back one: note names are always sharps, or always flats |
 
-Everything below describes all three; the Pro and Detector sections cover what
-differs.
+Everything below describes both; the Detector section covers what it adds.
 
 ![ScaleView](docs/preview.svg)
 
@@ -118,51 +116,17 @@ against.
 `DEFAULT_W` / `DEFAULT_H` set the icon size for a first run (200 x 100), and
 the proportions it keeps when docked.
 
-## ScaleView Pro
-
-`reascripts/kallums_ScaleView Pro.lua` is the same icon as Simple, but the note
-names are spelled for the key you pick instead of always being sharps or
-flats.
-
-![ScaleView Pro](docs/preview-pro.svg)
-
-Each note of a seven-note scale takes the next letter of the alphabet and
-whatever accidental that letter then needs, which is how written music works:
-
-| Key | Spelling |
-| --- | --- |
-| C# Major | C# D# E# F# G# A# B# - an E# rather than F, a B# rather than C |
-| Db Major | Db Eb F Gb Ab Bb C - the same seven notes, but F and C stay as they are |
-| F# Major | F# G# A# B C# D# E# - a B, but an E# rather than F |
-| Gb Major | Gb Ab Bb Cb Db Eb F - a Cb rather than B, but an F |
-| Cb Major | Cb Db Eb Fb Gb Ab Bb - an Fb rather than E, a Cb rather than B |
-
-Because the spelling follows how the key is written rather than which notes
-sound, C# major and Db major are different keys here even though they light the
-same seven circles. **Random Scale** picks from those spellings too, so it can
-land on Gb Major or F# Major. The scale list offers **both spellings of every
-root** - C# and Db, F# and Gb, and so on - plus Cb, 18 roots in all. There is no
-"Swap Sharps & Flats" option: the key decides. The five notes outside the
-selected scale have no spelling of their own, so they are named in whichever
-direction the key leans - flats in F major, sharps in G major.
-
-Theoretical keys are spelled honestly rather than being tidied up, so D# major
-comes out as D# E# Fx G# A# B# Cx (`x` is a double sharp, `bb` a double flat).
-The fifteen real major keys never need one.
-
-The shorter and longer scales follow their conventional spellings rather than
-the one-letter-per-degree rule, which cannot apply to them: major blues repeats
-a letter for its b3 and 3 (C D Eb E G A), and the eight-note diminished scales
-repeat one letter (C D Eb F Gb Ab A B).
-
-The two scripts are independent - separate files, separate saved settings - so
-you can run either, or both, at the same time.
-
 ## ScaleView Detector
 
-`reascripts/kallums_ScaleView Detector.lua` is ScaleView Pro with live chord
-detection. Notes you play are ringed on the circles, and the label underneath
-names the chord you are holding instead of the scale:
+`reascripts/kallums_ScaleView Detector.lua` is the full version, and replaces
+the earlier ScaleView Pro entirely: it spells note names for the key **and**
+names the chord you are playing. If you ran Pro, Detector picks up its saved
+scale, colour and window position the first time you run it.
+
+### Chord detection
+
+Notes you play are ringed on the circles, and the label underneath names the
+chord you are holding instead of the scale:
 
 | You play | It shows |
 | --- | --- |
@@ -201,6 +165,46 @@ If REAPER's input history cannot be read at all, the label says `MIDI input
 unavailable` rather than failing - the script will not throw inside its own
 defer loop.
 
+
+### Spelling that follows the key
+
+The note names are spelled for the key you pick instead of always being sharps
+or flats.
+
+![ScaleView Detector](docs/preview-detector.svg)
+
+Each note of a seven-note scale takes the next letter of the alphabet and
+whatever accidental that letter then needs, which is how written music works:
+
+| Key | Spelling |
+| --- | --- |
+| C# Major | C# D# E# F# G# A# B# - an E# rather than F, a B# rather than C |
+| Db Major | Db Eb F Gb Ab Bb C - the same seven notes, but F and C stay as they are |
+| F# Major | F# G# A# B C# D# E# - a B, but an E# rather than F |
+| Gb Major | Gb Ab Bb Cb Db Eb F - a Cb rather than B, but an F |
+| Cb Major | Cb Db Eb Fb Gb Ab Bb - an Fb rather than E, a Cb rather than B |
+
+Because the spelling follows how the key is written rather than which notes
+sound, C# major and Db major are different keys here even though they light the
+same seven circles. **Random Scale** picks from those spellings too, so it can
+land on Gb Major or F# Major. The scale list offers **both spellings of every
+root** - C# and Db, F# and Gb, and so on - plus Cb, 18 roots in all. There is no
+"Swap Sharps & Flats" option: the key decides. The five notes outside the
+selected scale have no spelling of their own, so they are named in whichever
+direction the key leans - flats in F major, sharps in G major.
+
+Theoretical keys are spelled honestly rather than being tidied up, so D# major
+comes out as D# E# Fx G# A# B# Cx (`x` is a double sharp, `bb` a double flat).
+The fifteen real major keys never need one.
+
+The shorter and longer scales follow their conventional spellings rather than
+the one-letter-per-degree rule, which cannot apply to them: major blues repeats
+a letter for its b3 and 3 (C D Eb E G A), and the eight-note diminished scales
+repeat one letter (C D Eb F Gb Ab A B).
+
+Simple and Detector are independent - separate files, separate saved settings -
+so you can run either, or both at the same time.
+
 ## Tests
 
 `tests/` runs the scripts headlessly against a mock of
@@ -213,7 +217,6 @@ previous name still load:
 
 ```
 lua5.4 tests/test_scaleview_simple.lua
-lua5.4 tests/test_scaleview_pro.lua
 lua5.4 tests/test_scaleview_detector.lua
 ```
 
@@ -223,14 +226,14 @@ opening its own menu. They check that Random Scale only ever lands on a real
 root and scale, that the circles match the name it shows, and that it never hands back
 the scale already on screen.
 
-The Detector suite plays MIDI at the script through a mocked input history and
+It plays MIDI at the script through a mocked input history and
 reads the chord name back off the icon: the examples above, triads and
 sevenths, inversions and slash chords, the C6/Amin7 ambiguity in all three
 bass positions, note-offs and all-notes-off, that re-polling never applies an
 event twice, and that a missing or misbehaving input API degrades to a message
 instead of throwing.
 
-The Pro suite checks the spellings above, that each sharp/flat pair of
+The Detector suite also checks the spellings above, that each sharp/flat pair of
 keys lights the same circles while reading differently, that all 288 root and
 scale combinations light the right notes, and that every seven-note scale uses
 each of the seven letters exactly once - the property that makes the spelling

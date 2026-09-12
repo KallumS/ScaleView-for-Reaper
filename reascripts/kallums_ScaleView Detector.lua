@@ -1,10 +1,17 @@
 --[[
  * ReaScript Name: ScaleView Detector
- * Description:    ScaleView Pro, plus live chord detection. The twelve pitch
- *                 classes are drawn as circles with the notes of the selected
- *                 scale lit; notes you are playing are ringed, and the label
- *                 underneath names the chord you are holding - Cmin7, Bsus2,
- *                 C/E and so on - instead of the scale name.
+ * Description:    The twelve pitch classes drawn as circles, with the notes of
+ *                 the selected scale lit. Note names are spelled for the key:
+ *                 each degree of a seven-note scale takes the next letter of
+ *                 the alphabet and whatever accidental that letter needs, so
+ *                 C# major reads C# D# E# F# G# A# B# while Db major - the
+ *                 same seven notes - reads Db Eb F Gb Ab Bb C.
+ *
+ *                 Notes you play are ringed, and the label underneath names
+ *                 the chord you are holding - Cmin7, Bsus2, C/E and so on -
+ *                 instead of the scale name.
+ *
+ *                 This replaces ScaleView Pro, which it contains entirely.
  *
  *                 Chord roots are spelled for the selected key, so in Gb major
  *                 a chord on Gb reads Gbmaj7 rather than F#maj7.
@@ -17,7 +24,7 @@
  *                 list, right-click for a random scale and display options.
  *                 Press D to dock/undock, Esc or the window close box to exit.
  * Author:         kallums
- * Version:        1.0
+ * Version:        1.1
  * Provides:       [main] .
 --]]
 
@@ -28,8 +35,10 @@
 local SCRIPT_NAME  = "ScaleView Detector"
 local EXT_SECTION  = "kallums_ScaleViewDetector"
 
--- Sections used by earlier names of this script.
-local EXT_LEGACY   = {}
+-- Sections read when this script has none of its own: the scripts this one
+-- supersedes, newest first. Someone moving from Pro keeps their scale,
+-- colour, window position and dock state.
+local EXT_LEGACY   = {"kallums_ScaleViewPro", "kallums_ScaleViewEnharmonic"}
 
 local DEFAULT_W    = 200
 local DEFAULT_H    = 100

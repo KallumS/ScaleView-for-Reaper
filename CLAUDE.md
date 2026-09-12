@@ -6,13 +6,20 @@ notes of the selected scale lit.
 
 | Script | |
 | --- | --- |
-| `reascripts/kallums_ScaleView Detector.lua` | Pro, plus it names the chord being played. The one under active development. |
-| `reascripts/kallums_ScaleView Pro.lua` | Note names spelled for the selected key |
-| `reascripts/kallums_ScaleView Simple.lua` | Always sharps or always flats, with a menu toggle |
+| `reascripts/kallums_ScaleView Detector.lua` | The full one, and where work happens: names spelled for the key, and it names the chord being played |
+| `reascripts/kallums_ScaleView Simple.lua` | Deliberately the lesser one, kept for people who want it: always sharps or always flats, with a menu toggle |
 
-**The three are independent copies, not a shared library.** A fix in one usually
-belongs in the others too - check all three before considering a bug fixed. The
-docking fix, for example, applied to all three.
+A third script, ScaleView Pro, was removed once Detector contained it entirely;
+Detector reads Pro's saved settings so switching keeps the user's scale and
+window. It is still in git history if it is ever wanted.
+
+**The two are independent copies, not a shared library.** A fix in one usually
+belongs in the other too - check both before considering a bug fixed. The
+docking fix, for example, applied to all of them.
+
+Simple is not a stripped Detector: it keeps the **Swap Sharps & Flats** toggle,
+which the key-aware spelling replaced. That is the reason it still exists, so
+do not "simplify" it by removing that option.
 
 ## Working in this repo
 
@@ -21,7 +28,6 @@ docking fix, for example, applied to all three.
 
   ```sh
   lua5.4 tests/test_scaleview_simple.lua
-  lua5.4 tests/test_scaleview_pro.lua
   lua5.4 tests/test_scaleview_detector.lua
   ```
 
@@ -31,7 +37,7 @@ docking fix, for example, applied to all three.
 - **When fixing a bug, confirm the new test fails on the old code** before
   accepting it. Every regression test here was checked that way; a test that
   passes against the bug is worthless.
-- Musical claims get verified, not assumed: the Pro suite checks all 288
+- Musical claims get verified, not assumed: the Detector suite checks all 288
   root/scale combinations and asserts that every seven-note scale uses each of
   the seven letters exactly once, which is the property that makes the spelling
   correct.
@@ -78,8 +84,9 @@ These cost real debugging time. Two of them contradict the documentation.
   and it is not per-track.
 - Settings are stored with `SetExtState`/`GetExtState` **by name, never by
   index**, so reordering a table cannot repoint a saved choice. Each script
-  reads through a list of the section names it used under earlier names, so
-  renaming a script does not reset an existing install.
+  reads through a list of the sections it used under earlier names, and of any
+  script it supersedes, so a rename or a replacement does not reset an existing
+  install. `EXT_LEGACY` holds that list.
 
 ## How the spelling engine works
 
@@ -137,6 +144,7 @@ notes come from. Verified from the JSFX reference:
 ## Related
 
 `KallumS/ScaleView` is the same icon as a VST3 / AU / CLAP plugin (JUCE, C++).
-Its musical core is a port of ScaleView Pro's and was verified by diffing all
-288 keys against this repo's output - if the spelling changes here, change it
-there too.
+Its musical core is a port of the spelling engine here (from ScaleView Pro,
+whose scale side Detector now carries) and was verified by diffing all 288 keys
+against this repo's output - if the spelling changes here, change it there
+too.

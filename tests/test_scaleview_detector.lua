@@ -209,6 +209,24 @@ for _, circle in ipairs(drawn) do if circle.fill == false then rings = rings + 1
 if rings ~= 2 then fail("one pitch class in three octaves should ring one circle, got " .. rings) end
 print("  held notes are ringed, once per pitch class whatever the octave")
 
+-- 9b) Settings saved by a script this one supersedes are picked up, so moving
+--     from ScaleView Pro keeps your scale, colour and window.
+for _, section in ipairs({"kallums_ScaleViewPro", "kallums_ScaleViewEnharmonic"}) do
+  ext = {}
+  ext[section .. ":root"]  = "Gb"
+  ext[section .. ":scale"] = "Major"
+  history, sequence = {}, 0
+
+  dofile(SCRIPT)
+  local shown = label()
+
+  if shown ~= "Gb Major" then
+    fail("settings from " .. section .. " were not carried over, label reads '"
+         .. tostring(shown) .. "'")
+  end
+end
+print("settings from ScaleView Pro, and from the earlier name, both carry over")
+
 -- 10) If the input API is missing or does not return what we expect, the
 --     script must say so rather than throwing on every frame of the defer
 --     loop. This is the path that matters if REAPER's Lua binding for
