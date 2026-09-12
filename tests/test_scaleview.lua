@@ -14,6 +14,7 @@ reaper = {
   SetExtState = function(sec, key, val) ext[sec .. ":" .. key] = val end,
   GetExtState = function(sec, key) return ext[sec .. ":" .. key] or "" end,
   defer = function(f) deferred = f end,
+  time_precise = function() return 1234.5678 end,
   atexit = function() end,
 }
 
@@ -305,5 +306,54 @@ for _, c in ipairs(drawn) do
 end
 if not restored then fail("highlight colour lost on restart") end
 print("flats and highlight colour both restored after restart")
+
+-- 11) Random Scale always lands on a real scale, and never on the one showing.
+local ROOT_PC = {
+  C = 0, ["C#"] = 1, Db = 1, D = 2, ["D#"] = 3, Eb = 3, E = 4, F = 5,
+  ["F#"] = 6, Gb = 6, G = 7, ["G#"] = 8, Ab = 8, A = 9, ["A#"] = 10, Bb = 10, B = 11,
+}
+local INTERVALS = {}
+for _, t in ipairs(TYPES) do INTERVALS[t[1]] = t[2] end
+
+local seen, seenRoots, seenScales, previous = {}, {}, {}, nil
+for attempt = 1, 60 do
+  choose("Random Scale", 2)
+  local label = texts[#texts].text
+
+  local root, scaleName
+  for name in pairs(INTERVALS) do
+    local prefix = label:match("^(.-) " .. name:gsub("[%(%)%-]", "%%%0") .. "$")
+    if prefix then root, scaleName = prefix, name end
+  end
+  if not scaleName or not ROOT_PC[root] then
+    fail("random pick " .. attempt .. " produced an unknown scale: " .. label)
+  end
+
+  local want = {}
+  for _, iv in ipairs(INTERVALS[scaleName]) do
+    want[#want + 1] = (ROOT_PC[root] + iv) % 12
+  end
+  table.sort(want)
+  if lit() ~= table.concat(want, ",") then
+    fail("random pick '" .. label .. "' lit " .. lit() .. ", expected " .. table.concat(want, ","))
+  end
+  if label == previous then fail("random pick repeated the current scale: " .. label) end
+
+  previous = label
+  seen[label] = true
+  seenRoots[root] = true
+  seenScales[scaleName] = true
+end
+local distinct = 0
+for _ in pairs(seen) do distinct = distinct + 1 end
+local roots, scales = 0, 0
+for _ in pairs(seenRoots) do roots = roots + 1 end
+for _ in pairs(seenScales) do scales = scales + 1 end
+if distinct < 20 or roots < 5 or scales < 5 then
+  fail(string.format("random picks look stuck: %d distinct, %d roots, %d scales",
+    distinct, roots, scales))
+end
+print(string.format("random scale: 60 picks, %d distinct, %d roots, %d scale types, no repeats",
+  distinct, roots, scales))
 
 print("PASS")

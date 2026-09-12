@@ -7,11 +7,11 @@
  *                 belonging to that scale light up. Selecting a scale does
  *                 nothing else - it is purely a visual reference.
  * Instructions:   Run the script. Left-click the icon for the scale list,
- *                 right-click for display options (note names, sharps or
- *                 flats, highlight colour, docking).
+ *                 right-click for a random scale and display options (note
+ *                 names, sharps or flats, highlight colour, docking).
  *                 Press D to dock/undock, Esc or the window close box to exit.
  * Author:         kallums
- * Version:        1.3
+ * Version:        1.4
  * Provides:       [main] .
 --]]
 
@@ -321,6 +321,16 @@ local function clearScale()
   selectScale(nil, nil)
 end
 
+-- Picks a scale at random, never the one already showing.
+local function randomScale()
+  local root, scale
+  repeat
+    root  = math.random(0, 11)
+    scale = math.random(#SCALES)
+  until root ~= state.root or scale ~= state.scale
+  selectScale(root, scale)
+end
+
 local function scaleMenu()
   local menu = newMenu()
 
@@ -351,6 +361,9 @@ end
 
 local function optionsMenu()
   local menu = newMenu()
+
+  addItem(menu, "Random Scale", randomScale)
+  addSeparator(menu)
 
   addItem(menu, "Show note names", function()
     state.showNames = not state.showNames
@@ -434,6 +447,7 @@ local function main()
 end
 
 local function init()
+  math.randomseed(os.time() + math.floor(reaper.time_precise() * 1000))
   loadState()
   local dock, x, y, w, h = loadWindowState()
   if x and y then

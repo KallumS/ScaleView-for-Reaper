@@ -12,6 +12,7 @@ reaper = {
   SetExtState = function(sec, key, val) ext[sec .. ":" .. key] = val end,
   GetExtState = function(sec, key) return ext[sec .. ":" .. key] or "" end,
   defer = function(f) deferred = f end,
+  time_precise = function() return 1234.5678 end,
   atexit = function() end,
 }
 
@@ -251,5 +252,43 @@ if spelledScale(ROOT_PC["Cb"]) ~= before then
   fail("spelling not restored after restart: " .. spelledScale(ROOT_PC["Cb"]))
 end
 print("restored after restart: " .. before)
+
+-- 8) Random Scale, over the spelled roots.
+local seen, seenRoots, previous = {}, {}, nil
+for attempt = 1, 60 do
+  choose("Random Scale", 2)
+  local _, _, label = readIcon()
+
+  local root, scaleName
+  for name in pairs(SCALE_INTERVALS) do
+    local prefix = label:match("^(.-) " .. name:gsub("[%(%)%-]", "%%%0") .. "$")
+    if prefix then root, scaleName = prefix, name end
+  end
+  if not scaleName or not ROOT_PC[root] then
+    fail("random pick " .. attempt .. " produced an unknown scale: " .. label)
+  end
+
+  local lit = readIcon()
+  local want = {}
+  for _, iv in ipairs(SCALE_INTERVALS[scaleName]) do want[(ROOT_PC[root] + iv) % 12] = true end
+  for pc = 0, 11 do
+    if lit[pc] ~= (want[pc] or false) then
+      fail("random pick '" .. label .. "' lit the wrong notes")
+    end
+  end
+  if label == previous then fail("random pick repeated the current scale: " .. label) end
+
+  previous = label
+  seen[label] = true
+  seenRoots[root] = true
+end
+local distinct, roots = 0, 0
+for _ in pairs(seen) do distinct = distinct + 1 end
+for _ in pairs(seenRoots) do roots = roots + 1 end
+if distinct < 20 or roots < 5 then
+  fail(string.format("random picks look stuck: %d distinct, %d roots", distinct, roots))
+end
+print(string.format("random scale: 60 picks, %d distinct over %d spelled roots, no repeats",
+  distinct, roots))
 
 print("PASS")

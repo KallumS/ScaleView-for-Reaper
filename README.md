@@ -41,6 +41,7 @@ Right-clicking the icon opens:
 
 | Option | Effect |
 | --- | --- |
+| Random Scale | Picks a scale at random, for when you can't decide - never the one already showing |
 | Show note names | Draws the note name inside each circle |
 | Swap Sharps & Flats | Names the five black keys Db Eb Gb Ab Bb instead of C# D# F# G# A#, in the circles and in the scale name underneath |
 | Highlight Colour | Teal (default), Orange, Light Green, White, Light Blue, Light Pink or Gold |
@@ -129,7 +130,8 @@ whatever accidental that letter then needs, which is how written music works:
 
 Because the spelling follows how the key is written rather than which notes
 sound, C# major and Db major are different keys here even though they light the
-same seven circles. The scale list therefore offers **both spellings of every
+same seven circles. **Random Scale** picks from those spellings too, so it can
+land on Gb Major or F# Major. The scale list offers **both spellings of every
 root** - C# and Db, F# and Gb, and so on - plus Cb, 18 roots in all. There is no
 "Swap Sharps & Flats" option: the key decides. The five notes outside the
 selected scale have no spelling of their own, so they are named in whichever
@@ -161,6 +163,10 @@ previous name still load:
 lua5.4 tests/test_scaleview.lua
 lua5.4 tests/test_scaleview_enharmonic.lua
 ```
+
+Both suites also check that Random Scale only ever lands on a real root and
+scale, that the circles match the name it shows, and that it never hands back
+the scale already on screen.
 
 The enharmonic suite checks the spellings above, that each sharp/flat pair of
 keys lights the same circles while reading differently, that all 288 root and
