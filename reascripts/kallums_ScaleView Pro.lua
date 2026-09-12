@@ -1,7 +1,8 @@
 --[[
- * ReaScript Name: ScaleView Enharmonic
- * Description:    As ScaleView, but the note names are spelled for the key that
- *                 is selected rather than always being sharps or flats. Each
+ * ReaScript Name: ScaleView Pro
+ * Description:    As ScaleView Simple, but the note names are spelled for the
+ *                 key that is selected rather than always being sharps or
+ *                 flats. Each
  *                 note of a seven-note scale takes the next letter of the
  *                 alphabet and whatever accidental that letter needs, so
  *                 C# major reads C# D# E# F# G# A# B# while Db major - the same
@@ -15,7 +16,7 @@
  *                 names, highlight colour, docking).
  *                 Press D to dock/undock, Esc or the window close box to exit.
  * Author:         kallums
- * Version:        1.2
+ * Version:        1.3
  * Provides:       [main] .
 --]]
 
@@ -23,8 +24,11 @@
 -- Configuration
 ------------------------------------------------------------------------------
 
-local SCRIPT_NAME  = "ScaleView Enharmonic"
-local EXT_SECTION  = "kallums_ScaleViewEnharmonic"
+local SCRIPT_NAME  = "ScaleView Pro"
+local EXT_SECTION  = "kallums_ScaleViewPro"
+
+-- Section this script saved to under its earlier name.
+local EXT_LEGACY   = {"kallums_ScaleViewEnharmonic"}
 
 local DEFAULT_W    = 200
 local DEFAULT_H    = 100
@@ -165,6 +169,19 @@ local lastW, lastH, lastDock
 -- Helpers
 ------------------------------------------------------------------------------
 
+-- Reads a saved setting, falling back to the section used under the earlier
+-- name so a rename doesn't reset an existing install's scale, window position
+-- or dock state.
+local function getSetting(key)
+  local value = reaper.GetExtState(EXT_SECTION, key)
+  local i = 1
+  while value == "" and EXT_LEGACY[i] do
+    value = reaper.GetExtState(EXT_LEGACY[i], key)
+    i = i + 1
+  end
+  return value
+end
+
 local function setColor(c)
   gfx.set(c[1], c[2], c[3], 1)
 end
@@ -244,10 +261,10 @@ local function loadState()
     end
   end
 
-  state.root  = lookup(ROOTS,  reaper.GetExtState(EXT_SECTION, "root"))
-  state.scale = lookup(SCALES, reaper.GetExtState(EXT_SECTION, "scale"))
-  state.highlight = lookup(HIGHLIGHTS, reaper.GetExtState(EXT_SECTION, "highlight")) or 1
-  if reaper.GetExtState(EXT_SECTION, "shownames") == "0" then state.showNames = false end
+  state.root  = lookup(ROOTS,  getSetting("root"))
+  state.scale = lookup(SCALES, getSetting("scale"))
+  state.highlight = lookup(HIGHLIGHTS, getSetting("highlight")) or 1
+  if getSetting("shownames") == "0" then state.showNames = false end
 
   -- A root without a scale, or the other way round, would light nothing.
   if not (state.root and state.scale) then state.root, state.scale = nil, nil end
@@ -260,7 +277,7 @@ local function saveWindowState()
 end
 
 local function loadWindowState()
-  local dock, x, y, w, h = reaper.GetExtState(EXT_SECTION, "wnd"):match(
+  local dock, x, y, w, h = getSetting("wnd"):match(
     "(-?%d+) (-?%d+) (-?%d+) (-?%d+) (-?%d+)")
   if not dock then return 0, nil, nil, DEFAULT_W, DEFAULT_H end
   w, h = tonumber(w), tonumber(h)

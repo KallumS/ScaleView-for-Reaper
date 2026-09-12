@@ -1,9 +1,9 @@
---[[ Headless test for the enharmonic build. Same gfx mock as the other suite:
+--[[ Headless test for ScaleView Pro, the key-aware spelling build. Same gfx mock as the other suite:
      menu items are clicked by label, and both the circle colours and the note
      names drawn inside them are read back out of the mocked drawing calls. ]]
 
 local HERE = (arg and arg[0] or ""):match("^(.*)[/\\]") or "."
-local SCRIPT = HERE .. "/../reascripts/kallums_ScaleView Enharmonic.lua"
+local SCRIPT = HERE .. "/../reascripts/kallums_ScaleView Pro.lua"
 
 local ext, drawn, texts, deferred = {}, {}, {}, nil
 local clickLabel = nil
@@ -292,5 +292,17 @@ if distinct < 20 or roots < 5 then
 end
 print(string.format("random scale: 60 picks, %d distinct over %d spelled roots, no repeats",
   distinct, roots))
+
+-- 9) Settings written under the earlier script name are still picked up.
+ext = {}
+ext["kallums_ScaleViewEnharmonic:root"]  = "Gb"
+ext["kallums_ScaleViewEnharmonic:scale"] = "Major"
+drawn, texts = {}, {}
+dofile(SCRIPT)
+if spelledScale(ROOT_PC["Gb"]) ~= "Gb Ab Bb Cb Db Eb F" then
+  fail("settings from the earlier script name were not carried over: "
+       .. spelledScale(ROOT_PC["Gb"]))
+end
+print("settings saved under the earlier script name carry over")
 
 print("PASS")

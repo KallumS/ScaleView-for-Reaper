@@ -1,5 +1,5 @@
 --[[
- * ReaScript Name: ScaleView
+ * ReaScript Name: ScaleView Simple
  * Description:    A small (200x100) clickable icon for the REAPER UI showing the
  *                 twelve pitch classes as circles - 5 on the top row (the black
  *                 keys of an octave) and 7 on the bottom row (the white keys).
@@ -11,7 +11,7 @@
  *                 names, sharps or flats, highlight colour, docking).
  *                 Press D to dock/undock, Esc or the window close box to exit.
  * Author:         kallums
- * Version:        1.5
+ * Version:        1.6
  * Provides:       [main] .
 --]]
 
@@ -19,9 +19,11 @@
 -- Configuration
 ------------------------------------------------------------------------------
 
-local SCRIPT_NAME  = "ScaleView"
-local EXT_SECTION  = "kallums_ScaleView"
-local EXT_LEGACY   = "kallums_ScaleSelector"  -- section used before the rename
+local SCRIPT_NAME  = "ScaleView Simple"
+local EXT_SECTION  = "kallums_ScaleViewSimple"
+
+-- Sections this script saved to under its earlier names, newest first.
+local EXT_LEGACY   = {"kallums_ScaleView", "kallums_ScaleSelector"}
 
 local DEFAULT_W    = 200
 local DEFAULT_H    = 100
@@ -114,11 +116,16 @@ local lastW, lastH, lastDock
 -- Helpers
 ------------------------------------------------------------------------------
 
--- Reads a saved setting, falling back to the pre-rename section so an existing
--- install keeps its scale, window position and dock state.
+-- Reads a saved setting, falling back through the sections used under earlier
+-- names so a rename doesn't reset an existing install's scale, window position
+-- or dock state.
 local function getSetting(key)
   local value = reaper.GetExtState(EXT_SECTION, key)
-  if value == "" then value = reaper.GetExtState(EXT_LEGACY, key) end
+  local i = 1
+  while value == "" and EXT_LEGACY[i] do
+    value = reaper.GetExtState(EXT_LEGACY[i], key)
+    i = i + 1
+  end
   return value
 end
 

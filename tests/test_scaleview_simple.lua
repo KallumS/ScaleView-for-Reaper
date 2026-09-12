@@ -5,7 +5,7 @@
      is reproducible here. ]]
 
 local HERE = (arg and arg[0] or ""):match("^(.*)[/\\]") or "."
-local SCRIPT = HERE .. "/../reascripts/kallums_ScaleView.lua"
+local SCRIPT = HERE .. "/../reascripts/kallums_ScaleView Simple.lua"
 
 local ext, drawn, texts, deferred = {}, {}, {}, nil
 local clickLabel, lastMenuStr, menuOpened = nil, nil, nil
@@ -210,16 +210,18 @@ dofile(SCRIPT)
 if lit() ~= saved then fail("scale not restored after restart: " .. lit() .. " vs " .. saved) end
 print("selection restored after restart: " .. saved)
 
--- 7) Settings written by the pre-rename version are still picked up.
-ext = {}
-ext["kallums_ScaleSelector:root"]  = "7"   -- G
-ext["kallums_ScaleSelector:scale"] = "1"   -- Major
-drawn, texts = {}, {}
-dofile(SCRIPT)
-if lit() ~= "0,2,4,6,7,9,11" then
-  fail("settings from the old script name were not carried over: " .. lit())
+-- 7) Settings written under either earlier script name are still picked up.
+for _, section in ipairs({"kallums_ScaleSelector", "kallums_ScaleView"}) do
+  ext = {}
+  ext[section .. ":root"]  = "7"   -- G
+  ext[section .. ":scale"] = "1"   -- Major
+  drawn, texts = {}, {}
+  dofile(SCRIPT)
+  if lit() ~= "0,2,4,6,7,9,11" then
+    fail("settings from " .. section .. " were not carried over: " .. lit())
+  end
 end
-print("settings from the pre-rename script name carry over")
+print("settings saved under either earlier script name carry over")
 
 -- 8) Sharps <-> flats is purely cosmetic and renames the five black keys.
 local function circleNames()

@@ -1,7 +1,14 @@
 # ScaleView
 
 A small ReaScript (Lua) icon for REAPER that shows the current key signature /
-scale at a glance.
+scale at a glance. Two scripts, both self-contained:
+
+| Script | |
+| --- | --- |
+| `reascripts/kallums_ScaleView Simple.lua` | Note names are always sharps, or always flats |
+| `reascripts/kallums_ScaleView Pro.lua` | Note names are spelled for the key you pick - see [below](#scaleview-pro) |
+
+Everything below describes both; the Pro section covers what differs.
 
 ![ScaleView](docs/preview.svg)
 
@@ -20,7 +27,7 @@ MIDI editor snap settings, or anything else.
 
 ## Installing
 
-Copy `reascripts/kallums_ScaleView.lua` anywhere, then in REAPER:
+Copy whichever script you want (or both) anywhere, then in REAPER:
 
 1. **Actions > Show action list... > New action > Load ReaScript...**
 2. Select the file.
@@ -109,13 +116,13 @@ against.
 `DEFAULT_W` / `DEFAULT_H` set the icon size for a first run (200 x 100), and
 the proportions it keeps when docked.
 
-## ScaleView Enharmonic
+## ScaleView Pro
 
-`reascripts/kallums_ScaleView Enharmonic.lua` is a second, self-contained
-script: the same icon, but the note names are spelled for the key you pick
-instead of always being sharps or flats.
+`reascripts/kallums_ScaleView Pro.lua` is the same icon as Simple, but the note
+names are spelled for the key you pick instead of always being sharps or
+flats.
 
-![ScaleView Enharmonic](docs/preview-enharmonic.svg)
+![ScaleView Pro](docs/preview-pro.svg)
 
 Each note of a seven-note scale takes the next letter of the alphabet and
 whatever accidental that letter then needs, which is how written music works:
@@ -147,11 +154,11 @@ a letter for its b3 and 3 (C D Eb E G A), and the eight-note diminished scales
 repeat one letter (C D Eb F Gb Ab A B).
 
 The two scripts are independent - separate files, separate saved settings - so
-you can run either, or both.
+you can run either, or both, at the same time.
 
 ## Tests
 
-`tests/test_scaleview.lua` runs the script headlessly against a mock of
+`tests/` runs the scripts headlessly against a mock of
 REAPER's `gfx` API, clicking menu entries by label and reading back which
 circles were drawn lit. It checks all 192 scale/root combinations against the
 interval formulas, the menu index mapping, the clear/options menus, the docked
@@ -160,8 +167,8 @@ that settings survive a restart and that settings saved under the script's
 previous name still load:
 
 ```
-lua5.4 tests/test_scaleview.lua
-lua5.4 tests/test_scaleview_enharmonic.lua
+lua5.4 tests/test_scaleview_simple.lua
+lua5.4 tests/test_scaleview_pro.lua
 ```
 
 Both suites also replay click sequences frame by frame, including the stray
@@ -170,7 +177,7 @@ opening its own menu. They check that Random Scale only ever lands on a real
 root and scale, that the circles match the name it shows, and that it never hands back
 the scale already on screen.
 
-The enharmonic suite checks the spellings above, that each sharp/flat pair of
+The Pro suite checks the spellings above, that each sharp/flat pair of
 keys lights the same circles while reading differently, that all 288 root and
 scale combinations light the right notes, and that every seven-note scale uses
 each of the seven letters exactly once - the property that makes the spelling
