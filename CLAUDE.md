@@ -107,8 +107,12 @@ Roots are offered in both spellings (C# and Db, F# and Gb) plus Cb, so 18
 roots x 16 scales = 288 keys. Anything needing more than a double accidental
 falls back to a plain sharp or flat name.
 
-In Pro, the same engine spells chord roots, so a chord on Gb reads
-`Gbmaj7` in Gb major and `F#maj7` in F# major.
+In Pro, the same engine spells chord roots, so a chord on Gb reads `Gbmaj7` in
+Gb major and `F#maj7` in F# major - but chord symbols stop at one accidental.
+A key like Gb minor blues spells notes Bbb and Dbb, which is right on the
+circles and absurd in a chord symbol, so `chordNoteName` falls back to the
+plain name when the key's spelling is doubled. Keep that split: circles follow
+the key, chord symbols follow what a musician would write.
 
 ## JSFX, if Pro ever needs to follow playback
 

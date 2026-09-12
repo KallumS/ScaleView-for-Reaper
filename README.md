@@ -139,8 +139,14 @@ chord you are holding instead of the scale:
 | C E G A, with C lowest | `C6` |
 
 Chord roots are spelled for the selected key, so Gb Bb Db reads `Gb` in Gb
-major and `F#` in F# major - the same trick the Pro spelling engine already
-does for scales.
+major and `F#` in F# major - the same trick the spelling engine already does
+for scales.
+
+Chord symbols stop short of double accidentals, though. Gb minor blues spells
+two of its notes Bbb and Dbb, and the circles show them that way because that
+is correct for the scale - but the chord they make reads `Amin/C`, not
+`Bbbmin/Dbb`. Single accidentals are kept, which is what makes a chord in Gb
+major read `Gb` rather than `F#`.
 
 **The bass note decides the name.** B C# F# is `Bsus2` with B underneath, but
 those same notes are F#sus4 with F# underneath; and A C E G is `Amin7` or `C6`

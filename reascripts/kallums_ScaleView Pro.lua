@@ -23,7 +23,7 @@
  *                 list, right-click for a random scale and display options.
  *                 Press D to dock/undock, Esc or the window close box to exit.
  * Author:         kallums
- * Version:        1.2
+ * Version:        1.3
  * Provides:       [main] .
 --]]
 
@@ -233,6 +233,8 @@ local state = {
 local active = {}    -- active[pitchClass] = true when that note is in the scale
 local names  = {}    -- names[pitchClass] = how to spell it in the current key
 
+local keyUsesFlats = false -- whether the selected key spells its notes as flats
+
 local held      = {} -- held[midiNote] = true while the note is being played
 local heldCount = 0
 local chordName = nil   -- what the held notes spell, or nil when nothing is held
@@ -293,6 +295,7 @@ end
 -- Recalculate which pitch classes are lit for the current selection.
 local function refreshActive()
   active, names = {}, {}
+  keyUsesFlats = false
   if not (state.root and state.scale) then return end
 
   local root  = ROOTS[state.root]
@@ -313,7 +316,8 @@ local function refreshActive()
 
   -- The notes outside the scale have no spelling of their own, so name them
   -- in whichever direction the key leans.
-  local outside = flats > sharps and FLAT_NAMES or SHARP_NAMES
+  keyUsesFlats = flats > sharps
+  local outside = keyUsesFlats and FLAT_NAMES or SHARP_NAMES
   for pc = 0, 11 do
     if not names[pc] then names[pc] = outside[pc + 1] end
   end
@@ -412,6 +416,22 @@ end
 -- not the root.
 ------------------------------------------------------------------------------
 
+-- Chord symbols are not written with double accidentals: the notes of Gb minor
+-- blues are spelled Bbb and Dbb on the circles, which is right for a scale, but
+-- the chord they make is Amin/C rather than Bbbmin/Dbb. So a chord root or bass
+-- that the key spells with a double accidental falls back to its plain name,
+-- leaning the same way as the key. Single accidentals are kept, which is what
+-- makes a chord in Gb major read Gb rather than F#.
+local function chordNoteName(pc)
+  local name = noteName(pc)
+
+  if name:find("x", 2, true) or name:find("bb", 2, true) then
+    return (keyUsesFlats and FLAT_NAMES or SHARP_NAMES)[pc + 1]
+  end
+
+  return name
+end
+
 local function heldPitchClasses()
   local classes, bass = {}, nil
 
@@ -443,7 +463,7 @@ local function detectChord()
 
   local count = 0
   for _ in pairs(classes) do count = count + 1 end
-  if count == 1 then return noteName(bass) end
+  if count == 1 then return chordNoteName(bass) end
 
   local best
   for root = 0, 11 do
@@ -466,13 +486,13 @@ local function detectChord()
     -- Nothing we recognise: name the notes instead of guessing.
     local spelled = {}
     for pc = 0, 11 do
-      if classes[pc] then spelled[#spelled + 1] = noteName(pc) end
+      if classes[pc] then spelled[#spelled + 1] = chordNoteName(pc) end
     end
     return table.concat(spelled, " ")
   end
 
-  local name = noteName(best.root) .. best.name
-  if not best.rooted then name = name .. "/" .. noteName(bass) end
+  local name = chordNoteName(best.root) .. best.name
+  if not best.rooted then name = name .. "/" .. chordNoteName(bass) end
   return name
 end
 

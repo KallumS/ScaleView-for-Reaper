@@ -165,6 +165,40 @@ chooseMenu("F# Major")
 expect({54, 58, 61}, "F#", "the same three notes in F# major")
 chooseMenu("Clear scale")
 
+-- 6b) Chord symbols never use double accidentals, even where the key spells
+--     the notes that way. Both cases below were reported from REAPER.
+print("keys whose notes need double accidentals:")
+
+chooseMenu("Gb Minor Blues")
+-- Gb minor blues spells these notes Dbb, Fb and Bbb; the chord is still Amin/C.
+expect({C4, C4 + 4, C4 + 9}, "Amin/C", "was: Bbbmin/Dbb")
+
+chooseMenu("A# Harmonic Minor")
+-- A# harmonic minor spells the root Gx; B# is a single sharp and is kept.
+expect({C4, C4 + 3, C4 + 9}, "Adim/B#", "was: Gxdim/B#")
+
+-- The circles keep the key's spelling: only the chord symbol simplifies.
+do
+  -- Circles are drawn black row then white row, so texts[] runs in this order.
+  local DRAW_ORDER = {1, 3, 6, 8, 10, 0, 2, 4, 5, 7, 9, 11}
+  local circleName = {}
+  for i, pc in ipairs(DRAW_ORDER) do circleName[pc] = texts[i] end
+
+  if circleName[9] ~= "Gx" then
+    fail("the circles should still show Gx in A# harmonic minor, showed "
+         .. tostring(circleName[9]))
+  else
+    print("  circles still read Gx; only the chord symbol simplifies")
+  end
+end
+
+-- A single accidental is still kept, so a chord in Gb major reads Gb not F#.
+chooseMenu("Gb Major")
+expect({54, 58, 61}, "Gb", "single accidentals are untouched")
+chooseMenu("Cb Major")
+expect({59, 63, 66}, "Cb", "and Cb major still reads Cb")
+chooseMenu("Clear scale")
+
 -- 7) Releasing a note renames the chord; all-notes-off clears it.
 print("note-offs:")
 play({C4, C4 + 4, C4 + 7})
