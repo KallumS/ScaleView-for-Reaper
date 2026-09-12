@@ -7,8 +7,10 @@ scale at a glance. Two scripts, both self-contained:
 | --- | --- |
 | `reascripts/kallums_ScaleView Simple.lua` | Note names are always sharps, or always flats |
 | `reascripts/kallums_ScaleView Pro.lua` | Note names are spelled for the key you pick - see [below](#scaleview-pro) |
+| `reascripts/kallums_ScaleView Detector.lua` | Pro, plus it names the chord you are playing - see [below](#scaleview-detector) |
 
-Everything below describes both; the Pro section covers what differs.
+Everything below describes all three; the Pro and Detector sections cover what
+differs.
 
 ![ScaleView](docs/preview.svg)
 
@@ -156,6 +158,49 @@ repeat one letter (C D Eb F Gb Ab A B).
 The two scripts are independent - separate files, separate saved settings - so
 you can run either, or both, at the same time.
 
+## ScaleView Detector
+
+`reascripts/kallums_ScaleView Detector.lua` is ScaleView Pro with live chord
+detection. Notes you play are ringed on the circles, and the label underneath
+names the chord you are holding instead of the scale:
+
+| You play | It shows |
+| --- | --- |
+| C Eb G | `Cmin` |
+| C Eb G Bb | `Cmin7` |
+| B C# F# | `Bsus2` |
+| C E G, with E lowest | `C/E` |
+| A C E G | `Amin7` |
+| C E G A, with C lowest | `C6` |
+
+Chord roots are spelled for the selected key, so Gb Bb Db reads `Gb` in Gb
+major and `F#` in F# major - the same trick the Pro spelling engine already
+does for scales.
+
+**The bass note decides the name.** B C# F# is `Bsus2` with B underneath, but
+those same notes are F#sus4 with F# underneath; and A C E G is `Amin7` or `C6`
+depending which is lowest. When the lowest note is not the root you get a slash
+chord (`C/E`). When neither the root nor a familiar shape is in the bass, the
+commoner chord wins and the bass is shown after the slash (`Amin7/G`).
+
+Anything it does not recognise is named honestly as its notes (`C E`) rather
+than guessed at.
+
+### What it listens to
+
+Notes come from REAPER's global MIDI input history
+(`MIDI_GetRecentInputEvent`), polled in the script's own loop. That means:
+
+- It shows what you play on a controller, anywhere in REAPER, with no track
+  or FX setup - just run the script.
+- It does **not** see MIDI items playing back, and it is not per-track. Making
+  it follow playback would need a small JSFX on the track feeding the script,
+  which is a change to where the notes come from and nothing else.
+
+If REAPER's input history cannot be read at all, the label says `MIDI input
+unavailable` rather than failing - the script will not throw inside its own
+defer loop.
+
 ## Tests
 
 `tests/` runs the scripts headlessly against a mock of
@@ -169,6 +214,7 @@ previous name still load:
 ```
 lua5.4 tests/test_scaleview_simple.lua
 lua5.4 tests/test_scaleview_pro.lua
+lua5.4 tests/test_scaleview_detector.lua
 ```
 
 Both suites also replay click sequences frame by frame, including the stray
@@ -176,6 +222,13 @@ click a modal menu reports after it closes, to check each mouse button keeps
 opening its own menu. They check that Random Scale only ever lands on a real
 root and scale, that the circles match the name it shows, and that it never hands back
 the scale already on screen.
+
+The Detector suite plays MIDI at the script through a mocked input history and
+reads the chord name back off the icon: the examples above, triads and
+sevenths, inversions and slash chords, the C6/Amin7 ambiguity in all three
+bass positions, note-offs and all-notes-off, that re-polling never applies an
+event twice, and that a missing or misbehaving input API degrades to a message
+instead of throwing.
 
 The Pro suite checks the spellings above, that each sharp/flat pair of
 keys lights the same circles while reading differently, that all 288 root and
