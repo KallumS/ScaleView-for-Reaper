@@ -1,10 +1,10 @@
---[[ Headless test for ScaleView Detector. The gfx mock is the same as the
+--[[ Headless test for ScaleView Pro. The gfx mock is the same as the
      other suites; on top of it, reaper.MIDI_GetRecentInputEvent is mocked
      with a history that behaves like REAPER's: newest event at index 0, each
      with a sequence number, zero when there are no more. ]]
 
 local HERE = (arg and arg[0] or ""):match("^(.*)[/\\]") or "."
-local SCRIPT = HERE .. "/../reascripts/kallums_ScaleView Detector.lua"
+local SCRIPT = HERE .. "/../reascripts/kallums_ScaleView Pro.lua"
 
 local ext, drawn, texts, deferred = {}, {}, {}, nil
 local clickLabel = nil
@@ -209,9 +209,11 @@ for _, circle in ipairs(drawn) do if circle.fill == false then rings = rings + 1
 if rings ~= 2 then fail("one pitch class in three octaves should ring one circle, got " .. rings) end
 print("  held notes are ringed, once per pitch class whatever the octave")
 
--- 9b) Settings saved by a script this one supersedes are picked up, so moving
---     from ScaleView Pro keeps your scale, colour and window.
-for _, section in ipairs({"kallums_ScaleViewPro", "kallums_ScaleViewEnharmonic"}) do
+-- 9b) The settings key is deliberately not the display name, so that renaming
+--     the script does not reset anyone. Settings saved under any name this
+--     script has been published under are still picked up.
+for _, section in ipairs({"kallums_ScaleViewDetector", "kallums_ScaleViewPro",
+                          "kallums_ScaleViewEnharmonic"}) do
   ext = {}
   ext[section .. ":root"]  = "Gb"
   ext[section .. ":scale"] = "Major"
@@ -225,7 +227,20 @@ for _, section in ipairs({"kallums_ScaleViewPro", "kallums_ScaleViewEnharmonic"}
          .. tostring(shown) .. "'")
   end
 end
-print("settings from ScaleView Pro, and from the earlier name, both carry over")
+print("settings saved under every earlier name still carry over")
+
+-- When several old sections exist, the most recent name wins rather than a
+-- stale one: this is the case for anyone who ran Detector after Pro.
+ext = {}
+ext["kallums_ScaleViewPro:root"]       = "C"     -- stale, from the retired Pro
+ext["kallums_ScaleViewPro:scale"]      = "Major"
+ext["kallums_ScaleViewDetector:root"]  = "Gb"    -- what the user actually left
+ext["kallums_ScaleViewDetector:scale"] = "Major"
+dofile(SCRIPT)
+if label() ~= "Gb Major" then
+  fail("the most recently used name should win, label reads '" .. tostring(label()) .. "'")
+end
+print("with both a stale and a recent section, the recent one wins")
 
 -- 10) If the input API is missing or does not return what we expect, the
 --     script must say so rather than throwing on every frame of the defer

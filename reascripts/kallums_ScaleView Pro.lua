@@ -1,5 +1,5 @@
 --[[
- * ReaScript Name: ScaleView Detector
+ * ReaScript Name: ScaleView Pro
  * Description:    The twelve pitch classes drawn as circles, with the notes of
  *                 the selected scale lit. Note names are spelled for the key:
  *                 each degree of a seven-note scale takes the next letter of
@@ -10,8 +10,7 @@
  *                 Notes you play are ringed, and the label underneath names
  *                 the chord you are holding - Cmin7, Bsus2, C/E and so on -
  *                 instead of the scale name.
- *
- *                 This replaces ScaleView Pro, which it contains entirely.
+
  *
  *                 Chord roots are spelled for the selected key, so in Gb major
  *                 a chord on Gb reads Gbmaj7 rather than F#maj7.
@@ -24,7 +23,7 @@
  *                 list, right-click for a random scale and display options.
  *                 Press D to dock/undock, Esc or the window close box to exit.
  * Author:         kallums
- * Version:        1.1
+ * Version:        1.2
  * Provides:       [main] .
 --]]
 
@@ -32,13 +31,19 @@
 -- Configuration
 ------------------------------------------------------------------------------
 
-local SCRIPT_NAME  = "ScaleView Detector"
-local EXT_SECTION  = "kallums_ScaleViewDetector"
+local SCRIPT_NAME  = "ScaleView Pro"
+-- The settings key is tied to which of the two scripts this is, NOT to its
+-- display name. This one has been called Enharmonic, Pro, Detector and Pro
+-- again; keying on the name meant a migration every time.
+local EXT_SECTION  = "kallums_ScaleViewFull"
 
--- Sections read when this script has none of its own: the scripts this one
--- supersedes, newest first. Someone moving from Pro keeps their scale,
--- colour, window position and dock state.
-local EXT_LEGACY   = {"kallums_ScaleViewPro", "kallums_ScaleViewEnharmonic"}
+-- Read when this script has no settings of its own: the names it has been
+-- published under, most recent first, so the newest saved state wins.
+local EXT_LEGACY   = {
+  "kallums_ScaleViewDetector",
+  "kallums_ScaleViewPro",
+  "kallums_ScaleViewEnharmonic",
+}
 
 local DEFAULT_W    = 200
 local DEFAULT_H    = 100

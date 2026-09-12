@@ -6,18 +6,22 @@ notes of the selected scale lit.
 
 | Script | |
 | --- | --- |
-| `reascripts/kallums_ScaleView Detector.lua` | The full one, and where work happens: names spelled for the key, and it names the chord being played |
+| `reascripts/kallums_ScaleView Pro.lua` | The full one, and where work happens: names spelled for the key, and it names the chord being played |
 | `reascripts/kallums_ScaleView Simple.lua` | Deliberately the lesser one, kept for people who want it: always sharps or always flats, with a menu toggle |
 
-A third script, ScaleView Pro, was removed once Detector contained it entirely;
-Detector reads Pro's saved settings so switching keeps the user's scale and
-window. It is still in git history if it is ever wanted.
+Pro has been renamed repeatedly - Enharmonic, Pro, Detector, Pro again - and an
+older, separate Pro was removed once this one contained it. Because of that,
+**the ExtState key is tied to the tier, not the display name**:
+`kallums_ScaleViewFull` and `kallums_ScaleViewSimple`. `EXT_LEGACY` lists every
+name this script has shipped under, most recent first, so the newest saved
+state wins over a stale one. Renaming the script again needs no migration; do
+not "tidy" the key to match a new name.
 
 **The two are independent copies, not a shared library.** A fix in one usually
 belongs in the other too - check both before considering a bug fixed. The
 docking fix, for example, applied to all of them.
 
-Simple is not a stripped Detector: it keeps the **Swap Sharps & Flats** toggle,
+Simple is not a stripped Pro: it keeps the **Swap Sharps & Flats** toggle,
 which the key-aware spelling replaced. That is the reason it still exists, so
 do not "simplify" it by removing that option.
 
@@ -28,7 +32,7 @@ do not "simplify" it by removing that option.
 
   ```sh
   lua5.4 tests/test_scaleview_simple.lua
-  lua5.4 tests/test_scaleview_detector.lua
+  lua5.4 tests/test_scaleview_pro.lua
   ```
 
 - They mock `gfx` and `reaper`, drive the script through its own defer loop,
@@ -37,7 +41,7 @@ do not "simplify" it by removing that option.
 - **When fixing a bug, confirm the new test fails on the old code** before
   accepting it. Every regression test here was checked that way; a test that
   passes against the bug is worthless.
-- Musical claims get verified, not assumed: the Detector suite checks all 288
+- Musical claims get verified, not assumed: the Pro suite checks all 288
   root/scale combinations and asserts that every seven-note scale uses each of
   the seven letters exactly once, which is the property that makes the spelling
   correct.
@@ -103,12 +107,12 @@ Roots are offered in both spellings (C# and Db, F# and Gb) plus Cb, so 18
 roots x 16 scales = 288 keys. Anything needing more than a double accidental
 falls back to a plain sharp or flat name.
 
-In the Detector, the same engine spells chord roots, so a chord on Gb reads
+In Pro, the same engine spells chord roots, so a chord on Gb reads
 `Gbmaj7` in Gb major and `F#maj7` in F# major.
 
-## JSFX, if the Detector ever needs to follow playback
+## JSFX, if Pro ever needs to follow playback
 
-Not built. The Detector cannot see MIDI items playing back; a small JSFX on the
+Not built. Pro cannot see MIDI items playing back; a small JSFX on the
 track feeding it through shared memory would fix that, changing only where the
 notes come from. Verified from the JSFX reference:
 
@@ -144,7 +148,6 @@ notes come from. Verified from the JSFX reference:
 ## Related
 
 `KallumS/ScaleView` is the same icon as a VST3 / AU / CLAP plugin (JUCE, C++).
-Its musical core is a port of the spelling engine here (from ScaleView Pro,
-whose scale side Detector now carries) and was verified by diffing all 288 keys
-against this repo's output - if the spelling changes here, change it there
+Its musical core is a port of the spelling engine here and was verified by
+diffing all 288 keys against this repo's output - if the spelling changes here, change it there
 too.
