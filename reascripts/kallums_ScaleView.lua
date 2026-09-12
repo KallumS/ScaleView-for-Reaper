@@ -7,10 +7,11 @@
  *                 belonging to that scale light up. Selecting a scale does
  *                 nothing else - it is purely a visual reference.
  * Instructions:   Run the script. Left-click the icon for the scale list,
- *                 right-click for display options (note names, docking).
+ *                 right-click for display options (note names, sharps or
+ *                 flats, highlight colour, docking).
  *                 Press D to dock/undock, Esc or the window close box to exit.
  * Author:         kallums
- * Version:        1.1
+ * Version:        1.2
  * Provides:       [main] .
 --]]
 
@@ -26,19 +27,33 @@ local DEFAULT_W    = 200
 local DEFAULT_H    = 100
 
 -- Colours are 0..1 RGB triplets, tweak to taste.
-local COLOR_BG       = {0.10, 0.10, 0.12}  -- icon background
-local COLOR_OFF      = {0.30, 0.31, 0.35}  -- note not in the selected scale
-local COLOR_ON       = {0.20, 0.80, 0.62}  -- note in the selected scale
-local COLOR_LABEL    = {0.72, 0.74, 0.80}  -- scale name text
-local COLOR_TEXT_OFF = {0.62, 0.64, 0.70}  -- note name on an unlit circle
-local COLOR_TEXT_ON  = {0.06, 0.12, 0.11}  -- note name on a lit circle
+local COLOR_BG        = {0.10, 0.10, 0.12}  -- icon background
+local COLOR_OFF       = {0.30, 0.31, 0.35}  -- note not in the selected scale
+local COLOR_LABEL     = {0.72, 0.74, 0.80}  -- scale name text
+local COLOR_TEXT_OFF  = {0.62, 0.64, 0.70}  -- note name on an unlit circle
+local COLOR_TEXT_DARK = {0.06, 0.12, 0.11}  -- note name on a pale highlight
+local COLOR_TEXT_PALE = {1.00, 1.00, 1.00}  -- note name on a dark highlight
+
+-- Highlight colours offered in the right-click menu. The first is the default.
+local HIGHLIGHTS = {
+  {name = "Teal",        rgb = {0.20, 0.80, 0.62}},
+  {name = "Orange",      rgb = {0.98, 0.55, 0.15}},
+  {name = "Light Green", rgb = {0.55, 0.87, 0.40}},
+  {name = "Purple",      rgb = {0.65, 0.45, 0.95}},
+  {name = "White",       rgb = {0.95, 0.96, 0.98}},
+  {name = "Red",         rgb = {0.93, 0.30, 0.30}},
+  {name = "Light Blue",  rgb = {0.40, 0.72, 0.98}},
+  {name = "Light Pink",  rgb = {0.98, 0.62, 0.78}},
+  {name = "Gold",        rgb = {0.95, 0.78, 0.22}},
+}
 
 ------------------------------------------------------------------------------
 -- Musical data
 ------------------------------------------------------------------------------
 
 -- Pitch classes: 0 = C ... 11 = B
-local NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"}
+local SHARP_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"}
+local FLAT_NAMES  = {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"}
 
 -- Nicer spellings for the root menu
 local ROOT_MENU_NAMES = {
@@ -84,6 +99,8 @@ local state = {
   root      = nil,   -- 0..11, or nil when no scale is selected
   scale     = nil,   -- index into SCALES, or nil
   showNames = true,  -- draw note names inside the circles
+  useFlats  = false, -- name the five black keys Db Eb Gb Ab Bb instead of sharps
+  highlight = 1,     -- index into HIGHLIGHTS
 }
 
 local active = {}    -- active[pitchClass] = true when that note is in the scale
@@ -108,6 +125,21 @@ local function setColor(c)
   gfx.set(c[1], c[2], c[3], 1)
 end
 
+local function noteName(pc)
+  return (state.useFlats and FLAT_NAMES or SHARP_NAMES)[pc + 1]
+end
+
+local function highlightColor()
+  return HIGHLIGHTS[state.highlight].rgb
+end
+
+-- Dark text on a pale highlight, white on a dark one, so the note names stay
+-- readable whichever colour is picked.
+local function textColorOn(rgb)
+  local luminance = 0.2126 * rgb[1] + 0.7152 * rgb[2] + 0.0722 * rgb[3]
+  return luminance > 0.55 and COLOR_TEXT_DARK or COLOR_TEXT_PALE
+end
+
 -- Recalculate which pitch classes are lit for the current selection.
 local function refreshActive()
   active = {}
@@ -119,7 +151,7 @@ end
 
 local function scaleLabel()
   if state.root and state.scale then
-    return NOTE_NAMES[state.root + 1] .. " " .. SCALES[state.scale].name
+    return noteName(state.root) .. " " .. SCALES[state.scale].name
   end
   return "No scale selected"
 end
@@ -130,6 +162,8 @@ local function saveState()
   reaper.SetExtState(EXT_SECTION, "root",      root, true)
   reaper.SetExtState(EXT_SECTION, "scale",     scale, true)
   reaper.SetExtState(EXT_SECTION, "shownames", state.showNames and "1" or "0", true)
+  reaper.SetExtState(EXT_SECTION, "flats",     state.useFlats and "1" or "0", true)
+  reaper.SetExtState(EXT_SECTION, "highlight", HIGHLIGHTS[state.highlight].name, true)
 end
 
 local function loadState()
@@ -138,6 +172,13 @@ local function loadState()
   if root and root >= 0 and root <= 11 then state.root = math.floor(root) end
   if scale and SCALES[math.floor(scale)] then state.scale = math.floor(scale) end
   if getSetting("shownames") == "0" then state.showNames = false end
+  if getSetting("flats") == "1" then state.useFlats = true end
+
+  -- Stored by name, so reordering the palette can't repoint an existing choice.
+  local highlight = getSetting("highlight")
+  for i, entry in ipairs(HIGHLIGHTS) do
+    if entry.name == highlight then state.highlight = i end
+  end
   refreshActive()
 end
 
@@ -194,14 +235,15 @@ end
 
 local function drawCircle(x, y, r, pc)
   local on = active[pc] == true
-  setColor(on and COLOR_ON or COLOR_OFF)
+  local fill = on and highlightColor() or COLOR_OFF
+  setColor(fill)
   gfx.circle(x, y, r, true, true)
 
   if state.showNames and r >= 7 then
-    local name = NOTE_NAMES[pc + 1]
+    local name = noteName(pc)
     gfx.setfont(2, "Arial", math.max(8, math.floor(r * 0.95)))
     local tw, th = gfx.measurestr(name)
-    setColor(on and COLOR_TEXT_ON or COLOR_TEXT_OFF)
+    setColor(on and textColorOn(fill) or COLOR_TEXT_OFF)
     gfx.x, gfx.y = x - tw / 2, y - th / 2
     gfx.drawstr(name)
   end
@@ -324,6 +366,25 @@ local function optionsMenu()
     saveState()
     needRedraw = true
   end, {checked = state.showNames})
+
+  -- "&&" is an escaped ampersand: a single "&" is the mnemonic marker in a
+  -- menu item and would underline the F instead of showing the symbol.
+  addItem(menu, "Swap Sharps && Flats", function()
+    state.useFlats = not state.useFlats
+    saveState()
+    needRedraw = true
+  end, {checked = state.useFlats})
+
+  addSubmenu(menu, "Highlight Colour")
+  for i, entry in ipairs(HIGHLIGHTS) do
+    addItem(menu, entry.name, function()
+      state.highlight = i
+      saveState()
+      needRedraw = true
+    end, {last = i == #HIGHLIGHTS, checked = state.highlight == i})
+  end
+
+  addSeparator(menu)
   addItem(menu, "Dock window", toggleDock, {checked = gfx.dock(-1) ~= 0})
   addSeparator(menu)
   addItem(menu, "Close", function() gfx.quit() end)

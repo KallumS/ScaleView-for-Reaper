@@ -31,9 +31,27 @@ Copy `reascripts/kallums_ScaleView.lua` anywhere, then in REAPER:
 | Action | Result |
 | --- | --- |
 | Left-click the icon | Scale list - pick a root note under a scale type |
-| Right-click the icon | Options: note names on/off, dock, close |
+| Right-click the icon | Display options - see below |
 | `D` | Dock / undock the window |
 | `Esc` or the close box | Quit |
+
+### Display options
+
+Right-clicking the icon opens:
+
+| Option | Effect |
+| --- | --- |
+| Show note names | Draws the note name inside each circle |
+| Swap Sharps & Flats | Names the five black keys Db Eb Gb Ab Bb instead of C# D# F# G# A#, in the circles and in the scale name underneath |
+| Highlight Colour | Teal (default), Orange, Light Green, Purple, White, Red, Light Blue, Light Pink or Gold |
+| Dock window | Dock or undock the icon |
+| Close | Quit |
+
+Swapping sharps for flats is purely cosmetic - it renames notes, it does not
+change which notes are lit. The scale list itself always shows both spellings
+("C# / Db Major"), so it reads correctly either way. Note names inside the
+circles switch between dark and white automatically so they stay readable on
+whichever highlight colour is picked.
 
 To keep it in the REAPER UI rather than floating, dock it (right-click >
 **Dock window**, or press `D`). The window position, dock state, size and the
@@ -80,8 +98,12 @@ The colours are 0..1 RGB triplets near the top of the script:
 ```lua
 local COLOR_BG       = {0.10, 0.10, 0.12}  -- icon background
 local COLOR_OFF      = {0.30, 0.31, 0.35}  -- note not in the selected scale
-local COLOR_ON       = {0.20, 0.80, 0.62}  -- note in the selected scale
 ```
+
+The nine highlight colours are the `HIGHLIGHTS` table just below them. Add,
+remove or retune entries freely - the menu is built from the table, and the
+chosen colour is stored by name, so reordering the list cannot repoint an
+existing choice.
 
 `DEFAULT_W` / `DEFAULT_H` set the icon size for a first run (200 x 100), and
 the proportions it keeps when docked.
@@ -92,8 +114,9 @@ the proportions it keeps when docked.
 REAPER's `gfx` API, clicking menu entries by label and reading back which
 circles were drawn lit. It checks all 192 scale/root combinations against the
 interval formulas, the menu index mapping, the clear/options menus, the docked
-layout, that the selection survives a restart and that settings saved under the
-script's previous name still load:
+layout, the sharps/flats swap, every highlight colour and its text contrast,
+that settings survive a restart and that settings saved under the script's
+previous name still load:
 
 ```
 lua5.4 tests/test_scaleview.lua

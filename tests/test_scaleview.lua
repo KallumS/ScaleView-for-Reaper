@@ -7,7 +7,7 @@
 local HERE = (arg and arg[0] or ""):match("^(.*)[/\\]") or "."
 local SCRIPT = HERE .. "/../reascripts/kallums_ScaleView.lua"
 
-local ext, drawn, deferred = {}, {}, nil
+local ext, drawn, texts, deferred = {}, {}, {}, nil
 local clickLabel, lastMenuStr = nil, nil
 
 reaper = {
@@ -33,6 +33,7 @@ local function classify(field)
     end
   end
   if field == "" then return "separator", "" end
+  rest = rest:gsub("&(&?)", "%1")   -- as Win32/SWELL render it
   if isSubmenu then return "submenu", rest end
   return "item", rest
 end
@@ -40,7 +41,8 @@ end
 gfx = {
   w = 200, h = 100, x = 0, y = 0, mouse_x = 10, mouse_y = 10, mouse_cap = 0,
   init = function() end, quit = function() end, update = function() end,
-  rect = function() end, setfont = function() end, drawstr = function() end,
+  rect = function() end, setfont = function() end,
+  drawstr = function(str) texts[#texts + 1] = {text = str, color = gfx._color} end,
   measurestr = function(str) return #str * 6, 12 end,
   set = function(r, g, b) gfx._color = {r, g, b} end,
   circle = function(x, y, r) drawn[#drawn + 1] = {x = x, y = y, r = r, color = gfx._color} end,
@@ -70,7 +72,7 @@ local function choose(label, button)
   clickLabel = label
   gfx.mouse_cap = button or 1
   deferred()                  -- press
-  drawn = {}                  -- keep only the frame drawn after the menu closes
+  drawn, texts = {}, {}                  -- keep only the frame drawn after the menu closes
   gfx.mouse_cap = 0
   deferred()                  -- release -> menu -> action -> redraw
   clickLabel = nil
@@ -85,9 +87,12 @@ local function lit()
   table.sort(top, function(a, b) return a.x < b.x end)
   table.sort(bot, function(a, b) return a.x < b.x end)
   local out = {}
+  local function isLit(c)   -- anything that is not the unlit grey
+    return not (c.color[1] == 0.30 and c.color[2] == 0.31 and c.color[3] == 0.35)
+  end
   local function scan(row, pcs)
     for i, c in ipairs(row) do
-      if c.color[1] < 0.25 and c.color[2] > 0.7 then out[#out + 1] = pcs[i] end
+      if isLit(c) then out[#out + 1] = pcs[i] end
     end
   end
   scan(top, {1, 3, 6, 8, 10})
@@ -177,7 +182,7 @@ print("options menu: note-name toggle works, no dead items")
 
 -- 5) Docked wide: the icon keeps its proportions instead of stretching.
 gfx.w, gfx.h = 900, 100
-drawn = {}
+drawn, texts = {}, {}
 deferred()
 if #drawn ~= 12 then fail("expected 12 circles when docked wide") end
 local minX, maxX = math.huge, -math.huge
@@ -195,7 +200,7 @@ gfx.w, gfx.h = 200, 100
 choose("F# / Gb Harmonic Minor")
 local saved = lit()
 -- Reload the script from scratch; init() draws one frame as it starts up.
-drawn = {}
+drawn, texts = {}, {}
 dofile(SCRIPT)
 if lit() ~= saved then fail("scale not restored after restart: " .. lit() .. " vs " .. saved) end
 print("selection restored after restart: " .. saved)
@@ -204,11 +209,100 @@ print("selection restored after restart: " .. saved)
 ext = {}
 ext["kallums_ScaleSelector:root"]  = "7"   -- G
 ext["kallums_ScaleSelector:scale"] = "1"   -- Major
-drawn = {}
+drawn, texts = {}, {}
 dofile(SCRIPT)
 if lit() ~= "0,2,4,6,7,9,11" then
   fail("settings from the old script name were not carried over: " .. lit())
 end
 print("settings from the pre-rename script name carry over")
+
+-- 8) Sharps <-> flats is purely cosmetic and renames the five black keys.
+local function circleNames()
+  local out = {}
+  for i = 1, #texts - 1 do out[#out + 1] = texts[i].text end   -- last is the scale label
+  return table.concat(out, " ")
+end
+local function scaleLabel() return texts[#texts].text end
+
+choose("C# / Db Major")
+local sharpNotes, sharpLit = circleNames(), lit()
+if not sharpNotes:find("C#") or scaleLabel() ~= "C# Major" then
+  fail("sharp names wrong: " .. sharpNotes .. " / " .. scaleLabel())
+end
+
+choose("Swap Sharps & Flats", 2)
+local flatNotes = circleNames()
+for _, sharp in ipairs({"C#", "D#", "F#", "G#", "A#"}) do
+  if flatNotes:find(sharp, 1, true) then fail("still showing " .. sharp .. " in flats mode") end
+end
+for _, flat in ipairs({"Db", "Eb", "Gb", "Ab", "Bb"}) do
+  if not flatNotes:find(flat, 1, true) then fail("missing " .. flat .. " in flats mode") end
+end
+for _, white in ipairs({"C", "D", "E", "F", "G", "A", "B"}) do
+  if not flatNotes:find(white) then fail("white key " .. white .. " disappeared") end
+end
+if scaleLabel() ~= "Db Major" then fail("scale label not respelled: " .. scaleLabel()) end
+if lit() ~= sharpLit then fail("swapping sharps/flats changed which notes are lit") end
+print("swap sharps & flats: " .. flatNotes .. "  (" .. scaleLabel() .. ")")
+
+choose("Swap Sharps & Flats", 2)
+if circleNames() ~= sharpNotes then fail("toggling back did not restore sharps") end
+print("toggling back restores sharps")
+
+-- 9) Every highlight colour applies, and note names keep enough contrast.
+local PALETTE = {
+  {"Teal", {0.20, 0.80, 0.62}}, {"Orange", {0.98, 0.55, 0.15}},
+  {"Light Green", {0.55, 0.87, 0.40}}, {"Purple", {0.65, 0.45, 0.95}},
+  {"White", {0.95, 0.96, 0.98}}, {"Red", {0.93, 0.30, 0.30}},
+  {"Light Blue", {0.40, 0.72, 0.98}}, {"Light Pink", {0.98, 0.62, 0.78}},
+  {"Gold", {0.95, 0.78, 0.22}},
+}
+choose("C Major")
+local baseline = lit()
+for _, entry in ipairs(PALETTE) do
+  local name, rgb = entry[1], entry[2]
+  choose(name, 2)
+  if lit() ~= baseline then fail(name .. " changed which notes are lit") end
+  local litCount, offCount = 0, 0
+  for _, c in ipairs(drawn) do
+    if c.color[1] == 0.30 and c.color[2] == 0.31 then
+      offCount = offCount + 1
+    elseif c.color[1] == rgb[1] and c.color[2] == rgb[2] and c.color[3] == rgb[3] then
+      litCount = litCount + 1
+    else
+      fail(name .. ": unexpected circle colour")
+    end
+  end
+  if litCount ~= 7 or offCount ~= 5 then
+    fail(string.format("%s: %d lit / %d unlit", name, litCount, offCount))
+  end
+  -- Contrast: the note name on a lit circle must differ from the fill.
+  local lum = 0.2126 * rgb[1] + 0.7152 * rgb[2] + 0.0722 * rgb[3]
+  local wantPale = lum <= 0.55
+  for i = 1, #texts - 1 do
+    local t = texts[i]
+    local isPale = t.color[1] == 1 and t.color[2] == 1 and t.color[3] == 1
+    local isDark = t.color[1] == 0.06
+    if isPale ~= wantPale and (isPale or isDark) then
+      fail(name .. ": note name uses the wrong text colour for its luminance")
+    end
+  end
+  print(string.format("  %-12s lit circles rgb(%.2f, %.2f, %.2f), %s note names",
+    name, rgb[1], rgb[2], rgb[3], wantPale and "white" or "dark"))
+end
+
+-- 10) Both new settings survive a restart.
+choose("Gold", 2)
+choose("Swap Sharps & Flats", 2)
+local wantNames, wantColor = circleNames(), drawn[1].color
+drawn, texts = {}, {}
+dofile(SCRIPT)
+if circleNames() ~= wantNames then fail("flats setting lost on restart") end
+local restored = false
+for _, c in ipairs(drawn) do
+  if c.color[1] == 0.95 and c.color[2] == 0.78 then restored = true end
+end
+if not restored then fail("highlight colour lost on restart") end
+print("flats and highlight colour both restored after restart")
 
 print("PASS")
