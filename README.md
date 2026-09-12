@@ -1,9 +1,9 @@
-# Scale Selector
+# ScaleView
 
 A small ReaScript (Lua) icon for REAPER that shows the current key signature /
 scale at a glance.
 
-![Scale Selector](docs/preview.svg)
+![ScaleView](docs/preview.svg)
 
 The icon is 200 x 100 pixels and draws the twelve pitch classes as circles,
 laid out like one octave of a keyboard without the keyboard:
@@ -20,7 +20,7 @@ MIDI editor snap settings, or anything else.
 
 ## Installing
 
-Copy `reascripts/kallums_Scale Selector.lua` anywhere, then in REAPER:
+Copy `reascripts/kallums_ScaleView.lua` anywhere, then in REAPER:
 
 1. **Actions > Show action list... > New action > Load ReaScript...**
 2. Select the file.
@@ -64,11 +64,14 @@ Every one of these is available from all 12 root notes:
 | Major Blues | 0 2 3 4 7 9 |
 | Minor Blues | 0 3 5 6 7 10 |
 | Whole Tone | 0 2 4 6 8 10 |
+| Diminished Whole-Half | 0 2 3 5 6 8 9 11 |
+| Diminished Half-Whole | 0 1 3 4 6 7 9 10 |
 
 Ionian is the same set of notes as Major and Aeolian the same as Natural Minor;
-both spellings are listed because both names are in common use. That is 168
-selectable key signatures in total, plus **Clear scale** to go back to all
-circles the same colour.
+both spellings are listed because both names are in common use. The two diminished scales are the eight-note octatonics: whole-half is
+W H W H W H W H from the root, half-whole is the same pattern starting with the
+semitone. That is 192 selectable key signatures in total, plus **Clear scale**
+to go back to all circles the same colour.
 
 ## Customising
 
@@ -85,14 +88,15 @@ the proportions it keeps when docked.
 
 ## Tests
 
-`tests/test_scale_selector.lua` runs the script headlessly against a mock of
+`tests/test_scaleview.lua` runs the script headlessly against a mock of
 REAPER's `gfx` API, clicking menu entries by label and reading back which
-circles were drawn lit. It checks all 168 scale/root combinations against the
+circles were drawn lit. It checks all 192 scale/root combinations against the
 interval formulas, the menu index mapping, the clear/options menus, the docked
-layout and that the selection survives a restart:
+layout, that the selection survives a restart and that settings saved under the
+script's previous name still load:
 
 ```
-lua5.4 tests/test_scale_selector.lua
+lua5.4 tests/test_scaleview.lua
 ```
 
 The mock reproduces REAPER's real `gfx.showmenu` contract: the returned index

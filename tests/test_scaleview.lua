@@ -5,7 +5,7 @@
      is reproducible here. ]]
 
 local HERE = (arg and arg[0] or ""):match("^(.*)[/\\]") or "."
-local SCRIPT = HERE .. "/../reascripts/kallums_Scale Selector.lua"
+local SCRIPT = HERE .. "/../reascripts/kallums_ScaleView.lua"
 
 local ext, drawn, deferred = {}, {}, nil
 local clickLabel, lastMenuStr = nil, nil
@@ -127,6 +127,9 @@ expect("A Minor Pentatonic", "0,2,4,7,9",      "same notes as C major pentatonic
 expect("C Minor Blues",      "0,3,5,6,7,10",   nil)
 expect("C Major Blues",      "0,2,3,4,7,9",    nil)
 expect("A Harmonic Minor",   "0,2,4,5,8,9,11", "A natural minor with a G#")
+expect("C Diminished Whole-Half", "0,2,3,5,6,8,9,11", "8 notes, W H W H W H W H")
+expect("C Diminished Half-Whole", "0,1,3,4,6,7,9,10", "8 notes, H W H W H W H W")
+expect("D# / Eb Diminished Whole-Half", "0,2,3,5,6,8,9,11", "same set as C, a minor 3rd up")
 
 -- 3) Every scale from every root: right note count, correct transposition.
 local NAMES = {"C","C# / Db","D","D# / Eb","E","F","F# / Gb","G","G# / Ab","A","A# / Bb","B"}
@@ -138,6 +141,8 @@ local TYPES = {
   {"Aeolian", {0,2,3,5,7,8,10}}, {"Major Pentatonic", {0,2,4,7,9}},
   {"Minor Pentatonic", {0,3,5,7,10}}, {"Major Blues", {0,2,3,4,7,9}},
   {"Minor Blues", {0,3,5,6,7,10}}, {"Whole Tone", {0,2,4,6,8,10}},
+  {"Diminished Whole-Half", {0,2,3,5,6,8,9,11}},
+  {"Diminished Half-Whole", {0,1,3,4,6,7,9,10}},
 }
 local checked = 0
 for _, t in ipairs(TYPES) do
@@ -194,5 +199,16 @@ drawn = {}
 dofile(SCRIPT)
 if lit() ~= saved then fail("scale not restored after restart: " .. lit() .. " vs " .. saved) end
 print("selection restored after restart: " .. saved)
+
+-- 7) Settings written by the pre-rename version are still picked up.
+ext = {}
+ext["kallums_ScaleSelector:root"]  = "7"   -- G
+ext["kallums_ScaleSelector:scale"] = "1"   -- Major
+drawn = {}
+dofile(SCRIPT)
+if lit() ~= "0,2,4,6,7,9,11" then
+  fail("settings from the old script name were not carried over: " .. lit())
+end
+print("settings from the pre-rename script name carry over")
 
 print("PASS")

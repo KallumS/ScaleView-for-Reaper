@@ -1,5 +1,5 @@
 --[[
- * ReaScript Name: Scale Selector
+ * ReaScript Name: ScaleView
  * Description:    A small (200x100) clickable icon for the REAPER UI showing the
  *                 twelve pitch classes as circles - 5 on the top row (the black
  *                 keys of an octave) and 7 on the bottom row (the white keys).
@@ -10,7 +10,7 @@
  *                 right-click for display options (note names, docking).
  *                 Press D to dock/undock, Esc or the window close box to exit.
  * Author:         kallums
- * Version:        1.0
+ * Version:        1.1
  * Provides:       [main] .
 --]]
 
@@ -18,8 +18,9 @@
 -- Configuration
 ------------------------------------------------------------------------------
 
-local SCRIPT_NAME  = "Scale Selector"
-local EXT_SECTION  = "kallums_ScaleSelector"
+local SCRIPT_NAME  = "ScaleView"
+local EXT_SECTION  = "kallums_ScaleView"
+local EXT_LEGACY   = "kallums_ScaleSelector"  -- section used before the rename
 
 local DEFAULT_W    = 200
 local DEFAULT_H    = 100
@@ -71,6 +72,8 @@ local SCALES = {
   {name = "Major Blues",      intervals = {0, 2, 3, 4, 7, 9}},
   {name = "Minor Blues",      intervals = {0, 3, 5, 6, 7, 10}},
   {name = "Whole Tone",       intervals = {0, 2, 4, 6, 8, 10}},
+  {name = "Diminished Whole-Half", intervals = {0, 2, 3, 5, 6, 8, 9, 11}},
+  {name = "Diminished Half-Whole", intervals = {0, 1, 3, 4, 6, 7, 9, 10}},
 }
 
 ------------------------------------------------------------------------------
@@ -92,6 +95,14 @@ local lastW, lastH, lastDock
 ------------------------------------------------------------------------------
 -- Helpers
 ------------------------------------------------------------------------------
+
+-- Reads a saved setting, falling back to the pre-rename section so an existing
+-- install keeps its scale, window position and dock state.
+local function getSetting(key)
+  local value = reaper.GetExtState(EXT_SECTION, key)
+  if value == "" then value = reaper.GetExtState(EXT_LEGACY, key) end
+  return value
+end
 
 local function setColor(c)
   gfx.set(c[1], c[2], c[3], 1)
@@ -122,11 +133,11 @@ local function saveState()
 end
 
 local function loadState()
-  local root  = tonumber(reaper.GetExtState(EXT_SECTION, "root"))
-  local scale = tonumber(reaper.GetExtState(EXT_SECTION, "scale"))
+  local root  = tonumber(getSetting("root"))
+  local scale = tonumber(getSetting("scale"))
   if root and root >= 0 and root <= 11 then state.root = math.floor(root) end
   if scale and SCALES[math.floor(scale)] then state.scale = math.floor(scale) end
-  if reaper.GetExtState(EXT_SECTION, "shownames") == "0" then state.showNames = false end
+  if getSetting("shownames") == "0" then state.showNames = false end
   refreshActive()
 end
 
@@ -136,7 +147,7 @@ local function saveWindowState()
 end
 
 local function loadWindowState()
-  local dock, x, y, w, h = reaper.GetExtState(EXT_SECTION, "wnd"):match(
+  local dock, x, y, w, h = getSetting("wnd"):match(
     "(-?%d+) (-?%d+) (-?%d+) (-?%d+) (-?%d+)")
   if not dock then return 0, nil, nil, DEFAULT_W, DEFAULT_H end
   w, h = tonumber(w), tonumber(h)
