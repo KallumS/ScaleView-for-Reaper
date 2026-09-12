@@ -151,16 +151,28 @@ end
 ------------------------------------------------------------------------------
 
 local function layout()
-  local w, h = gfx.w, gfx.h
-  local step = w / 7                                   -- one white-key slot
-  local labelH = h * 0.20
-  local radius = math.min(step * 0.40, (h - labelH) * 0.20)
+  local aspect = DEFAULT_W / DEFAULT_H
+
+  -- The icon keeps its 2:1 proportions inside whatever window it is given and
+  -- is centred in it, so a wide docker doesn't smear the circles across the
+  -- full width of the dock.
+  local boxW = math.min(gfx.w, gfx.h * aspect)
+  local boxH = math.min(gfx.h, gfx.w / aspect)
+  local originX = (gfx.w - boxW) / 2
+  local originY = (gfx.h - boxH) / 2
+
+  local step   = boxW / 7                              -- one white-key slot
+  local labelH = boxH * 0.20
+  local radius = math.min(step * 0.40, (boxH - labelH) * 0.20)
+
   return {
+    originX = originX,
+    boxW    = boxW,
     step    = step,
     radius  = radius,
-    topY    = (h - labelH) * 0.33,
-    botY    = (h - labelH) * 0.76,
-    labelY  = h - labelH,
+    topY    = originY + (boxH - labelH) * 0.33,
+    botY    = originY + (boxH - labelH) * 0.76,
+    labelY  = originY + boxH - labelH,
     labelH  = labelH,
   }
 end
@@ -192,12 +204,12 @@ local function draw()
 
   -- Top row: the five black keys, sitting over the gaps between white keys.
   for i, pc in ipairs(BLACK_PCS) do
-    drawCircle(BLACK_SLOTS[i] * L.step, L.topY, L.radius, pc)
+    drawCircle(L.originX + BLACK_SLOTS[i] * L.step, L.topY, L.radius, pc)
   end
 
   -- Bottom row: the seven white keys.
   for i, pc in ipairs(WHITE_PCS) do
-    drawCircle((i - 0.5) * L.step, L.botY, L.radius, pc)
+    drawCircle(L.originX + (i - 0.5) * L.step, L.botY, L.radius, pc)
   end
 
   -- Current scale name.
@@ -206,7 +218,7 @@ local function draw()
     local text = scaleLabel()
     local tw, th = gfx.measurestr(text)
     setColor(COLOR_LABEL)
-    gfx.x = math.max(2, (gfx.w - tw) / 2)
+    gfx.x = math.max(2, L.originX + (L.boxW - tw) / 2)
     gfx.y = L.labelY + (L.labelH - th) / 2
     gfx.drawstr(text)
   end
@@ -215,19 +227,36 @@ end
 ------------------------------------------------------------------------------
 -- Menus
 --
--- gfx.showmenu() returns the 1-based index of the selected *field* in the menu
--- string, and submenu headers and separators are fields too. The menu string
--- and the action table are therefore built together so the indices always line
--- up, whatever gets added to the menu later.
+-- gfx.showmenu() returns the 1-based index of the chosen item counting only
+-- *selectable* items: separators and submenu headers are in the menu string
+-- but are not counted. The action table is therefore keyed by a separate
+-- counter that only advances for selectable items, so the indices line up
+-- whatever gets added to the menu later.
 ------------------------------------------------------------------------------
 
 local function newMenu()
-  return {fields = {}, actions = {}}
+  return {fields = {}, actions = {}, selectableCount = 0}
 end
 
-local function addItem(menu, label, action)
-  menu.fields[#menu.fields + 1] = label
-  menu.actions[#menu.fields] = action
+local function addField(menu, field)
+  menu.fields[#menu.fields + 1] = field
+end
+
+-- opts.checked draws a tick, opts.last closes the submenu the item is in.
+local function addItem(menu, label, action, opts)
+  opts = opts or {}
+  local prefix = (opts.last and "<" or "") .. (opts.checked and "!" or "")
+  addField(menu, prefix .. label)
+  menu.selectableCount = menu.selectableCount + 1
+  menu.actions[menu.selectableCount] = action
+end
+
+local function addSeparator(menu)
+  addField(menu, "")
+end
+
+local function addSubmenu(menu, label)
+  addField(menu, ">" .. label)
 end
 
 local function showMenu(menu)
@@ -251,16 +280,18 @@ end
 local function scaleMenu()
   local menu = newMenu()
 
-  addItem(menu, (state.scale == nil and "!" or "") .. "Clear scale", clearScale)
-  addItem(menu, "")  -- separator
+  addItem(menu, "Clear scale", clearScale, {checked = state.scale == nil})
+  addSeparator(menu)
 
   for scaleIdx, scale in ipairs(SCALES) do
-    addItem(menu, ">" .. scale.name)
+    addSubmenu(menu, scale.name)
     for root = 0, 11 do
-      local last    = (root == 11) and "<" or ""
-      local checked = (state.root == root and state.scale == scaleIdx) and "!" or ""
-      addItem(menu, last .. checked .. ROOT_MENU_NAMES[root + 1] .. " " .. scale.name,
-        function() selectScale(root, scaleIdx) end)
+      addItem(menu, ROOT_MENU_NAMES[root + 1] .. " " .. scale.name,
+        function() selectScale(root, scaleIdx) end,
+        {
+          last    = root == 11,
+          checked = state.root == root and state.scale == scaleIdx,
+        })
     end
   end
 
@@ -277,14 +308,13 @@ end
 local function optionsMenu()
   local menu = newMenu()
 
-  addItem(menu, (state.showNames and "!" or "") .. "Show note names", function()
+  addItem(menu, "Show note names", function()
     state.showNames = not state.showNames
     saveState()
     needRedraw = true
-  end)
-  addItem(menu, (gfx.dock(-1) ~= 0 and "!" or "") .. "Dock window", toggleDock)
-  addItem(menu, "")  -- separator
-  addItem(menu, "Choose scale...", scaleMenu)
+  end, {checked = state.showNames})
+  addItem(menu, "Dock window", toggleDock, {checked = gfx.dock(-1) ~= 0})
+  addSeparator(menu)
   addItem(menu, "Close", function() gfx.quit() end)
 
   showMenu(menu)

@@ -37,8 +37,12 @@ Copy `reascripts/kallums_Scale Selector.lua` anywhere, then in REAPER:
 
 To keep it in the REAPER UI rather than floating, dock it (right-click >
 **Dock window**, or press `D`). The window position, dock state, size and the
-selected scale are all remembered between sessions, and the drawing scales with
-the window if you resize it.
+selected scale are all remembered between sessions.
+
+The drawing scales with the window, and keeps its 2:1 proportions centred in
+whatever space it is given - so a dock that is much wider than it is tall shows
+the icon at its natural shape in the middle rather than stretching the circles
+across the full width.
 
 ## Scales included
 
@@ -76,4 +80,21 @@ local COLOR_OFF      = {0.30, 0.31, 0.35}  -- note not in the selected scale
 local COLOR_ON       = {0.20, 0.80, 0.62}  -- note in the selected scale
 ```
 
-`DEFAULT_W` / `DEFAULT_H` set the icon size for a first run (200 x 100).
+`DEFAULT_W` / `DEFAULT_H` set the icon size for a first run (200 x 100), and
+the proportions it keeps when docked.
+
+## Tests
+
+`tests/test_scale_selector.lua` runs the script headlessly against a mock of
+REAPER's `gfx` API, clicking menu entries by label and reading back which
+circles were drawn lit. It checks all 168 scale/root combinations against the
+interval formulas, the menu index mapping, the clear/options menus, the docked
+layout and that the selection survives a restart:
+
+```
+lua5.4 tests/test_scale_selector.lua
+```
+
+The mock reproduces REAPER's real `gfx.showmenu` contract: the returned index
+counts **only selectable items**, so separators and submenu headers must not be
+counted when mapping the result back to an action.
