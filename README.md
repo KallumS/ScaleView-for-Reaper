@@ -108,6 +108,45 @@ against.
 `DEFAULT_W` / `DEFAULT_H` set the icon size for a first run (200 x 100), and
 the proportions it keeps when docked.
 
+## ScaleView Enharmonic
+
+`reascripts/kallums_ScaleView Enharmonic.lua` is a second, self-contained
+script: the same icon, but the note names are spelled for the key you pick
+instead of always being sharps or flats.
+
+![ScaleView Enharmonic](docs/preview-enharmonic.svg)
+
+Each note of a seven-note scale takes the next letter of the alphabet and
+whatever accidental that letter then needs, which is how written music works:
+
+| Key | Spelling |
+| --- | --- |
+| C# Major | C# D# E# F# G# A# B# - an E# rather than F, a B# rather than C |
+| Db Major | Db Eb F Gb Ab Bb C - the same seven notes, but F and C stay as they are |
+| F# Major | F# G# A# B C# D# E# - a B, but an E# rather than F |
+| Gb Major | Gb Ab Bb Cb Db Eb F - a Cb rather than B, but an F |
+| Cb Major | Cb Db Eb Fb Gb Ab Bb - an Fb rather than E, a Cb rather than B |
+
+Because the spelling follows how the key is written rather than which notes
+sound, C# major and Db major are different keys here even though they light the
+same seven circles. The scale list therefore offers **both spellings of every
+root** - C# and Db, F# and Gb, and so on - plus Cb, 18 roots in all. There is no
+"Swap Sharps & Flats" option: the key decides. The five notes outside the
+selected scale have no spelling of their own, so they are named in whichever
+direction the key leans - flats in F major, sharps in G major.
+
+Theoretical keys are spelled honestly rather than being tidied up, so D# major
+comes out as D# E# Fx G# A# B# Cx (`x` is a double sharp, `bb` a double flat).
+The fifteen real major keys never need one.
+
+The shorter and longer scales follow their conventional spellings rather than
+the one-letter-per-degree rule, which cannot apply to them: major blues repeats
+a letter for its b3 and 3 (C D Eb E G A), and the eight-note diminished scales
+repeat one letter (C D Eb F Gb Ab A B).
+
+The two scripts are independent - separate files, separate saved settings - so
+you can run either, or both.
+
 ## Tests
 
 `tests/test_scaleview.lua` runs the script headlessly against a mock of
@@ -120,7 +159,14 @@ previous name still load:
 
 ```
 lua5.4 tests/test_scaleview.lua
+lua5.4 tests/test_scaleview_enharmonic.lua
 ```
+
+The enharmonic suite checks the spellings above, that each sharp/flat pair of
+keys lights the same circles while reading differently, that all 288 root and
+scale combinations light the right notes, and that every seven-note scale uses
+each of the seven letters exactly once - the property that makes the spelling
+correct.
 
 The mock reproduces REAPER's real `gfx.showmenu` contract: the returned index
 counts **only selectable items**, so separators and submenu headers must not be

@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="460" height="292" viewBox="0 0 460 292">
+<rect width="100%" height="100%" fill="#2b2b30"/>
+<text x="120.0" y="26" font-family="Arial,Helvetica,sans-serif" font-size="11" text-anchor="middle" fill="#8d92a3">E# and B#, no F or C</text>
+<rect x="20" y="34" width="200" height="100" fill="#1a1a1f" rx="4"/>
+<circle cx="48.6" cy="60.4" r="11.4" fill="#33cc9e"/>
+<text x="48.6" y="63.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">C#</text>
+<circle cx="77.1" cy="60.4" r="11.4" fill="#33cc9e"/>
+<text x="77.1" y="63.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">D#</text>
+<circle cx="134.3" cy="60.4" r="11.4" fill="#33cc9e"/>
+<text x="134.3" y="63.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">F#</text>
+<circle cx="162.9" cy="60.4" r="11.4" fill="#33cc9e"/>
+<text x="162.9" y="63.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">G#</text>
+<circle cx="191.4" cy="60.4" r="11.4" fill="#33cc9e"/>
+<text x="191.4" y="63.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">A#</text>
+<circle cx="34.3" cy="94.8" r="11.4" fill="#33cc9e"/>
+<text x="34.3" y="98.0" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">B#</text>
+<circle cx="62.9" cy="94.8" r="11.4" fill="#4d4f59"/>
+<text x="62.9" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">D</text>
+<circle cx="91.4" cy="94.8" r="11.4" fill="#4d4f59"/>
+<text x="91.4" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">E</text>
+<circle cx="120.0" cy="94.8" r="11.4" fill="#33cc9e"/>
+<text x="120.0" y="98.0" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">E#</text>
+<circle cx="148.6" cy="94.8" r="11.4" fill="#4d4f59"/>
+<text x="148.6" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">G</text>
+<circle cx="177.1" cy="94.8" r="11.4" fill="#4d4f59"/>
+<text x="177.1" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">A</text>
+<circle cx="205.7" cy="94.8" r="11.4" fill="#4d4f59"/>
+<text x="205.7" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">B</text>
+<text x="120.0" y="128.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#b8bccc">C# Major</text>
+<text x="340.0" y="26" font-family="Arial,Helvetica,sans-serif" font-size="11" text-anchor="middle" fill="#8d92a3">the same seven notes, F and C kept</text>
+<rect x="240" y="34" width="200" height="100" fill="#1a1a1f" rx="4"/>
+<circle cx="268.6" cy="60.4" r="11.4" fill="#33cc9e"/>
+<text x="268.6" y="63.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Db</text>
+<circle cx="297.1" cy="60.4" r="11.4" fill="#33cc9e"/>
+<text x="297.1" y="63.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Eb</text>
+<circle cx="354.3" cy="60.4" r="11.4" fill="#33cc9e"/>
+<text x="354.3" y="63.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Gb</text>
+<circle cx="382.9" cy="60.4" r="11.4" fill="#33cc9e"/>
+<text x="382.9" y="63.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Ab</text>
+<circle cx="411.4" cy="60.4" r="11.4" fill="#33cc9e"/>
+<text x="411.4" y="63.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Bb</text>
+<circle cx="254.3" cy="94.8" r="11.4" fill="#33cc9e"/>
+<text x="254.3" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#0f1f1c">C</text>
+<circle cx="282.9" cy="94.8" r="11.4" fill="#4d4f59"/>
+<text x="282.9" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">D</text>
+<circle cx="311.4" cy="94.8" r="11.4" fill="#4d4f59"/>
+<text x="311.4" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">E</text>
+<circle cx="340.0" cy="94.8" r="11.4" fill="#33cc9e"/>
+<text x="340.0" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#0f1f1c">F</text>
+<circle cx="368.6" cy="94.8" r="11.4" fill="#4d4f59"/>
+<text x="368.6" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">G</text>
+<circle cx="397.1" cy="94.8" r="11.4" fill="#4d4f59"/>
+<text x="397.1" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">A</text>
+<circle cx="425.7" cy="94.8" r="11.4" fill="#4d4f59"/>
+<text x="425.7" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">B</text>
+<text x="340.0" y="128.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#b8bccc">Db Major</text>
+<text x="120.0" y="160" font-family="Arial,Helvetica,sans-serif" font-size="11" text-anchor="middle" fill="#8d92a3">Cb instead of B, but an F</text>
+<rect x="20" y="168" width="200" height="100" fill="#1a1a1f" rx="4"/>
+<circle cx="48.6" cy="194.4" r="11.4" fill="#33cc9e"/>
+<text x="48.6" y="197.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Db</text>
+<circle cx="77.1" cy="194.4" r="11.4" fill="#33cc9e"/>
+<text x="77.1" y="197.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Eb</text>
+<circle cx="134.3" cy="194.4" r="11.4" fill="#33cc9e"/>
+<text x="134.3" y="197.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Gb</text>
+<circle cx="162.9" cy="194.4" r="11.4" fill="#33cc9e"/>
+<text x="162.9" y="197.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Ab</text>
+<circle cx="191.4" cy="194.4" r="11.4" fill="#33cc9e"/>
+<text x="191.4" y="197.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Bb</text>
+<circle cx="34.3" cy="228.8" r="11.4" fill="#4d4f59"/>
+<text x="34.3" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">C</text>
+<circle cx="62.9" cy="228.8" r="11.4" fill="#4d4f59"/>
+<text x="62.9" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">D</text>
+<circle cx="91.4" cy="228.8" r="11.4" fill="#4d4f59"/>
+<text x="91.4" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">E</text>
+<circle cx="120.0" cy="228.8" r="11.4" fill="#33cc9e"/>
+<text x="120.0" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#0f1f1c">F</text>
+<circle cx="148.6" cy="228.8" r="11.4" fill="#4d4f59"/>
+<text x="148.6" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">G</text>
+<circle cx="177.1" cy="228.8" r="11.4" fill="#4d4f59"/>
+<text x="177.1" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">A</text>
+<circle cx="205.7" cy="228.8" r="11.4" fill="#33cc9e"/>
+<text x="205.7" y="232.0" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Cb</text>
+<text x="120.0" y="262.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#b8bccc">Gb Major</text>
+<text x="340.0" y="160" font-family="Arial,Helvetica,sans-serif" font-size="11" text-anchor="middle" fill="#8d92a3">Fb instead of E, Cb instead of B</text>
+<rect x="240" y="168" width="200" height="100" fill="#1a1a1f" rx="4"/>
+<circle cx="268.6" cy="194.4" r="11.4" fill="#33cc9e"/>
+<text x="268.6" y="197.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Db</text>
+<circle cx="297.1" cy="194.4" r="11.4" fill="#33cc9e"/>
+<text x="297.1" y="197.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Eb</text>
+<circle cx="354.3" cy="194.4" r="11.4" fill="#33cc9e"/>
+<text x="354.3" y="197.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Gb</text>
+<circle cx="382.9" cy="194.4" r="11.4" fill="#33cc9e"/>
+<text x="382.9" y="197.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Ab</text>
+<circle cx="411.4" cy="194.4" r="11.4" fill="#33cc9e"/>
+<text x="411.4" y="197.6" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Bb</text>
+<circle cx="254.3" cy="228.8" r="11.4" fill="#4d4f59"/>
+<text x="254.3" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">C</text>
+<circle cx="282.9" cy="228.8" r="11.4" fill="#4d4f59"/>
+<text x="282.9" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">D</text>
+<circle cx="311.4" cy="228.8" r="11.4" fill="#33cc9e"/>
+<text x="311.4" y="232.0" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Fb</text>
+<circle cx="340.0" cy="228.8" r="11.4" fill="#4d4f59"/>
+<text x="340.0" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">F</text>
+<circle cx="368.6" cy="228.8" r="11.4" fill="#4d4f59"/>
+<text x="368.6" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">G</text>
+<circle cx="397.1" cy="228.8" r="11.4" fill="#4d4f59"/>
+<text x="397.1" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">A</text>
+<circle cx="425.7" cy="228.8" r="11.4" fill="#33cc9e"/>
+<text x="425.7" y="232.0" font-family="Arial,Helvetica,sans-serif" font-size="9.2" text-anchor="middle" fill="#0f1f1c">Cb</text>
+<text x="340.0" y="262.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#b8bccc">Cb Major</text>
+</svg>
