@@ -81,32 +81,32 @@
 <circle cx="205.7" cy="228.8" r="11.4" fill="#4d4f59"/>
 <text x="205.7" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">B</text>
 <text x="120.0" y="262.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#b8bccc">C Minor Blues</text>
-<text x="340.0" y="160" font-family="Arial,Helvetica,sans-serif" font-size="11" text-anchor="middle" fill="#8d92a3">purple - note names go white</text>
+<text x="340.0" y="160" font-family="Arial,Helvetica,sans-serif" font-size="11" text-anchor="middle" fill="#8d92a3">light pink highlight</text>
 <rect x="240" y="168" width="200" height="100" fill="#1a1a1f" rx="4"/>
-<circle cx="268.6" cy="194.4" r="11.4" fill="#a673f2"/>
-<text x="268.6" y="198.2" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#ffffff">C#</text>
+<circle cx="268.6" cy="194.4" r="11.4" fill="#fa9ec7"/>
+<text x="268.6" y="198.2" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#0f1f1c">C#</text>
 <circle cx="297.1" cy="194.4" r="11.4" fill="#4d4f59"/>
 <text x="297.1" y="198.2" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">D#</text>
-<circle cx="354.3" cy="194.4" r="11.4" fill="#a673f2"/>
-<text x="354.3" y="198.2" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#ffffff">F#</text>
-<circle cx="382.9" cy="194.4" r="11.4" fill="#a673f2"/>
-<text x="382.9" y="198.2" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#ffffff">G#</text>
+<circle cx="354.3" cy="194.4" r="11.4" fill="#fa9ec7"/>
+<text x="354.3" y="198.2" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#0f1f1c">F#</text>
+<circle cx="382.9" cy="194.4" r="11.4" fill="#fa9ec7"/>
+<text x="382.9" y="198.2" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#0f1f1c">G#</text>
 <circle cx="411.4" cy="194.4" r="11.4" fill="#4d4f59"/>
 <text x="411.4" y="198.2" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">A#</text>
 <circle cx="254.3" cy="228.8" r="11.4" fill="#4d4f59"/>
 <text x="254.3" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">C</text>
-<circle cx="282.9" cy="228.8" r="11.4" fill="#a673f2"/>
-<text x="282.9" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#ffffff">D</text>
+<circle cx="282.9" cy="228.8" r="11.4" fill="#fa9ec7"/>
+<text x="282.9" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#0f1f1c">D</text>
 <circle cx="311.4" cy="228.8" r="11.4" fill="#4d4f59"/>
 <text x="311.4" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">E</text>
-<circle cx="340.0" cy="228.8" r="11.4" fill="#a673f2"/>
-<text x="340.0" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#ffffff">F</text>
+<circle cx="340.0" cy="228.8" r="11.4" fill="#fa9ec7"/>
+<text x="340.0" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#0f1f1c">F</text>
 <circle cx="368.6" cy="228.8" r="11.4" fill="#4d4f59"/>
 <text x="368.6" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">G</text>
-<circle cx="397.1" cy="228.8" r="11.4" fill="#a673f2"/>
-<text x="397.1" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#ffffff">A</text>
-<circle cx="425.7" cy="228.8" r="11.4" fill="#a673f2"/>
-<text x="425.7" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#ffffff">B</text>
+<circle cx="397.1" cy="228.8" r="11.4" fill="#fa9ec7"/>
+<text x="397.1" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#0f1f1c">A</text>
+<circle cx="425.7" cy="228.8" r="11.4" fill="#fa9ec7"/>
+<text x="425.7" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#0f1f1c">B</text>
 <text x="340.0" y="262.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#b8bccc">F# Harmonic Minor</text>
 <text x="120.0" y="294" font-family="Arial,Helvetica,sans-serif" font-size="11" text-anchor="middle" fill="#8d92a3">gold, "Swap Sharps &amp; Flats" on</text>
 <rect x="20" y="302" width="200" height="100" fill="#1a1a1f" rx="4"/>
@@ -164,12 +164,10 @@
 <text x="340.0" y="396.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#b8bccc">C Diminished Whole-Half</text>
 <text x="20" y="442" font-family="Arial,Helvetica,sans-serif" font-size="11" fill="#8d92a3">Highlight Colour:</text>
 <circle cx="116" cy="438" r="8" fill="#33cc9e"/>
-<circle cx="140" cy="438" r="8" fill="#fa8c26"/>
-<circle cx="164" cy="438" r="8" fill="#8cde66"/>
-<circle cx="188" cy="438" r="8" fill="#a673f2"/>
-<circle cx="212" cy="438" r="8" fill="#f2f5fa"/>
-<circle cx="236" cy="438" r="8" fill="#ed4c4c"/>
-<circle cx="260" cy="438" r="8" fill="#66b8fa"/>
-<circle cx="284" cy="438" r="8" fill="#fa9ec7"/>
-<circle cx="308" cy="438" r="8" fill="#f2c738"/>
+<circle cx="142" cy="438" r="8" fill="#fa8c26"/>
+<circle cx="168" cy="438" r="8" fill="#8cde66"/>
+<circle cx="194" cy="438" r="8" fill="#f2f5fa"/>
+<circle cx="220" cy="438" r="8" fill="#66b8fa"/>
+<circle cx="246" cy="438" r="8" fill="#fa9ec7"/>
+<circle cx="272" cy="438" r="8" fill="#f2c738"/>
 </svg>

@@ -252,8 +252,7 @@ print("toggling back restores sharps")
 -- 9) Every highlight colour applies, and note names keep enough contrast.
 local PALETTE = {
   {"Teal", {0.20, 0.80, 0.62}}, {"Orange", {0.98, 0.55, 0.15}},
-  {"Light Green", {0.55, 0.87, 0.40}}, {"Purple", {0.65, 0.45, 0.95}},
-  {"White", {0.95, 0.96, 0.98}}, {"Red", {0.93, 0.30, 0.30}},
+  {"Light Green", {0.55, 0.87, 0.40}}, {"White", {0.95, 0.96, 0.98}},
   {"Light Blue", {0.40, 0.72, 0.98}}, {"Light Pink", {0.98, 0.62, 0.78}},
   {"Gold", {0.95, 0.78, 0.22}},
 }
@@ -276,19 +275,21 @@ for _, entry in ipairs(PALETTE) do
   if litCount ~= 7 or offCount ~= 5 then
     fail(string.format("%s: %d lit / %d unlit", name, litCount, offCount))
   end
-  -- Contrast: the note name on a lit circle must differ from the fill.
+  -- Note names on lit circles are always dark, so every highlight in the
+  -- palette has to stay pale enough to read them against.
   local lum = 0.2126 * rgb[1] + 0.7152 * rgb[2] + 0.0722 * rgb[3]
-  local wantPale = lum <= 0.55
-  for i = 1, #texts - 1 do
-    local t = texts[i]
-    local isPale = t.color[1] == 1 and t.color[2] == 1 and t.color[3] == 1
-    local isDark = t.color[1] == 0.06
-    if isPale ~= wantPale and (isPale or isDark) then
-      fail(name .. ": note name uses the wrong text colour for its luminance")
+  if lum <= 0.55 then
+    fail(string.format("%s is too dark (luminance %.2f) for dark note names", name, lum))
+  end
+  -- texts[i] is the name drawn inside drawn[i], in the same order.
+  for i, circle in ipairs(drawn) do
+    local isLitCircle = circle.color[1] == rgb[1] and circle.color[2] == rgb[2]
+    if isLitCircle and texts[i].color[1] ~= 0.06 then
+      fail(name .. ": note name on a lit circle is not the dark text colour")
     end
   end
-  print(string.format("  %-12s lit circles rgb(%.2f, %.2f, %.2f), %s note names",
-    name, rgb[1], rgb[2], rgb[3], wantPale and "white" or "dark"))
+  print(string.format("  %-12s rgb(%.2f, %.2f, %.2f), luminance %.2f, dark note names",
+    name, rgb[1], rgb[2], rgb[3], lum))
 end
 
 -- 10) Both new settings survive a restart.

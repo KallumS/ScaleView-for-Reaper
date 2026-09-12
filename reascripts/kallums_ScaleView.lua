@@ -11,7 +11,7 @@
  *                 flats, highlight colour, docking).
  *                 Press D to dock/undock, Esc or the window close box to exit.
  * Author:         kallums
- * Version:        1.2
+ * Version:        1.3
  * Provides:       [main] .
 --]]
 
@@ -31,17 +31,15 @@ local COLOR_BG        = {0.10, 0.10, 0.12}  -- icon background
 local COLOR_OFF       = {0.30, 0.31, 0.35}  -- note not in the selected scale
 local COLOR_LABEL     = {0.72, 0.74, 0.80}  -- scale name text
 local COLOR_TEXT_OFF  = {0.62, 0.64, 0.70}  -- note name on an unlit circle
-local COLOR_TEXT_DARK = {0.06, 0.12, 0.11}  -- note name on a pale highlight
-local COLOR_TEXT_PALE = {1.00, 1.00, 1.00}  -- note name on a dark highlight
+local COLOR_TEXT_ON   = {0.06, 0.12, 0.11}  -- note name on a highlighted circle
 
 -- Highlight colours offered in the right-click menu. The first is the default.
+-- Keep these pale: the note names drawn on top of them are dark.
 local HIGHLIGHTS = {
   {name = "Teal",        rgb = {0.20, 0.80, 0.62}},
   {name = "Orange",      rgb = {0.98, 0.55, 0.15}},
   {name = "Light Green", rgb = {0.55, 0.87, 0.40}},
-  {name = "Purple",      rgb = {0.65, 0.45, 0.95}},
   {name = "White",       rgb = {0.95, 0.96, 0.98}},
-  {name = "Red",         rgb = {0.93, 0.30, 0.30}},
   {name = "Light Blue",  rgb = {0.40, 0.72, 0.98}},
   {name = "Light Pink",  rgb = {0.98, 0.62, 0.78}},
   {name = "Gold",        rgb = {0.95, 0.78, 0.22}},
@@ -131,13 +129,6 @@ end
 
 local function highlightColor()
   return HIGHLIGHTS[state.highlight].rgb
-end
-
--- Dark text on a pale highlight, white on a dark one, so the note names stay
--- readable whichever colour is picked.
-local function textColorOn(rgb)
-  local luminance = 0.2126 * rgb[1] + 0.7152 * rgb[2] + 0.0722 * rgb[3]
-  return luminance > 0.55 and COLOR_TEXT_DARK or COLOR_TEXT_PALE
 end
 
 -- Recalculate which pitch classes are lit for the current selection.
@@ -243,7 +234,7 @@ local function drawCircle(x, y, r, pc)
     local name = noteName(pc)
     gfx.setfont(2, "Arial", math.max(8, math.floor(r * 0.95)))
     local tw, th = gfx.measurestr(name)
-    setColor(on and textColorOn(fill) or COLOR_TEXT_OFF)
+    setColor(on and COLOR_TEXT_ON or COLOR_TEXT_OFF)
     gfx.x, gfx.y = x - tw / 2, y - th / 2
     gfx.drawstr(name)
   end
