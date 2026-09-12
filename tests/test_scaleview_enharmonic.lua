@@ -59,6 +59,8 @@ dofile(SCRIPT)
 local function fail(msg) print("FAIL: " .. msg) os.exit(1) end
 
 local function choose(label, button)
+  gfx.mouse_cap = 0
+  deferred()                  -- an idle frame, as there would be between clicks
   clickLabel = label
   gfx.mouse_cap = button or 1
   deferred()

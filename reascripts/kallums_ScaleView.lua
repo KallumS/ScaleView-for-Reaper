@@ -11,7 +11,7 @@
  *                 names, sharps or flats, highlight colour, docking).
  *                 Press D to dock/undock, Esc or the window close box to exit.
  * Author:         kallums
- * Version:        1.4
+ * Version:        1.5
  * Provides:       [main] .
 --]]
 
@@ -103,7 +103,10 @@ local state = {
 
 local active = {}    -- active[pitchClass] = true when that note is in the scale
 
-local prevMouseCap = 0
+local MOUSE_BUTTONS = 1 | 2 | 64   -- left, right, middle; the rest are modifiers
+
+local prevMouseCap  = 0
+local settlingMouse = false   -- true from a menu closing until the mouse is idle
 local needRedraw   = true
 local lastW, lastH, lastDock
 
@@ -308,6 +311,11 @@ local function showMenu(menu)
   local choice = gfx.showmenu(table.concat(menu.fields, "|"))
   local action = menu.actions[choice]
   if action then action() end
+
+  -- showmenu() is modal, and the click that picked an item is reported to the
+  -- window once the menu closes. Left alone it looks like a fresh left click
+  -- here, which is why a right click could open the left click's menu.
+  settlingMouse = true
 end
 
 local function selectScale(root, scaleIdx)
@@ -402,6 +410,14 @@ end
 
 local function handleMouse()
   local cap = gfx.mouse_cap
+
+  -- After a menu closes, ignore the mouse until nothing is held. Whatever it
+  -- did while the menu was up belongs to the menu, not to the icon.
+  if settlingMouse then
+    settlingMouse = cap & MOUSE_BUTTONS ~= 0
+    prevMouseCap = cap
+    return
+  end
 
   -- Left click (on release, so a click-and-drag on the docker doesn't fire).
   if prevMouseCap & 1 == 1 and cap & 1 == 0 then

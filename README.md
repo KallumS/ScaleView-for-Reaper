@@ -164,8 +164,10 @@ lua5.4 tests/test_scaleview.lua
 lua5.4 tests/test_scaleview_enharmonic.lua
 ```
 
-Both suites also check that Random Scale only ever lands on a real root and
-scale, that the circles match the name it shows, and that it never hands back
+Both suites also replay click sequences frame by frame, including the stray
+click a modal menu reports after it closes, to check each mouse button keeps
+opening its own menu. They check that Random Scale only ever lands on a real
+root and scale, that the circles match the name it shows, and that it never hands back
 the scale already on screen.
 
 The enharmonic suite checks the spellings above, that each sharp/flat pair of

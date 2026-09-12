@@ -8,7 +8,7 @@ local HERE = (arg and arg[0] or ""):match("^(.*)[/\\]") or "."
 local SCRIPT = HERE .. "/../reascripts/kallums_ScaleView.lua"
 
 local ext, drawn, texts, deferred = {}, {}, {}, nil
-local clickLabel, lastMenuStr = nil, nil
+local clickLabel, lastMenuStr, menuOpened = nil, nil, nil
 
 reaper = {
   SetExtState = function(sec, key, val) ext[sec .. ":" .. key] = val end,
@@ -51,6 +51,8 @@ gfx = {
   getchar = function() return 0 end,
   showmenu = function(str)
     lastMenuStr = str
+    menuOpened = str:find("Clear scale", 1, true) and "scale"
+              or str:find("Random Scale", 1, true) and "options" or "?"
     local selectable = 0
     for field in (str .. "|"):gmatch("([^|]*)|") do
       local kind, label = classify(field)
@@ -70,6 +72,8 @@ local function fail(msg) print("FAIL: " .. msg) os.exit(1) end
 
 -- Click the icon and choose the menu entry with the given label.
 local function choose(label, button)
+  gfx.mouse_cap = 0
+  deferred()                  -- an idle frame, as there would be between clicks
   clickLabel = label
   gfx.mouse_cap = button or 1
   deferred()                  -- press
@@ -355,5 +359,63 @@ if distinct < 20 or roots < 5 or scales < 5 then
 end
 print(string.format("random scale: 60 picks, %d distinct, %d roots, %d scale types, no repeats",
   distinct, roots, scales))
+
+-- 12) A right click must never open the left click's menu.
+--
+-- gfx.showmenu() is modal: the click that picks an item reaches the window
+-- only after the menu closes. Treated as a fresh click it looks like a left
+-- press and release, so the next right click matched the left-release test and
+-- opened the scale menu. These frames replay that.
+local function frame(cap)
+  menuOpened = nil
+  gfx.mouse_cap = cap
+  deferred()
+  return menuOpened
+end
+
+local function settle() frame(0) end
+local function rightClick() settle() frame(2) return frame(0) end
+local function leftClick()  settle() frame(1) return frame(0) end
+
+local function useMenu(item)
+  clickLabel = item
+  local opened = rightClick()
+  clickLabel = nil
+  return opened
+end
+
+if useMenu("Show note names") ~= "options" then
+  fail("right click did not open the options menu")
+end
+
+-- The menu's own click, arriving after it closed.
+if frame(1) then fail("the menu's click opened another menu") end
+if frame(0) then fail("releasing the menu's click opened another menu") end
+
+-- The reported symptom: a right click landing while that stray press is still
+-- being reported must not open the scale menu.
+useMenu("Show note names")
+frame(1)
+if frame(2) == "scale" then fail("a right click opened the scale menu") end
+frame(0)
+if rightClick() ~= "options" then fail("right click stopped working") end
+print("right click after using a menu never opens the scale menu")
+
+-- Both buttons keep their own menus, and neither stops working.
+clickLabel = "C Major"
+if leftClick() ~= "scale" then fail("left click did not open the scale menu") end
+clickLabel = nil
+frame(1) frame(0)
+if rightClick() ~= "options" then fail("right click after the scale menu opened the wrong menu") end
+if leftClick() ~= "scale" then fail("left click stopped working") end
+print("left and right clicks keep their own menus after a selection")
+
+-- A button still held when the menu closes is ignored until released.
+useMenu("Show note names")
+if frame(1) then fail("held button opened a menu") end
+if frame(1) then fail("held button opened a menu") end
+if frame(0) then fail("releasing a held button opened a menu") end
+if rightClick() ~= "options" then fail("clicks stopped working after a held button") end
+print("a button held as the menu closes is ignored, then clicks resume")
 
 print("PASS")
