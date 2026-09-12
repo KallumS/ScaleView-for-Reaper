@@ -420,4 +420,37 @@ if frame(0) then fail("releasing a held button opened a menu") end
 if rightClick() ~= "options" then fail("clicks stopped working after a held button") end
 print("a button held as the menu closes is ignored, then clicks resume")
 
+-- Docking uses the documented bitfield: bit 0 is "docked", the second byte is
+-- the docker index, which REAPER keeps even while the window is undocked. A
+-- window that remembers docker 2 while undocked reads as 0x200 - non-zero, but
+-- not docked - so the toggle has to test the bit, not the whole value.
+do
+  local dockState = 0x200        -- undocked, but remembering docker 2
+  gfx.dock = function(v, a)
+    if v and v >= 0 then dockState = v end
+    if a ~= nil then return dockState, 100, 100, 200, 100 end
+    return dockState
+  end
+
+  choose("Dock window", 2)
+
+  if dockState & 1 ~= 1 then
+    fail(string.format("toggling an undocked window that remembers a docker should dock it (state 0x%X)", dockState))
+  elseif dockState >> 8 ~= 2 then
+    fail(string.format("docking lost the docker index (state 0x%X)", dockState))
+  else
+    print(string.format("dock toggle: 0x200 -> 0x%X, docked in docker 2", dockState))
+  end
+
+  choose("Dock window", 2)
+
+  if dockState & 1 ~= 0 then
+    fail(string.format("toggling again should undock (state 0x%X)", dockState))
+  elseif dockState >> 8 ~= 2 then
+    fail(string.format("undocking lost the remembered docker index (state 0x%X)", dockState))
+  else
+    print(string.format("dock toggle: back to 0x%X, docker index kept", dockState))
+  end
+end
+
 print("PASS")

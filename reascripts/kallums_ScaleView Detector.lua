@@ -690,9 +690,17 @@ local function scaleMenu()
   showMenu(menu)
 end
 
+-- The dock state is a bitfield: bit 0 says whether the window is docked, and
+-- the second byte holds the docker index, which is kept even while undocked.
+-- So flip the bit rather than setting 0 or 1 - otherwise an undocked window
+-- that still remembers a docker reads as non-zero and never docks again.
+local function isDocked()
+  return gfx.dock(-1) & 1 == 1
+end
+
 local function toggleDock()
   local dock = gfx.dock(-1)
-  gfx.dock(dock == 0 and 1 or 0)
+  gfx.dock(dock & 1 == 1 and dock & ~1 or dock | 1)
   saveWindowState()
   needRedraw = true
 end
@@ -719,7 +727,7 @@ local function optionsMenu()
   end
 
   addSeparator(menu)
-  addItem(menu, "Dock window", toggleDock, {checked = gfx.dock(-1) ~= 0})
+  addItem(menu, "Dock window", toggleDock, {checked = isDocked()})
   addSeparator(menu)
   addItem(menu, "Close", function() gfx.quit() end)
 
