@@ -1,16 +1,17 @@
 # ScaleView
 
 A small ReaScript (Lua) icon for REAPER that shows the current key signature /
-scale at a glance. Four scripts, all self-contained:
+scale at a glance. Five scripts, all self-contained:
 
 | Script | |
 | --- | --- |
 | `reascripts/kallums_ScaleView.lua` | **The merged one.** Pro, with Simple's naming available from the right-click menu - see [below](#scaleview-the-merged-script) |
 | `reascripts/kallums_ScaleView Alt.lua` | **The merged one, with the chord reader.** Same icon, but it works out the chord instead of looking it up - see [below](#scaleview-alt-the-chord-reader) |
+| `reascripts/kallums_ScaleView Alt 2.lua` | **Alt, tuned like Scaler 3.** It prefers the reading with a complete triad in it - see [below](#alt-2-preferring-the-complete-triad) |
 | `reascripts/kallums_ScaleView Pro.lua` | Note names spelled for the key, and it names the chord you play - see [below](#scaleview-pro) |
 | `reascripts/kallums_ScaleView Simple.lua` | The stripped-back one: note names are always sharps, or always flats |
 
-Everything below describes all four; the later sections cover what each adds.
+Everything below describes all five; the later sections cover what each adds.
 
 ![ScaleView](docs/preview.svg)
 
@@ -352,6 +353,24 @@ read:
   wrong and the notes belong to some plainer chord standing on one of the
   others.
 
+### Alt 2: preferring the complete triad
+
+`kallums_ScaleView Alt 2.lua` is Alt with a single preference changed, and
+everything else about it is identical.
+
+Where two readings both fit, Alt 2 favours the one with a **complete triad** in
+it - root, third and fifth - and hangs the odd notes off that, even when the
+thinner reading would need fewer of them. That is how Scaler 3 reads a chord.
+Play C D Eb Gb Cb in Gb major and Alt says `D13b9/C`, a third and a seventh
+with one alteration and no fifth; Alt 2 and Scaler both say `Cbaddb9#9/C`, a
+whole Cb triad with two.
+
+The two engines disagree on 9.3% of all three-, four- and five-note voicings.
+The rest of the behaviour above - the scales, the spelling, the clicking, the
+per-project key, the chord reader itself - is the same in both. Run whichever
+names chords the way you read them; they can both be installed at once, and
+they keep their settings separately.
+
 ### What the selected scale does
 
 The scale you have chosen is used, but only to settle a draw. Where two
@@ -387,6 +406,7 @@ previous name still load:
 ```
 lua5.4 tests/test_scaleview.lua
 lua5.4 tests/test_scaleview_alt.lua
+lua5.4 tests/test_scaleview_alt2.lua
 lua5.4 tests/test_scaleview_simple.lua
 lua5.4 tests/test_scaleview_pro.lua
 ```

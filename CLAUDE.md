@@ -1,6 +1,6 @@
 # ScaleView for REAPER
 
-Four ReaScripts that draw a 200x100 icon: the twelve pitch classes as circles,
+Five ReaScripts that draw a 200x100 icon: the twelve pitch classes as circles,
 five black keys on the top row over seven white keys on the bottom, with the
 notes of the selected scale lit.
 
@@ -8,6 +8,7 @@ notes of the selected scale lit.
 | --- | --- |
 | `reascripts/kallums_ScaleView.lua` | Pro and Simple merged: Pro's behaviour with a **Simplify Note Names** option that switches to Simple's piano-key naming. ExtState key `kallums_ScaleViewUnified`. |
 | `reascripts/kallums_ScaleView Alt.lua` | The merged script with the chord **read** rather than looked up. Same everything else. ExtState key `kallums_ScaleViewAlt`, falling back to the merged script's. |
+| `reascripts/kallums_ScaleView Alt 2.lua` | Alt, but it prefers the reading with a complete triad in it, the way Scaler 3 does. **One rule differs, nothing else.** ExtState key `kallums_ScaleViewAlt2`, falling back to Alt's. |
 | `reascripts/kallums_ScaleView Pro.lua` | The full one: names spelled for the key, and it names the chord being played |
 | `reascripts/kallums_ScaleView Simple.lua` | Deliberately the lesser one, kept for people who want it: always sharps or always flats, with a menu toggle |
 
@@ -45,12 +46,13 @@ do not "simplify" it by removing that option.
 
 ## Working in this repo
 
-- **The tests are the specification.** Run all four before and after any
+- **The tests are the specification.** Run all five before and after any
   change; they need only `lua5.4` and take under a second:
 
   ```sh
   lua5.4 tests/test_scaleview.lua
   lua5.4 tests/test_scaleview_alt.lua
+  lua5.4 tests/test_scaleview_alt2.lua
   lua5.4 tests/test_scaleview_simple.lua
   lua5.4 tests/test_scaleview_pro.lua
   ```
@@ -248,20 +250,48 @@ tuning them, each of which broke a test first:
 - A bare altered fifth is bracketed - `C(b5)`, never `Cb5`, which reads as a
   chord on C flat.
 
+### Alt 2: preferring the complete triad
+
+**Alt 2 is Alt with one expression changed**, and the two files must stay
+identical everywhere else - a fix to either belongs in both. The difference is
+in what counts as a home for an alteration:
+
+```lua
+local complete = (third == "maj" or third == "min") and fifth == "P"
+-- Alt:   athome = ... and (token == "#11" or dominant)
+-- Alt 2: athome = ... and (token == "#11" or dominant or complete)
+```
+
+Alt asks whether an alteration belongs to the chord under it, and only a
+dominant is at home with a b9, #9 or b13. Alt 2 also accepts a complete triad,
+which is how Scaler 3 reads a chord: given a choice it names the one with a
+whole triad in it and hangs the odd notes off that.
+
+`complete` is the right lever, not `COST_CLASHING`. Cheapening the alteration
+cost reaches the same answer for C D Eb Gb Cb but takes `C9/E` down with it
+(`Emin7b5b13`), because that reading's fifth is flattened - it has no complete
+triad, so `complete` leaves it alone. Both engines keep it.
+
+The price is exactly one case in the suite: C D E G B over E is `Cmaj9/E` in
+Alt and `Emin7b13` in Alt 2, both readings holding a complete triad, Alt 2
+taking the one standing on the bass. Over every three-, four- and five-note
+voicing the two disagree on 9.3%.
+
 ### Where Alt and Scaler 3 disagree, and why
 
-Checked against Scaler and left alone deliberately:
+- **C D Eb Gb Cb** - Alt `D13b9/C`, Scaler and Alt 2 `Cbaddb9#9/C`. This is the
+  case Alt 2 was built for; see above.
+- **E G A** - Alt and Alt 2 `EminAdd11/G`, Scaler `G6(sus2)`. Alt's reading has
+  a minor third, Scaler's has no third at all, so this one is Scaler
+  disagreeing with the third rule rather than Alt getting it wrong. Scaler
+  evidently will write a suspension carrying a sixth, which `COST_SUS_EXTRA`
+  deliberately suppresses. Change that only if asked, and expect the D E G A
+  family to move with it.
 
-- **C D Eb Gb Cb** - Alt `D13b9/C`, Scaler `Cb maj b9 #9/C`. Scaler prefers the
-  complete triad carrying two alterations; Alt prefers the third-and-seventh
-  reading that needs only one. Matching Scaler means cheapening `COST_CLASHING`,
-  and the test suite shows what that costs: `Cmaj9/E` becomes `Emin7b13` and
-  `C9/E` becomes `Emin7b5b13`. Not worth it for a chord this rare.
-- **E G A** - Alt `EminAdd11/G`, Scaler `G6(sus2)`. Alt's reading has a minor
-  third, Scaler's has no third at all, so this one is Scaler disagreeing with
-  the rule above rather than Alt getting it wrong. Scaler evidently will write
-  a suspension carrying a sixth, which `COST_SUS_EXTRA` deliberately suppresses.
-  Change that only if asked, and expect the D E G A family to move with it.
+Diffing the two engines against each other over all 6,600 voicings is worth
+doing after any change to either: that is what turned up `Cmin6` being printed
+for C Eb G# A, where the sixth branch assigned the name and dropped the
+altered fifth.
 
 **The selected scale only breaks a draw.** At equal cost a root that is a scale
 degree wins, then a reading whose notes sit in the scale, then the commoner

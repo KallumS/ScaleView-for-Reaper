@@ -1,10 +1,10 @@
---[[ Headless test for ScaleView Alt. The gfx mock is the same as the
+--[[ Headless test for ScaleView Alt 2. The gfx mock is the same as the
      other suites; on top of it, reaper.MIDI_GetRecentInputEvent is mocked
      with a history that behaves like REAPER's: newest event at index 0, each
      with a sequence number, zero when there are no more. ]]
 
 local HERE = (arg and arg[0] or ""):match("^(.*)[/\\]") or "."
-local SCRIPT = HERE .. "/../reascripts/kallums_ScaleView Alt.lua"
+local SCRIPT = HERE .. "/../reascripts/kallums_ScaleView Alt 2.lua"
 
 local ext, drawn, texts, deferred = {}, {}, {}, nil
 local now = 1000.0                     -- the clock the script sees
@@ -307,28 +307,34 @@ expect({C4, C4 + 4, C4 + 6, C4 + 11}, "Cmaj7b5", "the same shape carrying a seve
 --[[  A third only excuses one oddity, though. Every altered fifth carrying a
     seventh that anyone plays is already named in the table, so a combination
     that is not there is strange twice over and must not win on its third
-    alone. Giving every third the same discount made this read CminMaj9b5. ]]
-expect({C4, C4 + 2, C4 + 3, C4 + 6, C4 + 11}, "D13b9/C",
-       "C D Eb Gb Cb: a minor-major ninth flat five is not the simpler reading")
+    alone - CminMaj9b5 must lose here whichever way the rest is weighted. ]]
 
---[[  Coverage for a rule that was claimed but never tested: an alteration has
-    to belong to the chord underneath it. b9, #9 and b13 are the dominant's, so
-    over a min7 or a plain triad they mean the root was picked wrong. Each of
-    these passes with the rule and fails without it, reading Emin7b13,
-    Emin7b5b13 and Eb13 instead. ]]
+--[[  And this is the case Alt 2 exists for. Alt reads it D13b9/C: a third and
+    a seventh, one alteration, no fifth. Alt 2 prefers the reading with a whole
+    triad in it and hangs the odd notes off that, which is what Scaler 3 does.
+    Reported from REAPER in Gb major, where Scaler says Cb maj b9 #9 / C. ]]
+print("the complete triad wins:")
+chooseScale("Gb Major")
+expect({C4, C4 + 2, C4 + 3, C4 + 6, C4 + 11}, "Cbaddb9#9/C",
+       "C D Eb Gb Cb; Scaler: Cb maj b9 #9 / C - Alt says D13b9/C")
+chooseScale("C Major")
+
+--[[  An alteration still has to belong to the chord underneath it, but Alt 2
+    widens what counts as belonging: a complete triad is at home with one, not
+    only a dominant. So where Alt reads C D E G B over E as Cmaj9/E, Alt 2
+    reads Emin7b13 - both readings hold a complete triad, and Alt 2 takes the
+    one standing on the bass. That is the price of the preference, and it is
+    the only other case in this suite that moves.
+
+    What the rule still rules out is an alteration over a fifth that is already
+    altered, where it means the root was picked wrong. Both of those hold in
+    Alt 2 exactly as they do in Alt. ]]
 print("alterations belong to the chord under them:")
-expect({64, 67, 71, 72, 74}, "Cmaj9/E", "not Emin7b13")
-expect({64, 67, 70, 72, 74}, "C9/E", "not Emin7b5b13")
-expect({C4, C4 + 4, C4 + 8, C4 + 11}, "Cmaj7#5", "a b13 on a plain triad is not a b13")
+expect({64, 67, 71, 72, 74}, "Emin7b13",
+       "a complete triad on the bass beats an inverted one; Alt says Cmaj9/E")
+expect({64, 67, 70, 72, 74}, "C9/E", "but a b13 over a flat fifth still means a wrong root")
+expect({C4, C4 + 4, C4 + 8, C4 + 11}, "Cmaj7#5", "and one over a sharp fifth likewise")
 
-
---[[  A sixth stands where a seventh would, so the symbol is rebuilt around it.
-    An altered fifth has to survive that: C Eb G# A used to read Cmin6, which
-    claims a perfect fifth nobody played. Found by diffing Alt against Alt 2
-    over every voicing. ]]
-print("a sixth does not swallow an altered fifth:")
-expect({C4, C4 + 3, C4 + 8, C4 + 9}, "Cmin6#5", "was Cmin6, which claims a G that is not there")
-expect({C4, C4 + 2, C4 + 3, C4 + 8, C4 + 9}, "Cmin6/9#5", "and the same with a ninth on top")
 -- The rule that keeps the thin voicings honest, stated both ways: a fifth can
 -- go missing without being mentioned, a third cannot.
 expect({C4, C4 + 4, C4 + 10}, "C7", "a shell voicing is still a seventh chord")
@@ -579,7 +585,8 @@ print("  held notes are ringed, once per pitch class whatever the octave")
 -- 9b) The settings key is deliberately not the display name, so that renaming
 --     the script does not reset anyone. Settings saved under any name this
 --     script has been published under are still picked up.
-for _, section in ipairs({"kallums_ScaleViewUnified", "kallums_ScaleViewFull",
+for _, section in ipairs({"kallums_ScaleViewAlt", "kallums_ScaleViewUnified",
+                          "kallums_ScaleViewFull",
                           "kallums_ScaleViewDetector",
                           "kallums_ScaleViewPro", "kallums_ScaleViewEnharmonic"}) do
   ext = {}

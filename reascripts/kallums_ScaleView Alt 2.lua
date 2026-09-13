@@ -1,5 +1,5 @@
 --[[
- * ReaScript Name: ScaleView Alt
+ * ReaScript Name: ScaleView Alt 2
  * Description:    The twelve pitch classes drawn as circles - five black keys
  *                 on the top row over seven white keys on the bottom - with
  *                 the notes of the selected scale lit, the notes you play
@@ -20,6 +20,13 @@
  *                 comes out with a name, which is why extensions and thin
  *                 voicings read as chords here rather than as a list of notes.
  *
+ *                 Alt 2 is Alt with one preference changed. Where two readings
+ *                 fit, it favours the one with a complete triad in it - root,
+ *                 third and fifth - and hangs the odd notes off that, even
+ *                 when the thinner reading would need fewer of them. That is
+ *                 how Scaler 3 reads a chord, and it is the whole difference
+ *                 between the two scripts.
+ *
  *                 "Simplify Note Names" in the right-click menu turns that off
  *                 and names every note the way a piano key is named: sharps for
  *                 the black keys, and no double accidentals, so Bbb reads A and
@@ -39,16 +46,17 @@
 -- Configuration
 ------------------------------------------------------------------------------
 
-local SCRIPT_NAME  = "ScaleView Alt"
+local SCRIPT_NAME  = "ScaleView Alt 2"
 -- The settings key is tied to what this script is, NOT to its display name -
 -- the scripts it grew from were renamed repeatedly and each rename needed a
 -- migration. Do not "tidy" this to match a new name.
-local EXT_SECTION  = "kallums_ScaleViewAlt"
+local EXT_SECTION  = "kallums_ScaleViewAlt2"
 
 -- Read when this script has no settings of its own: the sections used by the
 -- script this one grew out of, most recent first, so someone moving from
 -- ScaleView Pro keeps their scale, colour, window position and dock state.
 local EXT_LEGACY   = {
+  "kallums_ScaleViewAlt",
   "kallums_ScaleViewUnified",
   "kallums_ScaleViewFull",
   "kallums_ScaleViewDetector",
@@ -292,10 +300,19 @@ local function analyse(has, root, bass)
   --[[  An alteration is written straight onto the symbol - C7b9, Cmin#11 -
       except where that would read as a note name. "C#11" is a chord on C#,
       so a bare triad says add instead: Cadd#11. ]]
+  --[[  Alt 2 differs from Alt here, and only here. Alt asks whether an
+      alteration belongs to the chord under it, and only a dominant is at home
+      with a b9, a #9 or a b13. Alt 2 also accepts a complete triad - a real
+      third with a perfect fifth underneath it - which is what Scaler 3 does:
+      given the choice it names the chord that has a whole triad in it and
+      hangs the odd notes off that, rather than the thinner reading that needs
+      fewer of them. C D Eb Gb Cb is the case that separates them: Alt reads
+      D13b9/C, Alt 2 and Scaler read Cbaddb9#9/C. ]]
   local dominant = third == "maj" and seventh == "b7"
+  local complete  = (third == "maj" or third == "min") and fifth == "P"
   for _, token in ipairs(altered) do
     local athome = fifth ~= "b" and fifth ~= "#" and token ~= "maj7"
-                   and (token == "#11" or dominant)
+                   and (token == "#11" or dominant or complete)
     cost = cost + (athome and COST_ALTERED or COST_CLASHING)
     name = name .. ((name == "" and seventh == "none") and "add" or "") .. token
   end
