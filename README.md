@@ -70,10 +70,10 @@ Right-clicking the icon opens:
 | Option | Effect |
 | --- | --- |
 | Random Scale | Picks a scale at random, for when you can't decide - never the one already showing |
-| Show note names | Draws the note name inside each circle |
+| Show Note Names | Draws the note name inside each circle |
 | Simplify Note Names | Turns off key-aware spelling and names every note like a piano key |
 | Highlight Colour | Teal (default), Orange, Light Green, Light Blue, Light Pink or Gold. Simple also offers White; the other two do not, because the ring around a note being played is white |
-| Dock window | Dock or undock the icon |
+| Dock Window | Dock or undock the icon |
 | Close | Quit |
 
 Swapping sharps for flats is purely cosmetic - it renames notes, it does not
@@ -81,7 +81,7 @@ change which notes are lit. The scale list itself always shows both spellings
 ("C# / Db Major"), so it reads correctly either way.
 
 To keep it in the REAPER UI rather than floating, dock it (right-click >
-**Dock window**, or press `D`). The window position, dock state, size and the
+**Dock Window**, or press `D`). The window position, dock state, size and the
 selected scale are all remembered between sessions.
 
 The drawing scales with the window, and keeps its 2:1 proportions centred in

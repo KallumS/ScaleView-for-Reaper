@@ -541,7 +541,7 @@ do
     return dockState
   end
 
-  chooseOption("Dock window")
+  chooseOption("Dock Window")
 
   if dockState & 1 ~= 1 then
     fail(string.format("toggling an undocked window that remembers a docker should dock it (state 0x%X)", dockState))
@@ -551,7 +551,7 @@ do
     print(string.format("dock toggle: 0x200 -> 0x%X, docked in docker 2", dockState))
   end
 
-  chooseOption("Dock window")
+  chooseOption("Dock Window")
 
   if dockState & 1 ~= 0 then
     fail(string.format("toggling again should undock (state 0x%X)", dockState))

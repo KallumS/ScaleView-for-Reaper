@@ -606,7 +606,7 @@ local function optionsMenu()
   addItem(menu, "Random Scale", randomScale)
   addSeparator(menu)
 
-  addItem(menu, "Show note names", function()
+  addItem(menu, "Show Note Names", function()
     state.showNames = not state.showNames
     saveState()
     needRedraw = true
@@ -628,7 +628,7 @@ local function optionsMenu()
   end
 
   addSeparator(menu)
-  addItem(menu, "Dock window", toggleDock, {checked = isDocked()})
+  addItem(menu, "Dock Window", toggleDock, {checked = isDocked()})
   addSeparator(menu)
   addItem(menu, "Close", function() gfx.quit() end)
 
