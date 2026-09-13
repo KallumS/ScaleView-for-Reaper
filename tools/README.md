@@ -38,6 +38,21 @@ here in the same change.
 bad accuracy figure this project has quoted came from the checker or the
 expected answers being wrong, never from the engine - four separate times.
 
+## `chord_types.lua` — dump the closed half of the vocabulary
+
+Loads the shipped script under the same mocks and asks the real `core()`,
+`coreName()` and `rankOf()` for every third/fifth/seventh combination they can
+reach, so the list cannot drift from what REAPER shows.
+
+```sh
+lua5.4 tools/chord_types.lua "reascripts/ScaleView Pro.lua"
+```
+
+`CHORD_TYPES.md` is the written-up version - the 46 core qualities, the
+extension grammar that sits on top of them, and the standard chord formulas
+checked against what Pro prints. Regenerate the tables there from this script
+rather than editing them by hand.
+
 ## `corpus_scan.py` — chordify a whole music21 corpus
 
 Parses every score in music21's core corpus on four processes, chordifies each,
