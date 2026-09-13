@@ -27,7 +27,26 @@ scale; the notes belonging to that scale change colour. Picking a scale does
 nothing else - it is purely a visual reference, it does not touch the project,
 MIDI editor snap settings, or anything else.
 
-## Installing
+## Installing with ReaPack
+
+In REAPER: **Extensions > ReaPack > Import repositories**, and paste exactly
+this:
+
+```
+https://raw.githubusercontent.com/KallumS/ScaleView-for-Reaper/master/index.xml
+```
+
+Then **Extensions > ReaPack > Browse packages**, find ScaleView Pro or
+ScaleView Simple under *Scales*, and install.
+
+> **It has to be that URL, ending in `index.xml`.** Pasting the repository page
+> instead - `https://github.com/KallumS/ScaleView-for-Reaper` - gives
+> *"The received file is invalid: Premature end of data in tag meta line 269"*.
+> That is ReaPack being handed GitHub's web page and finding HTML where it
+> wanted XML; the `meta` tag it names is part of the page, not of this project.
+
+## Installing by hand
+
 
 Copy whichever script you want (or both) anywhere, then in REAPER:
 
