@@ -22,7 +22,7 @@
  *                 does the same thing.
  *                 Press D to dock/undock, Esc or the window close box to exit.
  * Author:         kallums
- * Version:        1.3
+ * Version:        1.4
  * Provides:       [main] .
 --]]
 
@@ -104,6 +104,30 @@ local CHORDS = {
   {name = "minMaj7",  intervals = {0, 3, 11}},
   {name = "9",        intervals = {0, 2, 4, 10}},
   {name = "min9",     intervals = {0, 2, 3, 10}},
+
+  --[[  Added tones. The fifth is optional in these, so a voicing without one is
+      still add9 or add11 rather than something that needs saying out loud.  ]]
+  {name = "add9",     intervals = {0, 2, 4}},
+  {name = "minAdd9",  intervals = {0, 2, 3}},
+  {name = "add11",    intervals = {0, 4, 5, 7}},
+  {name = "minAdd11", intervals = {0, 3, 5, 7}},
+  {name = "add11",    intervals = {0, 4, 5}},
+  {name = "minAdd11", intervals = {0, 3, 5}},
+  --[[ No {0,4,9} or {0,3,9} here on purpose. A sixth chord without its fifth
+       is a poorer reading than the complete triad those notes make in an
+       inversion: C E A is Amin/C, not C6, and C Eb A is Adim/C. ]]
+  {name = "add#11",   intervals = {0, 4, 6, 7}},
+  {name = "min#11",   intervals = {0, 3, 6, 7}},
+  {name = "min6/9",   intervals = {0, 2, 3, 7, 9}},
+  {name = "minMaj9",  intervals = {0, 2, 3, 7, 11}},
+
+  --[[  Voicings with no third. That changes the quality rather than colouring
+      it, so unlike a missing fifth it has to be said.  ]]
+  {name = "7(no3)",       intervals = {0, 7, 10}},
+  {name = "maj7(no3)",    intervals = {0, 7, 11}},
+  {name = "maj7b5(no3)",  intervals = {0, 6, 11}},
+  {name = "7b5(no3)",     intervals = {0, 6, 10}},
+  {name = "maj9(no3)",    intervals = {0, 2, 7, 11}},
 }
 
 -- Looked up by the sorted interval list, e.g. "0,4,7". Built once at startup.
@@ -509,20 +533,24 @@ end
 -- not the root.
 ------------------------------------------------------------------------------
 
--- Chord symbols are not written with double accidentals: the notes of Gb minor
--- blues are spelled Bbb and Dbb on the circles, which is right for a scale, but
--- the chord they make is Amin/C rather than Bbbmin/Dbb. So a chord root or bass
--- that the key spells with a double accidental falls back to its plain name,
--- leaning the same way as the key. Single accidentals are kept, which is what
--- makes a chord in Gb major read Gb rather than F#.
+--[[ A chord is named from the same vocabulary the scale list offers: the
+     eighteen spellings in ROOTS. Those are exactly the roots real keys are
+     built on, which is what makes a chord in Gb major read Gb rather than F#,
+     and one in Cb major read Cb.
+
+     Anything outside that vocabulary falls back to its plain name, leaning the
+     way the key does. That covers the double accidentals a key like Gb minor
+     blues produces - the circles rightly read Bbb and Dbb, but the chord is
+     Amin/C, not Bbbmin/Dbb - and the theoretical spellings no one writes a
+     chord on: B#, E# and Fb. In C# major a chord on B# D# E# reads Cmin add11,
+     the way it would be written. ]]
+local CHORD_ROOT_NAMES = {}
+for _, root in ipairs(ROOTS) do CHORD_ROOT_NAMES[root.name] = true end
+
 local function chordNoteName(pc)
   local name = noteName(pc)
-
-  if name:find("x", 2, true) or name:find("bb", 2, true) then
-    return (keyUsesFlats and FLAT_NAMES or SHARP_NAMES)[pc + 1]
-  end
-
-  return name
+  if CHORD_ROOT_NAMES[name] then return name end
+  return (keyUsesFlats and FLAT_NAMES or SHARP_NAMES)[pc + 1]
 end
 
 local function heldPitchClasses()

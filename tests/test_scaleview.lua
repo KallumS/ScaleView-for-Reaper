@@ -224,8 +224,9 @@ chooseScale("Gb Minor Blues")
 expect({C4, C4 + 4, C4 + 9}, "Amin/C", "was: Bbbmin/Dbb")
 
 chooseScale("A# Harmonic Minor")
--- A# harmonic minor spells the root Gx; B# is a single sharp and is kept.
-expect({C4, C4 + 3, C4 + 9}, "Adim/B#", "was: Gxdim/B#")
+-- A# harmonic minor spells the root Gx and the bass B#. Neither is a spelling
+-- a chord gets built on, so both fall back.
+expect({C4, C4 + 3, C4 + 9}, "Adim/C", "was: Gxdim/B#")
 
 -- The circles keep the key's spelling: only the chord symbol simplifies.
 do
@@ -248,6 +249,31 @@ expect({54, 58, 61}, "Gb", "single accidentals are untouched")
 chooseScale("Cb Major")
 expect({59, 63, 66}, "Cb", "and Cb major still reads Cb")
 chooseScale("Clear scale")
+
+-- 6d) Extensions and incomplete voicings. All three of these were reported
+--     from REAPER as showing a list of notes instead of a chord, checked
+--     against Scaler 3.
+print("extensions and thinner voicings:")
+
+chooseScale("C# Major")
+expect({C4, C4 + 3, C4 + 5}, "CminAdd11", "B# D# E#; Scaler: C min add 11")
+
+chooseScale("Eb Minor (Natural)")
+expect({61, 66, 67}, "Gmaj7b5(no3)/Db", "Db Gb G; Scaler: G maj7 (no3 b5) / C#")
+
+chooseScale("Eb Harmonic Minor")
+expect({C4, 61, 66, 69}, "Gbmin#11/C", "C Db Gb A; Scaler: F# min #11 / C")
+
+chooseScale("Clear scale")
+expect({C4, C4 + 2, C4 + 4}, "Cadd9", "an added ninth with no fifth")
+expect({C4, C4 + 4, C4 + 5}, "Cadd11", "an added eleventh with no fifth")
+expect({C4, C4 + 4, C4 + 5, C4 + 7}, "Cadd11", "and with one")
+expect({C4, C4 + 4, C4 + 6, C4 + 7}, "Cadd#11", nil)
+expect({C4, C4 + 7, C4 + 10}, "C7(no3)", "a seventh with no third has to say so")
+
+-- A sixth chord without its fifth stays the complete triad it also is.
+expect({C4, C4 + 4, C4 + 9}, "Amin/C", "C E A is an inversion, not C6")
+expect({C4, C4 + 3, C4 + 9}, "Adim/C", "C Eb A likewise")
 
 -- 6c) "Simplify Note Names" switches to piano-key naming: sharps for the black
 --     keys, and never a double accidental. The key-aware spelling is the
@@ -313,10 +339,10 @@ simplify()
 expect({54, 58, 61}, "F#", "the same chord, simplified")
 expect({54, 58, 61, 65}, "F#maj7", "same quality, simplified root")
 chooseScale("A# Harmonic Minor")
-expect({C4, C4 + 3, C4 + 9}, "Adim/C", "was Adim/B# with key spelling")
+expect({C4, C4 + 3, C4 + 9}, "Adim/C", "already plain, so both modes agree")
 simplify()
 chooseScale("A# Harmonic Minor")
-expect({C4, C4 + 3, C4 + 9}, "Adim/B#", "and back to key spelling")
+expect({C4, C4 + 3, C4 + 9}, "Adim/C", "and back to key spelling")
 chooseScale("Clear scale")
 
 -- The setting survives a restart.

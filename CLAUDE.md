@@ -167,12 +167,29 @@ Roots are offered in both spellings (C# and Db, F# and Gb) plus Cb, so 18
 roots x 16 scales = 288 keys. Anything needing more than a double accidental
 falls back to a plain sharp or flat name.
 
-In Pro, the same engine spells chord roots, so a chord on Gb reads `Gbmaj7` in
-Gb major and `F#maj7` in F# major - but chord symbols stop at one accidental.
-A key like Gb minor blues spells notes Bbb and Dbb, which is right on the
-circles and absurd in a chord symbol, so `chordNoteName` falls back to the
-plain name when the key's spelling is doubled. Keep that split: circles follow
-the key, chord symbols follow what a musician would write.
+The same engine spells chord roots, so a chord on Gb reads `Gbmaj7` in Gb
+major and `F#maj7` in F# major. Keep the split it rests on: **circles follow
+the key, chord symbols follow what a musician would write.**
+
+In `kallums_ScaleView.lua`, `chordNoteName` draws chord roots and basses from
+the same eighteen spellings `ROOTS` offers - the roots real keys are built on.
+Anything else falls back to a plain name leaning the way the key does: the
+double accidentals of a key like Gb minor blues (`Amin/C`, never `Bbbmin/Dbb`)
+and the theoretical spellings B#, E# and Fb, so B# D# E# in C# major reads
+`CminAdd11` rather than `B#minAdd11`. Pro still uses the older rule, which only
+falls back on double accidentals.
+
+The chord table is matched exactly and ordered by priority, so a shape's
+position decides which reading wins when the bass does not. Two rules learned
+by breaking them:
+
+- **A missing fifth is silent, a missing third is not.** The fifth is optional
+  in an added-tone chord, so `{0,3,5}` is `minAdd11`; a missing third changes
+  the quality, so `{0,7,10}` is `7(no3)`.
+- **Do not add sixth chords without their fifth.** `{0,4,9}` and `{0,3,9}` are
+  deliberately absent: adding them made C E A read `C6` instead of `Amin/C`,
+  because a rooted reading wins outright and stole the complete triad's
+  inversion. An incomplete chord should not beat a complete one.
 
 ## JSFX, if Pro ever needs to follow playback
 

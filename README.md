@@ -140,15 +140,23 @@ chord you are holding instead of the scale:
 | A C E G | `Amin7` |
 | C E G A, with C lowest | `C6` |
 
+It knows added tones and thinner voicings as well as the common chords:
+`Cadd9`, `Cadd11`, `Cmin#11`, `C7(no3)`. A missing fifth passes without
+comment, since the fifth is optional in an added-tone chord, but a missing
+third is said out loud because it changes the quality. A sixth chord without
+its fifth is read as the complete triad those notes also make, so C E A is
+`Amin/C` rather than `C6`.
+
 Chord roots are spelled for the selected key, so Gb Bb Db reads `Gb` in Gb
 major and `F#` in F# major - the same trick the spelling engine already does
 for scales.
 
-Chord symbols stop short of double accidentals, though. Gb minor blues spells
-two of its notes Bbb and Dbb, and the circles show them that way because that
-is correct for the scale - but the chord they make reads `Amin/C`, not
-`Bbbmin/Dbb`. Single accidentals are kept, which is what makes a chord in Gb
-major read `Gb` rather than `F#`.
+A chord is named from the same eighteen spellings the scale list offers, which
+are the roots real keys are built on. That keeps a chord in Gb major reading
+`Gb` and one in Cb major reading `Cb`, while anything outside that vocabulary
+falls back to a plain name: the double accidentals a key like Gb minor blues
+produces (`Amin/C`, not `Bbbmin/Dbb`) and the theoretical spellings nobody
+builds a chord on, so B# D# E# in C# major reads `CminAdd11`.
 
 **The bass note decides the name.** B C# F# is `Bsus2` with B underneath, but
 those same notes are F#sus4 with F# underneath; and A C E G is `Amin7` or `C6`
