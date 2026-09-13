@@ -288,10 +288,18 @@ exists for carries a b9 and a #9.
 
 | Corpus | sonorities | Pro |
 | --- | --- | --- |
-| Bach, 382 chorales | 89,108 | **100%** |
-| Beethoven, 22 string quartets and sonata movements | 37,891 | **100%** |
-| Chopin, 49 mazurkas | 13,053 | **100%** |
+| **The whole music21 core corpus** - 3,194 files, 33 collections | **363,963** | **99.999%** |
+| Bach, 382 chorales (`czhuang/JSB-Chorales-dataset`) | 89,108 | **100%** |
+| Chopin, 49 mazurkas (`craigsapp/chopin-mazurkas`) | 13,053 | **100%** |
 | The standards vocabulary, every inversion | 1,679 | **100%** |
+
+Every collection in the corpus comes out at 100% except two, and both misses
+are the same thing. Four sonorities out of 363,963 - two in Monteverdi, two in
+Schoenberg - carry **eight** pitch classes, so they hit the deliberate guard in
+`detectChord` ("past a certain thickness there is no chord left to find, only a
+cluster") and are read out as notes. That is the design working, not a defect;
+the largest collection, 1,318 Palestrina works and 231,859 sonorities, is
+exactly 100%.
 
 For comparison the old table engine managed 96.6% on Bach and 87.1% on the
 jazz set. Brahms and Tchaikovsky were asked for too and are **not** covered:
@@ -303,14 +311,17 @@ The old engine was never *wrong* where it answered - every shortfall was it
 giving up and printing the notes, which is why it felt trustworthy while
 missing things. The gap was coverage, not correctness.
 
-Sources: the 382 JSB chorales (`czhuang/JSB-Chorales-dataset`), music21's
-Beethoven corpus, the Chopin mazurkas from `craigsapp/chopin-mazurkas`, and
-the 26 chord qualities of the standards repertoire in all twelve keys voiced
-close, as a shell, spread, drop-2 and in every inversion. The scores are
-chordified with music21 - used only as a file reader, never for naming - and
-driven through a real script by `runner.lua`, rebuilt from the test suite's
-mocks: it reads MIDI note numbers on stdin and writes the name the script
-shows.
+Sources: music21's entire core corpus (Palestrina, Bach, Beethoven, Monteverdi,
+Trecento, Mozart, Haydn, both Schumanns, Joplin, Schoenberg, folk collections
+and the rest - 3,194 files, none of which failed to parse), the 382 JSB
+chorales, the Chopin mazurkas, and the 26 chord qualities of the standards
+repertoire in all twelve keys voiced close, as a shell, spread, drop-2 and in
+every inversion. Scores are chordified with music21 - used only as a file
+reader, never for naming - and driven through a real script by `runner.lua`,
+rebuilt from the test suite's mocks: it reads MIDI note numbers on stdin and
+writes the name the script shows. Scanning the whole corpus takes about twenty
+minutes on four cores; `corpus_scan.py` in the scratchpad does it in chunks
+that checkpoint.
 
 The only thing the Romantic repertoire turned up was both sevenths sounding at
 once, a passing note over a seventh chord: G B D F with an F# above it, 83

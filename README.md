@@ -191,11 +191,13 @@ Play C D Eb Gb Cb in Gb major and a reading that needs only one alteration
 would give `D13b9/C`, a third and a seventh with no fifth; Pro and Scaler 3
 both say `Cbaddb9#9/C`, a whole Cb triad with two.
 
-Tested against real music, it names everything. Across 382 Bach chorales, 22
-Beethoven string quartets and sonata movements, 49 Chopin mazurkas and the
-standards repertoire's chord vocabulary in all twelve keys - 141,731 vertical
-sonorities in all - every symbol it prints describes exactly the notes being
-played, with the right bass.
+Tested against real music, it names very nearly everything. Across the whole of
+music21's core corpus - 3,194 scores from Palestrina to Schoenberg - plus 382
+Bach chorales, 49 Chopin mazurkas and the standards repertoire's chord
+vocabulary in all twelve keys, **99.999%** of the sonorities with three or more
+different notes in them come back as a chord symbol that describes exactly what
+is being played, with the right bass. The exceptions are four eight-note
+clusters, which it reads out as notes on purpose.
 
 The rest of the behaviour above - the scales, the spelling, the clicking, the
 per-project key, the chord reader itself - is the same in both. Run whichever
