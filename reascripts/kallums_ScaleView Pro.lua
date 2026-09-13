@@ -206,14 +206,16 @@ local function rankOf(third, fifth, seventh)
 end
 
 -- What is left over once the core has taken its notes.
+-- interval -> {how it is written, whether it is an alteration, which degree}
 local EXTENSION = {
-  [1] = {"b9",  true},  [2] = {"9",  false}, [3] = {"#9",  true},
-  [5] = {"11",  false}, [6] = {"#11", true}, [8] = {"b13", true},
+  [1] = {"b9",  true},  [2] = {"9",  false, 9},  [3] = {"#9",  true},
+  [5] = {"11",  false, 11}, [6] = {"#11", true}, [8] = {"b13", true},
 }
 
 local function analyse(has, root, bass)
   local third, fifth, seventh, used = core(has)
-  local name, cost = coreName(third, fifth, seventh), rankOf(third, fifth, seventh)
+  local rank = rankOf(third, fifth, seventh)
+  local name, cost = coreName(third, fifth, seventh), rank
 
   local naturals, altered, sixth = {}, {}, false
   local asEleventh = false  -- read as an 11 chord, so not a suspension at all
@@ -224,8 +226,13 @@ local function analyse(has, root, bass)
       else
         local ext = EXTENSION[i]
         if ext and ext[2] then altered[#altered + 1] = ext[1]
-        elseif ext then naturals[tonumber(ext[1])] = true
-        else altered[#altered + 1] = (i == 11 and "maj7") or tostring(i) end
+        elseif ext then naturals[ext[3]] = true
+        else
+          -- Only 11 can arrive here: core() always takes 4, 7 and 10 when they
+          -- are present, and 9 was dealt with above. So this is the major
+          -- seventh left over when a flattened one took the seventh's place.
+          altered[#altered + 1] = "maj7"
+        end
       end
     end
   end
@@ -368,7 +375,7 @@ local function analyse(has, root, bass)
   if root ~= bass then cost = cost + COST_INVERSION end
   -- Two readings can cost the same - Emin6 and C#min7b5 are the same four
   -- notes - so the commoner quality settles it rather than the loop order.
-  return name, cost, rankOf(third, fifth, seventh)
+  return name, cost, rank
 end
 
 -- Highlight colours offered in the menu. The first is the default.
@@ -774,11 +781,12 @@ end
 -- Chord detection
 --
 -- The held notes give a set of pitch classes and a bass - the lowest note
--- actually sounding. Every pitch class is tried as a root: the other notes
--- become intervals above it, and if that shape is a chord we know, it is a
--- candidate. The bass decides between readings that fit equally well, which
--- is what separates Bsus2 from F#sus4, and names the slash when the bass is
--- not the root.
+-- actually sounding, which is found separately from the root. Every pitch
+-- class is then tried as a root: the notes above it are read as a third, a
+-- fifth and a seventh, and whatever is left over is described as an extension.
+-- Each reading is costed, the cheapest wins, and a root that is not in the
+-- bass pays for the slash it will need. That is what separates Bsus2 from
+-- F#sus4 and keeps C E A as Amin/C.
 ------------------------------------------------------------------------------
 
 --[[ A chord is named from the same vocabulary the scale list offers: the
