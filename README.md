@@ -1,15 +1,16 @@
 # ScaleView
 
 A small ReaScript (Lua) icon for REAPER that shows the current key signature /
-scale at a glance. Two scripts, both self-contained:
+scale at a glance. Four scripts, all self-contained:
 
 | Script | |
 | --- | --- |
 | `reascripts/kallums_ScaleView.lua` | **The merged one.** Pro, with Simple's naming available from the right-click menu - see [below](#scaleview-the-merged-script) |
+| `reascripts/kallums_ScaleView Alt.lua` | **The merged one, with the chord reader.** Same icon, but it works out the chord instead of looking it up - see [below](#scaleview-alt-the-chord-reader) |
 | `reascripts/kallums_ScaleView Pro.lua` | Note names spelled for the key, and it names the chord you play - see [below](#scaleview-pro) |
 | `reascripts/kallums_ScaleView Simple.lua` | The stripped-back one: note names are always sharps, or always flats |
 
-Everything below describes all three; the later sections cover what each adds.
+Everything below describes all four; the later sections cover what each adds.
 
 ![ScaleView](docs/preview.svg)
 
@@ -165,7 +166,9 @@ chord (`C/E`). When neither the root nor a familiar shape is in the bass, the
 commoner chord wins and the bass is shown after the slash (`Amin7/G`).
 
 Anything it does not recognise is named honestly as its notes (`C E`) rather
-than guessed at.
+than guessed at - which, for extended chords, turned out to be often enough to
+be worth fixing. That is what
+[ScaleView Alt](#scaleview-alt-the-chord-reader) does.
 
 ### What it listens to
 
@@ -289,6 +292,73 @@ project - a script runs until you stop it, and nothing records that it was
 running. To have it start automatically, use a startup action: the SWS
 extension offers both a global and a per-project one.
 
+## ScaleView Alt: the chord reader
+
+Alt is the merged script with one thing changed: how it names the chord you
+are holding. Everything else - the icon, the scales, the spelling, the
+clicking, the per-project key - behaves exactly as described above.
+
+The other scripts match the notes you play against a table of chord shapes.
+That works until you play something the table does not contain, and then there
+is nothing to fall back on, so the label reads out the notes instead. The table
+can always be made longer, but it cannot be made complete: a chord is a quality
+with any number of tones stacked on top, and those combinations do not run out.
+
+Alt reads the chord instead of looking it up. It splits the symbol in two:
+
+- **The bottom half** - the third, the fifth and the seventh - is a closed
+  vocabulary. Those three can only combine in about thirty ways and each
+  combination has a name musicians agree on, so that half is still a table,
+  ordered by how common each quality is.
+- **The top half** - sixths, ninths, elevenths, thirteenths and their
+  alterations - is not closed, so it is described rather than matched.
+  Whatever the bottom half did not account for is read off as an extension.
+
+Every note being held is tried as the root and the cheapest reading wins, where
+the cost covers how unusual the quality is, what its extensions cost, and
+whether the root had to be named after a slash. That last part is what keeps a
+complete triad in an inversion ahead of a rooted chord with a hole in it: C E A
+stays `Amin/C` rather than becoming a C6 with no fifth.
+
+The practical difference, measured over every three-, four- and five-note
+voicing in every bass position - 6,600 in all:
+
+| | Merged script | Alt |
+| --- | --- | --- |
+| Named as a chord | 28% | **100%** |
+| Read out as a list of notes | 72% | none |
+
+Chords the table could not name and Alt can include `C7b13`, `Cmaj7#11`,
+`Cmaj9#11`, `C13b9`, `C13#11`, `C7#9#11`, `Cadd9Add11` and `Cmin11b5`, along
+with extended chords voiced without the tones underneath them - `C13` with no
+ninth in it, or a `Cmin11` played as root, third, eleventh and seventh.
+
+Two rules do most of the work, and both come from the way musicians read:
+
+- **The highest natural extension names the chord** and the ones below it are
+  taken as read, which is what `C13` means whether or not the ninth is played.
+  A natural eleventh over a major third is the exception - it clashes - so it
+  is written as an add rather than swallowed by the number.
+- **An alteration has to belong to the chord it sits on.** A b9, a #9 and a b13
+  are the dominant's alterations; over a minor seventh or a plain triad they
+  are not colours a musician hears, they are a sign the root has been guessed
+  wrong and the notes belong to some plainer chord standing on one of the
+  others.
+
+### What the selected scale does
+
+The scale you have chosen is used, but only to settle a draw. Where two
+readings come out at exactly the same cost, a root that is a degree of the
+scale wins, and then a reading whose notes sit in it.
+
+It is deliberately no stronger than that. A chord from outside the key is
+named for what it is rather than bent to fit - play F# A# C# with C major
+selected and it is `F#`, not something contorted into the key - and with no
+scale selected at all, which is how the script starts, the commoner quality
+decides instead. Measured across every voicing and every key, the scale only
+ever changes the answer for semitone clusters, which have no good name either
+way.
+
 ## Tests
 
 `tests/` runs the scripts headlessly against a mock of
@@ -301,6 +371,7 @@ previous name still load:
 
 ```
 lua5.4 tests/test_scaleview.lua
+lua5.4 tests/test_scaleview_alt.lua
 lua5.4 tests/test_scaleview_simple.lua
 lua5.4 tests/test_scaleview_pro.lua
 ```
@@ -310,6 +381,13 @@ click a modal menu reports after it closes, to check each mouse button keeps
 opening its own menu. They check that Random Scale only ever lands on a real
 root and scale, that the circles match the name it shows, and that it never hands back
 the scale already on screen.
+
+The Alt suite adds the chords its reader can name and the table could not,
+and one property test standing behind the whole approach: it plays every
+three- and four-note voicing - 715 of them - and fails if any single one comes
+back as a list of notes rather than a chord. Each of those tests was run
+against the merged script first and watched to fail, because a regression test
+that passes against the bug is worthless.
 
 It plays MIDI at the script through a mocked input history and
 reads the chord name back off the icon: the examples above, triads and

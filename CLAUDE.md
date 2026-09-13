@@ -1,12 +1,13 @@
 # ScaleView for REAPER
 
-Three ReaScripts that draw a 200x100 icon: the twelve pitch classes as circles,
+Four ReaScripts that draw a 200x100 icon: the twelve pitch classes as circles,
 five black keys on the top row over seven white keys on the bottom, with the
 notes of the selected scale lit.
 
 | Script | |
 | --- | --- |
 | `reascripts/kallums_ScaleView.lua` | Pro and Simple merged: Pro's behaviour with a **Simplify Note Names** option that switches to Simple's piano-key naming. ExtState key `kallums_ScaleViewUnified`. |
+| `reascripts/kallums_ScaleView Alt.lua` | The merged script with the chord **read** rather than looked up. Same everything else. ExtState key `kallums_ScaleViewAlt`, falling back to the merged script's. |
 | `reascripts/kallums_ScaleView Pro.lua` | The full one: names spelled for the key, and it names the chord being played |
 | `reascripts/kallums_ScaleView Simple.lua` | Deliberately the lesser one, kept for people who want it: always sharps or always flats, with a menu toggle |
 
@@ -27,7 +28,10 @@ simplified; only note names change.
 
 **The scripts are independent copies, not a shared library.** A fix in one usually
 belongs in the other too - check both before considering a bug fixed. The
-docking fix, for example, applied to all of them.
+docking fix, for example, applied to all of them. Alt is the exception in one
+direction only: its chord engine is deliberately different and must not be
+back-ported without being asked for, but a fix anywhere else in it belongs in
+the merged script as well.
 
 `kallums_ScaleView.lua` deliberately has **no white highlight colour**: the
 ring around a note being played is white, and a white highlight swallows it.
@@ -41,11 +45,12 @@ do not "simplify" it by removing that option.
 
 ## Working in this repo
 
-- **The tests are the specification.** Run all three before and after any
+- **The tests are the specification.** Run all four before and after any
   change; they need only `lua5.4` and take under a second:
 
   ```sh
   lua5.4 tests/test_scaleview.lua
+  lua5.4 tests/test_scaleview_alt.lua
   lua5.4 tests/test_scaleview_simple.lua
   lua5.4 tests/test_scaleview_pro.lua
   ```
@@ -190,6 +195,63 @@ by breaking them:
   deliberately absent: adding them made C E A read `C6` instead of `Amin/C`,
   because a rooted reading wins outright and stole the complete triad's
   inversion. An incomplete chord should not beat a complete one.
+
+## How Alt names a chord
+
+Alt answers the complaint the table could not: extensions. The table is matched
+exactly, so a voicing it does not hold reads out as a list of notes, and
+lengthening it does not end - a chord is a quality with any number of tones on
+top. Measured over every three-, four- and five-note voicing in every bass
+position (6,600), the table names 28% and Alt names all of them.
+
+It splits the symbol. The **third, fifth and seventh** are a closed vocabulary -
+about thirty combinations, each with an agreed name - so that half is still a
+table, `CORE_RANK`, ordered by how common the quality is. Everything above it
+is **described**: whatever the core did not consume is read off as a sixth,
+ninth, eleventh or thirteenth, altered or not.
+
+Each candidate root is costed and the cheapest wins. Cost is the core's rank
+plus what its extensions cost plus `COST_INVERSION` when the root is not in the
+bass, so the weights are the whole of the musical judgement. Things learned
+tuning them, each of which broke a test first:
+
+- **A missing fifth is not one thing.** A seventh chord is routinely voiced
+  without one - that is the standard shell - while a triad without its fifth is
+  two notes and a guess. Hence `RANK_NO_FIFTH` (20) against `RANK_NO_FIFTH7`
+  (4). Charging both alike made F G A A# read `Fadd9Add11` instead of
+  `Gmin9/F`.
+- **An alteration must belong to the chord under it.** b9, #9 and b13 are the
+  dominant's; over a min7 or a plain triad they mean the root is wrong. Without
+  that rule C D E G B over E came out `Emin7b13` rather than `Cmaj9/E`. A #11 is
+  the exception - at home on anything with a perfect fifth - and any alteration
+  over an already-altered fifth is suspect (`COST_CLASHING`).
+- **A suspension replaces the third; it does not take added tones.**
+  "sus4 add6 add9" is not a chord anybody writes, so a sus core pays
+  `COST_SUS_EXTRA` for every tone it carries. The one exception is a sus4 with a
+  seventh and a ninth, which is how an eleventh chord is voiced and is named
+  `11` - and only over an unaltered fifth, or the name would swallow the very
+  note that makes the chord odd.
+- **The highest natural extension names the chord**, lower ones taken as read,
+  which is what `C13` means whether or not the ninth is played. A natural
+  eleventh over a major third clashes, so it is written as an add instead.
+- `(no3)` goes at the end of the whole symbol, so it reads as a chord with a
+  note taken out: `maj7b5(no3)`, not `maj7(no3)b5`.
+
+**The selected scale only breaks a draw.** At equal cost a root that is a scale
+degree wins, then a reading whose notes sit in the scale, then the commoner
+quality. It is deliberately no stronger, and the reason is measurable: across
+every voicing and every key the scale changes the answer only for semitone
+clusters. Where all the notes are in the key, so are all the candidate roots,
+so it tells you nothing; where they are not, it would be arguing with notes the
+player chose. Two of the three mismatches this work started from had
+out-of-scale notes and Scaler named them anyway, and `active` is empty when no
+scale is selected - which is the state the script starts in. Do not promote it
+to a filter.
+
+`tests/test_scaleview_alt.lua` carries a property test that is the real
+specification: every three- and four-note voicing must come back as a chord,
+never a list of notes. A chord symbol has no spaces in it, which is how it
+checks.
 
 ## JSFX, if Pro ever needs to follow playback
 
