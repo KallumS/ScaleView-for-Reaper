@@ -331,8 +331,12 @@ every inversion. Scores are chordified with music21 - used only as a file
 reader, never for naming - and driven through a real script by `runner.lua`,
 rebuilt from the test suite's mocks: it reads MIDI note numbers on stdin and
 writes the name the script shows. Scanning the whole corpus takes about twenty
-minutes on four cores; `corpus_scan.py` in the scratchpad does it in chunks
-that checkpoint.
+minutes on four cores.
+
+**The tools are in `tools/`** - `runner.lua`, `check_symbol.py` and
+`corpus_scan.py`, with a README explaining each. They were in a scratchpad that
+does not survive the session, and every measurement quoted above was made with
+them, so they are committed rather than described.
 
 The only thing the Romantic repertoire turned up was both sevenths sounding at
 once, a passing note over a seventh chord: G B D F with an F# above it, 83
