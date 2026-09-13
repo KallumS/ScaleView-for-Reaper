@@ -255,6 +255,32 @@ and the name it has in the menu. Only the note names change.
 If you ran ScaleView Pro, the merged script picks up its saved scale, colour
 and window position the first time you run it.
 
+### Each project remembers its own key
+
+The scale is saved **into the project**, so reopening a project puts its key
+back, and switching between open projects follows them. A project that has
+never had a scale set is left showing whatever is already up rather than
+blanking.
+
+Everything else - highlight colour, note names, Simplify Note Names, window
+position and dock state - stays global, because those are preferences rather
+than anything about the music.
+
+One consequence worth knowing: choosing a scale marks the project as edited,
+since it is now part of the project. That is the cost of the project
+remembering it.
+
+### On a toolbar
+
+The script reports its on/off state to REAPER, so a toolbar button bound to it
+lights up while it is running, and clicking that button again closes it rather
+than opening a second copy.
+
+REAPER does not reopen scripts by itself when you restart it or reload a
+project - a script runs until you stop it, and nothing records that it was
+running. To have it start automatically, use a startup action: the SWS
+extension offers both a global and a per-project one.
+
 ## Tests
 
 `tests/` runs the scripts headlessly against a mock of

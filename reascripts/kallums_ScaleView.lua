@@ -22,7 +22,7 @@
  *                 does the same thing.
  *                 Press D to dock/undock, Esc or the window close box to exit.
  * Author:         kallums
- * Version:        1.1
+ * Version:        1.2
  * Provides:       [main] .
 --]]
 
@@ -357,6 +357,55 @@ local function saveState()
   reaper.SetExtState(EXT_SECTION, "highlight", HIGHLIGHTS[state.highlight].name, true)
 end
 
+-- The scale belongs to the project, not to the user: SetProjExtState stores it
+-- inside the .RPP, so each project reopens in its own key. Everything else -
+-- colour, note names, window - stays global, because those are preferences
+-- rather than anything about the music.
+local PROJECT_SECTION = "kallums_ScaleView"
+
+local currentProject = nil   -- the project the scale on screen came from
+
+local function projectApiAvailable()
+  return reaper.EnumProjects and reaper.GetProjExtState and reaper.SetProjExtState
+end
+
+local function activeProject()
+  if not projectApiAvailable() then return nil end
+  return reaper.EnumProjects(-1)
+end
+
+local function lookupNamed(list, saved)
+  for i, entry in ipairs(list) do
+    if entry.name == saved then return i end
+  end
+end
+
+-- Writes the scale into the project. This marks the project as edited, which
+-- is the cost of the project remembering it.
+local function saveProjectScale()
+  local project = activeProject()
+  if not project then return end
+
+  reaper.SetProjExtState(project, PROJECT_SECTION, "root",
+    state.root and ROOTS[state.root].name or "")
+  reaper.SetProjExtState(project, PROJECT_SECTION, "scale",
+    state.scale and SCALES[state.scale].name or "")
+end
+
+-- The scale this project was left in, or nil when it has never had one.
+local function projectScale(project)
+  if not project then return nil end
+
+  local _, rootName  = reaper.GetProjExtState(project, PROJECT_SECTION, "root")
+  local _, scaleName = reaper.GetProjExtState(project, PROJECT_SECTION, "scale")
+
+  local root  = lookupNamed(ROOTS,  rootName or "")
+  local scale = lookupNamed(SCALES, scaleName or "")
+
+  if root and scale then return root, scale end
+  return nil
+end
+
 local function loadState()
   local function lookup(list, saved)
     for i, entry in ipairs(list) do
@@ -372,7 +421,33 @@ local function loadState()
 
   -- A root without a scale, or the other way round, would light nothing.
   if not (state.root and state.scale) then state.root, state.scale = nil, nil end
+
+  -- A scale saved in the project wins over the last one used anywhere, so
+  -- reopening a project puts its own key back on screen.
+  currentProject = activeProject()
+  local root, scale = projectScale(currentProject)
+  if root then state.root, state.scale = root, scale end
+
   refreshActive()
+end
+
+-- Following the project the user is looking at: switching tab, or opening
+-- another project, brings that project's scale with it. A project that has
+-- never had one is left showing whatever is already up rather than blanking.
+local function followProjectChange()
+  local project = activeProject()
+  if not project or project == currentProject then return false end
+
+  currentProject = project
+
+  local root, scale = projectScale(project)
+  if not root then return false end
+  if root == state.root and scale == state.scale then return false end
+
+  state.root, state.scale = root, scale
+  refreshActive()
+  if heldCount > 0 then chordName = detectChord() end
+  return true
 end
 
 local function saveWindowState()
@@ -700,6 +775,7 @@ end
 local function selectScale(root, scaleIdx)
   state.root, state.scale = root, scaleIdx
   refreshActive()
+  saveProjectScale()
   -- The chord is spelled for the key, so it has to be renamed when the key
   -- changes: the same notes read Gb in one key and F# in another.
   if heldCount > 0 then chordName = detectChord() end
@@ -864,6 +940,7 @@ end
 ------------------------------------------------------------------------------
 
 local function main()
+  if followProjectChange() then needRedraw = true end
   if pollMidiInput() then needRedraw = true end
 
   handleMouse()
@@ -886,6 +963,12 @@ local function main()
 end
 
 local function init()
+  --[[  Tell REAPER the script is on, so a toolbar button bound to it lights up,
+      and that re-running the action should stop this instance rather than
+      start a second one - which makes the same button toggle it off.
+      REAPER 7+; harmless to skip on anything older.  ]]
+  if reaper.set_action_options then reaper.set_action_options(1 | 4) end
+
   math.randomseed(os.time() + math.floor(reaper.time_precise() * 1000))
   loadState()
   local dock, x, y, w, h = loadWindowState()
@@ -900,6 +983,7 @@ end
 
 reaper.atexit(function()
   saveState()
+  if reaper.set_action_options then reaper.set_action_options(8) end   -- toggle off
   gfx.quit()
 end)
 

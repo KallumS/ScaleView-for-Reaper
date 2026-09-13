@@ -8,6 +8,9 @@ local SCRIPT = HERE .. "/../reascripts/kallums_ScaleView.lua"
 
 local ext, drawn, texts, deferred = {}, {}, {}, nil
 local now = 1000.0                     -- the clock the script sees
+local projectsOn, activeProject = false, "projectA"
+local projectStore, actionOptions = {}, {}
+local atexitHandler = function() end
 local clickLabel, menuOpened = nil, nil
 
 -- MIDI input history, newest first.
@@ -26,8 +29,24 @@ reaper = {
   SetExtState = function(s, k, v) ext[s .. ":" .. k] = v end,
   GetExtState = function(s, k) return ext[s .. ":" .. k] or "" end,
   defer = function(f) deferred = f end,
-  atexit = function() end,
+  atexit = function(handler) atexitHandler = handler end,
   time_precise = function() return now end,
+
+  -- Projects. EnumProjects returns nil until a test switches this on, so the
+  -- rest of the suite runs as it would on a REAPER without these functions.
+  EnumProjects = function() return projectsOn and activeProject or nil end,
+  SetProjExtState = function(project, ext, key, value)
+    projectStore[project] = projectStore[project] or {}
+    projectStore[project][ext .. ":" .. key] = value
+    return 1
+  end,
+  GetProjExtState = function(project, ext, key)
+    local value = projectStore[project] and projectStore[project][ext .. ":" .. key]
+    if value == nil or value == "" then return 0, "" end
+    return 1, value
+  end,
+
+  set_action_options = function(flag) actionOptions[#actionOptions + 1] = flag end,
   MIDI_GetRecentInputEvent = function(index)
     local event = history[index + 1]
     if not event then return 0, "", 0, 0, -1, 0 end
@@ -483,6 +502,121 @@ if menuOpened ~= "scale" then
   fail("a click that began on a circle should open the scale list, opened " .. tostring(menuOpened))
 end
 print("  a click belongs where it began, not where it ended")
+
+-- 12) The scale belongs to the project. Everything else stays global, because
+--     colour and note names are preferences rather than anything musical.
+print("per-project scale:")
+
+-- Section 10 left the input API broken on purpose, so start from a clean
+-- script with working MIDI and nothing saved.
+reaper.MIDI_GetRecentInputEvent = function(index)
+  local event = history[index + 1]
+  if not event then return 0, "", 0, 0, -1, 0 end
+  return event.seq, event.msg, -100, 0, -1, 0
+end
+history, sequence = {}, 0
+
+projectsOn, activeProject = true, "projectA"
+projectStore, actionOptions = {}, {}
+ext = {}
+drawn, texts = {}, {}
+dofile(SCRIPT)
+
+chooseScale("Gb Major")
+local storedA = projectStore["projectA"] or {}
+if storedA["kallums_ScaleView:root"] ~= "Gb" or storedA["kallums_ScaleView:scale"] ~= "Major" then
+  fail("picking a scale should write it into the project")
+else
+  print("  picking Gb Major writes root=Gb scale=Major into the project")
+end
+
+-- Only the scale: preferences are not project data.
+chooseOption("Light Blue")
+chooseOption("Simplify Note Names")
+local keys = {}
+for key in pairs(projectStore["projectA"]) do keys[#keys + 1] = key end
+table.sort(keys)
+if table.concat(keys, " ") ~= "kallums_ScaleView:root kallums_ScaleView:scale" then
+  fail("only the scale belongs in the project, found " .. table.concat(keys, " "))
+else
+  print("  colour and note-name settings stay out of the project")
+end
+chooseOption("Simplify Note Names")   -- back to key spelling
+
+-- Another project, with its own scale, and the icon follows when it becomes
+-- the active one.
+projectStore["projectB"] = {
+  ["kallums_ScaleView:root"]  = "D",
+  ["kallums_ScaleView:scale"] = "Dorian",
+}
+activeProject = "projectB"
+frame()
+if label() ~= "D Dorian" then
+  fail("switching project should bring its scale, label reads " .. tostring(label()))
+else
+  print("  switching to another project brings its scale: " .. label())
+end
+
+activeProject = "projectA"
+frame()
+if label() ~= "Gb Major" then
+  fail("switching back should restore that project's scale, got " .. tostring(label()))
+else
+  print("  and switching back restores the first: " .. label())
+end
+
+-- A project that has never had a scale leaves what is showing alone.
+activeProject = "projectC"
+frame()
+if label() ~= "Gb Major" then
+  fail("a project with no saved scale should leave the icon alone, got " .. tostring(label()))
+else
+  print("  a project with no scale of its own changes nothing")
+end
+
+-- Reopening a project puts its own scale back, over whatever was used last.
+activeProject = "projectB"
+ext = {}
+ext["kallums_ScaleViewUnified:root"]  = "C"       -- the last scale used anywhere
+ext["kallums_ScaleViewUnified:scale"] = "Major"
+drawn, texts = {}, {}
+dofile(SCRIPT)
+if label() ~= "D Dorian" then
+  fail("the project's scale should beat the last one used, got " .. tostring(label()))
+else
+  print("  on load the project's scale beats the last one used globally")
+end
+
+-- Clearing removes it from the project rather than leaving a stale key.
+chooseScale("Clear scale")
+local cleared = projectStore["projectB"]
+if cleared["kallums_ScaleView:root"] ~= "" or cleared["kallums_ScaleView:scale"] ~= "" then
+  fail("clearing the scale should clear it in the project too")
+else
+  print("  clearing the scale clears it in the project")
+end
+
+-- 13) Toggle state, so a toolbar button lights up while the script runs.
+do
+  local sawOn = false
+  for _, flag in ipairs(actionOptions) do
+    if flag & 4 == 4 then sawOn = true end
+    if flag & 1 ~= 1 then
+      fail("re-running the action should terminate this instance, flag " .. flag)
+    end
+  end
+  if not sawOn then fail("the script should set its toggle state on at startup") end
+
+  actionOptions = {}
+  atexitHandler()
+  if #actionOptions ~= 1 or actionOptions[1] & 8 ~= 8 then
+    fail("the script should set its toggle state off when it exits")
+  else
+    print("toolbar toggle: on at startup with re-run set to terminate, off at exit")
+  end
+end
+
+projectsOn = false
 
 -- Docking uses the documented bitfield: bit 0 is "docked", the second byte is
 -- the docker index, which REAPER keeps even while the window is undocked. A

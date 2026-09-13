@@ -125,8 +125,13 @@ From REAPER's ReaScript page, which is the authority on this:
     what every script here uses, and it is **global**: the scale follows the
     user between projects rather than belonging to one.
   - `SetProjExtState`/`GetProjExtState` - "save data within the project RPP
-    file". Not used. This is the one to reach for if a scale should ever be
-    remembered per project.
+    file". `kallums_ScaleView.lua` uses this for the scale, so each project
+    reopens in its own key; Simple and Pro do not. Only the scale goes in the
+    project - colour, note names and window are preferences and stay global.
+    Writing project ext state marks the project edited, which is expected.
+    The script polls `EnumProjects(-1)` each frame to notice a switch between
+    open projects; a project with no scale of its own is left showing whatever
+    is up rather than blanked.
 - **`__startup.lua` is not in REAPER's ReaScript documentation.** It is widely
   used and described by community sources, and probably works, but do not
   present it to the user as an official REAPER feature - that was done once on
@@ -134,8 +139,12 @@ From REAPER's ReaScript page, which is the authority on this:
   and project startup actions are the route that can be stated without
   qualification.
 - REAPER 7+ scripts can set their own on/off toggle state through
-  `set_action_options`, which is what makes a toolbar button light up while the
-  script runs. None of these scripts do it yet.
+  `set_action_options`. `kallums_ScaleView.lua` calls it with `1|4` at startup -
+  toggle on, and re-running the action terminates this instance rather than
+  starting a second - and with `8` from its `atexit`. That is what makes a
+  toolbar button light up while it runs and toggle it off when clicked again.
+  Both calls are guarded on the function existing, so older REAPERs are fine.
+  Simple and Pro do not do this.
 
 ## How the spelling engine works
 
