@@ -353,11 +353,19 @@ scale wins, and then a reading whose notes sit in it.
 
 It is deliberately no stronger than that. A chord from outside the key is
 named for what it is rather than bent to fit - play F# A# C# with C major
-selected and it is `F#`, not something contorted into the key - and with no
-scale selected at all, which is how the script starts, the commoner quality
-decides instead. Measured across every voicing and every key, the scale only
-ever changes the answer for semitone clusters, which have no good name either
-way.
+selected and it is `F#`, not something contorted into the key. Measured across
+every voicing in every key, the key decides the name for 1.6% of them: the
+genuine draws, which are semitone clusters and symmetrical chords like
+C D# F# A#, where two roots are equally good and something has to choose.
+
+**With no scale selected, the naming assumes C major.** The script starts that
+way, and rather than going quiet until you pick something it reads those draws
+as if the key were C. The assumption is invisible: no circle lights up, nothing
+names a key, and choosing C Major from the menu gives exactly the same chord
+names - a property the tests check over every three- and four-note voicing. C
+major is the right one to assume because the note names already fall back to
+it: with no accidentals in the key, the twelve read C C# D D# E F F# G G# A A# B
+either way.
 
 ## Tests
 

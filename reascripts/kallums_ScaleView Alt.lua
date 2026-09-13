@@ -425,6 +425,19 @@ local chordName = nil   -- what the held notes spell, or nil when nothing is hel
 -- Declared here because the project watcher renames the chord when the key
 -- changes, and it is defined above the chord reader it has to call.
 local detectChord
+
+--[[  Naming a chord needs a key to settle the readings that are a genuine
+    draw, and the script starts with no scale chosen. Rather than go quiet
+    until one is picked, it reads those draws as if the key were C major.
+
+    Nothing on the icon says so - with no scale selected no circle lights up,
+    exactly as before - and choosing C major from the menu gives identical
+    names, which is the property `tests/test_scaleview_alt.lua` checks over
+    every three- and four-note voicing. C major is the right one to assume
+    because it is also what the note names already fall back to: no
+    accidentals, so the twelve read C C# D D# E F F# G G# A A# B either way. ]]
+local ASSUMED_KEY = {[0] = true, [2] = true, [4] = true, [5] = true,
+                     [7] = true, [9] = true, [11] = true}
 local lastEventSeq = nil -- newest input event already applied
 local midiFailed = false -- set if the input history cannot be read at all
 
@@ -780,9 +793,10 @@ function detectChord()
 
       local name, cost, rank = analyse(has, root, bass)
 
-      local fit = active[root] and 100 or 0
+      local key = (state.root and state.scale) and active or ASSUMED_KEY
+      local fit = key[root] and 100 or 0
       for pc = 0, 11 do
-        if classes[pc] and active[pc] then fit = fit + 1 end
+        if classes[pc] and key[pc] then fit = fit + 1 end
       end
 
       if not best or cost < best.cost

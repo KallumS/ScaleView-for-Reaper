@@ -347,6 +347,76 @@ do
   end
 end
 
+--[[  6h) With no scale chosen the naming assumes C major, and the assumption is
+     meant to be invisible. Two things have to hold for that to be honest:
+     nothing on the icon may give it away, and choosing C major from the menu
+     must produce the very same names. ]]
+print("what no scale means:")
+
+do
+  local TEAL = {0.20, 0.80, 0.62}   -- the default highlight
+  drawn, texts = {}, {}
+  chooseScale("Clear scale")   -- repaints, so the icon below is the live one
+
+  local circles, lit = 0, 0
+  for _, circle in ipairs(drawn) do
+    if circle.r then
+      circles = circles + 1
+      if circle.color[1] == TEAL[1] and circle.color[2] == TEAL[2] then lit = lit + 1 end
+    end
+  end
+
+  if circles < 12 then
+    fail("the icon was not repainted, so nothing was actually checked")
+  elseif lit > 0 then
+    fail(lit .. " circles lit with no scale selected: the assumption is showing")
+  else
+    print("  no circle is lit, so nothing on the icon gives the assumption away")
+  end
+end
+
+do
+  local noScale, withC, order, set = {}, {}, {}, {}
+
+  local function sweep(sink, start, left)
+    if left == 0 then
+      local notes, key = {}, table.concat(set, ",")
+      for _, pc in ipairs(set) do notes[#notes + 1] = C4 + pc end
+      sink[key] = play(notes)
+      if sink == noScale then order[#order + 1] = key end
+      return
+    end
+    for pc = start, 11 do
+      set[#set + 1] = pc
+      sweep(sink, pc + 1, left - 1)
+      set[#set] = nil
+    end
+  end
+
+  chooseScale("Clear scale")
+  sweep(noScale, 0, 3)
+  sweep(noScale, 0, 4)
+
+  chooseScale("C Major")
+  sweep(withC, 0, 3)
+  sweep(withC, 0, 4)
+
+  local differ = {}
+  for _, key in ipairs(order) do
+    if noScale[key] ~= withC[key] and #differ < 5 then
+      differ[#differ + 1] = string.format("%s -> %s vs %s", key, noScale[key], withC[key])
+    end
+  end
+
+  if #differ > 0 then
+    fail("no scale and C major disagree: " .. table.concat(differ, "; "))
+  else
+    print(string.format("  all %d voicings name the same with no scale as with C major",
+                        #order))
+  end
+  chooseScale("Clear scale")
+end
+
 -- 6c) "Simplify Note Names" switches to piano-key naming: sharps for the black
 --     keys, and never a double accidental. The key-aware spelling is the
 --     default; this is the naming ScaleView Simple used.

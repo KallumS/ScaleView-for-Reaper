@@ -239,14 +239,25 @@ tuning them, each of which broke a test first:
 
 **The selected scale only breaks a draw.** At equal cost a root that is a scale
 degree wins, then a reading whose notes sit in the scale, then the commoner
-quality. It is deliberately no stronger, and the reason is measurable: across
-every voicing and every key the scale changes the answer only for semitone
-clusters. Where all the notes are in the key, so are all the candidate roots,
-so it tells you nothing; where they are not, it would be arguing with notes the
-player chose. Two of the three mismatches this work started from had
-out-of-scale notes and Scaler named them anyway, and `active` is empty when no
-scale is selected - which is the state the script starts in. Do not promote it
-to a filter.
+quality. It is deliberately no stronger, and it is not a filter: a chord from
+outside the key is named for what it is. Two of the three mismatches this work
+started from had out-of-scale notes and Scaler named them anyway. Do not
+promote it to a filter.
+
+Measured, the key decides the name for 1.6% of voicings - the genuine draws.
+Those are mostly semitone clusters but not only: symmetrical chords like
+C D# F# A# tie between two equally good roots and something has to choose. An
+earlier note here said "only semitone clusters", which was read off the first
+few examples printed rather than all of them, and was wrong.
+
+**With no scale selected, Alt assumes C major** (`ASSUMED_KEY`) rather than
+going quiet. The assumption must stay invisible: no circle lights, no label
+names a key, and choosing C Major explicitly must give identical names. The
+test sweeps every three- and four-note voicing both ways to hold that. It works
+because C major is also where the note names already fall back to - no
+accidentals, so the twelve read C C# D D# E F F# G G# A A# B either way. If the
+assumed key is ever changed to something with accidentals, the spelling and the
+naming would part company and that property would break.
 
 `tests/test_scaleview_alt.lua` carries a property test that is the real
 specification: every three- and four-note voicing must come back as a chord,
