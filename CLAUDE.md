@@ -6,39 +6,38 @@ notes of the selected scale lit.
 
 | Script | |
 | --- | --- |
-| `reascripts/kallums_ScaleView.lua` | Pro and Simple merged: Pro's behaviour with a **Simplify Note Names** option that switches to Simple's piano-key naming. ExtState key `kallums_ScaleViewUnified`. |
-| `reascripts/kallums_ScaleView Alt.lua` | The merged script with the chord **read** rather than looked up. Same everything else. ExtState key `kallums_ScaleViewAlt`, falling back to the merged script's. |
-| `reascripts/kallums_ScaleView Alt 2.lua` | Alt, but it prefers the reading with a complete triad in it, the way Scaler 3 does. **One rule differs, nothing else.** ExtState key `kallums_ScaleViewAlt2`, falling back to Alt's. |
-| `reascripts/kallums_ScaleView Pro.lua` | The full one: names spelled for the key, and it names the chord being played |
+| `reascripts/kallums_ScaleView Pro.lua` | The whole thing: names spelled for the key, a **Simplify Note Names** option that switches to piano-key naming, and the chord you play **read** rather than looked up. ExtState key `kallums_ScaleViewAlt2`. |
 | `reascripts/kallums_ScaleView Simple.lua` | Deliberately the lesser one, kept for people who want it: always sharps or always flats, with a menu toggle |
 
-Pro has been renamed repeatedly - Enharmonic, Pro, Detector, Pro again - and an
-older, separate Pro was removed once this one contained it. Because of that,
-**the ExtState key is tied to the tier, not the display name**:
-`kallums_ScaleViewFull` and `kallums_ScaleViewSimple`. `EXT_LEGACY` lists every
-name this script has shipped under, most recent first, so the newest saved
-state wins over a stale one. Renaming the script again needs no migration; do
-not "tidy" the key to match a new name.
+There used to be five. `kallums_ScaleView.lua` (Pro and Simple merged), an
+older table-based `Pro`, `Alt` and `Alt 2` were all folded into the script
+above, which is `Alt 2` under its final name. Nothing was lost in the merge -
+the one test unique to `Alt` was carried over first, and the scale/root sweep
+that the note below used to credit to the Pro suite actually lives in the
+Simple suite, which is still here.
 
-The merged script is a copy of Pro with one branch in `noteName`: with
-`state.simpleNames` set it returns the plain sharp table instead of the key's
-spelling. Chord *detection* is untouched by the option - only the names it
-reports change, since they come from `noteName`. The scale label keeps the key
-as chosen from the menu, so picking Gb Major still says Gb Major when
-simplified; only note names change.
+Pro has been renamed repeatedly - Enharmonic, Pro, Detector, Pro again, then
+Alt, Alt 2 and Pro once more - and it has absorbed three other scripts along
+the way. Because of that, **the ExtState key is tied to what the script is, not
+to what it is called**: it is still `kallums_ScaleViewAlt2`. `EXT_LEGACY` lists
+every section it has shipped under and every script it has absorbed, most
+recent first, so the newest saved state wins over a stale one and nobody's
+install is reset. Renaming it again needs no migration; **do not "tidy" the key
+to match the name.**
 
-**The scripts are independent copies, not a shared library.** A fix in one usually
-belongs in the other too - check both before considering a bug fixed. The
-docking fix, for example, applied to all of them. Alt is the exception in one
-direction only: its chord engine is deliberately different and must not be
-back-ported without being asked for, but a fix anywhere else in it belongs in
-the merged script as well.
+Pro carries Simple's naming as an option: with `state.simpleNames` set,
+`noteName` returns the plain sharp table instead of the key's spelling. Chord
+*detection* is untouched by it - only the names it reports change, since they
+come from `noteName`. The scale label keeps the key as chosen from the menu, so
+picking Gb Major still says Gb Major when simplified.
 
-`kallums_ScaleView.lua` deliberately has **no white highlight colour**: the
-ring around a note being played is white, and a white highlight swallows it.
-Do not add one back. Pro still offers white and has the same clash - it was
-left alone only because it was not the script being worked on. Simple has no
-rings, so white is fine there.
+**The two scripts are independent copies, not a shared library.** A fix in one
+usually belongs in the other - check both before considering a bug fixed. The
+docking fix applied to every script there was.
+
+Pro deliberately has **no white highlight colour**: the ring around a note
+being played is white, and a white highlight swallows it. Do not add one back.
+Simple has no rings, so white is fine there.
 
 Simple is not a stripped Pro: it keeps the **Swap Sharps & Flats** toggle,
 which the key-aware spelling replaced. That is the reason it still exists, so
@@ -46,15 +45,12 @@ do not "simplify" it by removing that option.
 
 ## Working in this repo
 
-- **The tests are the specification.** Run all five before and after any
-  change; they need only `lua5.4` and take under a second:
+- **The tests are the specification.** Run both before and after any change;
+  they need only `lua5.4` and take under a second:
 
   ```sh
-  lua5.4 tests/test_scaleview.lua
-  lua5.4 tests/test_scaleview_alt.lua
-  lua5.4 tests/test_scaleview_alt2.lua
-  lua5.4 tests/test_scaleview_simple.lua
   lua5.4 tests/test_scaleview_pro.lua
+  lua5.4 tests/test_scaleview_simple.lua
   ```
 
 - They mock `gfx` and `reaper`, drive the script through its own defer loop,
@@ -63,10 +59,11 @@ do not "simplify" it by removing that option.
 - **When fixing a bug, confirm the new test fails on the old code** before
   accepting it. Every regression test here was checked that way; a test that
   passes against the bug is worthless.
-- Musical claims get verified, not assumed: the Pro suite checks all 288
-  root/scale combinations and asserts that every seven-note scale uses each of
-  the seven letters exactly once, which is the property that makes the spelling
-  correct.
+- Musical claims get verified, not assumed: the **Simple** suite is the one
+  that sweeps every root and scale type against the interval formulas. An
+  earlier version of this file credited that sweep to the Pro suite, which
+  never had it - worth knowing before deleting anything on the strength of a
+  claim written here.
 
 ## REAPER API facts, verified against the documentation
 
@@ -83,11 +80,11 @@ These cost real debugging time. Two of them contradict the documentation.
   reaches the window once the menu closes. Read naively it looks like a fresh
   click. Ignoring the mouse until no button is held is **not enough** - that
   was tried, and a stray click arriving a frame or two later still opened a
-  menu, which is what kept happening in REAPER. `kallums_ScaleView.lua` also
-  waits `MENU_SETTLE_SECONDS` (0.25) from when the menu closed. Its test proves
+  menu, which is what kept happening in REAPER. Pro also waits
+  `MENU_SETTLE_SECONDS` (0.25) from when the menu closed. Its test proves
   it by firing the stray click 0, 1 and 3 frames late; the buttons-only version
   fails the last two.
-- **The merged script has no left/right menus.** Which menu opens depends on
+- **Pro has no left/right menus.** Which menu opens depends on
   where the click started - a circle opens the scale list, empty space opens
   the options - so there is no wrong menu to open. `isOverCircle` uses the same
   `layout()` the drawing does, so the hit areas cannot drift from the circles.
@@ -138,8 +135,8 @@ From REAPER's ReaScript page, which is the authority on this:
     what every script here uses, and it is **global**: the scale follows the
     user between projects rather than belonging to one.
   - `SetProjExtState`/`GetProjExtState` - "save data within the project RPP
-    file". `kallums_ScaleView.lua` uses this for the scale, so each project
-    reopens in its own key; Simple and Pro do not. Only the scale goes in the
+    file". Pro uses this for the scale, so each project
+    reopens in its own key; Simple does not. Only the scale goes in the
     project - colour, note names and window are preferences and stay global.
     Writing project ext state marks the project edited, which is expected.
     The script polls `EnumProjects(-1)` each frame to notice a switch between
@@ -152,12 +149,12 @@ From REAPER's ReaScript page, which is the authority on this:
   and project startup actions are the route that can be stated without
   qualification.
 - REAPER 7+ scripts can set their own on/off toggle state through
-  `set_action_options`. `kallums_ScaleView.lua` calls it with `1|4` at startup -
+  `set_action_options`. Pro calls it with `1|4` at startup -
   toggle on, and re-running the action terminates this instance rather than
   starting a second - and with `8` from its `atexit`. That is what makes a
   toolbar button light up while it runs and toggle it off when clicked again.
   Both calls are guarded on the function existing, so older REAPERs are fine.
-  Simple and Pro do not do this.
+  Simple does not do this.
 
 ## How the spelling engine works
 
@@ -178,13 +175,12 @@ The same engine spells chord roots, so a chord on Gb reads `Gbmaj7` in Gb
 major and `F#maj7` in F# major. Keep the split it rests on: **circles follow
 the key, chord symbols follow what a musician would write.**
 
-In `kallums_ScaleView.lua`, `chordNoteName` draws chord roots and basses from
+In Pro, `chordNoteName` draws chord roots and basses from
 the same eighteen spellings `ROOTS` offers - the roots real keys are built on.
 Anything else falls back to a plain name leaning the way the key does: the
 double accidentals of a key like Gb minor blues (`Amin/C`, never `Bbbmin/Dbb`)
 and the theoretical spellings B#, E# and Fb, so B# D# E# in C# major reads
-`CminAdd11` rather than `B#minAdd11`. Pro still uses the older rule, which only
-falls back on double accidentals.
+`CminAdd11` rather than `B#minAdd11`.
 
 The chord table is matched exactly and ordered by priority, so a shape's
 position decides which reading wins when the bass does not. Two rules learned
@@ -198,13 +194,14 @@ by breaking them:
   because a rooted reading wins outright and stole the complete triad's
   inversion. An incomplete chord should not beat a complete one.
 
-## How Alt names a chord
+## How Pro names a chord
 
-Alt answers the complaint the table could not: extensions. The table is matched
-exactly, so a voicing it does not hold reads out as a list of notes, and
-lengthening it does not end - a chord is a quality with any number of tones on
-top. Measured over every three-, four- and five-note voicing in every bass
-position (6,600), the table names 28% and Alt names all of them.
+The chord is **read, not looked up**, and that is what the old table-based
+engines could not do. A table is matched exactly, so a voicing it does not hold
+reads out as a list of notes, and lengthening it never ends - a chord is a
+quality with any number of tones stacked on top. Measured over every three-,
+four- and five-note voicing in every bass position (6,600), the old table named
+28% of them and this engine names all of them.
 
 It splits the symbol. The **third, fifth and seventh** are a closed vocabulary -
 about thirty combinations, each with an agreed name - so that half is still a
@@ -250,42 +247,43 @@ tuning them, each of which broke a test first:
 - A bare altered fifth is bracketed - `C(b5)`, never `Cb5`, which reads as a
   chord on C flat.
 
-### Alt 2: preferring the complete triad
+### The complete triad wins
 
-**Alt 2 is Alt with one expression changed**, and the two files must stay
-identical everywhere else - a fix to either belongs in both. The difference is
-in what counts as a home for an alteration:
+Where two readings fit, the one holding a complete triad - a real third with a
+perfect fifth - wins, and the odd notes hang off it. That is how Scaler 3 reads
+a chord. It is expressed as what counts as a home for an alteration:
 
 ```lua
-local complete = (third == "maj" or third == "min") and fifth == "P"
--- Alt:   athome = ... and (token == "#11" or dominant)
--- Alt 2: athome = ... and (token == "#11" or dominant or complete)
+local dominant = third == "maj" and seventh == "b7"
+local triad    = (third == "maj" or third == "min") and fifth == "P"
+athome = ... and (token == "#11" or dominant or (triad and token ~= "b13"))
 ```
 
-Alt asks whether an alteration belongs to the chord under it, and only a
-dominant is at home with a b9, #9 or b13. Alt 2 also accepts a complete triad,
-which is how Scaler 3 reads a chord: given a choice it names the one with a
-whole triad in it and hangs the odd notes off that.
+Without the `triad` clause, only a dominant is at home with a b9, #9 or b13,
+and C D Eb Gb Cb reads `D13b9/C` rather than Scaler's `Cbaddb9#9/C`.
 
-`complete` is the right lever, not `COST_CLASHING`. Cheapening the alteration
-cost reaches the same answer for C D Eb Gb Cb but takes `C9/E` down with it
-(`Emin7b5b13`), because that reading's fifth is flattened - it has no complete
-triad, so `complete` leaves it alone. Both engines keep it.
+`triad` is the right lever, **not `COST_CLASHING`**. Cheapening the alteration
+cost reaches the same answer for that chord but takes `C9/E` down with it
+(`Emin7b5b13`), because that reading's fifth is flattened - it holds no
+complete triad, so `triad` leaves it alone.
 
-A **b13 is excluded** from the concession, and that was measured rather than
-guessed. It is the one alteration whose note is nearly always a chord tone of
-something plainer: E G B with a C in it is Cmaj7 in first inversion, not Emin
-wearing a b13. Letting a complete triad take one cost 207 misnamed sonorities
-across 382 Bach chorales and 7 points on inverted jazz voicings, and bought
-nothing - the chord Alt 2 exists for carries a b9 and a #9.
+A **b13 is excluded**, and that was measured rather than guessed. It is the one
+alteration whose note is nearly always a chord tone of something plainer: E G B
+with a C in it is Cmaj7 in first inversion, not Emin wearing a b13. Letting a
+complete triad take one cost 207 misnamed sonorities across 382 Bach chorales
+and 7 points on inverted jazz voicings, and bought nothing - the chord the rule
+exists for carries a b9 and a #9.
 
-### What the two engines score on real music
+### What it scores on real music
 
-| | Alt | Alt 2 |
+| | Pro | the old table engine |
 | --- | --- | --- |
-| Bach chorales, 89,108 sonorities of 3+ pitch classes | **100%** | **100%** |
-| Standards vocabulary, 537 root-position voicings | **100%** | **100%** |
-| Standards vocabulary, 1,142 inverted voicings | **100%** | **100%** |
+| Bach chorales, 89,108 sonorities of 3+ pitch classes | **100%** | 96.6% |
+| Standards vocabulary, 1,679 voicings incl. every inversion | **100%** | 87.1% |
+
+The old engine was never *wrong* where it answered - every shortfall was it
+giving up and printing the notes, which is why it felt trustworthy while
+missing things. The gap is coverage, not correctness.
 
 The corpora are the 382 JSB chorales (`czhuang/JSB-Chorales-dataset`, public
 domain) and the 26 chord qualities of the standards repertoire in all twelve
@@ -337,21 +335,22 @@ not about which roots are diatonic - in `C E G A` over E, both candidate roots
 are in C major. Scale degrees are a display feature, not a detection input; do
 not wire them into root choice expecting accuracy.
 
-### Where Alt and Scaler 3 disagree, and why
+### Where Pro and Scaler 3 disagree, and why
 
-- **C D Eb Gb Cb** - Alt `D13b9/C`, Scaler and Alt 2 `Cbaddb9#9/C`. This is the
-  case Alt 2 was built for; see above.
-- **E G A** - Alt and Alt 2 `EminAdd11/G`, Scaler `G6(sus2)`. Alt's reading has
-  a minor third, Scaler's has no third at all, so this one is Scaler
-  disagreeing with the third rule rather than Alt getting it wrong. Scaler
-  evidently will write a suspension carrying a sixth, which `COST_SUS_EXTRA`
-  deliberately suppresses. Change that only if asked, and expect the D E G A
-  family to move with it.
+- **E G A** - Pro `EminAdd11/G`, Scaler `G6(sus2)`. Pro's reading has a minor
+  third, Scaler's has no third at all, so this is Scaler disagreeing with the
+  third rule rather than Pro getting it wrong. Scaler evidently will write a
+  suspension carrying a sixth, which `COST_SUS_EXTRA` deliberately suppresses.
+  Change that only if asked, and expect the D E G A family to move with it.
+- The user has reported further disagreements without examples yet. A sweep
+  cannot find them: both corpora are already at 100% on the objective test, so
+  what is left is *preference*, and only a specific chord in a specific key
+  with Scaler's name beside it will settle one.
 
-Diffing the two engines against each other over all 6,600 voicings is worth
-doing after any change to either: that is what turned up `Cmin6` being printed
-for C Eb G# A, where the sixth branch assigned the name and dropped the
-altered fifth.
+Diffing two builds of the engine against each other over all 6,600 voicings is
+worth doing after any change to the weights: that is what turned up `Cmin6`
+being printed for C Eb G# A, where the sixth branch assigned the name and
+dropped the altered fifth.
 
 **The selected scale only breaks a draw.** At equal cost a root that is a scale
 degree wins, then a reading whose notes sit in the scale, then the commoner
@@ -366,7 +365,7 @@ C D# F# A# tie between two equally good roots and something has to choose. An
 earlier note here said "only semitone clusters", which was read off the first
 few examples printed rather than all of them, and was wrong.
 
-**With no scale selected, Alt assumes C major** (`ASSUMED_KEY`) rather than
+**With no scale selected, Pro assumes C major** (`ASSUMED_KEY`) rather than
 going quiet. The assumption must stay invisible: no circle lights, no label
 names a key, and choosing C Major explicitly must give identical names. The
 test sweeps every three- and four-note voicing both ways to hold that. It works
@@ -375,7 +374,7 @@ accidentals, so the twelve read C C# D D# E F F# G G# A A# B either way. If the
 assumed key is ever changed to something with accidentals, the spelling and the
 naming would part company and that property would break.
 
-`tests/test_scaleview_alt.lua` carries a property test that is the real
+`tests/test_scaleview_pro.lua` carries a property test that is the real
 specification: every three- and four-note voicing must come back as a chord,
 never a list of notes. A chord symbol has no spaces in it, which is how it
 checks.

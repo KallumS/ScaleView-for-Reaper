@@ -1,17 +1,14 @@
 # ScaleView
 
 A small ReaScript (Lua) icon for REAPER that shows the current key signature /
-scale at a glance. Five scripts, all self-contained:
+scale at a glance. Two scripts, both self-contained:
 
 | Script | |
 | --- | --- |
-| `reascripts/kallums_ScaleView.lua` | **The merged one.** Pro, with Simple's naming available from the right-click menu - see [below](#scaleview-the-merged-script) |
-| `reascripts/kallums_ScaleView Alt.lua` | **The merged one, with the chord reader.** Same icon, but it works out the chord instead of looking it up - see [below](#scaleview-alt-the-chord-reader) |
-| `reascripts/kallums_ScaleView Alt 2.lua` | **Alt, tuned like Scaler 3.** It prefers the reading with a complete triad in it - see [below](#alt-2-preferring-the-complete-triad) |
-| `reascripts/kallums_ScaleView Pro.lua` | Note names spelled for the key, and it names the chord you play - see [below](#scaleview-pro) |
+| `reascripts/kallums_ScaleView Pro.lua` | **The one to use.** Note names spelled for the key, an option to name them like piano keys instead, and the chord you play named underneath - see [below](#scaleview-pro) |
 | `reascripts/kallums_ScaleView Simple.lua` | The stripped-back one: note names are always sharps, or always flats |
 
-Everything below describes all five; the later sections cover what each adds.
+Everything below describes both; the later sections cover what Pro adds.
 
 ![ScaleView](docs/preview.svg)
 
@@ -54,7 +51,7 @@ Right-clicking the icon opens:
 | Random Scale | Picks a scale at random, for when you can't decide - never the one already showing |
 | Show note names | Draws the note name inside each circle |
 | Swap Sharps & Flats | Names the five black keys Db Eb Gb Ab Bb instead of C# D# F# G# A#, in the circles and in the scale name underneath (Simple only) |
-| Simplify Note Names | Turns off key-aware spelling and names every note like a piano key (merged script only) |
+| Simplify Note Names | Turns off key-aware spelling and names every note like a piano key (Pro only) |
 | Highlight Colour | Teal (default), Orange, Light Green, Light Blue, Light Pink or Gold. Simple also offers White; the other two do not, because the ring around a note being played is white |
 | Dock window | Dock or undock the icon |
 | Close | Quit |
@@ -122,54 +119,108 @@ the proportions it keeps when docked.
 
 ## ScaleView Pro
 
-`reascripts/kallums_ScaleView Pro.lua` is the full version: it spells note
-names for the key **and** names the chord you are playing. If you ran an
-earlier version of this script - it has also been called ScaleView Enharmonic
-and ScaleView Detector - it picks up your saved scale, colour and window
-position the first time you run it.
+Pro does everything above, and adds the three things below: it names the
+chord you play, it spells note names for the key you are in, and it keeps a
+scale per project.
 
-### Chord detection
+### How the chord is worked out
 
-Notes you play are ringed on the circles, and the label underneath names the
-chord you are holding instead of the scale:
+The other scripts match the notes you play against a table of chord shapes.
+That works until you play something the table does not contain, and then there
+is nothing to fall back on, so the label reads out the notes instead. The table
+can always be made longer, but it cannot be made complete: a chord is a quality
+with any number of tones stacked on top, and those combinations do not run out.
 
-| You play | It shows |
-| --- | --- |
-| C Eb G | `Cmin` |
-| C Eb G Bb | `Cmin7` |
-| B C# F# | `Bsus2` |
-| C E G, with E lowest | `C/E` |
-| A C E G | `Amin7` |
-| C E G A, with C lowest | `C6` |
+Pro reads the chord instead of looking it up. It splits the symbol in two:
 
-It knows added tones and thinner voicings as well as the common chords:
-`Cadd9`, `Cadd11`, `Cmin#11`, `C7(no3)`. A missing fifth passes without
-comment, since the fifth is optional in an added-tone chord, but a missing
-third is said out loud because it changes the quality. A sixth chord without
-its fifth is read as the complete triad those notes also make, so C E A is
-`Amin/C` rather than `C6`.
+- **The bottom half** - the third, the fifth and the seventh - is a closed
+  vocabulary. Those three can only combine in about thirty ways and each
+  combination has a name musicians agree on, so that half is still a table,
+  ordered by how common each quality is.
+- **The top half** - sixths, ninths, elevenths, thirteenths and their
+  alterations - is not closed, so it is described rather than matched.
+  Whatever the bottom half did not account for is read off as an extension.
 
-Chord roots are spelled for the selected key, so Gb Bb Db reads `Gb` in Gb
-major and `F#` in F# major - the same trick the spelling engine already does
-for scales.
+Every note being held is tried as the root and the cheapest reading wins, where
+the cost covers how unusual the quality is, what its extensions cost, and
+whether the root had to be named after a slash. That last part is what keeps a
+complete triad in an inversion ahead of a rooted chord with a hole in it: C E A
+stays `Amin/C` rather than becoming a C6 with no fifth.
 
-A chord is named from the same eighteen spellings the scale list offers, which
-are the roots real keys are built on. That keeps a chord in Gb major reading
-`Gb` and one in Cb major reading `Cb`, while anything outside that vocabulary
-falls back to a plain name: the double accidentals a key like Gb minor blues
-produces (`Amin/C`, not `Bbbmin/Dbb`) and the theoretical spellings nobody
-builds a chord on, so B# D# E# in C# major reads `CminAdd11`.
+The practical difference, measured over every three-, four- and five-note
+voicing in every bass position - 6,600 in all:
 
-**The bass note decides the name.** B C# F# is `Bsus2` with B underneath, but
-those same notes are F#sus4 with F# underneath; and A C E G is `Amin7` or `C6`
-depending which is lowest. When the lowest note is not the root you get a slash
-chord (`C/E`). When neither the root nor a familiar shape is in the bass, the
-commoner chord wins and the bass is shown after the slash (`Amin7/G`).
+| | A chord table | Pro |
+| --- | --- | --- |
+| Named as a chord | 28% | **100%** |
+| Read out as a list of notes | 72% | none |
 
-Anything it does not recognise is named honestly as its notes (`C E`) rather
-than guessed at - which, for extended chords, turned out to be often enough to
-be worth fixing. That is what
-[ScaleView Alt](#scaleview-alt-the-chord-reader) does.
+Chords a table cannot name and Pro can include `C7b13`, `Cmaj7#11`,
+`Cmaj9#11`, `C13b9`, `C13#11`, `C7#9#11`, `Cadd9Add11` and `Cmin11b5`, along
+with extended chords voiced without the tones underneath them - `C13` with no
+ninth in it, or a `Cmin11` played as root, third, eleventh and seventh.
+
+Three rules do most of the work, and all of them come from the way musicians
+read:
+
+- **The root to the third decides most.** A quality the table does not name is
+  ranked by whether it has a third at all: a real one, major or minor, keeps a
+  chord readable however odd the rest of it is, a suspension is a stand-in for
+  one, and a shape with neither is the last thing to reach for. That is what
+  makes F A B read `F(b5)` rather than `B7b5(no3)/A`, which has no third in it.
+
+- **The highest natural extension names the chord** and the ones below it are
+  taken as read, which is what `C13` means whether or not the ninth is played.
+  A natural eleventh over a major third is the exception - it clashes - so it
+  is written as an add rather than swallowed by the number.
+- **An alteration has to belong to the chord it sits on.** A b9, a #9 and a b13
+  are the dominant's alterations; over a minor seventh or a plain triad they
+  are not colours a musician hears, they are a sign the root has been guessed
+  wrong and the notes belong to some plainer chord standing on one of the
+  others.
+
+### The complete triad wins
+
+Where two readings both fit, Pro favours the one with a **complete triad** in
+it - root, third and fifth - and hangs the odd notes off that, even when the
+thinner reading would need fewer of them. That is how Scaler 3 reads a chord.
+Play C D Eb Gb Cb in Gb major and a reading that needs only one alteration
+would give `D13b9/C`, a third and a seventh with no fifth; Pro and Scaler 3
+both say `Cbaddb9#9/C`, a whole Cb triad with two.
+
+Tested against real music, the two come out level. Over the 382 Bach chorales -
+89,108 sonorities of three or more pitch classes - and over the standards
+repertoire's chord vocabulary in all twelve keys, voiced close, as a shell,
+spread, drop-2 and in every inversion, both engines print a symbol that
+describes exactly the notes played, with the right bass, every time. Pick
+whichever reads the way you think; neither is the more accurate one.
+
+The rest of the behaviour above - the scales, the spelling, the clicking, the
+per-project key, the chord reader itself - is the same in both. Run whichever
+names chords the way you read them; they can both be installed at once, and
+they keep their settings separately.
+
+### What the selected scale does
+
+The scale you have chosen is used, but only to settle a draw. Where two
+readings come out at exactly the same cost, a root that is a degree of the
+scale wins, and then a reading whose notes sit in it.
+
+It is deliberately no stronger than that. A chord from outside the key is
+named for what it is rather than bent to fit - play F# A# C# with C major
+selected and it is `F#`, not something contorted into the key. Measured across
+every voicing in every key, the key decides the name for 1.6% of them: the
+genuine draws, which are semitone clusters and symmetrical chords like
+C D# F# A#, where two roots are equally good and something has to choose.
+
+**With no scale selected, the naming assumes C major.** The script starts that
+way, and rather than going quiet until you pick something it reads those draws
+as if the key were C. The assumption is invisible: no circle lights up, nothing
+names a key, and choosing C Major from the menu gives exactly the same chord
+names - a property the tests check over every three- and four-note voicing. C
+major is the right one to assume because the note names already fall back to
+it: with no accidentals in the key, the twelve read C C# D D# E F F# G G# A A# B
+either way.
 
 ### What it listens to
 
@@ -226,13 +277,6 @@ repeat one letter (C D Eb F Gb Ab A B).
 Simple and Pro are independent - separate files, separate saved settings -
 so you can run either, or both at the same time.
 
-## ScaleView: the merged script
-
-`reascripts/kallums_ScaleView.lua` is ScaleView Pro with Simple's naming
-available as an option, so one script covers both. It starts in Pro's
-key-aware spelling; **Simplify Note Names** switches to piano-key naming, and
-the choice is remembered.
-
 ### Clicking
 
 It has no left-click and right-click menus. **Where** you click decides, and
@@ -264,8 +308,10 @@ The **scale name underneath stays as you picked it** from the list: choose Gb
 Major and it says Gb Major, even simplified, because that is the key you chose
 and the name it has in the menu. Only the note names change.
 
-If you ran ScaleView Pro, the merged script picks up its saved scale, colour
-and window position the first time you run it.
+ScaleView has been renamed a few times and has absorbed several earlier
+scripts. Your settings follow: Pro reads the saved scale, colour, window
+position and dock state left by any name it has shipped under, so an existing
+install is never reset.
 
 ### Each project remembers its own key
 
@@ -293,112 +339,6 @@ project - a script runs until you stop it, and nothing records that it was
 running. To have it start automatically, use a startup action: the SWS
 extension offers both a global and a per-project one.
 
-## ScaleView Alt: the chord reader
-
-Alt is the merged script with one thing changed: how it names the chord you
-are holding. Everything else - the icon, the scales, the spelling, the
-clicking, the per-project key - behaves exactly as described above.
-
-The other scripts match the notes you play against a table of chord shapes.
-That works until you play something the table does not contain, and then there
-is nothing to fall back on, so the label reads out the notes instead. The table
-can always be made longer, but it cannot be made complete: a chord is a quality
-with any number of tones stacked on top, and those combinations do not run out.
-
-Alt reads the chord instead of looking it up. It splits the symbol in two:
-
-- **The bottom half** - the third, the fifth and the seventh - is a closed
-  vocabulary. Those three can only combine in about thirty ways and each
-  combination has a name musicians agree on, so that half is still a table,
-  ordered by how common each quality is.
-- **The top half** - sixths, ninths, elevenths, thirteenths and their
-  alterations - is not closed, so it is described rather than matched.
-  Whatever the bottom half did not account for is read off as an extension.
-
-Every note being held is tried as the root and the cheapest reading wins, where
-the cost covers how unusual the quality is, what its extensions cost, and
-whether the root had to be named after a slash. That last part is what keeps a
-complete triad in an inversion ahead of a rooted chord with a hole in it: C E A
-stays `Amin/C` rather than becoming a C6 with no fifth.
-
-The practical difference, measured over every three-, four- and five-note
-voicing in every bass position - 6,600 in all:
-
-| | Merged script | Alt |
-| --- | --- | --- |
-| Named as a chord | 28% | **100%** |
-| Read out as a list of notes | 72% | none |
-
-Chords the table could not name and Alt can include `C7b13`, `Cmaj7#11`,
-`Cmaj9#11`, `C13b9`, `C13#11`, `C7#9#11`, `Cadd9Add11` and `Cmin11b5`, along
-with extended chords voiced without the tones underneath them - `C13` with no
-ninth in it, or a `Cmin11` played as root, third, eleventh and seventh.
-
-Three rules do most of the work, and all of them come from the way musicians
-read:
-
-- **The root to the third decides most.** A quality the table does not name is
-  ranked by whether it has a third at all: a real one, major or minor, keeps a
-  chord readable however odd the rest of it is, a suspension is a stand-in for
-  one, and a shape with neither is the last thing to reach for. That is what
-  makes F A B read `F(b5)` rather than `B7b5(no3)/A`, which has no third in it.
-
-- **The highest natural extension names the chord** and the ones below it are
-  taken as read, which is what `C13` means whether or not the ninth is played.
-  A natural eleventh over a major third is the exception - it clashes - so it
-  is written as an add rather than swallowed by the number.
-- **An alteration has to belong to the chord it sits on.** A b9, a #9 and a b13
-  are the dominant's alterations; over a minor seventh or a plain triad they
-  are not colours a musician hears, they are a sign the root has been guessed
-  wrong and the notes belong to some plainer chord standing on one of the
-  others.
-
-### Alt 2: preferring the complete triad
-
-`kallums_ScaleView Alt 2.lua` is Alt with a single preference changed, and
-everything else about it is identical.
-
-Where two readings both fit, Alt 2 favours the one with a **complete triad** in
-it - root, third and fifth - and hangs the odd notes off that, even when the
-thinner reading would need fewer of them. That is how Scaler 3 reads a chord.
-Play C D Eb Gb Cb in Gb major and Alt says `D13b9/C`, a third and a seventh
-with one alteration and no fifth; Alt 2 and Scaler both say `Cbaddb9#9/C`, a
-whole Cb triad with two.
-
-Tested against real music, the two come out level. Over the 382 Bach chorales -
-89,108 sonorities of three or more pitch classes - and over the standards
-repertoire's chord vocabulary in all twelve keys, voiced close, as a shell,
-spread, drop-2 and in every inversion, both engines print a symbol that
-describes exactly the notes played, with the right bass, every time. Pick
-whichever reads the way you think; neither is the more accurate one.
-
-The rest of the behaviour above - the scales, the spelling, the clicking, the
-per-project key, the chord reader itself - is the same in both. Run whichever
-names chords the way you read them; they can both be installed at once, and
-they keep their settings separately.
-
-### What the selected scale does
-
-The scale you have chosen is used, but only to settle a draw. Where two
-readings come out at exactly the same cost, a root that is a degree of the
-scale wins, and then a reading whose notes sit in it.
-
-It is deliberately no stronger than that. A chord from outside the key is
-named for what it is rather than bent to fit - play F# A# C# with C major
-selected and it is `F#`, not something contorted into the key. Measured across
-every voicing in every key, the key decides the name for 1.6% of them: the
-genuine draws, which are semitone clusters and symmetrical chords like
-C D# F# A#, where two roots are equally good and something has to choose.
-
-**With no scale selected, the naming assumes C major.** The script starts that
-way, and rather than going quiet until you pick something it reads those draws
-as if the key were C. The assumption is invisible: no circle lights up, nothing
-names a key, and choosing C Major from the menu gives exactly the same chord
-names - a property the tests check over every three- and four-note voicing. C
-major is the right one to assume because the note names already fall back to
-it: with no accidentals in the key, the twelve read C C# D D# E F F# G G# A A# B
-either way.
-
 ## Tests
 
 `tests/` runs the scripts headlessly against a mock of
@@ -410,11 +350,8 @@ that settings survive a restart and that settings saved under the script's
 previous name still load:
 
 ```
-lua5.4 tests/test_scaleview.lua
-lua5.4 tests/test_scaleview_alt.lua
-lua5.4 tests/test_scaleview_alt2.lua
-lua5.4 tests/test_scaleview_simple.lua
 lua5.4 tests/test_scaleview_pro.lua
+lua5.4 tests/test_scaleview_simple.lua
 ```
 
 Both suites also replay click sequences frame by frame, including the stray
@@ -423,11 +360,11 @@ opening its own menu. They check that Random Scale only ever lands on a real
 root and scale, that the circles match the name it shows, and that it never hands back
 the scale already on screen.
 
-The Alt suite adds the chords its reader can name and the table could not,
+The Pro suite adds the chords its reader can name and a table could not,
 and one property test standing behind the whole approach: it plays every
 three- and four-note voicing - 715 of them - and fails if any single one comes
 back as a list of notes rather than a chord. Each of those tests was run
-against the merged script first and watched to fail, because a regression test
+against the engine before the fix and watched to fail, because a regression test
 that passes against the bug is worthless.
 
 It plays MIDI at the script through a mocked input history and
@@ -437,7 +374,7 @@ bass positions, note-offs and all-notes-off, that re-polling never applies an
 event twice, and that a missing or misbehaving input API degrades to a message
 instead of throwing.
 
-The merged script's suite is the Pro suite plus the naming option: that each
+The Pro suite also covers the naming option: that each
 key reads correctly both ways, that double accidentals become piano keys, that
 the same chords are found with only their names changing, and that the setting
 survives a restart.
