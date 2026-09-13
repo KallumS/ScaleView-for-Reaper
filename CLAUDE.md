@@ -498,6 +498,29 @@ Two cautions about reading it:
   the former and split on the latter or the whole thing reads as "Rob ert
   Hutc hinson". Noteheads survive as lines reading `w`.
 
+## Publishing through ReaPack
+
+`index.xml` at the repository root is a ReaPack index (format version 1). It
+declares one package per script under the category `Scales`, each with a
+version, an author, a changelog and a `<source>`.
+
+**Every `<source>` is pinned to a commit hash, never to a branch.** An installed
+version is then the exact file that was tested and cannot change underneath
+anyone who has it. That is the whole point of the pin, so:
+
+- To publish a new version, **add** a `<version>` block with a fresh hash. Do
+  not edit an existing one, and do not repoint an old version at a new commit.
+- The hash has to be of a commit that is already pushed, or the raw URL 404s.
+  Push the scripts first, take `git rev-parse HEAD`, then write the index and
+  commit that separately.
+- Spaces in the filenames are `%20` in the URL.
+
+The repository is **`KallumS/ScaleView-for-Reaper`** and its default branch is
+**`master`**. `ubiquitous-eureka` is the old name and still redirects, but the
+canonical one is what the index uses. Users import
+`https://raw.githubusercontent.com/KallumS/ScaleView-for-Reaper/master/index.xml`,
+which resolves once the index is merged to the default branch.
+
 ## JSFX, if Pro ever needs to follow playback
 
 Not built. Pro cannot see MIDI items playing back; a small JSFX on the
