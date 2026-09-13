@@ -167,9 +167,12 @@ From REAPER's ReaScript page, which is the authority on this:
     what every script here uses, and it is **global**: the scale follows the
     user between projects rather than belonging to one.
   - `SetProjExtState`/`GetProjExtState` - "save data within the project RPP
-    file". Pro uses this for the scale, so each project
-    reopens in its own key; Simple does not. Only the scale goes in the
-    project - colour, note names and window are preferences and stay global.
+    file". **Both scripts** use this for the scale, so each project reopens in
+    its own key. (This file used to say Simple did not; it does, and its suite
+    covers the round trip and the project switch. Another one left behind when
+    Simple was rebuilt as Pro minus the chord reader.) Only the scale goes in
+    the project - colour, note names and window are preferences and stay
+    global.
     Writing project ext state marks the project edited, which is expected.
     The script polls `EnumProjects(-1)` each frame to notice a switch between
     open projects; a project with no scale of its own is left showing whatever
@@ -186,7 +189,8 @@ From REAPER's ReaScript page, which is the authority on this:
   starting a second - and with `8` from its `atexit`. That is what makes a
   toolbar button light up while it runs and toggle it off when clicked again.
   Both calls are guarded on the function existing, so older REAPERs are fine.
-  Simple does not do this.
+  **Simple does this too** - the line here saying it did not was a third
+  leftover from before Simple was rebuilt, and both suites assert it.
 
 ## How the spelling engine works
 
@@ -214,17 +218,19 @@ double accidentals of a key like Gb minor blues (`Amin/C`, never `Bbbmin/Dbb`)
 and the theoretical spellings B#, E# and Fb, so B# D# E# in C# major reads
 `CminAdd11` rather than `B#minAdd11`.
 
-The chord table is matched exactly and ordered by priority, so a shape's
-position decides which reading wins when the bass does not. Two rules learned
-by breaking them:
+Two rules were learned by breaking them back when chords were matched against
+a table. **That table is gone** - the section below is how a chord is named now
+- but both rules are still live, and are still the fastest way to tell whether
+a change to the weights has broken something:
 
 - **A missing fifth is silent, a missing third is not.** The fifth is optional
   in an added-tone chord, so `{0,3,5}` is `minAdd11`; a missing third changes
   the quality, so `{0,7,10}` is `7(no3)`.
-- **Do not add sixth chords without their fifth.** `{0,4,9}` and `{0,3,9}` are
-  deliberately absent: adding them made C E A read `C6` instead of `Amin/C`,
-  because a rooted reading wins outright and stole the complete triad's
-  inversion. An incomplete chord should not beat a complete one.
+- **An incomplete chord must not beat a complete one.** `{0,4,9}` reads
+  `Amin/C`, not `C6` - a rooted reading with a hole in it should not steal a
+  complete triad's inversion. In the table this meant leaving `{0,4,9}` and
+  `{0,3,9}` out of it; now it falls out of `COST_INVERSION` against
+  `RANK_NO_FIFTH`, which is why those two weights are not free to retune.
 
 ## How Pro names a chord
 

@@ -78,8 +78,9 @@ Clicking the icon clear of the circles opens:
 
 **Simplify Note Names** is purely cosmetic - it renames notes, it does not
 change which notes are lit, and the label still names the key you picked, so
-Gb Major still reads Gb Major while its circles read F#. The scale list itself
-always shows both spellings ("C# / Db Major"), so it reads correctly either way.
+Gb Major still reads Gb Major while its circles read F#. The scale list carries
+both spellings as separate entries - "C# Major" and "Db Major" are two rows of
+the same submenu - so you pick the one the music is written in.
 
 Which menu opens depends on where the click started, not which button was used:
 a circle opens the scale list, empty space opens the options, and either mouse
@@ -97,7 +98,7 @@ across the full width.
 
 ## Scales included
 
-Every one of these is available from all 12 root notes:
+Every one of these is available from all 18 spelled roots:
 
 | Scale | Semitones from the root |
 | --- | --- |
@@ -121,8 +122,9 @@ Every one of these is available from all 12 root notes:
 Ionian is the same set of notes as Major and Aeolian the same as Natural Minor;
 both spellings are listed because both names are in common use. The two diminished scales are the eight-note octatonics: whole-half is
 W H W H W H W H from the root, half-whole is the same pattern starting with the
-semitone. That is 192 selectable key signatures in total, plus **Clear Scale**
-to go back to all circles the same colour.
+semitone. With both spellings of every root plus Cb - 18 roots against 16
+scale types - that is 288 selectable keys in total, plus **Clear Scale** to go
+back to all circles the same colour.
 
 ## Customising
 
@@ -183,7 +185,7 @@ voicing in every bass position - 6,600 in all:
 
 Chords a table cannot name and Pro can include `C7b13`, `Cmaj7#11`,
 `Cmaj9#11`, `C13b9`, `C13#11`, `C7#9#11`, `Cadd9Add11` and `Cmin11b5`, along
-along with extended chords voiced without the tones underneath them, which are
+with extended chords voiced without the tones underneath them, which are
 named for what is actually there: `C7(13)` rather than `C13` when the ninth is
 missing.
 
@@ -225,10 +227,11 @@ different notes in them come back as a chord symbol that describes exactly what
 is being played, with the right bass. The exceptions are four eight-note
 clusters, which it reads out as notes on purpose.
 
-The rest of the behaviour above - the scales, the spelling, the clicking, the
-per-project key, the chord reader itself - is the same in both. Run whichever
-names chords the way you read them; they can both be installed at once, and
-they keep their settings separately.
+Everything else above - the scales, the spelling, the clicking, the highlight
+colours, the per-project key, the toolbar toggle - is the same in Simple. The
+chord reader is the one thing it does not have: it never reads MIDI at all, so
+the label always shows the scale name. Both can be installed at once, and they
+keep their settings separately.
 
 ### What the selected scale does
 
@@ -318,9 +321,9 @@ either button does the same thing:
 | On empty space | Random Scale, note names, Simplify Note Names, highlight colour, dock, close |
 
 A click belongs where it began, so pressing on a circle and drifting off still
-opens the scale list. This replaces the two-button arrangement the other two
-scripts use, where a menu's own click could be mistaken for a fresh one and
-open the wrong menu.
+opens the scale list. This replaced an earlier two-button arrangement, where a
+menu's own click could be mistaken for a fresh one and open the wrong menu.
+Both scripts work this way.
 
 | | Gb Major | Cb Major | A# Harmonic Minor |
 | --- | --- | --- | --- |
@@ -339,9 +342,10 @@ Major and it says Gb Major, even simplified, because that is the key you chose
 and the name it has in the menu. Only the note names change.
 
 ScaleView has been renamed a few times and has absorbed several earlier
-scripts. Your settings follow: Pro reads the saved scale, colour, window
-position and dock state left by any name it has shipped under, so an existing
-install is never reset.
+scripts. The settings keys were left alone through all of that so nobody's
+install would reset, and were finally tidied to match the filenames at 1.0.2 -
+`ScaleViewPro` and `ScaleViewSimple`. Each script still reads the one key it
+used immediately before that rename, so an existing install carries over.
 
 ### Each project remembers its own key
 
@@ -371,49 +375,47 @@ extension offers both a global and a per-project one.
 
 ## Tests
 
-`tests/` runs the scripts headlessly against a mock of
-REAPER's `gfx` API, clicking menu entries by label and reading back which
-circles were drawn lit. It checks all 192 scale/root combinations against the
-interval formulas, the menu index mapping, the clear/options menus, the docked
-layout, the sharps/flats swap, every highlight colour and its legibility,
-that settings survive a restart and that settings saved under the script's
-previous name still load:
+`tests/` runs the scripts headlessly against a mock of REAPER's `gfx` and
+`reaper` APIs, clicking menu entries by label and reading back which circles
+were drawn lit. Neither needs REAPER, and both finish in under a second:
 
 ```
 lua5.4 tests/test_scaleview_pro.lua
 lua5.4 tests/test_scaleview_simple.lua
 ```
 
-Both suites also replay click sequences frame by frame, including the stray
-click a modal menu reports after it closes, to check each mouse button keeps
-opening its own menu. They check that Random Scale only ever lands on a real
-root and scale, that the circles match the name it shows, and that it never hands back
-the scale already on screen.
+Both suites cover what the two scripts share: that a click on a circle opens
+the scale list and a click on empty space opens the options **whichever button
+is used**, that a click belongs where it began, the docked layout and the dock
+bitfield, every highlight colour and its legibility, Simplify Note Names in
+both directions, the scale saved into the project and followed across a project
+switch, the toolbar toggle, and that settings saved under the key each script
+used before the 1.0.2 rename still load. They also replay the stray click a
+modal menu reports after it closes - fired 0, 1 and 3 frames late - and check
+that it opens nothing while clicks still work once the settle window passes.
 
-The Pro suite adds the chords its reader can name and a table could not,
-and one property test standing behind the whole approach: it plays every
-three- and four-note voicing - 715 of them - and fails if any single one comes
-back as a list of notes rather than a chord. Each of those tests was run
-against the engine before the fix and watched to fail, because a regression test
-that passes against the bug is worthless.
+**The Simple suite** is the one that sweeps the scales: all 288 root and scale
+combinations against the interval formulas. It also proves the absence of chord
+detection rather than assuming it, by counting every call into
+`MIDI_GetRecentInputEvent` and failing if the script makes one - four notes are
+left waiting in the mocked history, and it never asks.
 
-It plays MIDI at the script through a mocked input history and
-reads the chord name back off the icon: the examples above, triads and
-sevenths, inversions and slash chords, the C6/Amin7 ambiguity in all three
-bass positions, note-offs and all-notes-off, that re-polling never applies an
-event twice, and that a missing or misbehaving input API degrades to a message
-instead of throwing.
+**The Pro suite** adds everything about the chord reader: the examples above,
+triads and sevenths, inversions and slash chords, the C6/Amin7 ambiguity in all
+three bass positions, the chords a table could not name, note-offs and
+all-notes-off, that re-polling never applies an event twice, and that a missing
+or misbehaving input API degrades to `MIDI input unavailable` instead of
+throwing. It covers the key-aware spellings and the chord-symbol fallback for
+double accidentals, and that simplifying renames notes without changing which
+chords are found.
 
-The Pro suite also covers the naming option: that each
-key reads correctly both ways, that double accidentals become piano keys, that
-the same chords are found with only their names changing, and that the setting
-survives a restart.
+Two property tests stand behind the whole approach. Every three- and four-note
+voicing - 715 of them - must come back as a chord rather than a list of notes;
+and all 715 must name identically with no scale selected as with C Major, which
+is what makes the assumed key invisible.
 
-The Pro suite also checks the spellings above, that each sharp/flat pair of
-keys lights the same circles while reading differently, that all 288 root and
-scale combinations light the right notes, and that every seven-note scale uses
-each of the seven letters exactly once - the property that makes the spelling
-correct.
+Each regression test here was run against the engine before the fix and watched
+to fail, because a test that passes against the bug is worthless.
 
 The mock reproduces REAPER's real `gfx.showmenu` contract: the returned index
 counts **only selectable items**, so separators and submenu headers must not be
