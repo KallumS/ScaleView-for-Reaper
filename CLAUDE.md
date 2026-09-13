@@ -6,7 +6,8 @@ notes of the selected scale lit.
 
 | Script | |
 | --- | --- |
-| `reascripts/kallums_ScaleView Pro.lua` | The full one, and where work happens: names spelled for the key, and it names the chord being played |
+| `reascripts/kallums_ScaleView.lua` | Pro and Simple merged: Pro's behaviour with a **Simplify Note Names** option that switches to Simple's piano-key naming. ExtState key `kallums_ScaleViewUnified`. |
+| `reascripts/kallums_ScaleView Pro.lua` | The full one: names spelled for the key, and it names the chord being played |
 | `reascripts/kallums_ScaleView Simple.lua` | Deliberately the lesser one, kept for people who want it: always sharps or always flats, with a menu toggle |
 
 Pro has been renamed repeatedly - Enharmonic, Pro, Detector, Pro again - and an
@@ -17,7 +18,14 @@ name this script has shipped under, most recent first, so the newest saved
 state wins over a stale one. Renaming the script again needs no migration; do
 not "tidy" the key to match a new name.
 
-**The two are independent copies, not a shared library.** A fix in one usually
+The merged script is a copy of Pro with one branch in `noteName`: with
+`state.simpleNames` set it returns the plain sharp table instead of the key's
+spelling. Chord *detection* is untouched by the option - only the names it
+reports change, since they come from `noteName`. The scale label keeps the key
+as chosen from the menu, so picking Gb Major still says Gb Major when
+simplified; only note names change.
+
+**The scripts are independent copies, not a shared library.** A fix in one usually
 belongs in the other too - check both before considering a bug fixed. The
 docking fix, for example, applied to all of them.
 
@@ -31,6 +39,7 @@ do not "simplify" it by removing that option.
   change; they need only `lua5.4` and take under a second:
 
   ```sh
+  lua5.4 tests/test_scaleview.lua
   lua5.4 tests/test_scaleview_simple.lua
   lua5.4 tests/test_scaleview_pro.lua
   ```

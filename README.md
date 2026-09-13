@@ -5,10 +5,11 @@ scale at a glance. Two scripts, both self-contained:
 
 | Script | |
 | --- | --- |
+| `reascripts/kallums_ScaleView.lua` | **The merged one.** Pro, with Simple's naming available from the right-click menu - see [below](#scaleview-the-merged-script) |
 | `reascripts/kallums_ScaleView Pro.lua` | Note names spelled for the key, and it names the chord you play - see [below](#scaleview-pro) |
 | `reascripts/kallums_ScaleView Simple.lua` | The stripped-back one: note names are always sharps, or always flats |
 
-Everything below describes both; the Pro section covers what it adds.
+Everything below describes all three; the later sections cover what each adds.
 
 ![ScaleView](docs/preview.svg)
 
@@ -50,7 +51,8 @@ Right-clicking the icon opens:
 | --- | --- |
 | Random Scale | Picks a scale at random, for when you can't decide - never the one already showing |
 | Show note names | Draws the note name inside each circle |
-| Swap Sharps & Flats | Names the five black keys Db Eb Gb Ab Bb instead of C# D# F# G# A#, in the circles and in the scale name underneath |
+| Swap Sharps & Flats | Names the five black keys Db Eb Gb Ab Bb instead of C# D# F# G# A#, in the circles and in the scale name underneath (Simple only) |
+| Simplify Note Names | Turns off key-aware spelling and names every note like a piano key (merged script only) |
 | Highlight Colour | Teal (default), Orange, Light Green, White, Light Blue, Light Pink or Gold |
 | Dock window | Dock or undock the icon |
 | Close | Quit |
@@ -212,6 +214,32 @@ repeat one letter (C D Eb F Gb Ab A B).
 Simple and Pro are independent - separate files, separate saved settings -
 so you can run either, or both at the same time.
 
+## ScaleView: the merged script
+
+`reascripts/kallums_ScaleView.lua` is ScaleView Pro with Simple's naming
+available as an option, so one script covers both. It starts in Pro's
+key-aware spelling; **Simplify Note Names** in the right-click menu switches to
+piano-key naming, and the choice is remembered.
+
+| | Gb Major | Cb Major | A# Harmonic Minor |
+| --- | --- | --- | --- |
+| Default (spelled for the key) | Gb Ab Bb Cb Db Eb F | Cb Db Eb Fb Gb Ab Bb | A# B# C# D# E# F# Gx |
+| Simplify Note Names | F# G# A# B C# D# F | B C# D# E F# G# A# | A# C C# D# F F# A |
+
+Simplified, every note is named the way its piano key is: sharps for the black
+keys, and never a double accidental, so Cb reads B, Fb reads E and Gx reads A.
+
+**Chord detection is unchanged** - it finds the same chords either way, and
+only the names it reports follow the scheme. Gb Bb Db F reads `Gbmaj7` by
+default and `F#maj7` simplified.
+
+The **scale name underneath stays as you picked it** from the list: choose Gb
+Major and it says Gb Major, even simplified, because that is the key you chose
+and the name it has in the menu. Only the note names change.
+
+If you ran ScaleView Pro, the merged script picks up its saved scale, colour
+and window position the first time you run it.
+
 ## Tests
 
 `tests/` runs the scripts headlessly against a mock of
@@ -223,6 +251,7 @@ that settings survive a restart and that settings saved under the script's
 previous name still load:
 
 ```
+lua5.4 tests/test_scaleview.lua
 lua5.4 tests/test_scaleview_simple.lua
 lua5.4 tests/test_scaleview_pro.lua
 ```
@@ -239,6 +268,11 @@ sevenths, inversions and slash chords, the C6/Amin7 ambiguity in all three
 bass positions, note-offs and all-notes-off, that re-polling never applies an
 event twice, and that a missing or misbehaving input API degrades to a message
 instead of throwing.
+
+The merged script's suite is the Pro suite plus the naming option: that each
+key reads correctly both ways, that double accidentals become piano keys, that
+the same chords are found with only their names changing, and that the setting
+survives a restart.
 
 The Pro suite also checks the spellings above, that each sharp/flat pair of
 keys lights the same circles while reading differently, that all 288 root and
