@@ -7,8 +7,7 @@
 
     https://raw.githubusercontent.com/KallumS/ScaleView-for-Reaper/master/index.xml
 
-  That URL points at the default branch, so it only resolves once this file has
-  been merged there - it currently lives on the working branch.
+  That URL resolves: this file is on the default branch.
 
   Each <source> below is pinned to a commit rather than a branch, so an
   installed version is the exact file that was tested and cannot change
@@ -32,6 +31,10 @@
         <changelog><![CDATA[Settings keys renamed to match the script: ScaleViewPro, and ScaleView for the per-project scale. The keys they replaced are still read once, so nothing saved is lost.]]></changelog>
         <source main="main">https://raw.githubusercontent.com/KallumS/ScaleView-for-Reaper/6f128d5dc77ae59bf9aa219b5b7e3e563d203e71/reascripts/ScaleView%20Pro.lua</source>
       </version>
+      <version name="1.0.3" author="kallums" time="2026-09-13T18:42:00Z">
+        <changelog><![CDATA[Menu labels tidied to title case: Show Note Names, Dock Window and Clear Scale. No change to what any of them does.]]></changelog>
+        <source main="main">https://raw.githubusercontent.com/KallumS/ScaleView-for-Reaper/08cc599ae35c970835b6d8eb7a727c94d47c5ccf/reascripts/ScaleView%20Pro.lua</source>
+      </version>
       <metadata>
         <description><![CDATA[{\pard ScaleView Pro\par
 A 200x100 icon showing the twelve pitch classes as circles - five black keys over seven white - with the notes of the selected scale lit, the notes you play ringed, and the chord you are holding named underneath.\par
@@ -48,6 +51,10 @@ Click a circle for the scale list, click anywhere else for display options. Eith
       <version name="1.0.2" author="kallums" time="2026-09-13T17:34:29Z">
         <changelog><![CDATA[Settings keys renamed to match the script: ScaleViewSimple, and ScaleView for the per-project scale. The keys they replaced are still read once, so nothing saved is lost.]]></changelog>
         <source main="main">https://raw.githubusercontent.com/KallumS/ScaleView-for-Reaper/6f128d5dc77ae59bf9aa219b5b7e3e563d203e71/reascripts/ScaleView%20Simple.lua</source>
+      </version>
+      <version name="1.0.3" author="kallums" time="2026-09-13T18:42:00Z">
+        <changelog><![CDATA[Menu labels tidied to title case: Show Note Names, Dock Window and Clear Scale. No change to what any of them does.]]></changelog>
+        <source main="main">https://raw.githubusercontent.com/KallumS/ScaleView-for-Reaper/08cc599ae35c970835b6d8eb7a727c94d47c5ccf/reascripts/ScaleView%20Simple.lua</source>
       </version>
       <metadata>
         <description><![CDATA[{\pard ScaleView Simple\par

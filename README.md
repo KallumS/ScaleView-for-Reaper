@@ -12,6 +12,11 @@ Everything below describes both. The only difference is that Pro names the
 chord you are playing and Simple does not listen at all; the section on chord
 detection is the only one that does not apply to Simple.
 
+> Also available as a **VST3 / AU / CLAP plugin** -
+> [KallumS/ScaleView](https://github.com/KallumS/ScaleView) - which matches Pro
+> and, unlike a ReaScript, can see MIDI items playing back rather than only
+> live input.
+
 ![ScaleView](docs/preview.svg)
 
 The icon is 200 x 100 pixels and draws the twelve pitch classes as circles,

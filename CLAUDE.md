@@ -594,6 +594,13 @@ notes come from. Verified from the JSFX reference:
 ## Related
 
 `KallumS/ScaleView` is the same icon as a VST3 / AU / CLAP plugin (JUCE, C++).
-Its musical core is a port of the spelling engine here and was verified by
-diffing all 288 keys against this repo's output - if the spelling changes here, change it there
-too.
+It matches Pro, and its musical core is a port of **both** engines here - the
+spelling and the chord reader, `Simplify Note Names` and the assumed key
+included. **If either changes here, change it there too.**
+
+Parity is held by diffing output, never by eye: all 288 keys, then 36,283
+voicings with no scale selected and 1,679 voicings in each of ten keys, about
+53,000 names, byte-identical. `tools/runner.lua` is one half of that rig - the
+other is a twenty-line C++ file calling `chordName`. The plugin sees MIDI items
+playing back, which a script cannot, so it is also the answer to anyone asking
+for that.
