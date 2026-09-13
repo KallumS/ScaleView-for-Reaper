@@ -387,6 +387,24 @@ expect({C4, C4 + 7, C4 + 10}, "C7(no3)", "but a missing third changes the qualit
 expect({C4, C4 + 2, C4 + 7, C4 + 11}, "Cmaj7sus2",
        "deliberately not Cmaj9(no3): a 2 with no 3 is a suspension")
 
+--[[  The raised fourth is a suspension too. Every major key has exactly one,
+    the IVsus#4, and without it in the vocabulary a #4 could only be read as
+    the flattened fifth of something else - C F# G came out Gmaj7sus4/C.
+
+    It is a suspension only when the fifth is there to hold it up: on its own
+    the root and the #4 are a tritone, and the note is a b5 rather than a
+    note suspended over a fifth. A plain fourth still wins when both are
+    present, so the cluster stays Csus4#11. ]]
+print("the raised fourth suspension:")
+expect({C4, C4 + 6, C4 + 7}, "Csus#4", "C F# G, the IVsus#4 of G major")
+expect({C4, C4 + 6, C4 + 7, C4 + 11}, "Cmaj7sus#4", "carrying a major seventh")
+expect({C4, C4 + 6, C4 + 7, C4 + 10}, "C7sus#4", "and a dominant one")
+expect({C4, C4 + 1, C4 + 6, C4 + 7}, "Csus#4b9",  "and an altered ninth")
+expect({C4, C4 + 4, C4 + 6}, "C(b5)",
+       "no fifth under it, so the #4 is a flattened fifth instead")
+expect({C4, C4 + 5, C4 + 6, C4 + 7}, "Csus4#11",
+       "a plain fourth is the suspension; the #4 rides on top")
+
 -- 6f) The scale only ever breaks a tie. A chord from outside the key is named
 --     for what it is, never bent to fit, and everything still works with no
 --     scale selected at all - which is the state the script starts in.

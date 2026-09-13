@@ -262,12 +262,26 @@ tuning them, each of which broke a test first:
   that rule C D E G B over E came out `Emin7b13` rather than `Cmaj9/E`. A #11 is
   the exception - at home on anything with a perfect fifth - and any alteration
   over an already-altered fifth is suspect (`COST_CLASHING`).
+- **There are three suspensions, not two.** `sus4`, `sus2` and **`sus#4`** -
+  the last one added after a reader's chord-theory document pointed out that a
+  raised fourth had no name here, so C F# G read `Gmaj7sus4/C`. Every major key
+  has exactly one, the IVsus#4, and Thundercat's "What is Left To Say" uses it.
+  It is a suspension **only with the fifth present**: on its own the root and
+  the #4 are a tritone and the note is a b5, which is why `core()` tests
+  `has[6] and has[7]` together. A plain fourth still wins when both are there,
+  so C F F# G stays `Csus4#11`. Adding it moved 114 of the 6,600 voicings and
+  every one landed on the new quality.
+
+  Two of the document's own sus#4 chords still do not use the name: `C6sus#4`
+  and `Csus#4(b13)`. That is `COST_SUS_EXTRA` charging for the sixth, which is
+  the separate and deliberate rule below - it was left alone.
 - **A suspension replaces the third; it does not take added tones.**
   "sus4 add6 add9" is not a chord anybody writes, so a sus core pays
   `COST_SUS_EXTRA` for every tone it carries. The one exception is a sus4 with a
   seventh and a ninth, which is how an eleventh chord is voiced and is named
   `11` - and only over an unaltered fifth, or the name would swallow the very
-  note that makes the chord odd.
+  note that makes the chord odd. This exception is keyed to `sus4` alone, so
+  `sus#4` never becomes an eleventh.
 - **The highest natural extension names the chord, but only when the ninth is
   actually played.** A stacked number claims every degree beneath it.
   Hutchinson's chord list (31.4) prints `Cm11` and `Cm7(11)` side by side, six
