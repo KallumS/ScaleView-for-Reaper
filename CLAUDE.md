@@ -68,6 +68,52 @@ Simple must not read MIDI at all. Its suite counts every call into
 notes are waiting - "no chord detection" means it never looks, not that it
 looks and says nothing.
 
+## ScaleView Pattern - the other engine, for comparison
+
+`reascripts/ScaleView Pattern.lua` is Pro with the chord reader swapped for a
+port of **Long Kelvin's Pattern-Based Interval Matching** algorithm (MIT,
+github.com/LongKelvin/midi-chord-detector-plugin). It exists to be compared
+with Pro and with Scaler, not to be the one you use. ExtState key
+`ScaleViewPattern`, no legacy section - it supersedes nothing and keeps its
+settings apart from Pro's so both can run at once.
+
+Ported from the C++ source rather than that repository's documentation, which
+disagrees with it: the root-position bonus is 25 not 15, the extra-interval
+penalty 4 not 8, the confidence weights .35/.25/.15/.25 not .4/.4/.1/.1.
+
+**What it measures.** Both engines over all 17,688 voicings of three to seven
+notes, judged by `tools/check_symbol.py`:
+
+| | Pro | Pattern |
+| --- | --- | --- |
+| symbol accounts for exactly the notes | **100%** | **23.5%** |
+| symbol leaves a played note out, or names one not played | 0 | 12,584 |
+| gives up and reads the notes out | 0 | 318 |
+
+The failure is structural, not a tuning problem. A 62-pattern table cannot
+cover 17,688 voicings, so a pattern wins while leaving notes unexplained -
+C G Bb reads `C5`, C Eb F reads `F5/C`. Raising `PENALTY_EXTRA` helps to a
+point (4 -> 22.08%, 15 -> 22.62%, 30 -> 23.52%) and then the engine drops
+below its score threshold and stops answering instead: at 60 it gives up on
+3,420 voicings, at 120 on 17,028. **30 is the ceiling**, and it is what the
+script ships with. This is the measurement behind "a table cannot be made
+complete" - it is no longer an argument, it is a number.
+
+**The scale term is an addition, and it does not work.** Pattern scores a
+candidate root that is a scale degree, and each chord tone that sits in the
+scale (`SCORE_ROOT_IN_KEY`, `SCORE_TONE_IN_KEY`). Measured: it moves the
+objective score from 22.07% to 22.08%. One hundredth of a point.
+
+That reproduces, on a completely different architecture, the finding recorded
+below for Pro - and two independent nulls are worth more than one. Being
+diatonic does not separate candidate roots because the competing roots are
+usually both in the key. It does change *which* name wins in 1,485 voicings
+(8.4%) without making any of them more correct, so it is a preference lever.
+Set both weights to 0 to remove it.
+
+`tools/compare_engines.lua` names the same chords with both, `--differ` for
+just the disagreements.
+
 ## Working in this repo
 
 - **The tests are the specification.** Run both before and after any change;
