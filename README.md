@@ -174,10 +174,6 @@ Pro reads the chord instead of looking it up. It splits the symbol in two:
   alterations - is not closed, so it is described rather than matched.
   Whatever the bottom half did not account for is read off as an extension.
 
-Pro reads three suspensions, not the usual two: `sus4`, `sus2` and `sus#4`.
-The raised fourth is a suspension only when the fifth is under it - C F# G is
-`Csus#4`, but C E Gb has no fifth and is `C(b5)`.
-
 Every note being held is tried as the root and the cheapest reading wins, where
 the cost covers how unusual the quality is, what its extensions cost, and
 whether the root had to be named after a slash. That last part is what keeps a

@@ -64,10 +64,7 @@ def intervals(q):
     elif seventh == 11:
         return None                      # a bare "maj" is not a symbol
 
-    #  sus#4 is tried first: it is a longer token than sus4 and does not
-    #  start with it, but keeping them together says they are one family.
-    if take("sus#4"): third = 6
-    elif take("sus4"): third = 5
+    if take("sus4"): third = 5
     elif take("sus2"): third = 2
 
     while q:

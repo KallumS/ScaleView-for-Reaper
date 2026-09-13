@@ -28,9 +28,11 @@ right. A perfect fifth is optional, because the engine never states a missing
 one; so are the stack members under a 13.
 
 **Keep it in step with the engine.** It parses symbols independently, so a
-quality added to the engine and not to the checker reads as a wrong symbol
-rather than an unknown one: adding `sus#4` and forgetting it here produced 84
-false failures that were entirely the tool's.
+quality the engine can print but the checker cannot parse reads as a *wrong
+symbol* rather than an unknown one. That has happened: a quality was added to
+the engine and not here, and 84 voicings came back as failures that were
+entirely the tool's. Whenever `CORE_RANK` or `coreName` gains a token, add it
+here in the same change.
 
 **Validate it on known-good data before believing a number it produces.** Every
 bad accuracy figure this project has quoted came from the checker or the

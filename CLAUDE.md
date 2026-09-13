@@ -287,28 +287,34 @@ tuning them, each of which broke a test first:
   that rule C D E G B over E came out `Emin7b13` rather than `Cmaj9/E`. A #11 is
   the exception - at home on anything with a perfect fifth - and any alteration
   over an already-altered fifth is suspect (`COST_CLASHING`).
-- **There are three suspensions, not two.** `sus4`, `sus2` and **`sus#4`** -
-  the last one added after a reader's chord-theory document pointed out that a
-  raised fourth had no name here, so C F# G read `Gmaj7sus4/C`. Every major key
-  has exactly one, the IVsus#4, and Thundercat's "What is Left To Say" uses it.
-  It is a suspension **only with the fifth present**: on its own the root and
-  the #4 are a tritone and the note is a b5, which is why `core()` tests
-  `has[6] and has[7]` together. A plain fourth still wins when both are there,
-  so C F F# G stays `Csus4#11`. Adding it moved **84** of the 6,600 voicings
-  and every one landed on the new quality; extending the sweep to six- and
-  seven-note voicings adds no further changes, because a sus#4 core needs the
-  third, the fourth and the second all absent.
+- **There are two suspensions, not three. `sus#4` was tried and reverted.**
+  A reader's chord-theory document lists `Csus#4` (C F# G), and it was added
+  here on the strength of that. It was wrong, and the user caught it. Three
+  things say so:
 
-  Two of the document's own sus#4 chords still do not use the name: `C6sus#4`
-  and `Csus#4(b13)`. That is `COST_SUS_EXTRA` charging for the sixth, which is
-  the separate and deliberate rule below - it was left alone.
+  - **Hutchinson 31.2, already cited below and already holding**: with a
+    natural fifth present, a raised fourth is a **#11**. That is exactly the
+    condition `sus#4` fired on (`has[6] and has[7]`), so adding it overrode
+    the repo's own reference.
+  - **A suspension replaces the third and resolves to it by step.** A #4 sits
+    a semitone under a fifth that is already sounding; it is not standing in
+    for a third, and it has nothing to resolve to.
+  - **The document itself excludes it**: "these are all of the main triads
+    that are written down in music (minus sus#4 or susb2 chords)", and
+    "generally when people talk about suspended chords, this chord is not
+    included". It is one musician's classification, not nomenclature.
+
+  The names it displaced were already standard and correct: C F# G is
+  `Gmaj7sus4/C`, C Db F# G is `Caddb9#11(no3)` - which was applying the #11
+  rule properly all along. Do not add it back without a published source that
+  outranks Hutchinson.
+
 - **A suspension replaces the third; it does not take added tones.**
   "sus4 add6 add9" is not a chord anybody writes, so a sus core pays
   `COST_SUS_EXTRA` for every tone it carries. The one exception is a sus4 with a
   seventh and a ninth, which is how an eleventh chord is voiced and is named
   `11` - and only over an unaltered fifth, or the name would swallow the very
-  note that makes the chord odd. This exception is keyed to `sus4` alone, so
-  `sus#4` never becomes an eleventh.
+  note that makes the chord odd.
 - **The highest natural extension names the chord, but only when the ninth is
   actually played.** A stacked number claims every degree beneath it.
   Hutchinson's chord list (31.4) prints `Cm11` and `Cm7(11)` side by side, six
@@ -475,8 +481,10 @@ dropped the altered fifth.
 bass is `60+bass` for the bass and `60+bass+((pc-bass)%12)+12` for every other
 note. Writing the upper notes as `60+((pc-bass)%12)+12` - relative intervals
 over an absolute bass - looks right and is not: it silently produces voicings
-that repeat a pitch class, so a "3-note" set arrives as two notes. That mistake
-put the sus#4 figure at 114 when it is 84. The cheap guard is to assert that
+that repeat a pitch class, so a "3-note" set arrives as two notes. A blast
+radius measured that way came out 114 when the real figure was 84, and the
+error was invisible until the size buckets were counted. The cheap guard is to
+assert that
 every generated voicing has as many distinct pitch classes as notes, and the
 cheap sanity check is that a known shape transposes to itself - a dominant
 ninth should read C9, C#9, D9 and so on across the twelve.

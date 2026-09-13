@@ -85,11 +85,6 @@ local CORE_RANK = {
   ["sus4/P/b7"]   = 16, ["sus2/P/b7"]   = 17,
   ["sus4/P/maj7"] = 18, ["sus2/P/maj7"] = 19,
 
-  -- The raised fourth suspension. Rarer than the other two - it is the one
-  -- suspension with a single home in a major key, the IVsus#4 - so it ranks
-  -- below them.
-  ["sus#4/P/none"] = 20, ["sus#4/P/b7"] = 21, ["sus#4/P/maj7"] = 22,
-
   -- A missing third is a different chord, not a thinner one, so these sit
   -- well below anything with a third in it.
   ["none/P/b7"]   = 30, ["none/P/maj7"] = 31,
@@ -102,8 +97,7 @@ local CORE_RANK = {
     F(b5) rather than losing to B7b5(no3), which has no third in it at all.
     A suspension is not a third but a stand-in for one, and a shape with
     neither is the last thing to reach for. ]]
-local RANK_UNNAMED   = {maj = 25, min = 25, sus4 = 70, sus2 = 70,
-                        ["sus#4"] = 70, none = 90}
+local RANK_UNNAMED   = {maj = 25, min = 25, sus4 = 70, sus2 = 70, none = 90}
 --[[  Except that a third only excuses one oddity. Every altered fifth carrying
     a seventh that musicians actually play is named in the table above - 7b5,
     aug7, min7b5, maj7#5 - so a combination that is not there is strange twice
@@ -145,10 +139,6 @@ local function core(has)
   elseif has[3] then third, used[3] = "min",  true
   elseif has[5] then third, used[5] = "sus4", true
   elseif has[2] then third, used[2] = "sus2", true
-  -- A raised fourth is a suspension only when the fifth is there to hold it
-  -- up. On its own the two are a tritone, and the note is the flattened
-  -- fifth of something rather than a note suspended over one.
-  elseif has[6] and has[7] then third, used[6] = "sus#4", true
   else               third = "none" end
 
   if     has[7] then fifth, used[7] = "P", true
@@ -179,15 +169,14 @@ local function coreName(third, fifth, seventh)
   if special then return special end
 
   local base = (third == "min" and "min") or (third == "sus4" and "sus4")
-            or (third == "sus2" and "sus2") or (third == "sus#4" and "sus#4")
-            or ""
+            or (third == "sus2" and "sus2") or ""
   local sev  = (seventh == "b7" and "7") or (seventh == "bb7" and "dim7")
             or (seventh == "maj7" and (third == "min" and "Maj7" or "maj7")) or ""
   local alt  = (fifth == "b" and "b5") or (fifth == "#" and "#5") or ""
 
   -- Sevenths are written before a sus, not after it: 7sus4, never sus47.
-  local name = (third == "sus4" or third == "sus2" or third == "sus#4")
-                 and (sev .. base) or (base .. sev)
+  local name = (third == "sus4" or third == "sus2") and (sev .. base)
+                                                     or (base .. sev)
   name = name .. alt
   -- A bare altered fifth has to be bracketed or the symbol reads as a note
   -- name: C(b5) is a chord on C, Cb5 looks like one on C flat.
@@ -357,8 +346,7 @@ local function analyse(has, root, bass)
     name = name .. ((name == "" and seventh == "none") and "add" or "") .. shown
   end
 
-  if (third == "sus4" or third == "sus2" or third == "sus#4")
-     and not asEleventh then
+  if (third == "sus4" or third == "sus2") and not asEleventh then
     local carried = #altered
     for _, degree in ipairs({9, 11, 13}) do
       if naturals[degree] then carried = carried + 1 end
