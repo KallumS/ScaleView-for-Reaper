@@ -236,6 +236,32 @@ tuning them, each of which broke a test first:
   eleventh over a major third clashes, so it is written as an add instead.
 - `(no3)` goes at the end of the whole symbol, so it reads as a chord with a
   note taken out: `maj7b5(no3)`, not `maj7(no3)b5`.
+- **The root-to-third interval decides most.** A quality `CORE_RANK` does not
+  name is ranked by `RANK_UNNAMED[third]`: a real third, major or minor, keeps
+  a chord readable however odd the rest is (25), a suspension is a stand-in for
+  one (70), and a shape with neither is the last resort (90). Before this every
+  unnamed quality cost the same 100, so F A B lost to `B7b5(no3)/A` - a reading
+  with no third at all - instead of `F(b5)`.
+  A third excuses **one** oddity, not two: every altered fifth carrying a
+  seventh that anyone actually plays is already in `CORE_RANK`, so one that is
+  not gets `RANK_TWICE_ODD` on top, or C D Eb Gb Cb reads `CminMaj9b5`.
+- A bare altered fifth is bracketed - `C(b5)`, never `Cb5`, which reads as a
+  chord on C flat.
+
+### Where Alt and Scaler 3 disagree, and why
+
+Checked against Scaler and left alone deliberately:
+
+- **C D Eb Gb Cb** - Alt `D13b9/C`, Scaler `Cb maj b9 #9/C`. Scaler prefers the
+  complete triad carrying two alterations; Alt prefers the third-and-seventh
+  reading that needs only one. Matching Scaler means cheapening `COST_CLASHING`,
+  and the test suite shows what that costs: `Cmaj9/E` becomes `Emin7b13` and
+  `C9/E` becomes `Emin7b5b13`. Not worth it for a chord this rare.
+- **E G A** - Alt `EminAdd11/G`, Scaler `G6(sus2)`. Alt's reading has a minor
+  third, Scaler's has no third at all, so this one is Scaler disagreeing with
+  the rule above rather than Alt getting it wrong. Scaler evidently will write
+  a suspension carrying a sixth, which `COST_SUS_EXTRA` deliberately suppresses.
+  Change that only if asked, and expect the D E G A family to move with it.
 
 **The selected scale only breaks a draw.** At equal cost a root that is a scale
 degree wins, then a reading whose notes sit in the scale, then the commoner

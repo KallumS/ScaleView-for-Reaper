@@ -101,7 +101,19 @@ local CORE_RANK = {
   ["none/b/maj7"] = 32, ["none/b/b7"]   = 33, ["none/P/none"] = 34,
 }
 
-local RANK_UNKNOWN   = 100  -- a quality nobody writes down
+--[[  A quality the table does not name is still ranked by the interval that
+    decides most about a chord: the third. A real third - major or minor -
+    keeps a chord readable however odd the rest of it is, so F A B reads
+    F(b5) rather than losing to B7b5(no3), which has no third in it at all.
+    A suspension is not a third but a stand-in for one, and a shape with
+    neither is the last thing to reach for. ]]
+local RANK_UNNAMED   = {maj = 25, min = 25, sus4 = 70, sus2 = 70, none = 90}
+--[[  Except that a third only excuses one oddity. Every altered fifth carrying
+    a seventh that musicians actually play is named in the table above - 7b5,
+    aug7, min7b5, maj7#5 - so a combination that is not there is strange twice
+    over, and should not win on the strength of its third alone. Without this
+    C D Eb Gb Cb read CminMaj9b5. ]]
+local RANK_TWICE_ODD =  12
 --[[  A missing fifth is never spoken, but it is not equally unremarkable. A
     seventh chord is routinely voiced without one - that is the standard shell -
     while a triad with no fifth is two notes and a guess, so the two are
@@ -168,22 +180,28 @@ local function coreName(third, fifth, seventh)
 
   local base = (third == "min" and "min") or (third == "sus4" and "sus4")
             or (third == "sus2" and "sus2") or ""
-  local sev  = (seventh == "b7" and "7") or (seventh == "maj7" and "maj7")
-            or (seventh == "bb7" and "dim7") or ""
+  local sev  = (seventh == "b7" and "7") or (seventh == "bb7" and "dim7")
+            or (seventh == "maj7" and (third == "min" and "Maj7" or "maj7")) or ""
   local alt  = (fifth == "b" and "b5") or (fifth == "#" and "#5") or ""
 
   -- Sevenths are written before a sus, not after it: 7sus4, never sus47.
   local name = (third == "sus4" or third == "sus2") and (sev .. base)
                                                      or (base .. sev)
-  return name .. alt
+  name = name .. alt
+  -- A bare altered fifth has to be bracketed or the symbol reads as a note
+  -- name: C(b5) is a chord on C, Cb5 looks like one on C flat.
+  if name == alt and alt ~= "" then name = "(" .. alt .. ")" end
+  return name
 end
 
 local function rankOf(third, fifth, seventh)
   if fifth == "none" then
-    local rank = CORE_RANK[third .. "/P/" .. seventh] or RANK_UNKNOWN
+    local rank = CORE_RANK[third .. "/P/" .. seventh] or RANK_UNNAMED[third]
     return rank + (seventh == "none" and RANK_NO_FIFTH or RANK_NO_FIFTH7)
   end
-  return CORE_RANK[third .. "/" .. fifth .. "/" .. seventh] or RANK_UNKNOWN
+  local rank = CORE_RANK[third .. "/" .. fifth .. "/" .. seventh]
+  if rank then return rank end
+  return RANK_UNNAMED[third] + (seventh ~= "none" and RANK_TWICE_ODD or 0)
 end
 
 -- What is left over once the core has taken its notes.

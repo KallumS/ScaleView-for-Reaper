@@ -294,6 +294,33 @@ expect({C4, C4 + 2, C4 + 3, C4 + 5, C4 + 7}, "CminAdd9Add11")
 expect({C4, C4 + 3, C4 + 5, C4 + 7, C4 + 10}, "Cmin11", "the eleventh names the stack")
 expect({C4, C4 + 3, C4 + 5, C4 + 6, C4 + 10}, "Cmin11b5", nil)
 
+--[[  The interval that decides most about a chord is the root to the third, so
+    a quality the table does not name is still ranked by whether it has one.
+    F A B was read B7b5(no3)/A - a chord with no third at all - because a major
+    triad with a flattened fifth was not in the table and fell to the bottom.
+    Reported from REAPER in D# minor; Scaler calls it F maj(b5)/A. ]]
+print("a third outranks a quality with none:")
+expect({69, 71, 77}, "F(b5)/A", "E# A B over A; Scaler: F maj(b5) / A")
+expect({65, 69, 71}, "F(b5)", "and rooted, where the bass does not decide it")
+expect({C4, C4 + 4, C4 + 6, C4 + 11}, "Cmaj7b5", "the same shape carrying a seventh")
+
+--[[  A third only excuses one oddity, though. Every altered fifth carrying a
+    seventh that anyone plays is already named in the table, so a combination
+    that is not there is strange twice over and must not win on its third
+    alone. Giving every third the same discount made this read CminMaj9b5. ]]
+expect({C4, C4 + 2, C4 + 3, C4 + 6, C4 + 11}, "D13b9/C",
+       "C D Eb Gb Cb: a minor-major ninth flat five is not the simpler reading")
+
+--[[  Coverage for a rule that was claimed but never tested: an alteration has
+    to belong to the chord underneath it. b9, #9 and b13 are the dominant's, so
+    over a min7 or a plain triad they mean the root was picked wrong. Each of
+    these passes with the rule and fails without it, reading Emin7b13,
+    Emin7b5b13 and Eb13 instead. ]]
+print("alterations belong to the chord under them:")
+expect({64, 67, 71, 72, 74}, "Cmaj9/E", "not Emin7b13")
+expect({64, 67, 70, 72, 74}, "C9/E", "not Emin7b5b13")
+expect({C4, C4 + 4, C4 + 8, C4 + 11}, "Cmaj7#5", "a b13 on a plain triad is not a b13")
+
 -- The rule that keeps the thin voicings honest, stated both ways: a fifth can
 -- go missing without being mentioned, a third cannot.
 expect({C4, C4 + 4, C4 + 10}, "C7", "a shell voicing is still a seventh chord")

@@ -333,7 +333,14 @@ Chords the table could not name and Alt can include `C7b13`, `Cmaj7#11`,
 with extended chords voiced without the tones underneath them - `C13` with no
 ninth in it, or a `Cmin11` played as root, third, eleventh and seventh.
 
-Two rules do most of the work, and both come from the way musicians read:
+Three rules do most of the work, and all of them come from the way musicians
+read:
+
+- **The root to the third decides most.** A quality the table does not name is
+  ranked by whether it has a third at all: a real one, major or minor, keeps a
+  chord readable however odd the rest of it is, a suspension is a stand-in for
+  one, and a shape with neither is the last thing to reach for. That is what
+  makes F A B read `F(b5)` rather than `B7b5(no3)/A`, which has no third in it.
 
 - **The highest natural extension names the chord** and the ones below it are
   taken as read, which is what `C13` means whether or not the ninth is played.
