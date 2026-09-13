@@ -315,9 +315,21 @@ to remember before quoting any accuracy figure from this repo:
    agreed with 537 voicings already known to be right: it demanded a perfect
    fifth that the engine deliberately never states, and it demanded the whole
    stack under a 13th chord.
+4. "390 suspensions misnamed in Bach" was the same table again, this time with
+   no entry for `7sus4` or `7sus2`. Every one of those symbols accounts for
+   exactly the notes played. A piece of work was very nearly commissioned off
+   the back of that number.
 
 So validate the checker on known-good data first, and treat a surprising
 accuracy number as a bug in the measurement until that passes.
+
+**There is no known defect left to fix by measurement.** Both engines print a
+symbol that describes exactly what is played, with the right bass, on every
+voicing in both corpora. What remains is *preference* - which of several valid
+names reads best - and that cannot be measured here, only judged by ear or
+against a reference like Scaler. So the useful bug report now is a specific
+chord, in a specific key, where the name reads wrong to a musician; a sweep
+will not find one.
 
 **The scale cannot improve this.** Running the jazz corpus through all twelve
 keys moves the inversion figure by 2.6 points at most, because the ambiguity is
