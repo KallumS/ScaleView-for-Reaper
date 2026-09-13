@@ -514,6 +514,10 @@ anyone who has it. That is the whole point of the pin, so:
   Push the scripts first, take `git rev-parse HEAD`, then write the index and
   commit that separately.
 - Spaces in the filenames are `%20` in the URL.
+- **Renaming a script is not an upgrade.** ReaPack keys an installed package by
+  its name, so when the `kallums_` prefix was dropped at 1.0.1 anyone holding
+  1.0 kept the old file and saw no update. They have to uninstall the old
+  package and install the new one, or REAPER runs both. Rename sparingly.
 
 The repository is **`KallumS/ScaleView-for-Reaper`** and its default branch is
 **`master`**. `ubiquitous-eureka` is the old name and still redirects, but the
