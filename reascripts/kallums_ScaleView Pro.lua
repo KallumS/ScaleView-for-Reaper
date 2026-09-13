@@ -232,13 +232,27 @@ local function analyse(has, root, bass)
 
   if seventh ~= "none" and seventh ~= "bb7" then
     --[[  With a seventh underneath, the highest natural extension names the
-        chord and the ones below it are taken as read - that is what C13 means
-        whether or not the ninth is played. A natural eleventh over a major
-        third is the exception: it clashes, so it is written as an add rather
-        than swallowed by the number. ]]
+        chord - but a stacked number claims everything under it, so it may only
+        be used when the ninth is actually being played. Hutchinson's chord
+        list (Music Theory for the 21st-Century Classroom, 31.4) prints Cm11
+        and Cm7(11) side by side, six noteheads against five: the first has the
+        ninth in it, the second does not. So a ninth that is not there is named
+        in brackets after the seventh instead of being swallowed by a number.
+
+        A natural eleventh over a major third is the other exception: it
+        clashes, so it is bracketed rather than promoted whatever else is
+        present. ]]
+    --[[  A ninth that has been altered still fills its place in the stack: the
+        same list prints C13sus(b9) with six noteheads, the b9 standing where
+        the natural ninth would. So a b9 or a #9 lets the number rise too. ]]
+    local ninth = naturals[9]
+    for _, token in ipairs(altered) do
+      if token == "b9" or token == "#9" then ninth = true end
+    end
+
     local number
-    if naturals[13] then number = 13
-    elseif naturals[11] and third ~= "maj" then number = 11
+    if ninth and naturals[13] then number = 13
+    elseif ninth and naturals[11] and third ~= "maj" then number = 11
     elseif naturals[9] then number = 9 end
 
     if third == "sus4" and seventh == "b7" and naturals[9]
@@ -253,6 +267,7 @@ local function analyse(has, root, bass)
       name = name:gsub("7", tostring(number), 1)
     end
 
+    local spare = {}
     for _, degree in ipairs({9, 11, 13}) do
       if naturals[degree] then
         local implied = number and degree <= number
@@ -260,10 +275,13 @@ local function analyse(has, root, bass)
         if implied then cost = cost + COST_NATURAL
         else
           cost = cost + (degree == 11 and third == "maj" and COST_CLASH or COST_ADD)
-          name = name .. (name == "" and "add" or "Add") .. degree
+          spare[#spare + 1] = degree
         end
       end
     end
+    -- Everything the number did not account for, bracketed as the chord lists
+    -- print it: Cm7(11), C7(13), C7(11,13).
+    if #spare > 0 then name = name .. "(" .. table.concat(spare, ",") .. ")" end
   else
     -- No seventh, so nothing stacks: everything above the triad is an add.
     if sixth then

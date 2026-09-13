@@ -230,9 +230,15 @@ tuning them, each of which broke a test first:
   seventh and a ninth, which is how an eleventh chord is voiced and is named
   `11` - and only over an unaltered fifth, or the name would swallow the very
   note that makes the chord odd.
-- **The highest natural extension names the chord**, lower ones taken as read,
-  which is what `C13` means whether or not the ninth is played. A natural
-  eleventh over a major third clashes, so it is written as an add instead.
+- **The highest natural extension names the chord, but only when the ninth is
+  actually played.** A stacked number claims every degree beneath it.
+  Hutchinson's chord list (31.4) prints `Cm11` and `Cm7(11)` side by side, six
+  noteheads against five - the first has the ninth in it, the second does not -
+  so a ninth that is not there is bracketed after the seventh instead:
+  `Cmin7(11)`, `C7(13)`. An **altered** ninth still fills the place, since the
+  same list prints `C13sus(b9)` with six noteheads, which is why `C13b9` keeps
+  its number. A natural eleventh over a major third clashes, so it is bracketed
+  whatever else is present.
 - `(no3)` goes at the end of the whole symbol, so it reads as a chord with a
   note taken out: `maj7b5(no3)`, not `maj7(no3)b5`.
 - **A sixth is a 6 without a seventh under it and a 13 with one, and the
@@ -382,6 +388,41 @@ naming would part company and that property would break.
 specification: every three- and four-note voicing must come back as a chord,
 never a list of notes. A chord symbol has no spaces in it, which is how it
 checks.
+
+### The reference the naming is checked against
+
+Robert Hutchinson, *Music Theory for the 21st-Century Classroom* (September
+2025 edition, 556 pages, GNU FDL, musictheory.pugetsound.edu). The user has
+uploaded it twice; **it does not survive the session**, so the rules worth
+having are written down here rather than re-derived.
+
+Sections that settle chord naming, and what each one says:
+
+- **6.3.1 Slash chords** - the root goes before the slash and the bass after,
+  and the bass need not be a chord tone. Exactly what `detectChord` prints.
+- **31.1** - "adding 9 to a chord symbol means the 7th is also present", so a
+  ninth without a seventh is `add9`. `ø7` is the same as `m7(b5)`.
+- **31.2** - three numbered rules: 6 versus 13 (a sixth is a 13 only with a
+  seventh under it); 11 versus sus (a fourth is a suspension only with no third
+  present, an 11 otherwise); b5 versus #11 (with a natural fifth it is a #11,
+  without one either name will do). All three already held.
+- **31.4** - the canonical vocabulary, "edited and condensed from The New Real
+  Book". The figures print noteheads, and **counting them is what settles the
+  stack rule** where the prose does not.
+- **31.6** - the method: write out every chord member up to the 13th, then name
+  the deviations. That is what this engine does.
+
+Two cautions about reading it:
+
+- `(no 3rd)` and `(no 5th)` appear in the analysis figures (`G7(no 3rd)`,
+  `Ab7(no 5th)`), but **not once in the 31.4 vocabulary**, where `C7`, `C9` and
+  `C13` stand unqualified. They are analytical emphasis, not part of the
+  symbol, so "a missing fifth is silent" stays. A missing third is still said,
+  which `(no3)` matches.
+- The text is a PDF conversion: `<span class="_">` empty means a kerning break
+  inside a word and one containing a space means a real word break, so join on
+  the former and split on the latter or the whole thing reads as "Rob ert
+  Hutc hinson". Noteheads survive as lines reading `w`.
 
 ## JSFX, if Pro ever needs to follow playback
 

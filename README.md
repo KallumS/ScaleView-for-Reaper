@@ -157,8 +157,9 @@ voicing in every bass position - 6,600 in all:
 
 Chords a table cannot name and Pro can include `C7b13`, `Cmaj7#11`,
 `Cmaj9#11`, `C13b9`, `C13#11`, `C7#9#11`, `Cadd9Add11` and `Cmin11b5`, along
-with extended chords voiced without the tones underneath them - `C13` with no
-ninth in it, or a `Cmin11` played as root, third, eleventh and seventh.
+along with extended chords voiced without the tones underneath them, which are
+named for what is actually there: `C7(13)` rather than `C13` when the ninth is
+missing.
 
 Three rules do most of the work, and all of them come from the way musicians
 read:
@@ -169,10 +170,12 @@ read:
   one, and a shape with neither is the last thing to reach for. That is what
   makes F A B read `F(b5)` rather than `B7b5(no3)/A`, which has no third in it.
 
-- **The highest natural extension names the chord** and the ones below it are
-  taken as read, which is what `C13` means whether or not the ninth is played.
-  A natural eleventh over a major third is the exception - it clashes - so it
-  is written as an add rather than swallowed by the number.
+- **The highest natural extension names the chord, if it is really there.** A
+  stacked number claims every degree beneath it, so `C13` is only used when the
+  ninth is played; otherwise the extension is bracketed after the seventh, as
+  `C7(13)`. An altered ninth still counts, which is why `C13b9` keeps its
+  number. A natural eleventh over a major third clashes, so it is bracketed
+  whatever else is present.
 - **An alteration has to belong to the chord it sits on.** A b9, a #9 and a b13
   are the dominant's alterations; over a minor seventh or a plain triad they
   are not colours a musician hears, they are a sign the root has been guessed

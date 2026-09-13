@@ -284,15 +284,20 @@ print("chords the table could not name:")
 expect({C4, C4 + 4, C4 + 7, C4 + 8, C4 + 10}, "C7b13")
 expect({C4, C4 + 4, C4 + 6, C4 + 7, C4 + 11}, "Cmaj7#11")
 expect({C4, C4 + 2, C4 + 4, C4 + 6, C4 + 7, C4 + 11}, "Cmaj9#11")
-expect({C4, C4 + 4, C4 + 7, C4 + 9, C4 + 10}, "C13", "a thirteenth voiced without its ninth")
-expect({C4, C4 + 3, C4 + 7, C4 + 9, C4 + 10}, "Cmin13", nil)
+expect({C4, C4 + 4, C4 + 7, C4 + 9, C4 + 10}, "C7(13)",
+       "no ninth in it, so the number cannot claim one")
+expect({C4, C4 + 2, C4 + 4, C4 + 7, C4 + 9, C4 + 10}, "C13", "and with the ninth, it can")
+expect({C4, C4 + 3, C4 + 7, C4 + 9, C4 + 10}, "Cmin7(13)", nil)
 expect({C4, C4 + 1, C4 + 4, C4 + 7, C4 + 9, C4 + 10}, "C13b9")
 expect({C4, C4 + 2, C4 + 4, C4 + 6, C4 + 7, C4 + 9, C4 + 10}, "C13#11")
 expect({C4, C4 + 3, C4 + 4, C4 + 6, C4 + 7, C4 + 10}, "C7#9#11")
 expect({C4, C4 + 2, C4 + 4, C4 + 5, C4 + 7}, "Cadd9Add11")
 expect({C4, C4 + 2, C4 + 3, C4 + 5, C4 + 7}, "CminAdd9Add11")
-expect({C4, C4 + 3, C4 + 5, C4 + 7, C4 + 10}, "Cmin11", "the eleventh names the stack")
-expect({C4, C4 + 3, C4 + 5, C4 + 6, C4 + 10}, "Cmin11b5", nil)
+expect({C4, C4 + 3, C4 + 5, C4 + 7, C4 + 10}, "Cmin7(11)",
+       "five notes: Hutchinson 31.4 prints exactly this as Cm7(11)")
+expect({C4, C4 + 2, C4 + 3, C4 + 5, C4 + 7, C4 + 10}, "Cmin11",
+       "six notes, the ninth among them: the same list prints Cm11")
+expect({C4, C4 + 3, C4 + 5, C4 + 6, C4 + 10}, "Cmin7b5(11)", nil)
 
 --[[  The interval that decides most about a chord is the root to the third, so
     a quality the table does not name is still ranked by whether it has one.
@@ -341,6 +346,16 @@ expect({C4, C4 + 4, C4 + 8, C4 + 11}, "Cmaj7#5", "and one over a sharp fifth lik
     Theory for the 21st-Century Classroom, 31.1-31.2, which states the 6-versus-
     13 rule the flat sixth follows too. Only the name changes; the cost still
     reads it as a b13, which is what keeps the line below it reading Cmaj7/E. ]]
+--[[  A stacked number claims every degree beneath it, so it may only be used
+    when the ninth is actually played. Hutchinson's chord list (31.4) prints
+    Cm11 and Cm7(11) side by side, six noteheads against five. An altered ninth
+    still fills the place - C13sus(b9) is six noteheads with the b9 standing
+    where the natural ninth would - which is why the b9 case below keeps its
+    number. ]]
+print("a number may not claim a ninth that is not there:")
+expect({C4, C4 + 1, C4 + 4, C4 + 7, C4 + 9, C4 + 10}, "C13b9",
+       "the flattened ninth fills the stack, so the thirteenth still names it")
+
 print("a flat sixth is a b6 until a seventh arrives:")
 expect({C4, C4 + 4, C4 + 7, C4 + 8}, "Caddb6", "C E G Ab, no seventh")
 expect({C4, C4 + 4, C4 + 7, C4 + 8, C4 + 10}, "C7b13", "and a b13 once one does")
