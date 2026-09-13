@@ -6,8 +6,8 @@ notes of the selected scale lit.
 
 | Script | |
 | --- | --- |
-| `reascripts/ScaleView Pro.lua` | The whole thing: names spelled for the key, a **Simplify Note Names** option that switches to piano-key naming, and the chord you play **read** rather than looked up. ExtState key `kallums_ScaleViewAlt2`. |
-| `reascripts/ScaleView Simple.lua` | **Pro with the chord detection taken out, and nothing else changed.** Same icon, scales, spelling, menus, palette, click model and per-project key. ExtState key `kallums_ScaleViewSimple`. |
+| `reascripts/ScaleView Pro.lua` | The whole thing: names spelled for the key, a **Simplify Note Names** option that switches to piano-key naming, and the chord you play **read** rather than looked up. ExtState key `ScaleViewPro`. |
+| `reascripts/ScaleView Simple.lua` | **Pro with the chord detection taken out, and nothing else changed.** Same icon, scales, spelling, menus, palette, click model and per-project key. ExtState key `ScaleViewSimple`. |
 
 There used to be five. `kallums_ScaleView.lua` (Pro and Simple merged), an
 older table-based `Pro`, `Alt` and `Alt 2` were all folded into the script
@@ -18,12 +18,26 @@ Simple suite, which is still here.
 
 Pro has been renamed repeatedly - Enharmonic, Pro, Detector, Pro again, then
 Alt, Alt 2 and Pro once more - and it has absorbed three other scripts along
-the way. Because of that, **the ExtState key is tied to what the script is, not
-to what it is called**: it is still `kallums_ScaleViewAlt2`. `EXT_LEGACY` lists
-every section it has shipped under and every script it has absorbed, most
-recent first, so the newest saved state wins over a stale one and nobody's
-install is reset. Renaming it again needs no migration; **do not "tidy" the key
-to match the name.**
+the way. Through all of that the ExtState key was deliberately frozen, and this
+file said in bold never to tidy it to match the name, because every rename
+would otherwise have reset somebody's settings.
+
+**That is over.** When the `kallums_` prefix came off the filenames the user
+pointed out that nobody but them had ever installed the scripts, so the one
+moment it was free had arrived. The keys are now `ScaleViewPro` and
+`ScaleViewSimple`, matching the files, and the six-deep list of historical
+sections went with them - those sections could only have existed on one
+machine, and had already been migrated forward.
+
+`EXT_LEGACY` keeps exactly one entry each, the key immediately before the
+rename, so even that one machine loses nothing. The project section in the
+.RPP moved the same way, `kallums_ScaleView` to `ScaleView`, with
+`PROJECT_LEGACY` read when a project has nothing under the new name.
+
+The **reason** for the old rule still stands, though, and applies from here on:
+a key is tied to what a script is, not to what it is called. Renaming again
+once other people have these installed would cost them their settings, and
+there would be no second free moment.
 
 Pro carries Simple's naming as an option: with `state.simpleNames` set,
 `noteName` returns the plain sharp table instead of the key's spelling. Chord

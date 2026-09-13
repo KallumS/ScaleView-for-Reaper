@@ -34,17 +34,11 @@
 ------------------------------------------------------------------------------
 
 local SCRIPT_NAME  = "ScaleView Simple"
--- The settings key is tied to what this script is, NOT to its display name -
--- the scripts it grew from were renamed repeatedly and each rename needed a
--- migration. Do not "tidy" this to match a new name.
-local EXT_SECTION  = "kallums_ScaleViewSimple"
+local EXT_SECTION  = "ScaleViewSimple"
 
--- Read when this script has no settings of its own: every section this script
--- has shipped under, and every script it has absorbed, most recent first - so
--- an existing install keeps its scale, colour, window position and dock state
--- through all of the renaming. The key above is NOT the display name, on
--- purpose; see CLAUDE.md.
-local EXT_LEGACY   = {"kallums_ScaleView", "kallums_ScaleSelector"}
+-- Read only when this script has no settings of its own, so the rename does
+-- not lose anyone's scale, colour or window position.
+local EXT_LEGACY   = {"kallums_ScaleViewSimple"}
 
 local DEFAULT_W    = 200
 local DEFAULT_H    = 100
@@ -309,7 +303,11 @@ end
 -- inside the .RPP, so each project reopens in its own key. Everything else -
 -- colour, note names, window - stays global, because those are preferences
 -- rather than anything about the music.
-local PROJECT_SECTION = "kallums_ScaleView"
+local PROJECT_SECTION = "ScaleView"
+-- What the section was called before the scripts lost their kallums_ prefix.
+-- Read when a project has nothing under the name above, so a project saved
+-- earlier still opens in its own key; the next change writes it across.
+local PROJECT_LEGACY  = "kallums_ScaleView"
 
 local currentProject = nil   -- the project the scale on screen came from
 
@@ -346,6 +344,11 @@ local function projectScale(project)
 
   local _, rootName  = reaper.GetProjExtState(project, PROJECT_SECTION, "root")
   local _, scaleName = reaper.GetProjExtState(project, PROJECT_SECTION, "scale")
+
+  if (rootName or "") == "" and (scaleName or "") == "" then
+    _, rootName  = reaper.GetProjExtState(project, PROJECT_LEGACY, "root")
+    _, scaleName = reaper.GetProjExtState(project, PROJECT_LEGACY, "scale")
+  end
 
   local root  = lookupNamed(ROOTS,  rootName or "")
   local scale = lookupNamed(SCALES, scaleName or "")

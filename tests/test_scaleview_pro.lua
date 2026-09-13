@@ -623,40 +623,36 @@ for _, circle in ipairs(drawn) do if circle.fill == false then rings = rings + 1
 if rings ~= 2 then fail("one pitch class in three octaves should ring one circle, got " .. rings) end
 print("  held notes are ringed, once per pitch class whatever the octave")
 
--- 9b) The settings key is deliberately not the display name, so that renaming
---     the script does not reset anyone. Settings saved under any name this
---     script has been published under are still picked up.
-for _, section in ipairs({"kallums_ScaleViewAlt", "kallums_ScaleViewUnified",
-                          "kallums_ScaleViewFull",
-                          "kallums_ScaleViewDetector",
-                          "kallums_ScaleViewPro", "kallums_ScaleViewEnharmonic"}) do
-  ext = {}
-  ext[section .. ":root"]  = "Gb"
-  ext[section .. ":scale"] = "Major"
-  history, sequence = {}, 0
-
-  dofile(SCRIPT)
-  local shown = label()
-
-  if shown ~= "Gb Major" then
-    fail("settings from " .. section .. " were not carried over, label reads '"
-         .. tostring(shown) .. "'")
-  end
-end
-print("settings saved under every earlier name still carry over")
-
--- When several old sections exist, the most recent name wins rather than a
--- stale one: this is the case for anyone who ran Detector after Pro.
+--[[  9b) The settings key was renamed with the file, which it had never been
+     allowed to do before. EXT_LEGACY carries the one section that came
+     before it, so the rename does not cost anyone their scale, colour,
+     window position or dock state. ]]
 ext = {}
-ext["kallums_ScaleViewPro:root"]   = "C"     -- stale, from an older name
-ext["kallums_ScaleViewPro:scale"]  = "Major"
-ext["kallums_ScaleViewFull:root"]  = "Gb"   -- what the user actually left in Pro
-ext["kallums_ScaleViewFull:scale"] = "Major"
+ext["kallums_ScaleViewAlt2:root"]  = "Gb"
+ext["kallums_ScaleViewAlt2:scale"] = "Major"
+history, sequence = {}, 0
 dofile(SCRIPT)
 if label() ~= "Gb Major" then
-  fail("the most recently used name should win, label reads '" .. tostring(label()) .. "'")
+  fail("settings from the previous key were not carried over, label reads '"
+       .. tostring(label()) .. "'")
+else
+  print("settings saved under the previous key still carry over")
 end
-print("with both a stale and a recent section, the recent one wins")
+
+-- And this script's own section beats the old one, so a setting changed since
+-- the rename is not overwritten by a stale copy of it.
+ext = {}
+ext["kallums_ScaleViewAlt2:root"]  = "C"    -- stale, from before the rename
+ext["kallums_ScaleViewAlt2:scale"] = "Major"
+ext["ScaleViewPro:root"]  = "Gb"            -- what was chosen since
+ext["ScaleViewPro:scale"] = "Major"
+dofile(SCRIPT)
+if label() ~= "Gb Major" then
+  fail("the current key should win over the legacy one, label reads '"
+       .. tostring(label()) .. "'")
+else
+  print("the current key wins over the one it replaced")
+end
 
 -- 10) If the input API is missing or does not return what we expect, the
 --     script must say so rather than throwing on every frame of the defer
@@ -777,7 +773,7 @@ dofile(SCRIPT)
 
 chooseScale("Gb Major")
 local storedA = projectStore["projectA"] or {}
-if storedA["kallums_ScaleView:root"] ~= "Gb" or storedA["kallums_ScaleView:scale"] ~= "Major" then
+if storedA["ScaleView:root"] ~= "Gb" or storedA["ScaleView:scale"] ~= "Major" then
   fail("picking a scale should write it into the project")
 else
   print("  picking Gb Major writes root=Gb scale=Major into the project")
@@ -789,7 +785,7 @@ chooseOption("Simplify Note Names")
 local keys = {}
 for key in pairs(projectStore["projectA"]) do keys[#keys + 1] = key end
 table.sort(keys)
-if table.concat(keys, " ") ~= "kallums_ScaleView:root kallums_ScaleView:scale" then
+if table.concat(keys, " ") ~= "ScaleView:root ScaleView:scale" then
   fail("only the scale belongs in the project, found " .. table.concat(keys, " "))
 else
   print("  colour and note-name settings stay out of the project")
@@ -799,8 +795,8 @@ chooseOption("Simplify Note Names")   -- back to key spelling
 -- Another project, with its own scale, and the icon follows when it becomes
 -- the active one.
 projectStore["projectB"] = {
-  ["kallums_ScaleView:root"]  = "D",
-  ["kallums_ScaleView:scale"] = "Dorian",
+  ["ScaleView:root"]  = "D",
+  ["ScaleView:scale"] = "Dorian",
 }
 activeProject = "projectB"
 frame()
@@ -849,8 +845,8 @@ end
 -- Reopening a project puts its own scale back, over whatever was used last.
 activeProject = "projectB"
 ext = {}
-ext["kallums_ScaleViewUnified:root"]  = "C"       -- the last scale used anywhere
-ext["kallums_ScaleViewUnified:scale"] = "Major"
+ext["ScaleViewPro:root"]  = "C"       -- the last scale used anywhere
+ext["ScaleViewPro:scale"] = "Major"
 drawn, texts = {}, {}
 dofile(SCRIPT)
 if label() ~= "D Dorian" then
@@ -862,7 +858,7 @@ end
 -- Clearing removes it from the project rather than leaving a stale key.
 chooseScale("Clear scale")
 local cleared = projectStore["projectB"]
-if cleared["kallums_ScaleView:root"] ~= "" or cleared["kallums_ScaleView:scale"] ~= "" then
+if cleared["ScaleView:root"] ~= "" or cleared["ScaleView:scale"] ~= "" then
   fail("clearing the scale should clear it in the project too")
 else
   print("  clearing the scale clears it in the project")
@@ -928,9 +924,9 @@ do
   -- Someone whose saved colour was White falls back to the default rather
   -- than breaking, the same as when Purple and Red were dropped.
   ext = {}
-  ext["kallums_ScaleViewUnified:highlight"] = "White"
-  ext["kallums_ScaleViewUnified:root"]  = "C"
-  ext["kallums_ScaleViewUnified:scale"] = "Major"
+  ext["ScaleViewPro:highlight"] = "White"
+  ext["ScaleViewPro:root"]  = "C"
+  ext["ScaleViewPro:scale"] = "Major"
   projectsOn = false
   drawn, texts = {}, {}
   dofile(SCRIPT)
