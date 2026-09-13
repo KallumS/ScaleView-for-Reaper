@@ -335,6 +335,16 @@ expect({64, 67, 71, 72, 74}, "Cmaj9/E",
 expect({64, 67, 70, 72, 74}, "C9/E", "but a b13 over a flat fifth still means a wrong root")
 expect({C4, C4 + 4, C4 + 8, C4 + 11}, "Cmaj7#5", "and one over a sharp fifth likewise")
 
+--[[  A flattened sixth is a b13 only when a seventh is under it. Without one it
+    is an added flat sixth, exactly as a natural sixth is a 6 rather than a 13:
+    "C#(add b6) means a C# major triad with the b6 added" - Hutchinson, Music
+    Theory for the 21st-Century Classroom, 31.1-31.2, which states the 6-versus-
+    13 rule the flat sixth follows too. Only the name changes; the cost still
+    reads it as a b13, which is what keeps the line below it reading Cmaj7/E. ]]
+print("a flat sixth is a b6 until a seventh arrives:")
+expect({C4, C4 + 4, C4 + 7, C4 + 8}, "Caddb6", "C E G Ab, no seventh")
+expect({C4, C4 + 4, C4 + 7, C4 + 8, C4 + 10}, "C7b13", "and a b13 once one does")
+
 --[[  A sixth stands where a seventh would, so the symbol is rebuilt around it
     and an altered fifth has to survive that. The branch used to assign the
     name outright, which threw the fifth away: C D E G# A printed C6/9, laying

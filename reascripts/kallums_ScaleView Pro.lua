@@ -314,8 +314,16 @@ local function analyse(has, root, bass)
     local athome = fifth ~= "b" and fifth ~= "#" and token ~= "maj7"
                    and (token == "#11" or dominant
                         or (triad and token ~= "b13"))
+
+    --[[  A flattened sixth is a b13 only when a seventh is under it. Without
+        one it is an added flat sixth, exactly as a natural sixth is a 6 rather
+        than a 13 - "C#(add b6) means a C# major triad with the b6 added"
+        (Hutchinson, Music Theory for the 21st-Century Classroom, 31.1-31.2).
+        Only the printed name changes: the cost still reads it as a b13, which
+        is what keeps E G B C reading Cmaj7/E rather than Emin wearing one. ]]
+    local shown = (token == "b13" and seventh == "none") and "b6" or token
     cost = cost + (athome and COST_ALTERED or COST_CLASHING)
-    name = name .. ((name == "" and seventh == "none") and "add" or "") .. token
+    name = name .. ((name == "" and seventh == "none") and "add" or "") .. shown
   end
 
   if (third == "sus4" or third == "sus2") and not asEleventh then

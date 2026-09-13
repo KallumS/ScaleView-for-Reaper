@@ -1,6 +1,6 @@
 # ScaleView for REAPER
 
-Five ReaScripts that draw a 200x100 icon: the twelve pitch classes as circles,
+Two ReaScripts that draw a 200x100 icon: the twelve pitch classes as circles,
 five black keys on the top row over seven white keys on the bottom, with the
 notes of the selected scale lit.
 
@@ -88,7 +88,7 @@ These cost real debugging time. Two of them contradict the documentation.
   where the click started - a circle opens the scale list, empty space opens
   the options - so there is no wrong menu to open. `isOverCircle` uses the same
   `layout()` the drawing does, so the hit areas cannot drift from the circles.
-  Simple and Pro still use the two-button arrangement and the weaker settle.
+  Simple still uses the two-button arrangement and the weaker settle.
 - **`gfx.dock` is a bitfield, not a flag.** Bit 0 is "docked"; the second byte
   is the docker index, which REAPER keeps even while undocked. An undocked
   window that remembers docker 2 reads as `0x200` - non-zero but not docked.
@@ -235,6 +235,10 @@ tuning them, each of which broke a test first:
   eleventh over a major third clashes, so it is written as an add instead.
 - `(no3)` goes at the end of the whole symbol, so it reads as a chord with a
   note taken out: `maj7b5(no3)`, not `maj7(no3)b5`.
+- **A sixth is a 6 without a seventh under it and a 13 with one, and the
+  flattened sixth follows the same rule** - `C(add b6)`, then `C7b13`. Only the
+  printed name changes: the cost still reads a flat sixth as a b13 wherever it
+  sits, which is what keeps E G B C reading `Cmaj7/E`.
 - **The root-to-third interval decides most.** A quality `CORE_RANK` does not
   name is ranked by `RANK_UNNAMED[third]`: a real third, major or minor, keeps
   a chord readable however odd the rest is (25), a suspension is a stand-in for
