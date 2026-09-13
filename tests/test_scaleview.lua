@@ -7,7 +7,8 @@ local HERE = (arg and arg[0] or ""):match("^(.*)[/\\]") or "."
 local SCRIPT = HERE .. "/../reascripts/kallums_ScaleView.lua"
 
 local ext, drawn, texts, deferred = {}, {}, {}, nil
-local clickLabel = nil
+local now = 1000.0                     -- the clock the script sees
+local clickLabel, menuOpened = nil, nil
 
 -- MIDI input history, newest first.
 local history, sequence = {}, 0
@@ -26,7 +27,7 @@ reaper = {
   GetExtState = function(s, k) return ext[s .. ":" .. k] or "" end,
   defer = function(f) deferred = f end,
   atexit = function() end,
-  time_precise = function() return 1234.5 end,
+  time_precise = function() return now end,
   MIDI_GetRecentInputEvent = function(index)
     local event = history[index + 1]
     if not event then return 0, "", 0, 0, -1, 0 end
@@ -59,6 +60,8 @@ gfx = {
   dock = function(_, a) if a ~= nil then return 0, 100, 100, 200, 100 end return 0 end,
   getchar = function() return 0 end,
   showmenu = function(str)
+    menuOpened = str:find("Clear scale", 1, true) and "scale"
+              or str:find("Random Scale", 1, true) and "options" or "?"
     local n = 0
     for field in (str .. "|"):gmatch("([^|]*)|") do
       local kind, label = classify(field)
@@ -76,9 +79,15 @@ dofile(SCRIPT)
 local failures = 0
 local function fail(message) print("FAIL: " .. message) failures = failures + 1 end
 
+-- One pass of the script's defer loop, with time moving on as it would.
+local function step()
+  now = now + 1 / 30
+  deferred()
+end
+
 local function frame()
   drawn, texts = {}, {}
-  deferred()
+  step()
 end
 
 -- The label under the circles is the last string drawn.
@@ -89,13 +98,34 @@ local function label()
   return texts[#texts]
 end
 
-local function chooseMenu(item, button)
-  gfx.mouse_cap = 0 deferred()
-  clickLabel = item
-  gfx.mouse_cap = button or 1 deferred()
-  gfx.mouse_cap = 0 deferred()
-  clickLabel = nil
+--[[  In a 200x100 icon the first white circle sits at about (14, 61), and
+    (100, 8) is clear of every circle. Which menu opens depends on which of
+    those a click starts on - not on the button.  ]]
+local CIRCLE_X, CIRCLE_Y = 14, 61
+local EMPTY_X,  EMPTY_Y  = 100, 8
+
+-- Long enough for the settle window after a menu to pass.
+local function settleMouse()
+  gfx.mouse_cap = 0
+  for _ = 1, 12 do step() end
 end
+
+local function clickAt(x, y, item, button)
+  settleMouse()
+  gfx.mouse_x, gfx.mouse_y = x, y
+  clickLabel = item
+  menuOpened = nil
+  gfx.mouse_cap = button or 1
+  step()                       -- press
+  drawn, texts = {}, {}
+  gfx.mouse_cap = 0
+  step()                       -- release, which is when the menu opens
+  clickLabel = nil
+  return menuOpened
+end
+
+local function chooseScale(item, button)  return clickAt(CIRCLE_X, CIRCLE_Y, item, button) end
+local function chooseOption(item, button) return clickAt(EMPTY_X, EMPTY_Y, item, button) end
 
 -- Play a set of MIDI notes and read back the chord name.
 local function play(notes)
@@ -158,22 +188,22 @@ expect({C4, C4 + 4}, "C E", "not a chord we know: name the notes")
 
 -- 6) Chord roots are spelled for the selected key.
 print("spelling follows the key:")
-chooseMenu("Gb Major")
+chooseScale("Gb Major")
 expect({54, 58, 61}, "Gb", "Gb Bb Db in Gb major")
 expect({54, 58, 61, 65}, "Gbmaj7", nil)
-chooseMenu("F# Major")
+chooseScale("F# Major")
 expect({54, 58, 61}, "F#", "the same three notes in F# major")
-chooseMenu("Clear scale")
+chooseScale("Clear scale")
 
 -- 6b) Chord symbols never use double accidentals, even where the key spells
 --     the notes that way. Both cases below were reported from REAPER.
 print("keys whose notes need double accidentals:")
 
-chooseMenu("Gb Minor Blues")
+chooseScale("Gb Minor Blues")
 -- Gb minor blues spells these notes Dbb, Fb and Bbb; the chord is still Amin/C.
 expect({C4, C4 + 4, C4 + 9}, "Amin/C", "was: Bbbmin/Dbb")
 
-chooseMenu("A# Harmonic Minor")
+chooseScale("A# Harmonic Minor")
 -- A# harmonic minor spells the root Gx; B# is a single sharp and is kept.
 expect({C4, C4 + 3, C4 + 9}, "Adim/B#", "was: Gxdim/B#")
 
@@ -193,11 +223,11 @@ do
 end
 
 -- A single accidental is still kept, so a chord in Gb major reads Gb not F#.
-chooseMenu("Gb Major")
+chooseScale("Gb Major")
 expect({54, 58, 61}, "Gb", "single accidentals are untouched")
-chooseMenu("Cb Major")
+chooseScale("Cb Major")
 expect({59, 63, 66}, "Cb", "and Cb major still reads Cb")
-chooseMenu("Clear scale")
+chooseScale("Clear scale")
 
 -- 6c) "Simplify Note Names" switches to piano-key naming: sharps for the black
 --     keys, and never a double accidental. The key-aware spelling is the
@@ -220,11 +250,11 @@ end
 
 local function simplified() return table.concat(SHARP_NAMES, " ") end
 
-local function simplify() chooseMenu("Simplify Note Names", 2) end
+local function simplify() chooseOption("Simplify Note Names") end
 
 print("simplify note names:")
 
-chooseMenu("Gb Major")
+chooseScale("Gb Major")
 local spelledForKey = namesAcross()
 if spelledForKey ~= "C Db D Eb E F Gb G Ab A Bb Cb" then
   fail("Gb major should be spelled for the key by default, got " .. spelledForKey)
@@ -238,11 +268,11 @@ end
 print("  simplified     Gb Major  " .. namesAcross())
 
 -- Double accidentals are the point of the option: they become piano keys.
-chooseMenu("Cb Major")
+chooseScale("Cb Major")
 if namesAcross() ~= simplified() then
   fail("Cb major simplified should be plain sharps, got " .. namesAcross())
 end
-chooseMenu("A# Harmonic Minor")
+chooseScale("A# Harmonic Minor")
 if circleNames()[9] ~= "A" then
   fail("Gx should simplify to A, got " .. tostring(circleNames()[9]))
 end
@@ -250,24 +280,24 @@ print("  simplified     Cb Major and A# Harmonic Minor lose Cb, Fb and Gx")
 
 -- Turning it off returns to the key's spelling.
 simplify()
-chooseMenu("Cb Major")
+chooseScale("Cb Major")
 if namesAcross() ~= "C Db D Eb Fb F Gb G Ab A Bb Cb" then
   fail("turning it off should restore the key spelling, got " .. namesAcross())
 end
 print("  back on        Cb Major  " .. namesAcross())
 
 -- Chord detection is untouched; only the names it reports follow the scheme.
-chooseMenu("Gb Major")
+chooseScale("Gb Major")
 expect({54, 58, 61}, "Gb", "chord root spelled for the key")
 simplify()
 expect({54, 58, 61}, "F#", "the same chord, simplified")
 expect({54, 58, 61, 65}, "F#maj7", "same quality, simplified root")
-chooseMenu("A# Harmonic Minor")
+chooseScale("A# Harmonic Minor")
 expect({C4, C4 + 3, C4 + 9}, "Adim/C", "was Adim/B# with key spelling")
 simplify()
-chooseMenu("A# Harmonic Minor")
+chooseScale("A# Harmonic Minor")
 expect({C4, C4 + 3, C4 + 9}, "Adim/B#", "and back to key spelling")
-chooseMenu("Clear scale")
+chooseScale("Clear scale")
 
 -- The setting survives a restart.
 simplify()
@@ -391,6 +421,69 @@ for _, broken in ipairs({
   end
 end
 
+-- 11) Which menu opens depends on WHERE the click is, not which button.
+--
+--     The earlier build had a left-click menu and a right-click menu, and a
+--     right click could open the left one, because the click that chooses an
+--     item from a modal menu reaches the window afterwards and reads as a
+--     fresh left click. Keying on position removes the idea of a wrong menu,
+--     and the settle window below removes the stray click itself.
+print("clicking:")
+
+for _, button in ipairs({1, 2}) do
+  local which = button == 1 and "left" or "right"
+
+  if chooseScale(nil, button) ~= "scale" then
+    fail(which .. " click on a circle should open the scale list")
+  end
+  if chooseOption(nil, button) ~= "options" then
+    fail(which .. " click on empty space should open the options")
+  end
+  print("  " .. which .. " click: circle -> scale list, empty space -> options")
+end
+
+-- The stray click a menu leaves behind must open nothing, whether it arrives
+-- immediately or a frame or two later. The second case is what still bit in
+-- REAPER after the first fix.
+for _, delayFrames in ipairs({0, 1, 3}) do
+  chooseOption("Random Scale")          -- use a menu, which leaves the stray click
+
+  for _ = 1, delayFrames do
+    menuOpened = nil
+    gfx.mouse_cap = 0
+    step()
+    if menuOpened then fail("an idle frame after a menu opened " .. menuOpened) end
+  end
+
+  menuOpened = nil
+  gfx.mouse_cap = 1 step()              -- the menu's own click, arriving late
+  gfx.mouse_cap = 0 step()
+
+  if menuOpened then
+    fail(string.format("the menu's own click %d frame(s) later opened the %s menu",
+                       delayFrames, menuOpened))
+  else
+    print(string.format("  a stray click %d frame(s) after a menu opens nothing", delayFrames))
+  end
+end
+
+-- And once the settle window has passed, clicking works again.
+if chooseScale(nil, 1) ~= "scale" then fail("clicks stopped working after the settle") end
+print("  clicks work again once the settle window passes")
+
+-- A click belongs where it began: press on a circle, drift off, still the
+-- scale list.
+settleMouse()
+gfx.mouse_x, gfx.mouse_y = CIRCLE_X, CIRCLE_Y
+menuOpened = nil
+gfx.mouse_cap = 1 step()                -- press on a circle
+gfx.mouse_x, gfx.mouse_y = EMPTY_X, EMPTY_Y
+gfx.mouse_cap = 0 step()                -- release over empty space
+if menuOpened ~= "scale" then
+  fail("a click that began on a circle should open the scale list, opened " .. tostring(menuOpened))
+end
+print("  a click belongs where it began, not where it ended")
+
 -- Docking uses the documented bitfield: bit 0 is "docked", the second byte is
 -- the docker index, which REAPER keeps even while the window is undocked. A
 -- window that remembers docker 2 while undocked reads as 0x200 - non-zero, but
@@ -403,7 +496,7 @@ do
     return dockState
   end
 
-  chooseMenu("Dock window", 2)
+  chooseOption("Dock window")
 
   if dockState & 1 ~= 1 then
     fail(string.format("toggling an undocked window that remembers a docker should dock it (state 0x%X)", dockState))
@@ -413,7 +506,7 @@ do
     print(string.format("dock toggle: 0x200 -> 0x%X, docked in docker 2", dockState))
   end
 
-  chooseMenu("Dock window", 2)
+  chooseOption("Dock window")
 
   if dockState & 1 ~= 0 then
     fail(string.format("toggling again should undock (state 0x%X)", dockState))

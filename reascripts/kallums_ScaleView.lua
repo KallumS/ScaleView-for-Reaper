@@ -17,10 +17,12 @@
  *                 Cb reads B. This is ScaleView Simple's naming, and the two
  *                 scripts merged into this one.
  * Instructions:   Run the script and play. Left-click the icon for the scale
- *                 list, right-click for a random scale and display options.
+ *                 Click a circle for the scale list, click anywhere else for
+ *                 a random scale and display options. Either mouse button
+ *                 does the same thing.
  *                 Press D to dock/undock, Esc or the window close box to exit.
  * Author:         kallums
- * Version:        1.0
+ * Version:        1.1
  * Provides:       [main] .
 --]]
 
@@ -243,8 +245,16 @@ local midiFailed = false -- set if the input history cannot be read at all
 
 local MOUSE_BUTTONS = 1 | 2 | 64   -- left, right, middle; the rest are modifiers
 
+-- How long after a menu closes to keep ignoring the mouse. The click that
+-- chose the item reaches the window afterwards, and not always in the very
+-- next frame, so waiting for the buttons to come up is not enough on its own.
+local MENU_SETTLE_SECONDS = 0.25
+
 local prevMouseCap  = 0
 local settlingMouse = false   -- true from a menu closing until the mouse is idle
+local menuClosedAt  = -1      -- time_precise() when the last menu closed
+local pressActive   = false   -- a press began on the icon and has not ended
+local pressX, pressY = 0, 0   -- where it began, which decides the menu
 local needRedraw   = true
 local lastW, lastH, lastDock
 
@@ -681,9 +691,10 @@ local function showMenu(menu)
   if action then action() end
 
   -- showmenu() is modal, and the click that picked an item is reported to the
-  -- window once the menu closes. Left alone it looks like a fresh left click
-  -- here, which is why a right click could open the left click's menu.
+  -- window once the menu closes - sometimes a frame or two later. Left alone
+  -- it reads as a fresh click and opens a menu nobody asked for.
   settlingMouse = true
+  menuClosedAt  = reaper.time_precise()
 end
 
 local function selectScale(root, scaleIdx)
@@ -787,23 +798,54 @@ end
 -- Input
 ------------------------------------------------------------------------------
 
+-- Which menu a click opens depends on where it is, not which button was used:
+-- the circles are the scale list, everything else is the options. That means
+-- there is no wrong menu to open by mistake.
+local function isOverCircle(x, y)
+  local L = layout()
+  local reach = L.radius + 2      -- a little forgiveness around the edge
+
+  for i, _ in ipairs(BLACK_PCS) do
+    local cx = L.originX + BLACK_SLOTS[i] * L.step
+    local dx, dy = x - cx, y - L.topY
+    if dx * dx + dy * dy <= reach * reach then return true end
+  end
+
+  for i, _ in ipairs(WHITE_PCS) do
+    local cx = L.originX + (i - 0.5) * L.step
+    local dx, dy = x - cx, y - L.botY
+    if dx * dx + dy * dy <= reach * reach then return true end
+  end
+
+  return false
+end
+
 local function handleMouse()
   local cap = gfx.mouse_cap
+  local buttons = cap & MOUSE_BUTTONS
 
-  -- After a menu closes, ignore the mouse until nothing is held. Whatever it
-  -- did while the menu was up belongs to the menu, not to the icon.
+  -- After a menu closes, ignore the mouse until nothing is held AND a moment
+  -- has passed. Whatever it did while the menu was up belongs to the menu.
   if settlingMouse then
-    settlingMouse = cap & MOUSE_BUTTONS ~= 0
-    prevMouseCap = cap
+    if buttons == 0 and reaper.time_precise() - menuClosedAt >= MENU_SETTLE_SECONDS then
+      settlingMouse = false
+    end
+    prevMouseCap, pressActive = cap, false
     return
   end
 
-  -- Left click (on release, so a click-and-drag on the docker doesn't fire).
-  if prevMouseCap & 1 == 1 and cap & 1 == 0 then
-    scaleMenu()
-  -- Right click
-  elseif prevMouseCap & 2 == 2 and cap & 2 == 0 then
-    optionsMenu()
+  local wasDown = prevMouseCap & MOUSE_BUTTONS ~= 0
+
+  if not wasDown and buttons ~= 0 then
+    -- A press. Remember where it started: a click belongs where it began, so
+    -- pressing on a circle and drifting off still opens the scale list.
+    pressActive = true
+    pressX, pressY = gfx.mouse_x, gfx.mouse_y
+  elseif wasDown and buttons == 0 and pressActive then
+    -- A release, so the click is finished. Firing here rather than on the
+    -- press means dragging the window by its edge does not open a menu.
+    pressActive = false
+    if isOverCircle(pressX, pressY) then scaleMenu() else optionsMenu() end
   end
 
   prevMouseCap = cap

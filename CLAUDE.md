@@ -65,12 +65,20 @@ These cost real debugging time. Two of them contradict the documentation.
   field-index counting and is misleading - building to it produced an
   off-by-two where a right click opened the wrong menu. Build the action table
   with a counter that only advances for selectable items.
-- **A modal menu's own click comes back afterwards.** `gfx.showmenu` is modal,
-  and the click used to choose an item reaches the window once the menu closes.
-  Read naively it looks like a fresh left click, so the next right click
-  matched the left-release test and opened the wrong menu. The scripts set a
-  `settlingMouse` flag when a menu closes and ignore the mouse until no button
-  is held.
+- **A modal menu's own click comes back afterwards, and not always in the next
+  frame.** `gfx.showmenu` is modal, and the click used to choose an item
+  reaches the window once the menu closes. Read naively it looks like a fresh
+  click. Ignoring the mouse until no button is held is **not enough** - that
+  was tried, and a stray click arriving a frame or two later still opened a
+  menu, which is what kept happening in REAPER. `kallums_ScaleView.lua` also
+  waits `MENU_SETTLE_SECONDS` (0.25) from when the menu closed. Its test proves
+  it by firing the stray click 0, 1 and 3 frames late; the buttons-only version
+  fails the last two.
+- **The merged script has no left/right menus.** Which menu opens depends on
+  where the click started - a circle opens the scale list, empty space opens
+  the options - so there is no wrong menu to open. `isOverCircle` uses the same
+  `layout()` the drawing does, so the hit areas cannot drift from the circles.
+  Simple and Pro still use the two-button arrangement and the weaker settle.
 - **`gfx.dock` is a bitfield, not a flag.** Bit 0 is "docked"; the second byte
   is the docker index, which REAPER keeps even while undocked. An undocked
   window that remembers docker 2 reads as `0x200` - non-zero but not docked.

@@ -218,8 +218,23 @@ so you can run either, or both at the same time.
 
 `reascripts/kallums_ScaleView.lua` is ScaleView Pro with Simple's naming
 available as an option, so one script covers both. It starts in Pro's
-key-aware spelling; **Simplify Note Names** in the right-click menu switches to
-piano-key naming, and the choice is remembered.
+key-aware spelling; **Simplify Note Names** switches to piano-key naming, and
+the choice is remembered.
+
+### Clicking
+
+It has no left-click and right-click menus. **Where** you click decides, and
+either button does the same thing:
+
+| Click | Opens |
+| --- | --- |
+| On a circle | The scale list |
+| On empty space | Random Scale, note names, Simplify Note Names, highlight colour, dock, close |
+
+A click belongs where it began, so pressing on a circle and drifting off still
+opens the scale list. This replaces the two-button arrangement the other two
+scripts use, where a menu's own click could be mistaken for a fresh one and
+open the wrong menu.
 
 | | Gb Major | Cb Major | A# Harmonic Minor |
 | --- | --- | --- | --- |
