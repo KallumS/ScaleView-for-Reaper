@@ -191,12 +191,11 @@ Play C D Eb Gb Cb in Gb major and a reading that needs only one alteration
 would give `D13b9/C`, a third and a seventh with no fifth; Pro and Scaler 3
 both say `Cbaddb9#9/C`, a whole Cb triad with two.
 
-Tested against real music, the two come out level. Over the 382 Bach chorales -
-89,108 sonorities of three or more pitch classes - and over the standards
-repertoire's chord vocabulary in all twelve keys, voiced close, as a shell,
-spread, drop-2 and in every inversion, both engines print a symbol that
-describes exactly the notes played, with the right bass, every time. Pick
-whichever reads the way you think; neither is the more accurate one.
+Tested against real music, it names everything. Across 382 Bach chorales, 22
+Beethoven string quartets and sonata movements, 49 Chopin mazurkas and the
+standards repertoire's chord vocabulary in all twelve keys - 141,731 vertical
+sonorities in all - every symbol it prints describes exactly the notes being
+played, with the right bass.
 
 The rest of the behaviour above - the scales, the spelling, the clicking, the
 per-project key, the chord reader itself - is the same in both. Run whichever

@@ -356,6 +356,14 @@ print("a number may not claim a ninth that is not there:")
 expect({C4, C4 + 1, C4 + 4, C4 + 7, C4 + 9, C4 + 10}, "C13b9",
        "the flattened ninth fills the stack, so the thirteenth still names it")
 
+--[[  Both sevenths sounding at once is a semitone cluster, not a colour, and
+    it turns up in real music as a passing note over a seventh chord: G B D F
+    with an F# above it accounts for every voicing Pro could not name across
+    the Beethoven quartets and the Chopin mazurkas. The name has to bracket the
+    second seventh or the two run together as "G7maj7", which is unreadable. ]]
+print("both sevenths at once:")
+expect({55, 59, 62, 66, 77}, "G7(maj7)", "G B D F with an F# over it")
+
 print("a flat sixth is a b6 until a seventh arrives:")
 expect({C4, C4 + 4, C4 + 7, C4 + 8}, "Caddb6", "C E G Ab, no seventh")
 expect({C4, C4 + 4, C4 + 7, C4 + 8, C4 + 10}, "C7b13", "and a b13 once one does")

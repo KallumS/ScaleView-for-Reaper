@@ -286,21 +286,36 @@ exists for carries a b9 and a #9.
 
 ### What it scores on real music
 
-| | Pro | the old table engine |
+| Corpus | sonorities | Pro |
 | --- | --- | --- |
-| Bach chorales, 89,108 sonorities of 3+ pitch classes | **100%** | 96.6% |
-| Standards vocabulary, 1,679 voicings incl. every inversion | **100%** | 87.1% |
+| Bach, 382 chorales | 89,108 | **100%** |
+| Beethoven, 22 string quartets and sonata movements | 37,891 | **100%** |
+| Chopin, 49 mazurkas | 13,053 | **100%** |
+| The standards vocabulary, every inversion | 1,679 | **100%** |
+
+For comparison the old table engine managed 96.6% on Bach and 87.1% on the
+jazz set. Brahms and Tchaikovsky were asked for too and are **not** covered:
+neither music21's corpus nor the Humdrum collections have them, and the MIDI
+that is on GitHub for them comes from scrapes of unclear provenance. If they
+matter, the way in is a MusicXML, kern or MIDI upload.
 
 The old engine was never *wrong* where it answered - every shortfall was it
 giving up and printing the notes, which is why it felt trustworthy while
-missing things. The gap is coverage, not correctness.
+missing things. The gap was coverage, not correctness.
 
-The corpora are the 382 JSB chorales (`czhuang/JSB-Chorales-dataset`, public
-domain) and the 26 chord qualities of the standards repertoire in all twelve
-keys, voiced close, as a shell, spread and drop-2, plus every inversion. Both
-are driven through a real script by `runner.lua`, rebuilt from the test suite's
+Sources: the 382 JSB chorales (`czhuang/JSB-Chorales-dataset`), music21's
+Beethoven corpus, the Chopin mazurkas from `craigsapp/chopin-mazurkas`, and
+the 26 chord qualities of the standards repertoire in all twelve keys voiced
+close, as a shell, spread, drop-2 and in every inversion. The scores are
+chordified with music21 - used only as a file reader, never for naming - and
+driven through a real script by `runner.lua`, rebuilt from the test suite's
 mocks: it reads MIDI note numbers on stdin and writes the name the script
 shows.
+
+The only thing the Romantic repertoire turned up was both sevenths sounding at
+once, a passing note over a seventh chord: G B D F with an F# above it, 83
+voicings across the two composers. The reading was right and the symbol was
+not - `G7maj7` ran the two seventh names together - so it is bracketed now.
 
 **What 100% means here.** The test is that the printed symbol describes exactly
 the notes played and names the right bass - parsed back into pitch classes by

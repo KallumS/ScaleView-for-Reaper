@@ -339,7 +339,13 @@ local function analyse(has, root, bass)
         (Hutchinson, Music Theory for the 21st-Century Classroom, 31.1-31.2).
         Only the printed name changes: the cost still reads it as a b13, which
         is what keeps E G B C reading Cmaj7/E rather than Emin wearing one. ]]
-    local shown = (token == "b13" and seventh == "none") and "b6" or token
+    --[[  Both sevenths at once is a semitone cluster rather than a colour, and
+        it turns up in real music as a passing note against a seventh chord -
+        G B D F with an F# over it, 83 voicings across the Beethoven quartets
+        and the Chopin mazurkas. Bracket it, or the two seventh names run
+        together into "G7maj7", which is not a symbol anybody could read. ]]
+    local shown = (token == "b13" and seventh == "none") and "b6"
+                  or (token == "maj7" and "(maj7)") or token
     cost = cost + (athome and COST_ALTERED or COST_CLASHING)
     name = name .. ((name == "" and seventh == "none") and "add" or "") .. shown
   end
