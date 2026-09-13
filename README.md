@@ -348,9 +348,9 @@ and the name it has in the menu. Only the note names change.
 
 ScaleView has been renamed a few times and has absorbed several earlier
 scripts. The settings keys were left alone through all of that so nobody's
-install would reset, and were finally tidied to match the filenames at 1.0.2 -
-`ScaleViewPro` and `ScaleViewSimple`. Each script still reads the one key it
-used immediately before that rename, so an existing install carries over.
+install would reset, and were tidied to match the filenames before the first
+release - `ScaleViewPro` and `ScaleViewSimple`. Each script still reads the one
+key it used immediately before that, so a pre-release install carries over.
 
 ### Each project remembers its own key
 
@@ -395,7 +395,7 @@ is used**, that a click belongs where it began, the docked layout and the dock
 bitfield, every highlight colour and its legibility, Simplify Note Names in
 both directions, the scale saved into the project and followed across a project
 switch, the toolbar toggle, and that settings saved under the key each script
-used before the 1.0.2 rename still load. They also replay the stray click a
+used before the settings keys were renamed still load. They also replay the stray click a
 modal menu reports after it closes - fired 0, 1 and 3 frames late - and check
 that it opens nothing while clicks still work once the settle window passes.
 
