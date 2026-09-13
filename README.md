@@ -366,11 +366,11 @@ with one alteration and no fifth; Alt 2 and Scaler both say `Cbaddb9#9/C`, a
 whole Cb triad with two.
 
 Tested against real music, the two come out level. Over the 382 Bach chorales -
-92,200 vertical sonorities - both name 99.49% of the nameable ones the way a
-harmony textbook would. Over the standards repertoire's chord vocabulary in all
-twelve keys, voiced close, as a shell, spread and drop-2, both name 100% of the
-root-position voicings exactly as a lead sheet prints them. Pick whichever
-reads the way you think; neither is the more accurate one.
+89,108 sonorities of three or more pitch classes - and over the standards
+repertoire's chord vocabulary in all twelve keys, voiced close, as a shell,
+spread, drop-2 and in every inversion, both engines print a symbol that
+describes exactly the notes played, with the right bass, every time. Pick
+whichever reads the way you think; neither is the more accurate one.
 
 The rest of the behaviour above - the scales, the spelling, the clicking, the
 per-project key, the chord reader itself - is the same in both. Run whichever
