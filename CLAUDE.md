@@ -269,8 +269,10 @@ tuning them, each of which broke a test first:
   It is a suspension **only with the fifth present**: on its own the root and
   the #4 are a tritone and the note is a b5, which is why `core()` tests
   `has[6] and has[7]` together. A plain fourth still wins when both are there,
-  so C F F# G stays `Csus4#11`. Adding it moved 114 of the 6,600 voicings and
-  every one landed on the new quality.
+  so C F F# G stays `Csus4#11`. Adding it moved **84** of the 6,600 voicings
+  and every one landed on the new quality; extending the sweep to six- and
+  seven-note voicings adds no further changes, because a sus#4 core needs the
+  third, the fourth and the second all absent.
 
   Two of the document's own sus#4 chords still do not use the name: `C6sus#4`
   and `Csus#4(b13)`. That is `COST_SUS_EXTRA` charging for the sixth, which is
@@ -443,6 +445,16 @@ Diffing two builds of the engine against each other over all 6,600 voicings is
 worth doing after any change to the weights: that is what turned up `Cmin6`
 being printed for C Eb G# A, where the sixth branch assigned the name and
 dropped the altered fifth.
+
+**Generate that sweep carefully.** The voicing for a pitch-class set over a
+bass is `60+bass` for the bass and `60+bass+((pc-bass)%12)+12` for every other
+note. Writing the upper notes as `60+((pc-bass)%12)+12` - relative intervals
+over an absolute bass - looks right and is not: it silently produces voicings
+that repeat a pitch class, so a "3-note" set arrives as two notes. That mistake
+put the sus#4 figure at 114 when it is 84. The cheap guard is to assert that
+every generated voicing has as many distinct pitch classes as notes, and the
+cheap sanity check is that a known shape transposes to itself - a dominant
+ninth should read C9, C#9, D9 and so on across the twelve.
 
 **The selected scale only breaks a draw.** At equal cost a root that is a scale
 degree wins, then a reading whose notes sit in the scale, then the commoner
