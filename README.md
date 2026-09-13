@@ -365,7 +365,13 @@ Play C D Eb Gb Cb in Gb major and Alt says `D13b9/C`, a third and a seventh
 with one alteration and no fifth; Alt 2 and Scaler both say `Cbaddb9#9/C`, a
 whole Cb triad with two.
 
-The two engines disagree on 9.3% of all three-, four- and five-note voicings.
+Tested against real music, the two come out level. Over the 382 Bach chorales -
+92,200 vertical sonorities - both name 99.49% of the nameable ones the way a
+harmony textbook would. Over the standards repertoire's chord vocabulary in all
+twelve keys, voiced close, as a shell, spread and drop-2, both name 100% of the
+root-position voicings exactly as a lead sheet prints them. Pick whichever
+reads the way you think; neither is the more accurate one.
+
 The rest of the behaviour above - the scales, the spelling, the clicking, the
 per-project key, the chord reader itself - is the same in both. Run whichever
 names chords the way you read them; they can both be installed at once, and

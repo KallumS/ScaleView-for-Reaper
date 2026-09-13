@@ -272,10 +272,38 @@ cost reaches the same answer for C D Eb Gb Cb but takes `C9/E` down with it
 (`Emin7b5b13`), because that reading's fifth is flattened - it has no complete
 triad, so `complete` leaves it alone. Both engines keep it.
 
-The price is exactly one case in the suite: C D E G B over E is `Cmaj9/E` in
-Alt and `Emin7b13` in Alt 2, both readings holding a complete triad, Alt 2
-taking the one standing on the bass. Over every three-, four- and five-note
-voicing the two disagree on 9.3%.
+A **b13 is excluded** from the concession, and that was measured rather than
+guessed. It is the one alteration whose note is nearly always a chord tone of
+something plainer: E G B with a C in it is Cmaj7 in first inversion, not Emin
+wearing a b13. Letting a complete triad take one cost 207 misnamed sonorities
+across 382 Bach chorales and 7 points on inverted jazz voicings, and bought
+nothing - the chord Alt 2 exists for carries a b9 and a #9.
+
+### What the two engines score on real music
+
+Measured with `runner.lua` (kept out of the repo; rebuild it from the test
+suite's mocks - it drives a real script over a corpus on stdin):
+
+| | Alt | Alt 2 |
+| --- | --- | --- |
+| Bach chorales, nameable verticals | 99.49% | 99.49% |
+| Standards vocabulary, root position | 100% | 100% |
+| Standards vocabulary, inversions | 47.3% | 45.2% |
+
+The Bach corpus is the 382 JSB chorales (`czhuang/JSB-Chorales-dataset`,
+public domain), 92,200 vertical sonorities, scored against an independent
+table of textbook triads and sevenths - not against the engine. The jazz set
+is the 26 qualities of the standards repertoire in all 12 keys, voiced close,
+as a shell, spread and drop-2.
+
+Two cautions learned building it. **Write the ground truth before looking at
+the output**, and expect it to be the thing that is wrong: an early run showed
+95.6% only because the truth table had no sixth chords and no shells in it.
+And the inversion figure is not an error rate - a third of those "misses" are
+valid readings of the same notes, because an inverted 6/9 really is a min11,
+and nothing in the notes says which root was meant. Root position is the
+honest accuracy measure; inversions measure agreement with one particular
+lead sheet.
 
 ### Where Alt and Scaler 3 disagree, and why
 

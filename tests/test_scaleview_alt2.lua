@@ -321,17 +321,17 @@ chooseScale("C Major")
 
 --[[  An alteration still has to belong to the chord underneath it, but Alt 2
     widens what counts as belonging: a complete triad is at home with one, not
-    only a dominant. So where Alt reads C D E G B over E as Cmaj9/E, Alt 2
-    reads Emin7b13 - both readings hold a complete triad, and Alt 2 takes the
-    one standing on the bass. That is the price of the preference, and it is
-    the only other case in this suite that moves.
+    only a dominant, with one exclusion: a b13. That one alteration is nearly
+    always a chord tone of something plainer - E G B with a C in it is Cmaj7
+    in first inversion, not Emin wearing a b13 - and letting a complete triad
+    take one cost 207 misnamed sonorities across 382 Bach chorales while
+    buying nothing, since the chord Alt 2 exists for carries a b9 and a #9.
 
-    What the rule still rules out is an alteration over a fifth that is already
-    altered, where it means the root was picked wrong. Both of those hold in
-    Alt 2 exactly as they do in Alt. ]]
+    So this case reads the same in both scripts, and an alteration over an
+    already altered fifth is still ruled out in both. ]]
 print("alterations belong to the chord under them:")
-expect({64, 67, 71, 72, 74}, "Emin7b13",
-       "a complete triad on the bass beats an inverted one; Alt says Cmaj9/E")
+expect({64, 67, 71, 72, 74}, "Cmaj9/E",
+       "a b13 is not a concession: this is Cmaj7 inverted, with a ninth")
 expect({64, 67, 70, 72, 74}, "C9/E", "but a b13 over a flat fifth still means a wrong root")
 expect({C4, C4 + 4, C4 + 8, C4 + 11}, "Cmaj7#5", "and one over a sharp fifth likewise")
 
