@@ -82,7 +82,7 @@ gfx = {
   getchar = function() return 0 end,
   showmenu = function(str)
     lastMenuStr = str
-    menuOpened = str:find("Clear scale", 1, true) and "scale"
+    menuOpened = str:find("Clear Scale", 1, true) and "scale"
               or str:find("Random Scale", 1, true) and "options" or "?"
     local n = 0
     for field in (str .. "|"):gmatch("([^|]*)|") do
@@ -231,7 +231,7 @@ simplify()
 chooseScale("A# Harmonic Minor")
 simplify()
 chooseScale("A# Harmonic Minor")
-chooseScale("Clear scale")
+chooseScale("Clear Scale")
 
 -- The setting survives a restart.
 simplify()
@@ -443,7 +443,7 @@ else
 end
 
 -- Clearing removes it from the project rather than leaving a stale key.
-chooseScale("Clear scale")
+chooseScale("Clear Scale")
 local cleared = projectStore["projectB"]
 if cleared["ScaleView:root"] ~= "" or cleared["ScaleView:scale"] ~= "" then
   fail("clearing the scale should clear it in the project too")

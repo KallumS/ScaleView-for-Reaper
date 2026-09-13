@@ -22,7 +22,7 @@ laid out like one octave of a keyboard without the keyboard:
   key between E and F.
 - **Bottom row** - 7 circles, the white keys (C, D, E, F, G, A, B).
 
-By default every circle is the same colour. Left-click the icon to pick a
+By default every circle is the same colour. Click a circle to pick a
 scale; the notes belonging to that scale change colour. Picking a scale does
 nothing else - it is purely a visual reference, it does not touch the project,
 MIDI editor snap settings, or anything else.
@@ -58,30 +58,36 @@ Copy whichever script you want (or both) anywhere, then in REAPER:
 
 | Action | Result |
 | --- | --- |
-| Left-click the icon | Scale list - pick a root note under a scale type |
-| Right-click the icon | Display options - see below |
+| Click a circle | Scale list - pick a root note under a scale type |
+| Click anywhere else | Display options - see below |
 | `D` | Dock / undock the window |
 | `Esc` or the close box | Quit |
 
 ### Display options
 
-Right-clicking the icon opens:
+Clicking the icon clear of the circles opens:
 
 | Option | Effect |
 | --- | --- |
 | Random Scale | Picks a scale at random, for when you can't decide - never the one already showing |
 | Show Note Names | Draws the note name inside each circle |
 | Simplify Note Names | Turns off key-aware spelling and names every note like a piano key |
-| Highlight Colour | Teal (default), Orange, Light Green, Light Blue, Light Pink or Gold. Simple also offers White; the other two do not, because the ring around a note being played is white |
+| Highlight Colour | Teal (default), Orange, Light Green, Light Blue, Light Pink or Gold. Neither script offers White, because the ring around a note being played is white and a white highlight would swallow it |
 | Dock Window | Dock or undock the icon |
 | Close | Quit |
 
-Swapping sharps for flats is purely cosmetic - it renames notes, it does not
-change which notes are lit. The scale list itself always shows both spellings
-("C# / Db Major"), so it reads correctly either way.
+**Simplify Note Names** is purely cosmetic - it renames notes, it does not
+change which notes are lit, and the label still names the key you picked, so
+Gb Major still reads Gb Major while its circles read F#. The scale list itself
+always shows both spellings ("C# / Db Major"), so it reads correctly either way.
 
-To keep it in the REAPER UI rather than floating, dock it (right-click >
-**Dock Window**, or press `D`). The window position, dock state, size and the
+Which menu opens depends on where the click started, not which button was used:
+a circle opens the scale list, empty space opens the options, and either mouse
+button does the same thing. A click belongs where it began, so pressing on a
+circle and drifting off still opens the scale list.
+
+To keep it in the REAPER UI rather than floating, dock it (click clear of the
+circles > **Dock Window**, or press `D`). The window position, dock state, size and the
 selected scale are all remembered between sessions.
 
 The drawing scales with the window, and keeps its 2:1 proportions centred in
@@ -115,7 +121,7 @@ Every one of these is available from all 12 root notes:
 Ionian is the same set of notes as Major and Aeolian the same as Natural Minor;
 both spellings are listed because both names are in common use. The two diminished scales are the eight-note octatonics: whole-half is
 W H W H W H W H from the root, half-whole is the same pattern starting with the
-semitone. That is 192 selectable key signatures in total, plus **Clear scale**
+semitone. That is 192 selectable key signatures in total, plus **Clear Scale**
 to go back to all circles the same colour.
 
 ## Customising

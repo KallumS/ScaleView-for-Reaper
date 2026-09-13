@@ -80,7 +80,7 @@ gfx = {
   getchar = function() return 0 end,
   showmenu = function(str)
     lastMenuStr = str
-    menuOpened = str:find("Clear scale", 1, true) and "scale"
+    menuOpened = str:find("Clear Scale", 1, true) and "scale"
               or str:find("Random Scale", 1, true) and "options" or "?"
     local n = 0
     for field in (str .. "|"):gmatch("([^|]*)|") do
@@ -213,7 +213,7 @@ expect({54, 58, 61}, "Gb", "Gb Bb Db in Gb major")
 expect({54, 58, 61, 65}, "Gbmaj7", nil)
 chooseScale("F# Major")
 expect({54, 58, 61}, "F#", "the same three notes in F# major")
-chooseScale("Clear scale")
+chooseScale("Clear Scale")
 
 -- 6b) Chord symbols never use double accidentals, even where the key spells
 --     the notes that way. Both cases below were reported from REAPER.
@@ -248,7 +248,7 @@ chooseScale("Gb Major")
 expect({54, 58, 61}, "Gb", "single accidentals are untouched")
 chooseScale("Cb Major")
 expect({59, 63, 66}, "Cb", "and Cb major still reads Cb")
-chooseScale("Clear scale")
+chooseScale("Clear Scale")
 
 -- 6d) Extensions and incomplete voicings. All three of these were reported
 --     from REAPER as showing a list of notes instead of a chord, checked
@@ -264,7 +264,7 @@ expect({61, 66, 67}, "Gmaj7b5(no3)/Db", "Db Gb G; Scaler: G maj7 (no3 b5) / C#")
 chooseScale("Eb Harmonic Minor")
 expect({C4, 61, 66, 69}, "Gbmin#11/C", "C Db Gb A; Scaler: F# min #11 / C")
 
-chooseScale("Clear scale")
+chooseScale("Clear Scale")
 expect({C4, C4 + 2, C4 + 4}, "Cadd9", "an added ninth with no fifth")
 expect({C4, C4 + 4, C4 + 5}, "Cadd11", "an added eleventh with no fifth")
 expect({C4, C4 + 4, C4 + 5, C4 + 7}, "Cadd11", "and with one")
@@ -394,7 +394,7 @@ print("the scale does not overrule the notes:")
 chooseScale("C Major")
 expect({54, 58, 61}, "F#", "F# A# C# is F# major, however far from C major")
 expect({C4, C4 + 4, C4 + 7, C4 + 10}, "C7", "and a dominant 7 stays a dominant 7")
-chooseScale("Clear scale")
+chooseScale("Clear Scale")
 expect({C4, C4 + 4, C4 + 7, C4 + 10}, "C7", "the same with no scale selected")
 
 -- 6g) The property the whole approach rests on: there is no voicing left that
@@ -438,7 +438,7 @@ print("what no scale means:")
 do
   local TEAL = {0.20, 0.80, 0.62}   -- the default highlight
   drawn, texts = {}, {}
-  chooseScale("Clear scale")   -- repaints, so the icon below is the live one
+  chooseScale("Clear Scale")   -- repaints, so the icon below is the live one
 
   local circles, lit = 0, 0
   for _, circle in ipairs(drawn) do
@@ -475,7 +475,7 @@ do
     end
   end
 
-  chooseScale("Clear scale")
+  chooseScale("Clear Scale")
   sweep(noScale, 0, 3)
   sweep(noScale, 0, 4)
 
@@ -496,7 +496,7 @@ do
     print(string.format("  all %d voicings name the same with no scale as with C major",
                         #order))
   end
-  chooseScale("Clear scale")
+  chooseScale("Clear Scale")
 end
 
 -- 6c) "Simplify Note Names" switches to piano-key naming: sharps for the black
@@ -567,7 +567,7 @@ expect({C4, C4 + 3, C4 + 9}, "Adim/C", "already plain, so both modes agree")
 simplify()
 chooseScale("A# Harmonic Minor")
 expect({C4, C4 + 3, C4 + 9}, "Adim/C", "and back to key spelling")
-chooseScale("Clear scale")
+chooseScale("Clear Scale")
 
 -- The setting survives a restart.
 simplify()
@@ -856,7 +856,7 @@ else
 end
 
 -- Clearing removes it from the project rather than leaving a stale key.
-chooseScale("Clear scale")
+chooseScale("Clear Scale")
 local cleared = projectStore["projectB"]
 if cleared["ScaleView:root"] ~= "" or cleared["ScaleView:scale"] ~= "" then
   fail("clearing the scale should clear it in the project too")

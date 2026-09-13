@@ -18,7 +18,7 @@
  *                 name. Where two readings fit, the one with a complete triad
  *                 in it wins, and the odd notes hang off that.
  *
- *                 "Simplify Note Names" in the right-click menu turns that off
+ *                 "Simplify Note Names" in the options menu turns that off
  *                 and names every note the way a piano key is named: sharps for
  *                 the black keys, and no double accidentals, so Bbb reads A and
  *                 Cb reads B. This is ScaleView Simple's naming, and the two
@@ -1105,7 +1105,7 @@ end
 local function scaleMenu()
   local menu = newMenu()
 
-  addItem(menu, "Clear scale", clearScale, {checked = state.scale == nil})
+  addItem(menu, "Clear Scale", clearScale, {checked = state.scale == nil})
   addSeparator(menu)
 
   for scaleIdx, scale in ipairs(SCALES) do

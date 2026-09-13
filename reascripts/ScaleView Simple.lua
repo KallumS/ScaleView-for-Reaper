@@ -15,7 +15,7 @@
  *                 icon, the scales, the spelling, the menus and the
  *                 per-project key all behave exactly as they do in Pro.
  *
- *                 "Simplify Note Names" in the right-click menu turns that off
+ *                 "Simplify Note Names" in the options menu turns that off
  *                 and names every note the way a piano key is named: sharps for
  *                 the black keys, and no double accidentals, so Bbb reads A and
  *                 Cb reads B.
@@ -567,7 +567,7 @@ end
 local function scaleMenu()
   local menu = newMenu()
 
-  addItem(menu, "Clear scale", clearScale, {checked = state.scale == nil})
+  addItem(menu, "Clear Scale", clearScale, {checked = state.scale == nil})
   addSeparator(menu)
 
   for scaleIdx, scale in ipairs(SCALES) do
