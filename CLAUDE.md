@@ -109,6 +109,34 @@ These cost real debugging time. Two of them contradict the documentation.
   script it supersedes, so a rename or a replacement does not reset an existing
   install. `EXT_LEGACY` holds that list.
 
+## Script lifetime and persistence
+
+From REAPER's ReaScript page, which is the authority on this:
+
+- **A deferred script runs "until terminated by the user."** That is the whole
+  of its life. REAPER does not record that a script was running, a project file
+  stores tracks and FX rather than running actions, and there is no API for a
+  script to ask to be started - `set_action_options` only covers relaunch
+  behaviour and toggle state within a session. So a script not reopening when
+  REAPER or a project is reopened is REAPER's design, not a bug to fix. Users
+  asking for it want a startup action, not a change here.
+- Two persistence mechanisms exist, and only two:
+  - `SetExtState`/`GetExtState` - "persist between REAPER instances". This is
+    what every script here uses, and it is **global**: the scale follows the
+    user between projects rather than belonging to one.
+  - `SetProjExtState`/`GetProjExtState` - "save data within the project RPP
+    file". Not used. This is the one to reach for if a scale should ever be
+    remembered per project.
+- **`__startup.lua` is not in REAPER's ReaScript documentation.** It is widely
+  used and described by community sources, and probably works, but do not
+  present it to the user as an official REAPER feature - that was done once on
+  the strength of a blog post and a forum thread. The SWS extension's global
+  and project startup actions are the route that can be stated without
+  qualification.
+- REAPER 7+ scripts can set their own on/off toggle state through
+  `set_action_options`, which is what makes a toolbar button light up while the
+  script runs. None of these scripts do it yet.
+
 ## How the spelling engine works
 
 Each scale carries `intervals` (semitones from the root) alongside `letters`
@@ -157,10 +185,14 @@ notes come from. Verified from the JSFX reference:
 ## Environment
 
 - **`reaper.fm` is blocked by the sandbox's egress proxy**, so REAPER's own
-  documentation cannot be fetched. Ask the user to upload
-  `reascripthelp.html` (REAPER: Help > ReaScript documentation) and the JSFX
-  reference pages when an API needs checking. Uploads do not survive the
-  session - that is why the verified facts above live in this file.
+  documentation cannot be fetched. Ask the user to upload it when an API needs
+  checking. What has been consulted so far: `reascripthelp.html` (REAPER:
+  Help > ReaScript documentation) for the API list, the ReaScript overview page
+  for script lifetime and persistence, and all ten JSFX reference pages.
+  Uploads do not survive the session - that is why the verified facts above
+  live in this file. Note what a page does and does not say: the ReaScript
+  overview covers how scripts run, not how REAPER starts them, which is why it
+  settles script lifetime but says nothing about `__startup.lua`.
 - `raw.githubusercontent.com` **is** reachable, so JUCE, CLAP, the VST3 SDK,
   REAPER's extension SDK headers and Apple's developer docs can be fetched
   directly without asking.
