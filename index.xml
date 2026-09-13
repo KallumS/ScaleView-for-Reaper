@@ -28,6 +28,10 @@
         <changelog><![CDATA[Renamed the file from "kallums_ScaleView Pro.lua". Names the chord you are playing by reading it rather than looking it up, so extended and thin voicings are named instead of being read out as notes. Note names are spelled for the key, with a Simplify Note Names option for piano-key naming. The scale is remembered per project and a toolbar button lights up while the script runs.]]></changelog>
         <source main="main">https://raw.githubusercontent.com/KallumS/ScaleView-for-Reaper/85a6bfc64ae98a743c3c41cc1f5189965da86a5d/reascripts/ScaleView%20Pro.lua</source>
       </version>
+      <version name="1.0.2" author="kallums" time="2026-09-13T17:34:29Z">
+        <changelog><![CDATA[Settings keys renamed to match the script: ScaleViewPro, and ScaleView for the per-project scale. The keys they replaced are still read once, so nothing saved is lost.]]></changelog>
+        <source main="main">https://raw.githubusercontent.com/KallumS/ScaleView-for-Reaper/6f128d5dc77ae59bf9aa219b5b7e3e563d203e71/reascripts/ScaleView%20Pro.lua</source>
+      </version>
       <metadata>
         <description><![CDATA[{\pard ScaleView Pro\par
 A 200x100 icon showing the twelve pitch classes as circles - five black keys over seven white - with the notes of the selected scale lit, the notes you play ringed, and the chord you are holding named underneath.\par
@@ -40,6 +44,10 @@ Click a circle for the scale list, click anywhere else for display options. Eith
       <version name="1.0.1" author="kallums" time="2026-09-13T17:28:42Z">
         <changelog><![CDATA[Renamed the file from "kallums_ScaleView Simple.lua". ScaleView Pro without the chord detection: it does not listen to what you play and names no chords. The icon, scales, key-aware spelling, menus, colours and per-project scale all behave exactly as they do in Pro.]]></changelog>
         <source main="main">https://raw.githubusercontent.com/KallumS/ScaleView-for-Reaper/85a6bfc64ae98a743c3c41cc1f5189965da86a5d/reascripts/ScaleView%20Simple.lua</source>
+      </version>
+      <version name="1.0.2" author="kallums" time="2026-09-13T17:34:29Z">
+        <changelog><![CDATA[Settings keys renamed to match the script: ScaleViewSimple, and ScaleView for the per-project scale. The keys they replaced are still read once, so nothing saved is lost.]]></changelog>
+        <source main="main">https://raw.githubusercontent.com/KallumS/ScaleView-for-Reaper/6f128d5dc77ae59bf9aa219b5b7e3e563d203e71/reascripts/ScaleView%20Simple.lua</source>
       </version>
       <metadata>
         <description><![CDATA[{\pard ScaleView Simple\par
