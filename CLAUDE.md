@@ -389,6 +389,39 @@ specification: every three- and four-note voicing must come back as a chord,
 never a list of notes. A chord symbol has no spaces in it, which is how it
 checks.
 
+### music21, and why it is not the answer here
+
+`music21` (MIT, Python) was checked on the suggestion that it names chords from
+theory rather than by set-matching. Half of that is right, and the half that is
+right is the half this engine already does.
+
+- **Root finding**: `chord.Chord._findRoot` scores each candidate by "the note
+  with the most 3rds above it" - third-stacking, like `core()` here.
+- **Symbol generation**: `harmony.chordSymbolFigureFromChord` is table-driven
+  over a fixed list of chord types and returns the string
+  `"Chord Symbol Cannot Be Identified"` when nothing matches. That is the old
+  table engine's failure mode, which is what this repo moved away from.
+
+Measured on the same two corpora, judged by music21's own round trip - generate
+the figure, parse it back with `harmony.ChordSymbol`, compare pitch classes and
+bass - so that nothing here is grading it:
+
+| | music21 | Pro |
+| --- | --- | --- |
+| Bach chorales | 90.5% | **100%** |
+| Standards vocabulary | 60.8% | **100%** |
+
+Where it fails on the jazz set: 8.3% get no symbol at all (`C E B`, a maj7
+shell; `C F G Bb`, a 7sus4), and 26.6% get a figure naming different notes,
+because it writes added tones as pitch names its own parser then drops -
+`Am7/CaddD` reads back as A C E G, the D gone. A further 4.3% will not parse
+back at all (`Am7/CaddB-,D`, `F#susaddE,omitC#`).
+
+It is also worth knowing that music21 always takes the third-stacked root, so
+C E G A over C is `Am7/C` to it and `C6` here - a preference this repo settled
+with the user long ago, and pinned in the tests. Nothing to port; the comparison
+is recorded so it does not have to be run again.
+
 ### The reference the naming is checked against
 
 Robert Hutchinson, *Music Theory for the 21st-Century Classroom* (September
