@@ -207,6 +207,31 @@ Roots are offered in both spellings (C# and Db, F# and Gb) plus Cb, so 18
 roots x 16 scales = 288 keys. Anything needing more than a double accidental
 falls back to a plain sharp or flat name.
 
+**The sixteen scales are canonically specified**, checked against Ian Ring's
+*A Study of Scales* (ianring.com - blocked by the egress proxy, so the user
+uploaded it). Ring numbers a scale as a 12-bit set with the root as bit 0, so
+Major is 2741. All sixteen match:
+
+| | | | |
+| --- | --- | --- | --- |
+| Major / Ionian | 2741 | Minor (Natural) / Aeolian | 1453 |
+| Harmonic Minor | 2477 | Dorian | 1709 |
+| Phrygian | 1451 | Lydian | 2773 |
+| Mixolydian | 1717 | Major Pentatonic | 661 |
+| Minor Pentatonic | 1193 | Major Blues | 669 |
+| Minor Blues | 1257 | Whole Tone | 1365 |
+| Diminished Whole-Half | 2925 | Diminished Half-Whole | 1755 |
+
+Two naming notes, so nobody "corrects" these later:
+
+- **Major Blues (669) has no traditional name in Ring's list** - he calls it
+  *Gycrimic*, one of his coined names for scales without one. Minor Blues
+  (1257) is his *Blues Scale*. Ours are the names players use; keep them.
+- Our two octatonics are Ring's *Diminished* (2925) and *Octatonic* (1755).
+  They are modes of each other, one Forte class (8-28), and his pair of names
+  does not carry the whole-half / half-whole distinction that ours does. Do
+  not rename ours to his.
+
 The same engine spells chord roots, so a chord on Gb reads `Gbmaj7` in Gb
 major and `F#maj7` in F# major. Keep the split it rests on: **circles follow
 the key, chord symbols follow what a musician would write.**
@@ -468,6 +493,24 @@ Those are mostly semitone clusters but not only: symmetrical chords like
 C D# F# A# tie between two equally good roots and something has to choose. An
 earlier note here said "only semitone clusters", which was read off the first
 few examples printed rather than all of them, and was wrong.
+
+**Which chords those are is not a matter of opinion.** Ring's rotational
+symmetry is the mechanism: a set that maps onto itself under transposition has
+no root derivable from the notes, so every engine - Scaler included - is
+choosing rather than deriving. Counted over every pitch-class set:
+
+| notes | sets that map onto themselves | of |
+| --- | --- | --- |
+| 3 | 4 | 220 |
+| 4 | 15 | 495 |
+| **5** | **0** | 792 |
+| 6 | 24 | 924 |
+| **7** | **0** | 792 |
+
+**No five- or seven-note set is symmetric**, and none can be - 5 and 7 do not
+divide 12. So a disagreement about a five-note chord is never inherent
+ambiguity in the notes; it is a weighting preference, and it has an answer.
+Worth knowing before writing off a report about a thick voicing as unresolvable.
 
 **With no scale selected, Pro assumes C major** (`ASSUMED_KEY`) rather than
 going quiet. The assumption must stay invisible: no circle lights, no label
