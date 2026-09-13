@@ -291,7 +291,12 @@ tuning them, each of which broke a test first:
   with no third at all - instead of `F(b5)`.
   A third excuses **one** oddity, not two: every altered fifth carrying a
   seventh that anyone actually plays is already in `CORE_RANK`, so one that is
-  not gets `RANK_TWICE_ODD` on top, or C D Eb Gb Cb reads `CminMaj9b5`.
+  not gets `RANK_TWICE_ODD` on top. This note used to say the penalty was what
+  stopped C D Eb Gb Cb reading `CminMaj9b5` - and that was the bug, not the
+  feature. `min/b/maj7` is a named quality that had simply been left out of
+  `CORE_RANK`, so the penalty was falling on a chord that should never have
+  been unnamed. It is in the table now at 13, and that chord reads
+  `CminMaj9b5`.
 - A bare altered fifth is bracketed - `C(b5)`, never `Cb5`, which reads as a
   chord on C flat.
 
@@ -308,7 +313,13 @@ athome = ... and (token == "#11" or dominant or (triad and token ~= "b13"))
 ```
 
 Without the `triad` clause, only a dominant is at home with a b9, #9 or b13,
-and C D Eb Gb Cb reads `D13b9/C` rather than Scaler's `Cbaddb9#9/C`.
+and C Db Eb E G reads `D#13b9/C` - a third and a seventh with no fifth - rather
+than `Caddb9#9`, a whole C major triad with two alterations on it.
+
+That example used to be C D Eb Gb Cb in Gb major, which is no longer one: it is
+`CminMaj9b5` now. The clause itself is untouched and still decides 303 of the
+6,600 voicings, so it is doing its own work rather than propping that one
+chord up.
 
 `triad` is the right lever, **not `COST_CLASHING`**. Cheapening the alteration
 cost reaches the same answer for that chord but takes `C9/E` down with it
@@ -415,6 +426,18 @@ not wire them into root choice expecting accuracy.
 
 ### Where Pro and Scaler 3 disagree, and why
 
+- **C D Eb Gb Cb** - Pro `CminMaj9b5`, Scaler `Cb maj b9 #9 / C`. Pro used to
+  follow Scaler here, because the complete-triad rule was built to. The user
+  read the result back off the README and called it nonsense, and the diagnosis
+  agreed: `Cbaddb9#9` has **no seventh**, so it is not an altered dominant, it
+  is a bare major triad with two altered ninths stacked on it - which nobody
+  writes. Their reading, a diminished triad with a major seventh and a ninth,
+  has the root in the bass and needs no slash. Note this is Scaler being
+  followed off a cliff rather than Scaler being wrong: the missing `min/b/maj7`
+  entry is what made Pro's own alternative unaffordable.
+
+  Worth remembering before matching a reference chord for chord: agreement is
+  evidence, not proof.
 - **E G A** - Pro `EminAdd11/G`, Scaler `G6(sus2)`. Pro's reading has a minor
   third, Scaler's has no third at all, so this is Scaler disagreeing with the
   third rule rather than Pro getting it wrong. Scaler evidently will write a

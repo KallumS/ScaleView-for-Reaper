@@ -85,6 +85,13 @@ local CORE_RANK = {
   ["sus4/P/b7"]   = 16, ["sus2/P/b7"]   = 17,
   ["sus4/P/maj7"] = 18, ["sus2/P/maj7"] = 19,
 
+  -- The diminished triad with a major seventh: minMaj7's flat-five sibling,
+  -- so it sits just below it exactly as min7b5 sits just below min7. Leaving
+  -- it out of the vocabulary cost real names - it fell through to
+  -- RANK_UNNAMED, and C Eb Gb B read Baddb9/C: a major triad with a flattened
+  -- ninth bolted on and no seventh in it at all.
+  ["min/b/maj7"]  = 13,
+
   -- A missing third is a different chord, not a thinner one, so these sit
   -- well below anything with a third in it.
   ["none/P/b7"]   = 30, ["none/P/maj7"] = 31,

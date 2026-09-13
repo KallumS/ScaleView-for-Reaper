@@ -319,9 +319,26 @@ expect({C4, C4 + 4, C4 + 6, C4 + 11}, "Cmaj7b5", "the same shape carrying a seve
     triad in it and hangs the odd notes off that, which is what Scaler 3 does.
     Reported from REAPER in Gb major, where Scaler says Cb maj b9 #9 / C. ]]
 print("the complete triad wins:")
+--[[  A whole C major triad carrying a b9 and a #9 beats a reading with a
+    third and a seventh but no fifth - without the triad clause this is
+    D#13b9/C. This was pinned on C D Eb Gb Cb in Gb major, which Scaler 3
+    also reads that way; that chord is now CminMaj9b5 (see below) and this
+    voicing carries the rule instead. ]]
+expect({60, 73, 75, 76, 79}, "Caddb9#9",
+       "C Db Eb E G: a complete triad with two alterations on it")
+
+--[[  The diminished triad with a major seventh. It was missing from
+    CORE_RANK, so it fell through to RANK_UNNAMED and lost to a major triad
+    wearing altered ninths: C Eb Gb B read Baddb9/C, which has no seventh in
+    it at all, and C D Eb Gb Cb read Cbaddb9#9/C. Reported as reading like
+    nonsense, and it was. Adding min/b/maj7 to the vocabulary moved 41 of the
+    6,600 voicings and every one of them is this quality. ]]
+print("the diminished triad with a major seventh:")
+expect({60, 63, 66, 71}, "CminMaj7b5", "C Eb Gb B, the plain one")
+expect({C4, C4 + 2, C4 + 3, C4 + 6, C4 + 11}, "CminMaj9b5", "with a ninth on it")
 chooseScale("Gb Major")
-expect({C4, C4 + 2, C4 + 3, C4 + 6, C4 + 11}, "Cbaddb9#9/C",
-       "C D Eb Gb Cb; Scaler: Cb maj b9 #9 / C - Alt says D13b9/C")
+expect({C4, C4 + 2, C4 + 3, C4 + 6, C4 + 11}, "CminMaj9b5",
+       "and the key does not change it")
 chooseScale("C Major")
 
 --[[  An alteration still has to belong to the chord underneath it, but Alt 2

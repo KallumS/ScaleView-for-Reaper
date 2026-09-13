@@ -220,9 +220,14 @@ read:
 Where two readings both fit, Pro favours the one with a **complete triad** in
 it - root, third and fifth - and hangs the odd notes off that, even when the
 thinner reading would need fewer of them. That is how Scaler 3 reads a chord.
-Play C D Eb Gb Cb in Gb major and a reading that needs only one alteration
-would give `D13b9/C`, a third and a seventh with no fifth; Pro and Scaler 3
-both say `Cbaddb9#9/C`, a whole Cb triad with two.
+Play C Db Eb E G and a reading that needs only one alteration would give
+`D#13b9/C`, a third and a seventh with no fifth; Pro says `Caddb9#9`, a whole
+C major triad with two alterations sitting on it.
+
+The rule only extends to a chord that is genuinely complete underneath. It is
+not licence to stack alterations on a triad when a plainer chord accounts for
+the same notes: C Eb Gb B is `CminMaj7b5`, a diminished triad with a major
+seventh, and not a B major triad wearing a flattened ninth.
 
 Tested against real music, it names very nearly everything. Across the whole of
 music21's core corpus - 3,194 scores from Palestrina to Schoenberg - plus 382
