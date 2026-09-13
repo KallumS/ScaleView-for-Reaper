@@ -11,7 +11,7 @@ local now = 1000.0                     -- the clock the script sees
 local projectsOn, activeProject = false, "projectA"
 local projectStore, actionOptions = {}, {}
 local atexitHandler = function() end
-local clickLabel, menuOpened = nil, nil
+local clickLabel, menuOpened, lastMenuStr = nil, nil, nil
 
 -- MIDI input history, newest first.
 local history, sequence = {}, 0
@@ -79,6 +79,7 @@ gfx = {
   dock = function(_, a) if a ~= nil then return 0, 100, 100, 200, 100 end return 0 end,
   getchar = function() return 0 end,
   showmenu = function(str)
+    lastMenuStr = str
     menuOpened = str:find("Clear scale", 1, true) and "scale"
               or str:find("Random Scale", 1, true) and "options" or "?"
     local n = 0
@@ -617,6 +618,62 @@ do
 end
 
 projectsOn = false
+
+-- 14) The highlight colours. There is no white one: the ring around a note
+--     being played is white, so a white highlight would swallow it.
+do
+  local PALETTE = {
+    {"Teal", {0.20, 0.80, 0.62}}, {"Orange", {0.98, 0.55, 0.15}},
+    {"Light Green", {0.55, 0.87, 0.40}}, {"Light Blue", {0.40, 0.72, 0.98}},
+    {"Light Pink", {0.98, 0.62, 0.78}}, {"Gold", {0.95, 0.78, 0.22}},
+  }
+
+  chooseScale("C Major")
+
+  for _, entry in ipairs(PALETTE) do
+    local name, rgb = entry[1], entry[2]
+    chooseOption(name)
+    label()
+
+    local lit, white = 0, 0
+    for _, circle in ipairs(drawn) do
+      if circle.color[1] == rgb[1] and circle.color[2] == rgb[2] then lit = lit + 1 end
+      if circle.color[1] == 1 and circle.color[2] == 1 and circle.color[3] == 1 then
+        white = white + 1
+      end
+    end
+
+    if lit ~= 7 then fail(name .. " lit " .. lit .. " circles, expected 7") end
+    if white > 0 then fail(name .. " is white, which the played-note ring uses") end
+  end
+  print(string.format("highlights: %d colours, none of them white", #PALETTE))
+
+  -- The option is gone from the menu entirely.
+  chooseOption(nil)
+  if lastMenuStr and lastMenuStr:find("White", 1, true) then
+    fail("White is still offered in the menu")
+  end
+
+  -- Someone whose saved colour was White falls back to the default rather
+  -- than breaking, the same as when Purple and Red were dropped.
+  ext = {}
+  ext["kallums_ScaleViewUnified:highlight"] = "White"
+  ext["kallums_ScaleViewUnified:root"]  = "C"
+  ext["kallums_ScaleViewUnified:scale"] = "Major"
+  projectsOn = false
+  drawn, texts = {}, {}
+  dofile(SCRIPT)
+  label()
+  local teal = 0
+  for _, circle in ipairs(drawn) do
+    if circle.color[1] == 0.20 and circle.color[2] == 0.80 then teal = teal + 1 end
+  end
+  if teal ~= 7 then
+    fail("a saved White should fall back to the default, lit " .. teal .. " teal circles")
+  else
+    print("  a saved White falls back to the default")
+  end
+end
 
 -- Docking uses the documented bitfield: bit 0 is "docked", the second byte is
 -- the docker index, which REAPER keeps even while the window is undocked. A

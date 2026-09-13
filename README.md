@@ -53,7 +53,7 @@ Right-clicking the icon opens:
 | Show note names | Draws the note name inside each circle |
 | Swap Sharps & Flats | Names the five black keys Db Eb Gb Ab Bb instead of C# D# F# G# A#, in the circles and in the scale name underneath (Simple only) |
 | Simplify Note Names | Turns off key-aware spelling and names every note like a piano key (merged script only) |
-| Highlight Colour | Teal (default), Orange, Light Green, White, Light Blue, Light Pink or Gold |
+| Highlight Colour | Teal (default), Orange, Light Green, Light Blue, Light Pink or Gold. Simple also offers White; the other two do not, because the ring around a note being played is white |
 | Dock window | Dock or undock the icon |
 | Close | Quit |
 

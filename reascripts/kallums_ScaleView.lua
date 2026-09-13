@@ -22,7 +22,7 @@
  *                 does the same thing.
  *                 Press D to dock/undock, Esc or the window close box to exit.
  * Author:         kallums
- * Version:        1.2
+ * Version:        1.3
  * Provides:       [main] .
 --]]
 
@@ -116,13 +116,14 @@ for priority, chord in ipairs(CHORDS) do
   end
 end
 
--- Highlight colours offered in the right-click menu. The first is the default.
--- Keep these pale: the note names drawn on top of them are dark.
+-- Highlight colours offered in the menu. The first is the default.
+-- Keep these pale: the note names drawn on top of them are dark. There is
+-- deliberately no white here - the ring around a note being played is white,
+-- and a white highlight would swallow it.
 local HIGHLIGHTS = {
   {name = "Teal",        rgb = {0.20, 0.80, 0.62}},
   {name = "Orange",      rgb = {0.98, 0.55, 0.15}},
   {name = "Light Green", rgb = {0.55, 0.87, 0.40}},
-  {name = "White",       rgb = {0.95, 0.96, 0.98}},
   {name = "Light Blue",  rgb = {0.40, 0.72, 0.98}},
   {name = "Light Pink",  rgb = {0.98, 0.62, 0.78}},
   {name = "Gold",        rgb = {0.95, 0.78, 0.22}},

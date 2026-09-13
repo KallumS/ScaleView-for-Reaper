@@ -29,6 +29,12 @@ simplified; only note names change.
 belongs in the other too - check both before considering a bug fixed. The
 docking fix, for example, applied to all of them.
 
+`kallums_ScaleView.lua` deliberately has **no white highlight colour**: the
+ring around a note being played is white, and a white highlight swallows it.
+Do not add one back. Pro still offers white and has the same clash - it was
+left alone only because it was not the script being worked on. Simple has no
+rings, so white is fine there.
+
 Simple is not a stripped Pro: it keeps the **Swap Sharps & Flats** toggle,
 which the key-aware spelling replaced. That is the reason it still exists, so
 do not "simplify" it by removing that option.
