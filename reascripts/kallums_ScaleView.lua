@@ -265,6 +265,10 @@ local keyUsesFlats = false -- whether the selected key spells its notes as flats
 local held      = {} -- held[midiNote] = true while the note is being played
 local heldCount = 0
 local chordName = nil   -- what the held notes spell, or nil when nothing is held
+
+-- Declared here because the project watcher renames the chord when the key
+-- changes, and it is defined above the chord reader it has to call.
+local detectChord
 local lastEventSeq = nil -- newest input event already applied
 local midiFailed = false -- set if the input history cannot be read at all
 
@@ -578,7 +582,7 @@ local function shapeFrom(root, classes)
   return table.concat(intervals, ",")
 end
 
-local function detectChord()
+function detectChord()
   local classes, bass = heldPitchClasses()
   if not bass then return nil end
 

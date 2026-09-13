@@ -665,6 +665,25 @@ else
   print("  and switching back restores the first: " .. label())
 end
 
+--[[  Switching project while notes are held used to throw. The project watcher
+    renames the chord as the key changes, but it sits above the chord reader in
+    the file and nothing was declared ahead of it, so the call found nil. The
+    older tests never caught it because they switched project with nothing
+    held. ]]
+noteOn(C4); noteOn(C4 + 4); noteOn(C4 + 7)
+frame()
+activeProject = "projectB"
+local switched, err = pcall(frame)
+if not switched then
+  fail("switching project while holding notes threw: " .. tostring(err))
+else
+  print("  switching project with notes held does not throw: " .. tostring(label()))
+end
+allNotesOff()
+frame()
+activeProject = "projectA"
+frame()
+
 -- A project that has never had a scale leaves what is showing alone.
 activeProject = "projectC"
 frame()
