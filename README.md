@@ -5,8 +5,8 @@ scale at a glance. Two scripts, both self-contained:
 
 | Script | |
 | --- | --- |
-| `reascripts/kallums_ScaleView Pro.lua` | **The one to use.** Note names spelled for the key, an option to name them like piano keys instead, and the chord you play named underneath - see [below](#scaleview-pro) |
-| `reascripts/kallums_ScaleView Simple.lua` | **The same thing without the chord detection.** It does not listen to what you play; everything else matches Pro |
+| `reascripts/ScaleView Pro.lua` | **The one to use.** Note names spelled for the key, an option to name them like piano keys instead, and the chord you play named underneath - see [below](#scaleview-pro) |
+| `reascripts/ScaleView Simple.lua` | **The same thing without the chord detection.** It does not listen to what you play; everything else matches Pro |
 
 Everything below describes both. The only difference is that Pro names the
 chord you are playing and Simple does not listen at all; the section on chord

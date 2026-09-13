@@ -6,8 +6,8 @@ notes of the selected scale lit.
 
 | Script | |
 | --- | --- |
-| `reascripts/kallums_ScaleView Pro.lua` | The whole thing: names spelled for the key, a **Simplify Note Names** option that switches to piano-key naming, and the chord you play **read** rather than looked up. ExtState key `kallums_ScaleViewAlt2`. |
-| `reascripts/kallums_ScaleView Simple.lua` | **Pro with the chord detection taken out, and nothing else changed.** Same icon, scales, spelling, menus, palette, click model and per-project key. ExtState key `kallums_ScaleViewSimple`. |
+| `reascripts/ScaleView Pro.lua` | The whole thing: names spelled for the key, a **Simplify Note Names** option that switches to piano-key naming, and the chord you play **read** rather than looked up. ExtState key `kallums_ScaleViewAlt2`. |
+| `reascripts/ScaleView Simple.lua` | **Pro with the chord detection taken out, and nothing else changed.** Same icon, scales, spelling, menus, palette, click model and per-project key. ExtState key `kallums_ScaleViewSimple`. |
 
 There used to be five. `kallums_ScaleView.lua` (Pro and Simple merged), an
 older table-based `Pro`, `Alt` and `Alt 2` were all folded into the script

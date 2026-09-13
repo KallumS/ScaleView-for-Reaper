@@ -4,7 +4,7 @@
      with a sequence number, zero when there are no more. ]]
 
 local HERE = (arg and arg[0] or ""):match("^(.*)[/\\]") or "."
-local SCRIPT = HERE .. "/../reascripts/kallums_ScaleView Simple.lua"
+local SCRIPT = HERE .. "/../reascripts/ScaleView Simple.lua"
 
 local ext, drawn, texts, deferred = {}, {}, {}, nil
 local now = 1000.0                     -- the clock the script sees

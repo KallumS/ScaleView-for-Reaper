@@ -12,7 +12,7 @@ writes `notes<TAB>name`. Because it drives the shipped file, what it prints is
 what REAPER shows.
 
 ```sh
-printf '60 64 67\n60 63 67 70\n' | lua5.4 tools/runner.lua "reascripts/kallums_ScaleView Pro.lua"
+printf '60 64 67\n60 63 67 70\n' | lua5.4 tools/runner.lua "reascripts/ScaleView Pro.lua"
 #   60 64 67       C
 #   60 63 67 70    Cmin7
 ```
