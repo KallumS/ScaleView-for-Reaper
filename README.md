@@ -6,9 +6,11 @@ scale at a glance. Two scripts, both self-contained:
 | Script | |
 | --- | --- |
 | `reascripts/kallums_ScaleView Pro.lua` | **The one to use.** Note names spelled for the key, an option to name them like piano keys instead, and the chord you play named underneath - see [below](#scaleview-pro) |
-| `reascripts/kallums_ScaleView Simple.lua` | The stripped-back one: note names are always sharps, or always flats |
+| `reascripts/kallums_ScaleView Simple.lua` | **The same thing without the chord detection.** It does not listen to what you play; everything else matches Pro |
 
-Everything below describes both; the later sections cover what Pro adds.
+Everything below describes both. The only difference is that Pro names the
+chord you are playing and Simple does not listen at all; the section on chord
+detection is the only one that does not apply to Simple.
 
 ![ScaleView](docs/preview.svg)
 
@@ -50,8 +52,7 @@ Right-clicking the icon opens:
 | --- | --- |
 | Random Scale | Picks a scale at random, for when you can't decide - never the one already showing |
 | Show note names | Draws the note name inside each circle |
-| Swap Sharps & Flats | Names the five black keys Db Eb Gb Ab Bb instead of C# D# F# G# A#, in the circles and in the scale name underneath (Simple only) |
-| Simplify Note Names | Turns off key-aware spelling and names every note like a piano key (Pro only) |
+| Simplify Note Names | Turns off key-aware spelling and names every note like a piano key |
 | Highlight Colour | Teal (default), Orange, Light Green, Light Blue, Light Pink or Gold. Simple also offers White; the other two do not, because the ring around a note being played is white |
 | Dock window | Dock or undock the icon |
 | Close | Quit |

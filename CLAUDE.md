@@ -7,7 +7,7 @@ notes of the selected scale lit.
 | Script | |
 | --- | --- |
 | `reascripts/kallums_ScaleView Pro.lua` | The whole thing: names spelled for the key, a **Simplify Note Names** option that switches to piano-key naming, and the chord you play **read** rather than looked up. ExtState key `kallums_ScaleViewAlt2`. |
-| `reascripts/kallums_ScaleView Simple.lua` | Deliberately the lesser one, kept for people who want it: always sharps or always flats, with a menu toggle |
+| `reascripts/kallums_ScaleView Simple.lua` | **Pro with the chord detection taken out, and nothing else changed.** Same icon, scales, spelling, menus, palette, click model and per-project key. ExtState key `kallums_ScaleViewSimple`. |
 
 There used to be five. `kallums_ScaleView.lua` (Pro and Simple merged), an
 older table-based `Pro`, `Alt` and `Alt 2` were all folded into the script
@@ -36,12 +36,23 @@ usually belongs in the other - check both before considering a bug fixed. The
 docking fix applied to every script there was.
 
 Pro deliberately has **no white highlight colour**: the ring around a note
-being played is white, and a white highlight swallows it. Do not add one back.
-Simple has no rings, so white is fine there.
+being played is white, and a white highlight swallows it. Simple has no rings
+and so no clash, but it carries the same six colours because it is meant to
+match. Do not add white back to either.
 
-Simple is not a stripped Pro: it keeps the **Swap Sharps & Flats** toggle,
-which the key-aware spelling replaced. That is the reason it still exists, so
-do not "simplify" it by removing that option.
+**Simple is now Pro minus the chord reader, and that is the only difference.**
+It was once its own lesser thing, with a **Swap Sharps & Flats** toggle instead
+of key-aware spelling; the user asked for the two to match in every way except
+the detection, so that toggle is gone and Pro's spelling plus **Simplify Note
+Names** replaces it. An earlier version of this file said never to remove that
+toggle - superseded, deliberately. What stays true is the other half of the
+rule: **a fix to either script belongs in both**, because they are independent
+copies of the same code.
+
+Simple must not read MIDI at all. Its suite counts every call into
+`MIDI_GetRecentInputEvent` and fails if the script makes one, however many
+notes are waiting - "no chord detection" means it never looks, not that it
+looks and says nothing.
 
 ## Working in this repo
 
@@ -60,10 +71,10 @@ do not "simplify" it by removing that option.
   accepting it. Every regression test here was checked that way; a test that
   passes against the bug is worthless.
 - Musical claims get verified, not assumed: the **Simple** suite is the one
-  that sweeps every root and scale type against the interval formulas. An
-  earlier version of this file credited that sweep to the Pro suite, which
-  never had it - worth knowing before deleting anything on the strength of a
-  claim written here.
+  that sweeps every root and scale type against the interval formulas - all
+  288 of them now that Simple offers Pro's eighteen roots. An earlier version
+  of this file credited that sweep to the Pro suite, which never had it - worth
+  knowing before deleting anything on the strength of a claim written here.
 
 ## REAPER API facts, verified against the documentation
 
