@@ -181,6 +181,73 @@ just the disagreements.
   of this file credited that sweep to the Pro suite, which never had it - worth
   knowing before deleting anything on the strength of a claim written here.
 
+### Lessons learned
+
+Every one of these cost something. They are method rather than music, they
+generalise beyond this repo, and the detail behind each sits in the section
+named at the end of its line.
+
+- **A surprising accuracy number is a bug in the measurement.** Five times now
+  the fault was in the rig and not the engine: a truth table with no sixth
+  chords, an inversion set built by mechanically slashing symbols, a checker
+  demanding a fifth the engine deliberately never prints, a "390 misnamed
+  suspensions" that was a table with no `7sus4` in it, and a sweep generator
+  that silently produced voicings with duplicate pitch classes. Validate the
+  checker against data already known to be right *before* believing any figure
+  it produces. (*What it scores on real music*, *Generate that sweep
+  carefully*.)
+- **Validate the input distribution too, not just the checker.** The DCML
+  corpora scored a flat 100%, which is exactly the shape of a scanner that is
+  quietly dropping notes. It was real: their sonorities stop at seven pitch
+  classes, so the cluster guard never fires. The histogram is what turned a
+  suspicious number into an explained one. A perfect score is a question, not
+  an answer.
+- **Say what did not parse.** 12 of 196 quartet movements and 68 of 764 When in
+  Rome scores never reached the engine, because music21's MusicXML importer
+  rejected them. Scoring the remainder and quoting the whole corpus size would
+  have been wrong in a way nobody could have caught from the outside. Report
+  the denominator you actually measured.
+- **Profile the harness, not only the thing under test.** `tools/runner.lua`
+  kept every event it had ever been handed and inserted each at position 1, so
+  the *measuring rig* was quadratic. The 17,688-voicing sweep went from minutes
+  to 3.4 seconds with a bound on the history and byte-identical output. When a
+  sweep is slow, suspect the scaffolding first - it is the part nobody tests.
+- **Change the engine, the tests and the checker together.** `sus#4` went into
+  the script and its tests but not into `check_symbol.py`, which then reported
+  84 failures that were the checker disagreeing with itself. The independent
+  checker is only independent if it is kept current.
+- **A published reference outranks a document somebody hands you.** `sus#4` was
+  added on the strength of a reader's chord-theory write-up and was wrong;
+  Hutchinson 31.2, already cited in this file, already said a raised fourth
+  over a natural fifth is a #11. Check a new claim against what is already
+  established here before building on it. (*There are two suspensions, not
+  three*.)
+- **Diff the output; do not check examples by eye.** Parity with the plugin,
+  the effect of every weight change, the claim that two `handleMouse` functions
+  were identical - all settled by dumping one line per case and diffing. It is
+  the single habit that has caught the most.
+- **Make the regression test fail on the old code first.** Stated above as a
+  rule; repeated here because it has caught a test of ours that passed against
+  the bug it was written for.
+- **This file is not evidence about the code.** Several confident claims in it
+  turned out to describe a version that no longer existed - Simple's menus,
+  Simple's project state, Simple's toggle state, the scale sweep's location.
+  Each was corrected only after reading the code. Treat any claim here as a
+  lead to verify, not a fact to act on.
+- **Two independent nulls beat one.** Tying chord detection to the selected
+  scale moved Pro's accuracy not at all, and moved Pattern's - a completely
+  different architecture - by one hundredth of a point. One null invites a
+  retry with different weights; two, from unrelated engines, settle it.
+- **Prefer a number to an argument.** "A table cannot be made complete" was an
+  opinion until Pattern was built and measured at 23.5% against Pro's 100% on
+  the same 17,688 voicings, with the ceiling on its tuning located as well.
+  Building the thing you are arguing against is often cheaper than the
+  argument. (*ScaleView Pattern*.)
+- **Measure without redistributing.** Two of the five corpora are CC BY-NC-SA.
+  They were cloned, scanned, scored and discarded; nothing from any corpus is
+  in this repository, and the table records each licence so the next person
+  does not have to work it out again.
+
 ## REAPER API facts, verified against the documentation
 
 These cost real debugging time. Two of them contradict the documentation.
