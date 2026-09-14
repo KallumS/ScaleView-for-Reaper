@@ -10,9 +10,21 @@ local now = 1000.0
 local history, sequence = {}, 0
 local clickLabel = nil
 
+--  REAPER's input history is a bounded ring, and the script only ever walks
+--  back as far as the sequence number it finished on last time, so anything
+--  older than one poll is dead weight. Keeping it was quadratic - inserting at
+--  position 1 shifts the whole table - and over a large corpus that was the
+--  difference between minutes and an hour. HISTORY_KEEP is far above the
+--  script's own MAX_EVENTS_PER_POLL of 64, so nothing it could ask for is
+--  ever discarded.
+local HISTORY_KEEP = 256
+
 local function pushEvent(message)
   sequence = sequence + 1
   table.insert(history, 1, {seq = sequence, msg = message})
+  if #history > HISTORY_KEEP then
+    for i = #history, HISTORY_KEEP + 1, -1 do history[i] = nil end
+  end
 end
 local function noteOn(n)  pushEvent(string.char(0x90, n, 100)) end
 local function allOff()   pushEvent(string.char(0xB0, 123, 0)) end
