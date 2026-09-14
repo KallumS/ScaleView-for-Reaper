@@ -111,6 +111,51 @@ usually both in the key. It does change *which* name wins in 1,485 voicings
 (8.4%) without making any of them more correct, so it is a preference lever.
 Set both weights to 0 to remove it.
 
+**On real music.** Both engines over the whole music21 core corpus and over
+the standards vocabulary, judged the same way. The corpus figure is weighted by
+how often each sonority actually occurs, which is what "how often is it right"
+has to mean:
+
+| | sonorities | Pro | Pattern |
+| --- | --- | --- | --- |
+| music21 core corpus, by instance | 363,963 | **99.999%** | **93.276%** |
+| music21 core corpus, by distinct set | 37,106 | **99.992%** | **83.270%** |
+| the standards vocabulary, every inversion | 2,097 | **100%** | **99.05%** |
+| every voicing of three to seven notes | 17,688 | **100%** | **23.95%** |
+
+Read those four rows together, because they say something neither says alone.
+**Pattern is strong exactly where its table was aimed and collapses outside
+it.** On the jazz vocabulary its 62 patterns were built for it loses only the
+thirteenth chords - 20 voicings, all of them 13s. On real scores it holds
+93.3% by instance but only 83.3% by distinct set, and the gap between those two
+numbers *is* the finding: the chords that occur most often are the ones it has
+patterns for. On the exhaustive sweep, where every sonority counts once and
+most are things no table anticipates, it gets one in four.
+
+Its failures on the corpus are the same one failure repeated: a power chord
+that abandons a note. `G D F` reads `G5` 317 times, `D A C` reads `D5` 215
+times. The largest collections:
+
+| | sonorities | Pro | Pattern |
+| --- | --- | --- | --- |
+| palestrina | 300,451 | 100% | 94.6% |
+| beethoven | 261,374 | 100% | 94.8% |
+| bach | 252,567 | 100% | 98.2% |
+| monteverdi | 242,153 | 99.999% | 96.9% |
+| trecento | 168,909 | 100% | 94.5% |
+
+Pattern's worst is Schoenberg at 16.1%, then the folk collections -
+ryansMammoth 63.1%, oneills1850 74.1%, airdsAirs 80.5% - which are sparse and
+modal rather than triadic. Pro's worst is also Schoenberg, at 99.197%.
+
+**The corpus scan reproduces exactly**, which is worth knowing before trusting
+any of this: rerunning `tools/corpus_scan.py` from scratch gave 490,732
+sonority instances, 363,963 with three or more pitch classes, across 33
+collections and 3,194 files with no parse failures - every figure the same as
+the original run. The jazz set had to be rebuilt from its description and came
+out at 2,097 voicings rather than the original 1,679, so it is a comparable set
+and not the same one; Pro scores 100% on both.
+
 `tools/compare_engines.lua` names the same chords with both, `--differ` for
 just the disagreements.
 
