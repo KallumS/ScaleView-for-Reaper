@@ -477,6 +477,40 @@ cluster") and are read out as notes. That is the design working, not a defect;
 the largest collection, 1,318 Palestrina works and 231,859 sonorities, is
 exactly 100%.
 
+**Five more corpora, none of them music21's own.** Asked for by licence, so
+each row says which: two are CC BY-NC-SA, which is why nothing from any of them
+is in this repository - these are measurements, not redistribution. Cloned,
+scanned, scored, discarded.
+
+| corpus | sonorities | distinct | by instance | by distinct set |
+| --- | --- | --- | --- | --- |
+| Sapp's Bach 370 chorales (`**kern`, CC BY-NC-SA) | 29,300 | 4,658 | **100%** | **100%** |
+| DCML annotated corpora (13 repos, CC BY-NC-SA) | 202,692 | 54,711 | **100%** | **100%** |
+| OpenScore String Quartets (CC0) | 517,862 | 112,811 | **99.999%** | **99.997%** |
+| OpenScore Lieder (CC0) | 348,324 | 95,331 | **99.995%** | **99.983%** |
+| When in Rome (CC BY-SA) | 118,099 | 35,239 | **99.999%** | **99.997%** |
+
+Same story as the core corpus: **every single miss is an eight-or-more
+pitch-class cluster** hitting the same guard in `detectChord` - `C D D# E G G# A
+B`, `C C# D E F F# G B`, `C C# D D# E F G A A#`. Twelve missed sonorities out
+of 1,216,277, eight distinct pitch-class sets between them, and not one is a
+chord that was misnamed - each is the guard refusing to name a cluster.
+
+Two cautions about those numbers, because the rule here is that a surprising
+figure is a bug in the measurement until proved otherwise:
+
+- **Some files did not parse, and that is music21, not the engine.** 12 of 196
+  quartet movements and 68 of 764 When in Rome scores fail its MusicXML
+  importer with `found unknown MusicXML type: None`. The rows above are 184 and
+  696 files. Lieder and Bach 370 had no failures.
+- **DCML was read from its note tables, not its scores** - `notes/*.tsv`,
+  sonorities built from `quarterbeats`, `duration_qb` and `midi` - so it went
+  through a scanner the other rows did not use. It reads 100%, which would be
+  suspicious on its own; the pitch-class histogram says why. DCML's sonorities
+  stop at seven pitch classes, so the cluster guard never fires. Bach 370 is
+  three and four, as four-part chorales have to be. Both distributions were
+  checked before the scores were believed.
+
 For comparison the old table engine managed 96.6% on Bach and 87.1% on the
 jazz set. Brahms and Tchaikovsky were asked for too and are **not** covered:
 neither music21's corpus nor the Humdrum collections have them, and the MIDI
