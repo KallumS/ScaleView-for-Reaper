@@ -68,96 +68,46 @@ Simple must not read MIDI at all. Its suite counts every call into
 notes are waiting - "no chord detection" means it never looks, not that it
 looks and says nothing.
 
-## ScaleView Pattern - the other engine, for comparison
+## A table cannot be made complete - the experiment that settled it
 
-`reascripts/ScaleView Pattern.lua` is Pro with the chord reader swapped for a
-port of **Long Kelvin's Pattern-Based Interval Matching** algorithm (MIT,
-github.com/LongKelvin/midi-chord-detector-plugin). It exists to be compared
-with Pro and with Scaler, not to be the one you use. ExtState key
-`ScaleViewPattern`, no legacy section - it supersedes nothing and keeps its
-settings apart from Pro's so both can run at once.
+`ScaleView Pattern` was a second script, Pro with the chord reader replaced by
+a port of Long Kelvin's pattern-matching algorithm, built so the two approaches
+could be judged side by side against Scaler. **It has been deleted** - Pro won
+the comparison outright and the user has tested both. The result is kept here
+because it is the answer to "why not just match a table of chords", and that
+question will come round again:
 
-Ported from the C++ source rather than that repository's documentation, which
-disagrees with it: the root-position bonus is 25 not 15, the extra-interval
-penalty 4 not 8, the confidence weights .35/.25/.15/.25 not .4/.4/.1/.1.
-
-**What it measures.** Both engines over all 17,688 voicings of three to seven
-notes, judged by `tools/check_symbol.py`:
-
-| | Pro | Pattern |
+| over all 17,688 voicings of three to seven notes | Pro | Pattern |
 | --- | --- | --- |
 | symbol accounts for exactly the notes | **100%** | **23.5%** |
 | symbol leaves a played note out, or names one not played | 0 | 12,584 |
 | gives up and reads the notes out | 0 | 318 |
 
-The failure is structural, not a tuning problem. A 62-pattern table cannot
-cover 17,688 voicings, so a pattern wins while leaving notes unexplained -
-C G Bb reads `C5`, C Eb F reads `F5/C`. Raising `PENALTY_EXTRA` helps to a
-point (4 -> 22.08%, 15 -> 22.62%, 30 -> 23.52%) and then the engine drops
-below its score threshold and stops answering instead: at 60 it gives up on
-3,420 voicings, at 120 on 17,028. **30 is the ceiling**, and it is what the
-script ships with. This is the measurement behind "a table cannot be made
-complete" - it is no longer an argument, it is a number.
-
-**The scale term is an addition, and it does not work.** Pattern scores a
-candidate root that is a scale degree, and each chord tone that sits in the
-scale (`SCORE_ROOT_IN_KEY`, `SCORE_TONE_IN_KEY`). Measured: it moves the
-objective score from 22.07% to 22.08%. One hundredth of a point.
-
-That reproduces, on a completely different architecture, the finding recorded
-below for Pro - and two independent nulls are worth more than one. Being
-diatonic does not separate candidate roots because the competing roots are
-usually both in the key. It does change *which* name wins in 1,485 voicings
-(8.4%) without making any of them more correct, so it is a preference lever.
-Set both weights to 0 to remove it.
-
-**On real music.** Both engines over the whole music21 core corpus and over
-the standards vocabulary, judged the same way. The corpus figure is weighted by
-how often each sonority actually occurs, which is what "how often is it right"
-has to mean:
-
-| | sonorities | Pro | Pattern |
+| on real music | sonorities | Pro | Pattern |
 | --- | --- | --- | --- |
-| music21 core corpus, by instance | 363,963 | **99.999%** | **93.276%** |
-| music21 core corpus, by distinct set | 37,106 | **99.992%** | **83.270%** |
-| the standards vocabulary, every inversion | 2,097 | **100%** | **99.05%** |
-| every voicing of three to seven notes | 17,688 | **100%** | **23.95%** |
+| music21 core corpus, by instance | 363,963 | **99.999%** | 93.276% |
+| music21 core corpus, by distinct set | 37,106 | **99.992%** | 83.270% |
+| the standards vocabulary, every inversion | 2,097 | **100%** | 99.05% |
 
-Read those four rows together, because they say something neither says alone.
-**Pattern is strong exactly where its table was aimed and collapses outside
-it.** On the jazz vocabulary its 62 patterns were built for it loses only the
-thirteenth chords - 20 voicings, all of them 13s. On real scores it holds
-93.3% by instance but only 83.3% by distinct set, and the gap between those two
-numbers *is* the finding: the chords that occur most often are the ones it has
-patterns for. On the exhaustive sweep, where every sonority counts once and
-most are things no table anticipates, it gets one in four.
+Read those together: **a table is strong exactly where it was aimed and
+collapses outside it.** 62 patterns covered the jazz vocabulary they were built
+for, held 93.3% of real score sonorities by instance but only 83.3% by distinct
+set - the chords that occur most often are the ones it had patterns for - and
+managed one in four across the exhaustive sweep. Its failures were one failure
+repeated: a pattern wins while leaving a note unexplained, so `G D F` reads
+`G5`. Raising the penalty for an unexplained note helps to 23.5% and then the
+engine drops below its own threshold and gives up instead. That is a ceiling,
+not a tuning problem.
 
-Its failures on the corpus are the same one failure repeated: a power chord
-that abandons a note. `G D F` reads `G5` 317 times, `D A C` reads `D5` 215
-times. The largest collections:
+Two other findings from it are worth keeping:
 
-| | sonorities | Pro | Pattern |
-| --- | --- | --- | --- |
-| palestrina | 300,451 | 100% | 94.6% |
-| beethoven | 261,374 | 100% | 94.8% |
-| bach | 252,567 | 100% | 98.2% |
-| monteverdi | 242,153 | 99.999% | 96.9% |
-| trecento | 168,909 | 100% | 94.5% |
-
-Pattern's worst is Schoenberg at 16.1%, then the folk collections -
-ryansMammoth 63.1%, oneills1850 74.1%, airdsAirs 80.5% - which are sparse and
-modal rather than triadic. Pro's worst is also Schoenberg, at 99.197%.
-
-**The corpus scan reproduces exactly**, which is worth knowing before trusting
-any of this: rerunning `tools/corpus_scan.py` from scratch gave 490,732
-sonority instances, 363,963 with three or more pitch classes, across 33
-collections and 3,194 files with no parse failures - every figure the same as
-the original run. The jazz set had to be rebuilt from its description and came
-out at 2,097 voicings rather than the original 1,679, so it is a comparable set
-and not the same one; Pro scores 100% on both.
-
-`tools/compare_engines.lua` names the same chords with both, `--differ` for
-just the disagreements.
+- **Tying detection to the selected scale did nothing there either.** Scoring a
+  candidate root for being a scale degree moved Pattern's objective score from
+  22.07% to 22.08%. That reproduces, on a completely different architecture,
+  the null recorded below for Pro - and two independent nulls settle it.
+- The port was made from the C++ source rather than that project's own
+  documentation, **which disagrees with its code** in at least three constants.
+  Read the source.
 
 ## Working in this repo
 
@@ -235,14 +185,15 @@ named at the end of its line.
   Each was corrected only after reading the code. Treat any claim here as a
   lead to verify, not a fact to act on.
 - **Two independent nulls beat one.** Tying chord detection to the selected
-  scale moved Pro's accuracy not at all, and moved Pattern's - a completely
-  different architecture - by one hundredth of a point. One null invites a
-  retry with different weights; two, from unrelated engines, settle it.
+  scale moved Pro's accuracy not at all, and moved a pattern-matching engine's
+  - a completely different architecture - by one hundredth of a point. One null
+  invites a retry with different weights; two, from unrelated engines, settle
+  it.
 - **Prefer a number to an argument.** "A table cannot be made complete" was an
-  opinion until Pattern was built and measured at 23.5% against Pro's 100% on
-  the same 17,688 voicings, with the ceiling on its tuning located as well.
-  Building the thing you are arguing against is often cheaper than the
-  argument. (*ScaleView Pattern*.)
+  opinion until the table-based engine was built alongside and measured at
+  23.5% against Pro's 100% on the same 17,688 voicings, with the ceiling on its
+  tuning located as well. Building the thing you are arguing against is often
+  cheaper than the argument. (*A table cannot be made complete*.)
 - **Measure without redistributing.** Two of the five corpora are CC BY-NC-SA.
   They were cloned, scanned, scored and discarded; nothing from any corpus is
   in this repository, and the table records each licence so the next person

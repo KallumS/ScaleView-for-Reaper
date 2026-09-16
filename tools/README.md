@@ -38,20 +38,6 @@ here in the same change.
 bad accuracy figure this project has quoted came from the checker or the
 expected answers being wrong, never from the engine - four separate times.
 
-## `compare_engines.lua` — Pro and Pattern side by side
-
-Names the same chords with both engines so they can be judged against a third
-opinion. Reads MIDI note numbers on stdin, one chord per line.
-
-```sh
-printf '60 64 67 69\n' | lua5.4 tools/compare_engines.lua
-lua5.4 tools/compare_engines.lua "Gb Major" --differ < chords.txt
-```
-
-An argument selects a scale in both first; `--differ` prints only the
-disagreements, which is usually what you want when hunting for a case to put
-in front of Scaler.
-
 ## `chord_types.lua` — dump the closed half of the vocabulary
 
 Loads the shipped script under the same mocks and asks the real `core()`,
