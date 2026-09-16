@@ -478,6 +478,42 @@ complete triad take one cost 207 misnamed sonorities across 382 Bach chorales
 and 7 points on inverted jazz voicings, and bought nothing - the chord the rule
 exists for carries a b9 and a #9.
 
+### How the bass is decided
+
+The bass is the lowest note sounding. It is found separately from the root and
+a slash names it, which is what makes C E A read `Amin/C` and what separates
+`Bsus2` from `F#sus4`.
+
+**One convention sits on top of that, and it is Scaler's.** A root sounding in
+more than one octave that is a first, third or fifth degree of the key reads as
+root position, and the slash comes off: E G C C is `C`, not `C/E`. Doubling the
+root is how a chord is voiced around its root rather than inverted. This was
+the last place Pro and Scaler parted company on the same notes - the reading
+was right and the bass was not - and `readAsRootPosition` is the whole of it.
+
+Three things keep it honest:
+
+- **It can only remove a slash, never invent one.** What follows a slash is
+  still always the lowest note sounding, so no symbol can name a bass that is
+  not there, and no note goes unaccounted for: the notes a symbol claims are
+  unchanged by it.
+- **The key decides which notes qualify**, and the degrees come off the
+  selected scale rather than being assumed to be a major triad, so F A D D is
+  `Dmin/F` in C major and `Dmin` in D minor. With no scale selected the assumed
+  key supplies them - C, E and G, in `ASSUMED_TONIC`, which has to move if
+  `ASSUMED_KEY` ever does.
+- **The cost model is untouched.** The reading is still chosen with the lowest
+  note as the bass, which is what every figure below measured; the rule decides
+  only how the winner is written down. The 17,688-voicing sweep is byte
+  identical either way, because nothing in it is doubled - the rule needs a
+  real voicing to fire at all.
+
+Measured over the five corpora and the music21 core corpus, it renames 1.2% to
+3.3% of distinct sonorities (1.0% to 2.8% by instance). Every rename is an
+inversion losing its slash - `E C G C` to `C`, `B G D G` to `G`, `D# C G C` to
+`Cmin` - so what it costs is the classical reading of those voicings, which is
+the trade that was asked for. Nothing else moved.
+
 ### What it scores on real music
 
 | Corpus | sonorities | Pro |
@@ -564,7 +600,17 @@ not - `G7maj7` ran the two seventh names together - so it is bracketed now.
 the notes played and names the right bass - parsed back into pitch classes by
 a checker written from music theory alone, which knows nothing about this code.
 It is not a claim that the engine picks the name a particular musician would
-have written. Where several names describe the same notes, which one is best is
+have written.
+
+Since the doubled-root rule above, "the right bass" is the engine's rule rather
+than the strict one, and the tables above are scored that way (`names_bass` in
+the checker, against `claimed` for the strict reading). The two differ by
+design and by a knowable amount. Scored strictly - the bass is the lowest note,
+no exceptions - the same runs read 98.382% on Bach 370, 97.993% on DCML,
+97.608% on When in Rome, 97.152% on Lieder, 97.931% on the quartets and 99.008%
+on the music21 corpus. **Every one of those "failures" is a slash deliberately
+left off a doubled root, not a misnamed chord**: the proportion of sonorities
+whose symbol accounts for exactly the notes played did not move at all. Where several names describe the same notes, which one is best is
 a matter of taste and the bass rule settles it.
 
 **Three times the ground truth was the bug, not the engine.** This is the thing
@@ -610,10 +656,13 @@ not wire them into root choice expecting accuracy.
   third rule rather than Pro getting it wrong. Scaler evidently will write a
   suspension carrying a sixth, which `COST_SUS_EXTRA` deliberately suppresses.
   Change that only if asked, and expect the D E G A family to move with it.
-- The user has reported further disagreements without examples yet. A sweep
-  cannot find them: both corpora are already at 100% on the objective test, so
-  what is left is *preference*, and only a specific chord in a specific key
-  with Scaler's name beside it will settle one.
+- **The bass, on a doubled root** - that one is settled and closed. The user
+  tracked the remaining disagreements down to it: the notes matched and the
+  chord was right, but Scaler reads a doubled root as root position where Pro
+  printed a slash. See *How the bass is decided*; Pro now does the same.
+- Anything still left is *preference*, and a sweep cannot find it - both
+  corpora are at 100% on the objective test. Only a specific chord, in a
+  specific key, with Scaler's name beside it will settle one.
 
 Diffing two builds of the engine against each other over all 6,600 voicings is
 worth doing after any change to the weights: that is what turned up `Cmin6`
@@ -827,7 +876,11 @@ included. **If either changes here, change it there too.**
 
 Parity is held by diffing output, never by eye: all 288 keys, then 36,283
 voicings with no scale selected and 1,679 voicings in each of ten keys, about
-53,000 names, byte-identical. `tools/runner.lua` is one half of that rig - the
-other is a twenty-line C++ file calling `chordName`. The plugin sees MIDI items
+53,000 names, byte-identical. The doubled-root bass rule was checked the same
+way and needed a different corpus to mean anything - a sweep has no doublings
+in it - so it went through 97,346 real voicings from the corpora, 51,248 of
+them doubling a pitch class, in six keys: 584,076 names, byte-identical.
+`tools/runner.lua` is one half of that rig - the other is a twenty-line C++
+file calling `chordName`. The plugin sees MIDI items
 playing back, which a script cannot, so it is also the answer to anyone asking
 for that.

@@ -180,6 +180,14 @@ whether the root had to be named after a slash. That last part is what keeps a
 complete triad in an inversion ahead of a rooted chord with a hole in it: C E A
 stays `Amin/C` rather than becoming a C6 with no fifth.
 
+The bass after the slash is the lowest note you are actually playing, with one
+exception: if the chord's own root is sounding in two octaves and is a first,
+third or fifth degree of the selected key, the chord reads as root position and
+the slash comes off. Play E G C with another C on top and you get `C`, not
+`C/E` - doubling the root is how a chord gets voiced around it rather than
+inverted. The key decides which notes qualify, so F A D with a second D is
+`Dmin/F` in C major and `Dmin` in D minor.
+
 The practical difference, measured over every three-, four- and five-note
 voicing in every bass position - 6,600 in all:
 
@@ -230,7 +238,10 @@ Bach chorales, 49 Chopin mazurkas and the standards repertoire's chord
 vocabulary in all twelve keys, **99.999%** of the sonorities with three or more
 different notes in them come back as a chord symbol that describes exactly what
 is being played, with the right bass. The exceptions are four eight-note
-clusters, which it reads out as notes on purpose.
+clusters, which it reads out as notes on purpose. Five further corpora - the
+OpenScore Lieder and String Quartets, When in Rome, Sapp's Bach 370 and the
+DCML corpora, 1.2 million more sonorities - come out the same way, and every
+miss in them is another cluster.
 
 Everything else above - the scales, the spelling, the clicking, the highlight
 colours, the per-project key, the toolbar toggle - is the same in Simple. The

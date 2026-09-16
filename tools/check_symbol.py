@@ -117,3 +117,28 @@ def claimed(symbol):
     return ({(root + i) % 12 for i in need},
             {(root + i) % 12 for i in opt},
             note_pc(bass) if bass else root)
+
+def names_bass(symbol, notes, tonic=(0, 4, 7)):
+    """Does this symbol name the bass of this voicing?
+
+    A slash names the lowest note sounding. That is the rule every figure in
+    this repo was measured against, and `claimed` above still knows nothing
+    about anything else.
+
+    ScaleView adds one convention on top of it: a root sounding in more than
+    one octave that is a 1st, 3rd or 5th degree of the key reads as root
+    position, so the slash comes off even though a lower note is sounding.
+    That is a preference rather than a theorem - it is how Scaler reads a
+    doubled root - which is why it lives in its own function here. Score with
+    `claimed` alone to see what the strict rule says.
+
+    notes are MIDI note numbers. tonic is the key's 1st, 3rd and 5th degrees,
+    defaulting to C major's, which is what the engine assumes with no scale
+    selected.
+    """
+    got = claimed(symbol)
+    if got is None: return False
+    _, _, named = got
+    if named == min(notes) % 12: return True
+    doubled = sum(1 for n in notes if n % 12 == named) > 1
+    return doubled and named in tonic

@@ -194,6 +194,26 @@ expect({52, C4, 67}, "C/E", "E in the bass")
 expect({43, C4, 64}, "C/G", "G in the bass")
 expect({C3, C3 + 4, C3 + 7, C3 + 11}, "Cmaj7", "root position stays plain")
 
+--[[  3b) A doubled degree of the key is read as root position.
+
+    The bass is the lowest note, and a slash names it - except where the root
+    itself is sounding in two octaves and is a first, third or fifth degree of
+    the key. That is how a chord is voiced around its root rather than
+    inverted, it is how Scaler reads it, and the slash comes off.
+
+    The key decides which notes qualify, so the same four notes are Dmin/F in
+    C major and Dmin in D minor. The rule can only ever remove a slash: what
+    follows one is still always the lowest note sounding. ]]
+print("a doubled root of the key takes the bass:")
+expect({52, 55, C4, 72}, "C", "E G C C - the root in two octaves, so no slash")
+expect({52, 55, C4}, "C/E", "one C and it is a first inversion again")
+expect({52, 55, C4, 71}, "Cmaj7/E", "doubling something else changes nothing")
+expect({53, 57, 62, 74}, "Dmin/F", "D is not a 1st, 3rd or 5th degree of C major")
+chooseScale("D Minor (Natural)")
+expect({53, 57, 62, 74}, "Dmin", "in D minor it is one, so the slash comes off")
+expect({53, 57, 62}, "Dmin/F", "and an undoubled root is still an inversion")
+chooseScale("Clear Scale")
+
 -- 4) The classic ambiguity: the same four notes, named by what is underneath.
 print("C6 against Amin7 - the bass decides:")
 expect({45, C4, 64, 67}, "Amin7", "A in the bass")

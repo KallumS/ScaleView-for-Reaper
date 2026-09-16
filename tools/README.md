@@ -38,6 +38,14 @@ here in the same change.
 bad accuracy figure this project has quoted came from the checker or the
 expected answers being wrong, never from the engine - four separate times.
 
+`claimed` reports the bass a symbol names, and by the strict rule that is the
+lowest note sounding. The engine has one convention on top of it - a doubled
+root that is a 1st, 3rd or 5th degree of the key reads as root position, so the
+slash comes off - and that lives in `names_bass`, separately, because it is a
+preference rather than theory. Score with `claimed` alone for the strict
+figure and with `names_bass` for what the engine is actually trying to do;
+`CLAUDE.md` quotes both.
+
 ## `chord_types.lua` — dump the closed half of the vocabulary
 
 Loads the shipped script under the same mocks and asks the real `core()`,

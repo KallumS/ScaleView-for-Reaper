@@ -509,6 +509,9 @@ local detectChord
     accidentals, so the twelve read C C# D D# E F F# G G# A A# B either way. ]]
 local ASSUMED_KEY = {[0] = true, [2] = true, [4] = true, [5] = true,
                      [7] = true, [9] = true, [11] = true}
+-- The same assumption's first, third and fifth degrees, for the doubled-degree
+-- rule below. Change the assumed key and this has to change with it.
+local ASSUMED_TONIC = {[0] = true, [4] = true, [7] = true}
 local lastEventSeq = nil -- newest input event already applied
 local midiFailed = false -- set if the input history cannot be read at all
 
@@ -785,6 +788,11 @@ end
 -- Each reading is costed, the cheapest wins, and a root that is not in the
 -- bass pays for the slash it will need. That is what separates Bsus2 from
 -- F#sus4 and keeps C E A as Amin/C.
+--
+-- The one exception to "the bass is the lowest note" is a root sounding in
+-- more than one octave that is a first, third or fifth degree of the key:
+-- that reads as root position and the slash comes off. See
+-- readAsRootPosition.
 ------------------------------------------------------------------------------
 
 --[[ A chord is named from the same vocabulary the scale list offers: the
@@ -808,14 +816,58 @@ local function chordNoteName(pc)
 end
 
 local function heldPitchClasses()
-  local classes, bass = {}, nil
+  local classes, bass, voices = {}, nil, {}
 
   for note in pairs(held) do
-    classes[note % 12] = true
+    local pc = note % 12
+    classes[pc] = true
+    voices[pc]  = (voices[pc] or 0) + 1   -- how many octaves it is sounding in
     if not bass or note < bass then bass = note end
   end
 
-  return classes, bass and bass % 12 or nil
+  return classes, bass and bass % 12 or nil, voices
+end
+
+--[[  The first, third and fifth degrees of the key.
+
+    Taken from the selected scale itself rather than assumed to be a major
+    triad, so a minor key offers its own third and a five-note scale offers
+    whatever its third and fifth degrees are. With no scale selected the
+    assumed key supplies them, exactly as it supplies the draws, so choosing
+    C Major from the menu still gives identical names. ]]
+local function tonicDegrees()
+  if not (state.root and state.scale) then return ASSUMED_TONIC end
+
+  local degrees   = {}
+  local rootPc    = rootPitch(ROOTS[state.root])
+  local intervals = SCALES[state.scale].intervals
+  for _, degree in ipairs({1, 3, 5}) do
+    if intervals[degree] then degrees[(rootPc + intervals[degree]) % 12] = true end
+  end
+  return degrees
+end
+
+--[[  A doubled degree of the key claims the bass.
+
+    The bass is the lowest note sounding - that is what a slash chord names,
+    and everything else here rests on it. The one exception is the case this
+    rule exists for: a root that is a first, third or fifth degree of the key
+    and is sounding in more than one octave. A doubled root is how a chord is
+    voiced in root position, so the reading is that the player laid the chord
+    out around its root rather than inverted it, and the slash comes off.
+
+    It can only ever remove a slash, never invent one: the note after a slash
+    is always either the lowest note or nothing at all, so the symbol can never
+    name a bass that is not there. Scaler reads doubling this way, and it is
+    the only place its slash chords and ours parted company on the same notes.
+
+    The cost model is untouched. The reading is still chosen with the lowest
+    note as the bass, which is what the corpora measure; this decides how the
+    winner is written down. ]]
+local function readAsRootPosition(root, bass, voices)
+  if root == bass then return true end
+  if (voices[root] or 0) < 2 then return false end
+  return tonicDegrees()[root] == true
 end
 
 --[[  Reading the chord.
@@ -833,7 +885,7 @@ end
     chosen - and a chord from outside the key is still named for what it is
     rather than bent to fit. ]]
 function detectChord()
-  local classes, bass = heldPitchClasses()
+  local classes, bass, voices = heldPitchClasses()
   if not bass then return nil end
 
   local count = 0
@@ -854,7 +906,9 @@ function detectChord()
     for root = 0, 11 do
       if classes[root] and classes[(root + 7) % 12] then
         local name = chordNoteName(root) .. "5"
-        if root ~= bass then name = name .. "/" .. chordNoteName(bass) end
+        if not readAsRootPosition(root, bass, voices) then
+          name = name .. "/" .. chordNoteName(bass)
+        end
         return name
       end
     end
@@ -889,7 +943,9 @@ function detectChord()
   end
 
   local name = chordNoteName(best.root) .. best.name
-  if best.root ~= bass then name = name .. "/" .. chordNoteName(bass) end
+  if not readAsRootPosition(best.root, bass, voices) then
+    name = name .. "/" .. chordNoteName(bass)
+  end
   return name
 end
 
