@@ -137,15 +137,16 @@ Every one of these cost something. They are method rather than music, they
 generalise beyond this repo, and the detail behind each sits in the section
 named at the end of its line.
 
-- **A surprising accuracy number is a bug in the measurement.** Five times now
+- **A surprising accuracy number is a bug in the measurement.** Six times now
   the fault was in the rig and not the engine: a truth table with no sixth
   chords, an inversion set built by mechanically slashing symbols, a checker
   demanding a fifth the engine deliberately never prints, a "390 misnamed
-  suspensions" that was a table with no `7sus4` in it, and a sweep generator
-  that silently produced voicings with duplicate pitch classes. Validate the
-  checker against data already known to be right *before* believing any figure
-  it produces. (*What it scores on real music*, *Generate that sweep
-  carefully*.)
+  suspensions" that was a table with no `7sus4` in it, a sweep generator that
+  silently produced voicings with duplicate pitch classes, and a 68% against
+  human analyses that was three separate faults in how labels were joined to
+  slices. Validate the checker against data already known to be right *before*
+  believing any figure it produces. (*What it scores on real music*, *Generate
+  that sweep carefully*, *Against a human's name for the same notes*.)
 - **Validate the input distribution too, not just the checker.** The DCML
   corpora scored a flat 100%, which is exactly the shape of a scanner that is
   quietly dropping notes. It was real: their sonorities stop at seven pitch
@@ -648,6 +649,106 @@ keys moves the inversion figure by 2.6 points at most, because the ambiguity is
 not about which roots are diatonic - in `C E G A` over E, both candidate roots
 are in C major. Scale degrees are a display feature, not a detection input; do
 not wire them into root choice expecting accuracy.
+
+### Against a human's name for the same notes
+
+Every figure above asks the same question: does the symbol account for exactly
+the notes played. **This section asks a different one** - does it agree with the
+name somebody else gave those notes - and the two must not be confused. Where
+two notations disagree, usually neither is wrong.
+
+**jazznet** (MIT, github.com/tosiron/jazznet) is 162,520 labelled piano
+patterns. `tools/jazznet_check.py` generates its chord-shaped ones from its own
+generator's inversion formulas - 6 triads and 6 tetrads over 85 bases in every
+inversion, 3,570 voicings:
+
+| | |
+| --- | --- |
+| symbol accounts for exactly the notes | **100%** |
+| names the same bass as the voicing | **100%** |
+| symbol identical to jazznet's label | **63.1%** (71.7% excluding symmetric sets) |
+
+All 1,316 differences are in three classes and none is a defect: **symmetric
+sets** (425 - `aug` and `dim7` inversions, where no root is derivable by
+anyone), **the 6/min7 family** (551 - `C6/E` against `Amin7/E`, `Cmin7/Eb`
+against `Eb6`, the preference this repo settled long ago and pinned in the
+tests), and **sus inversions** (340 - sus2 and sus4 are inversionally
+equivalent, so `Csus2/G` and `Gsus4` are both exact). Selecting the chord's own
+key moves agreement from 63.1% to 65.7%, which is a third independent
+reproduction of "the scale only breaks a draw".
+
+Worth knowing what jazznet's label is: a record of how the file was generated,
+a root plus an inversion, not a musician's judgement about the printed voicing.
+
+**DCML and When in Rome carry human analyses** of the same scores whose notes
+are scored above - 729 movements of DCML harmony tables, 266 When in Rome
+scores with a Roman-numeral analysis beside them. `tools/collect_labels.py`
+joins them to the sonorities and `tools/score_labels.py` scores the result:
+
+| | slices | analyst's root | analyst's bass |
+| --- | --- | --- | --- |
+| DCML, 13 repos | 84,788 | **91.1%** (93.9% excl. symmetric) | **100%** |
+| When in Rome | 26,935 | **92.0%** (95.6% excl. symmetric) | **100%** |
+
+**The bass figure is the striking one: whenever the analyst's bass is the
+lowest note sounding, Pro names it, on every one of 111,723 slices.** The
+differences are 13,408 slices where the analyst's bass is not sounding lowest
+at that instant - their figure describes a span, and an arpeggiating
+accompaniment moves underneath it - and 2,027 from the doubled-root rule, which
+is that rule's measured price against analysts who mark first inversions
+explicitly: **1.8%**, in both corpora.
+
+Where the roots differ, about half is not decidable from the notes at all:
+
+| | DCML | When in Rome |
+| --- | --- | --- |
+| the set is symmetric, so no root is derivable | 33.6% | 47.1% |
+| the analyst's root is not sounding | 15.3% | 4.8% |
+| a real difference of preference | 51.1% | 48.1% |
+
+and that last half is two things, the same two in both corpora:
+
+- **Augmented sixths.** `F A D# C` is `Ger65` to an analyst and `F7` to a chord
+  symbol. The notes are a dominant seventh; the label is about where it goes.
+  ~570 in DCML, ~300 in When in Rome.
+- **Half-diminished and minor-seventh inversions.** `D# A# C F#` is `iiø65`
+  analytically and `D#min6` as a symbol - the same family jazznet found from
+  completely different data.
+
+**Three cautions, because this is the easiest measurement here to get wrong.**
+
+- **It read 68% first, and the number was the measurement.** Three faults: a
+  slice inside a labelled span often holds only part of the chord, so Pro was
+  naming three notes correctly and being marked against a four-note label; the
+  cadential six-four, where an analyst writes `V(64)` for a C major triad over
+  G because of where it goes and a musician writes `C/G` because of what it is;
+  and the analyst's span-level bass against an instantaneous slice. All three
+  are counted apart now.
+- **Validate the label arithmetic before the engine.** DCML writes chord tones,
+  roots and basses as steps on the line of fifths relative to the *local* key,
+  and the local key is itself a numeral relative to the global one. Both
+  conversions were checked against labels whose answer is known from the
+  numeral alone - F minor `i` is F Ab C, C major `V2` is G B D F over F.
+- **Roman numerals answer a different question.** They name function; a chord
+  symbol names notes. Agreement is interesting, disagreement is mostly the gap
+  between the two notations, and neither is evidence of a defect.
+
+**On jazz specifically, a labelled corpus does not exist in the useful form**,
+and this was surveyed rather than guessed. The Weimar Jazz Database (ODbL, 456
+solos) takes its chords from lead sheets and *clones them across every chorus*,
+and its MIDI is the monophonic solo, so its notes are not the chord. JAAH is
+audio. iReal Pro, the Jazz Harmony Treebank and Chordonomicon are symbols with
+no notes. POP909's labels came from an MIR algorithm, and grading this engine
+against another chord recogniser is how the "390 misnamed suspensions" scare
+happened. What is left is jazznet, which is generated, and Hooktheory's lead
+sheets, whose chord tracks are rendered from the symbol.
+
+The reason is not a gap in the datasets. **In a real jazz performance the chart
+symbol is frequently not in the notes**: a pianist voicing D F A C under a
+bassist's Bb is `Bbmaj9` on the chart and `Dmin7` in isolation. The DCML
+measurement puts a number on that - in 15.3% of its root disagreements the
+analyst's root is not sounding at all. No engine reading one voicing can
+recover it, and a corpus like that measures context we do not have.
 
 ### Where Pro and Scaler 3 disagree, and why
 
