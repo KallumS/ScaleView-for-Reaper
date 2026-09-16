@@ -1,8 +1,13 @@
 # How the chord naming is measured
 
-Three small tools, kept because the measurements in `CLAUDE.md` are worth being
+Six small tools, kept because the measurements in `CLAUDE.md` are worth being
 able to repeat. None of them is needed to *use* ScaleView; they exist to check
 it.
+
+The first three check the symbol against the notes - is it a name for exactly
+what is being played. The last three check it against somebody else's name for
+the same notes, which is a different question and worth keeping separate: where
+two notations disagree, usually neither is wrong.
 
 ## `runner.lua` — drive a real script over a corpus
 
@@ -72,3 +77,61 @@ python3 tools/corpus_scan.py 0 200        # first chunk; repeat in steps of 200
 ```
 
 music21 is used here only as a file reader. It is never asked to name a chord.
+
+## `collect_labels.py` — pair sonorities with a human analyst's label
+
+Two annotated corpora, one output shape. `dcml` reads DCML's `notes/*.tsv`
+beside `harmonies/*.tsv`, which share a timeline, so the join needs no
+alignment guesswork; `wir` reads When in Rome's `score.mxl` and `analysis.txt`
+with music21 and matches them by measure and beat, because the two are separate
+streams whose absolute offsets drift at an anacrusis.
+
+```sh
+python3 tools/collect_labels.py dcml  path/to/dcml  dcml_pairs.json
+python3 tools/collect_labels.py wir   path/to/when-in-rome  wir_pairs.json
+```
+
+Neither corpus is in this repository - both are non-commercial or share-alike,
+and these are measurements, not redistribution.
+
+**The fifths arithmetic is the part to validate first.** DCML writes chord
+tones, roots and basses as steps on the line of fifths relative to the *local*
+key, and the local key is itself a numeral relative to the global one. Both
+conversions were checked against labels whose answer is known from the numeral
+alone - F minor `i` is F Ab C, C major `V2` is G B D F with F underneath -
+before any score was believed.
+
+## `score_labels.py` — does the symbol name the analyst's root and bass
+
+```sh
+python3 tools/score_labels.py wir_pairs.json --label "When in Rome"
+```
+
+**Three things are counted apart rather than as errors**, and the first version
+of this script counted them and read 68%:
+
+- **Partial chords.** A slice inside a labelled span often holds only part of
+  the chord. Only slices holding the whole labelled chord are scored.
+- **The cadential six-four.** An analyst writes `V(64)` for a C major triad
+  over G because of where it goes; a musician writes `C/G` because of what it
+  is. They can never agree.
+- **Span against slice.** Where the accompaniment arpeggiates, the lowest note
+  at one instant is not the chord's bass, and the analyst's figure describes
+  the whole span.
+
+Symmetric sets are also separated: a set that maps onto itself under
+transposition has no root derivable from the notes, so nobody can find one.
+
+## `jazznet_check.py` — against a labelled chord dataset
+
+Generates the chord-shaped patterns of jazznet (MIT) from its own generator's
+inversion formulas and compares each symbol with its label.
+
+```sh
+python3 tools/jazznet_check.py
+python3 tools/jazznet_check.py --scale "C Major"
+```
+
+Its label records how the file was generated - a root and an inversion - not
+what a musician would write over the printed voicing, so what this measures is
+agreement between two naming conventions.
