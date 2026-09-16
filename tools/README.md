@@ -1,6 +1,6 @@
 # How the chord naming is measured
 
-Six small tools, kept because the measurements in `CLAUDE.md` are worth being
+Seven small tools, kept because the measurements in `CLAUDE.md` are worth being
 able to repeat. None of them is needed to *use* ScaleView; they exist to check
 it.
 
@@ -135,3 +135,17 @@ python3 tools/jazznet_check.py --scale "C Major"
 Its label records how the file was generated - a root and an inversion - not
 what a musician would write over the printed voicing, so what this measures is
 agreement between two naming conventions.
+
+## `scaler_cases.py` — the twelve chords Scaler 3 was asked about
+
+One per major key, with what ScaleView prints beside what Scaler printed. They
+are the only hard evidence about Scaler in this repository; four rules came out
+of them and two more are recorded in `CLAUDE.md` as not implemented.
+
+```sh
+python3 tools/scaler_cases.py
+```
+
+Every one of the 24 names accounts for exactly the notes played, and the bass
+agreed in all twelve, so what is left is which root to name and how to
+punctuate it.

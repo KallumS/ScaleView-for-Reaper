@@ -451,6 +451,33 @@ tuning them, each of which broke a test first:
   not gets `RANK_TWICE_ODD` on top, or C D Eb Gb Cb reads `CminMaj9b5`.
 - A bare altered fifth is bracketed - `C(b5)`, never `Cb5`, which reads as a
   chord on C flat.
+- **A third beats a shape with none, even from an inversion**, and two entries
+  make that true rather than merely stated. `maj7b5` was missing from
+  `CORE_RANK` although players write it constantly as the Lydian tonic, so it
+  paid `RANK_UNNAMED` plus `RANK_TWICE_ODD` - 37 before any slash - and lost to
+  readings with no third at all: D D# G A read `Dsus4b9` rather than
+  `D#maj7b5/D`. And the two third-less qualities whose fifth is *also* altered
+  sit at 41 and 42 rather than 32 and 33, past `COST_INVERSION` from an unnamed
+  quality with a third (25), so D E A# reads `Bb(b5)/E` the same way F A B
+  reads `F(b5)`. **The perfect-fifth pair stay at 30 and 31**: a seventh over a
+  bare fifth is a real voicing, and moving them makes C G Bb read
+  `GminAdd11/C` instead of `C7(no3)`.
+- **A minor sixth is charged one more than any other sixth** (`COST_MIN_SIXTH`
+  against `COST_SIXTH`) because it is the one sixth that is also something
+  else: A C E F# is `Amin6` and equally `F#min7b5`, the half-diminished on its
+  third. The two tie exactly, and the half-diminished is what Scaler prints,
+  what jazznet's labels carry, and what analysts write - flipping it raised
+  agreement with When in Rome's analysts from 91.99% to 92.58% and with
+  jazznet from 63.1% to 66.7%.
+- **A diminished seventh carrying a ninth is a `dim9`**, not a `dim7` with a
+  note stuck on the end. Only the spelling changes: it still costs what an
+  added tone costs, so which reading wins is untouched.
+- **Two notes are an interval, except a fifth or a third.** B D is `Bmin(no5)`
+  and C E is `Cmaj(no5)` - the missing fifth is said out loud because with two
+  notes it cannot be silent, and printing `C` for C E would claim a G nobody is
+  playing. A third has only one reading, since four semitones are a major third
+  one way and a minor sixth the other. A second, a fourth, a tritone, a sixth
+  or a seventh is still read out as notes.
 
 ### The complete triad wins
 
@@ -752,18 +779,51 @@ recover it, and a corpus like that measures context we do not have.
 
 ### Where Pro and Scaler 3 disagree, and why
 
+**Twelve chords were put through Scaler 3 and reported back, one per major
+key.** They are the only hard evidence about Scaler in this repo, they are
+reproduced by `tools/scaler_cases.py`, and every one of the 24 names - both
+engines - accounts for exactly the notes played. **The bass agreed in all
+twelve.** It was never anything but a fight about the root.
+
+Four rules came out of them and are implemented; two are not, and are listed
+below with what would settle them.
+
+- **The bass, on a doubled root** - settled. Scaler reads a doubled root as
+  root position where Pro printed a slash. See *How the bass is decided*.
+- **A dim7 with a ninth is `dim9`**, a minor sixth loses to the
+  half-diminished on its third, a third beats a shape with none, and two notes
+  a third apart are a chord. All four are in *How Pro names a chord* above.
 - **E G A** - Pro `EminAdd11/G`, Scaler `G6(sus2)`. Pro's reading has a minor
-  third, Scaler's has no third at all, so this is Scaler disagreeing with the
-  third rule rather than Pro getting it wrong. Scaler evidently will write a
-  suspension carrying a sixth, which `COST_SUS_EXTRA` deliberately suppresses.
-  Change that only if asked, and expect the D E G A family to move with it.
-- **The bass, on a doubled root** - that one is settled and closed. The user
-  tracked the remaining disagreements down to it: the notes matched and the
-  chord was right, but Scaler reads a doubled root as root position where Pro
-  printed a slash. See *How the bass is decided*; Pro now does the same.
-- Anything still left is *preference*, and a sweep cannot find it - both
-  corpora are at 100% on the objective test. Only a specific chord, in a
-  specific key, with Scaler's name beside it will settle one.
+  third, Scaler's has none, so this is Scaler disagreeing with the third rule
+  rather than Pro getting it wrong. Scaler evidently will write a suspension
+  carrying a sixth, which `COST_SUS_EXTRA` deliberately suppresses. Change that
+  only if asked, and expect the D E G A family to move with it.
+
+**Not implemented, and why.**
+
+- **Scaler treats the key as a filter, not a tie-break.** In four of the twelve
+  its root is a degree of the selected scale and Pro's is not - C# major
+  `D#maj7b5/D` over `Dsus4b9`, B major `Bmaj(b5)b9/C` over `CminMaj7(11)`. In
+  two more, where no candidate root is both diatonic and nameable, it falls
+  back to the bass: C major `C#6(sus4)` and Ab major `D6(sus2 b5)`. This
+  contradicts a finding measured twice here, on two unrelated engines: making
+  the scale stronger than a tie-break does not improve accuracy. Both can be
+  true - it would not make Pro more correct, only more like Scaler - so it is
+  a deliberate choice and has not been made. **The test that settles it is one
+  chord in two keys**: C# F# G# A# reads `C#6(sus4)` in C major; if it reads
+  `F#add9/C#` in F# major the filter is real.
+- **A natural 11 over a major third may be forbidden outright.** Eb major
+  Eb E Gb B is `Emaj7(sus2)/D#` to Scaler, where Pro's `Badd11/Eb` puts E
+  against D#. Pro brackets such elevenths rather than refusing them.
+
+**One difference is punctuation, not reading.** After the four changes Pro
+picks Scaler's root and quality on five of the twelve but prints them
+differently: `D#maj7b5` against `D#maj7(b5)`, `A#(b5)` against `Bbmaj(b5)`.
+Scaler brackets every modifier and writes the triad quality out. Matching it
+would rewrite every `b5`/`#5` symbol in the vocabulary, so it is a separate
+decision and has not been taken. The A# against Bb is not a difference at all:
+Scaler has its own sharps/flats display mode, and the two must be compared
+like for like.
 
 Diffing two builds of the engine against each other over all 6,600 voicings is
 worth doing after any change to the weights: that is what turned up `Cmin6`

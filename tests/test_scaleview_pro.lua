@@ -214,6 +214,29 @@ expect({53, 57, 62, 74}, "Dmin", "in D minor it is one, so the slash comes off")
 expect({53, 57, 62}, "Dmin/F", "and an undoubled root is still an inversion")
 chooseScale("Clear Scale")
 
+--[[  3c) Four readings changed after a set of twelve chords was put through
+    Scaler 3 and reported back. Each of these names exactly the notes played,
+    as did the name it replaced; what changed is which of several correct
+    names is printed.
+
+    A dim7 carrying a ninth is a dim9, the way a number rises under every
+    other seventh. A minor sixth loses to the half-diminished on its third,
+    which is the same four notes and the commoner name - Scaler, jazznet's
+    labels and some 880 analyst labels in DCML and When in Rome all agree.
+    And a shape with a third beats one without, even from an inversion: maj7b5
+    is a chord players write constantly and was missing from CORE_RANK, and a
+    third-less quality whose fifth is also altered is odd twice over. ]]
+print("what the Scaler comparison moved:")
+expect({C4, C4 + 2, C4 + 3, C4 + 6, C4 + 9}, "Cdim9", "a dim7 with a ninth in it")
+expect({C4, C4 + 16, C4 + 18, C4 + 21}, "F#min7b5/C",
+       "A C E F# is the half-diminished, not Amin6")
+expect({C4, C4 + 3, C4 + 7, C4 + 9}, "Cmin6", "but a minor sixth in root position stays")
+expect({62, 63, 67, 69}, "D#maj7b5/D", "was Dsus4b9, which has no third in it")
+expect({64, 70, 74}, "A#(b5)/E", "was E7b5(no3), which has none either")
+expect({65, 69, 71}, "F(b5)", "and the case that rule came from still holds")
+expect({C4, C4 + 7, C4 + 10}, "C7(no3)",
+       "a third-less shape over a perfect fifth is a real voicing, and stays")
+
 -- 4) The classic ambiguity: the same four notes, named by what is underneath.
 print("C6 against Amin7 - the bass decides:")
 expect({45, C4, 64, 67}, "Amin7", "A in the bass")
@@ -224,7 +247,16 @@ expect({43, C4, 64, 69}, "Amin7/G", "neither: the commoner chord, with a slash")
 print("one and two notes:")
 expect({C4}, "C")
 expect({C4, C4 + 7}, "C5", "a bare fifth")
-expect({C4, C4 + 4}, "C E", "not a chord we know: name the notes")
+--[[  A third names a two-note chord, and the missing fifth is said out loud
+    because with two notes it cannot be silent: printing "C" for C E would
+    claim a G nobody is playing. This used to read out as notes. Anything else
+    two notes can be is an interval and still does. ]]
+expect({C4, C4 + 4}, "Cmaj(no5)", "a major third is a chord")
+expect({71, 74}, "Bmin(no5)", "and so is a minor third")
+expect({64, C4 + 12}, "Cmaj(no5)/E", "the lower note still names the bass")
+expect({C4, C4 + 6}, "C F#", "a tritone is an interval: name the notes")
+expect({C4, C4 + 2}, "C D", "so is a second")
+expect({C4, C4 + 5}, "F5/C", "a fourth is a fifth upside down, as before")
 
 -- 6) Chord roots are spelled for the selected key.
 print("spelling follows the key:")

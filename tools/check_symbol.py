@@ -25,6 +25,15 @@ def intervals(q):
             if d not in DEGREE: return None
             iv.add(DEGREE[d])
     q = re.sub(r'\([0-9,]+\)', '', q)
+    #  A two-note chord named by its third says its missing fifth out loud,
+    #  because with only two notes it cannot be silent. "maj" and "min" here
+    #  are the plain triad qualities, not the seventh the bare word means
+    #  everywhere else in this grammar, so they are taken before that.
+    if q.endswith("(no5)"):
+        q = q[:-5]
+        if q == "maj": return {0, 4}, set()
+        if q == "min": return {0, 3}, set()
+        return None
     if q.endswith("(no3)"):
         no3, q = True, q[:-5]
     third, fifth, seventh, sixth = 4, 7, None, False
@@ -37,7 +46,13 @@ def intervals(q):
                 return o
         return None
 
-    if take("dim7"):   third, fifth, seventh = 3, 6, 9
+    #  dim9 is a dim7 with the ninth in it, the way every other seventh lets
+    #  its number rise. The 9 is claimed here rather than by the number parser
+    #  below, which would read the "9" as a dominant ninth.
+    if take("dim9"):
+        third, fifth, seventh = 3, 6, 9
+        iv.add(2)
+    elif take("dim7"): third, fifth, seventh = 3, 6, 9
     elif take("dim"):  third, fifth = 3, 6
     elif take("aug"):  third, fifth = 4, 8
     elif take("min"):

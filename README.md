@@ -180,6 +180,11 @@ whether the root had to be named after a slash. That last part is what keeps a
 complete triad in an inversion ahead of a rooted chord with a hole in it: C E A
 stays `Amin/C` rather than becoming a C6 with no fifth.
 
+Two notes get a name too, where they have one: a fifth is `C5`, a third is
+`Cmaj(no5)` or `Bmin(no5)` - the missing fifth is spelled out, because with only
+two notes printing `C` would claim a G you are not playing. A second, a fourth
+or a tritone is an interval rather than a chord, and reads out as note names.
+
 The bass after the slash is the lowest note you are actually playing, with one
 exception: if the chord's own root is sounding in two octaves and is a first,
 third or fifth degree of the selected key, the chord reads as root position and

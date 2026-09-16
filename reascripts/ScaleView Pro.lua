@@ -82,13 +82,29 @@ local CORE_RANK = {
   ["sus4/P/none"] = 10, ["sus2/P/none"] = 11,
   ["min/P/maj7"]  = 12,
   ["maj/#/b7"]    = 13, ["maj/b/b7"]    = 14, ["maj/#/maj7"] = 15,
-  ["sus4/P/b7"]   = 16, ["sus2/P/b7"]   = 17,
-  ["sus4/P/maj7"] = 18, ["sus2/P/maj7"] = 19,
+  --[[  maj7b5 belongs in this list and was missing from it. The note above
+      says every altered fifth carrying a seventh that musicians play is named
+      here - 7b5, aug7, min7b5, maj7#5 - and players write maj7b5 constantly,
+      as the Lydian tonic. Without it the quality paid RANK_UNNAMED plus
+      RANK_TWICE_ODD, 37 before any slash, and lost to readings with no third
+      in them at all: D D# G A read Dsus4b9 rather than D#maj7b5/D. ]]
+  ["maj/b/maj7"]  = 16,
+  ["sus4/P/b7"]   = 17, ["sus2/P/b7"]   = 18,
+  ["sus4/P/maj7"] = 19, ["sus2/P/maj7"] = 20,
 
-  -- A missing third is a different chord, not a thinner one, so these sit
-  -- well below anything with a third in it.
-  ["none/P/b7"]   = 30, ["none/P/maj7"] = 31,
-  ["none/b/maj7"] = 32, ["none/b/b7"]   = 33, ["none/P/none"] = 34,
+  --[[  A missing third is a different chord, not a thinner one, so these sit
+      well below anything with a third in it.
+
+      Below, and by more than a slash costs. A third-less shape with a perfect
+      fifth is a real voicing - a seventh over a bare fifth is what a guitarist
+      plays - but one whose fifth is *also* altered is odd twice over, exactly
+      as RANK_TWICE_ODD has it for the qualities that keep their third. Those
+      two sit past COST_INVERSION from an unnamed quality with a third in it
+      (25), so D E A# reads Bb(b5)/E rather than E7b5(no3), the same way F A B
+      reads F(b5) rather than B7b5(no3). The perfect-fifth pair are left where
+      they were, which is what keeps C G Bb reading C7(no3). ]]
+  ["none/P/b7"]   = 30, ["none/P/maj7"] = 31, ["none/P/none"] = 34,
+  ["none/b/maj7"] = 41, ["none/b/b7"]   = 42,
 }
 
 --[[  A quality the table does not name is still ranked by the interval that
@@ -129,6 +145,13 @@ local COST_CLASHING  =  18
     notes are an inversion of something with a third in it. ]]
 local COST_SUS_EXTRA =  12
 local COST_SIXTH     =   4  -- enough that C E A stays Amin/C
+--[[  A minor sixth is charged one more than any other, because it is the one
+    sixth that is also something else: A C E F# is Amin6 and it is equally the
+    half-diminished on its third, F#min7b5. Those two readings tie exactly at
+    4, and the half-diminished is the name Scaler prints, the name jazznet's
+    labels carry, and the name some 880 analyst labels across DCML and When in
+    Rome give it. One point settles the tie without touching any other sixth. ]]
+local COST_MIN_SIXTH =   5
 
 -- Reading the intervals present into a third, a fifth and a seventh.
 local function core(has)
@@ -281,7 +304,8 @@ local function analyse(has, root, bass)
   else
     -- No seventh, so nothing stacks: everything above the triad is an add.
     if sixth then
-      cost = cost + COST_SIXTH
+      cost = cost + ((third == "min" and fifth == "P") and COST_MIN_SIXTH
+                                                        or COST_SIXTH)
       --[[  The sixth stands where a seventh would, so the symbol is rebuilt
           around it rather than having a 6 pasted on the end. An altered fifth
           has to survive that: C Eb G# A is min6#5, and naming it Cmin6 claims
@@ -295,6 +319,18 @@ local function analyse(has, root, bass)
       elseif third == "maj"  then name = (fifth == "#" and "aug6") or ("6" .. mark)
       elseif third == "none" then name = "6" .. mark
       else name = name .. "(add6)" end
+    end
+    --[[  A diminished seventh carrying a ninth is a dim9, not a dim7 with a
+        note stuck on the end. The number rises the way it does under every
+        other seventh - the bb7 only sat in the "no seventh" branch here
+        because it is spelled as a sixth - and Cdim9 is what the chord lists
+        and Scaler both print. ]]
+    --  Only the spelling changes. It still costs what an added tone costs, so
+    --  which reading wins is untouched: this renames, it does not re-rank.
+    if seventh == "bb7" and naturals[9] then
+      naturals[9] = nil
+      name = name:gsub("dim7", "dim9", 1)
+      cost = cost + COST_ADD
     end
     for _, degree in ipairs({9, 11, 13}) do
       if naturals[degree] then
@@ -900,8 +936,19 @@ function detectChord()
     return table.concat(spelled, " ")
   end
 
-  -- Two notes are an interval rather than a chord, and only the bare fifth
-  -- has a name of its own.
+  --[[  Two notes are an interval rather than a chord, with two exceptions: the
+      bare fifth, and a third.
+
+      A third is enough to name a chord - B D is a B minor and C E a C major -
+      but the missing fifth cannot be silent here the way it is in a fuller
+      voicing. Printing "C" for C E would claim a G that nobody is playing, so
+      the omission is said out loud, which is what Scaler prints too. A third
+      also has only one reading: the notes four semitones apart are a major
+      third one way and a minor sixth the other, and only one of the two has
+      its third.
+
+      Everything else two notes can be - a second, a fourth, a tritone, a
+      sixth, a seventh - is an interval and still reads out as notes. ]]
   if count == 2 then
     for root = 0, 11 do
       if classes[root] and classes[(root + 7) % 12] then
@@ -910,6 +957,19 @@ function detectChord()
           name = name .. "/" .. chordNoteName(bass)
         end
         return name
+      end
+    end
+    for root = 0, 11 do
+      if classes[root] then
+        local quality = (classes[(root + 4) % 12] and "maj")
+                     or (classes[(root + 3) % 12] and "min")
+        if quality then
+          local name = chordNoteName(root) .. quality .. "(no5)"
+          if not readAsRootPosition(root, bass, voices) then
+            name = name .. "/" .. chordNoteName(bass)
+          end
+          return name
+        end
       end
     end
     return spellOut()
