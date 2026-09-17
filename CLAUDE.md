@@ -894,6 +894,34 @@ below with what would settle them.
   against D#. Pro brackets such elevenths rather than refusing them. This one
   is still open.
 
+#### The probe that would settle the root rule, written down in advance
+
+Strong bass-driven is already dead: Scaler prints `C/E` for E G C, so it will
+slash an ordinary inversion. The live question is narrower - **what makes it
+abandon the obvious root** - and the twenty-four contain one unexploited lead.
+They hold exactly two chords Pro reads as a **dominant seventh in inversion**,
+and Scaler refused the dominant both times: `E7/D` came back `D6(sus2 b5)` and
+`Bb7/F` came back `Ddim#5`. Two of two is a pattern worth one experiment.
+
+The design is one pitch-class set voiced in every position, nothing doubled -
+a doubling would fire Scaler's root-position rule and confound the answer -
+and close position, so the voicing is one a player would use. Write down what
+each answer means before running it:
+
+| set, in the key given | Pro | if the root tracks the bass | if it stays put |
+| --- | --- | --- | --- |
+| **Bb7**, four positions, C minor | `Bb7`, `Bb7/D`, `Bb7/F`, `Bb7/Ab` | bass-driven, and the missing slash on `Ddim#5` goes with the voicing | quality-driven, and `Ddim#5` was about the shape |
+| **C7**, four positions, C major | `C7`, `C7/E`, `C7/G`, `C7/A#` | as above | if it refuses the dominant in every inversion, that is the rule the two cases hinted at |
+| **Cmaj7**, first inversion, C major | `Cmaj7/E` | - | the control: if this one keeps its slash, it is *dominant* sevenths Scaler will not invert, not sevenths |
+| **C6 / Amin7**, C and E lowest, C major | `C6`, `Amin7/E` | `C6` then something on E | both readings are standard and complete, so this grades commonness against the bass with nothing exotic in the way |
+
+The C7 row is the one that pays. If Scaler names all three inversions `C7/x`
+then the two refusals were about those particular shapes and there is no rule
+to find; if it names none of them, the rule is "a dominant seventh is named
+from its root or not at all", which is a real difference from Pro and a
+decidable one. Note `C7/A#`: C major has no flats, so Pro spells the seventh
+A#. Same root, same notes.
+
 **Tuning the weights cannot buy Scaler's remaining roots. This was measured.**
 Twelve of the 24 roots differ, and two weights look responsible for most of
 them: 7 of the 12 are Scaler printing a suspension that carries an added tone,
