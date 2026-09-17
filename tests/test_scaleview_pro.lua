@@ -237,6 +237,19 @@ expect({65, 69, 71}, "F(b5)", "and the case that rule came from still holds")
 expect({C4, C4 + 7, C4 + 10}, "C7(no3)",
        "a third-less shape over a perfect fifth is a real voicing, and stays")
 
+--[[  3d) With both fifths sounding and no perfect one between them, which is
+    *the* fifth is a choice, so both readings are costed instead of the
+    flattened one being taken greedily. Found by running Wikipedia's list of
+    chords through the engine: its "major seventh sharp eleventh" came back
+    Cmaj7b5b13, a b13 over a chord that is not at home with one, where the
+    other reading is 14 cheaper. ]]
+print("both fifths sounding:")
+expect({C4, C4 + 4, C4 + 6, C4 + 8, C4 + 11}, "Cmaj7#5#11", "was Cmaj7b5b13")
+expect({C4, C4 + 14, C4 + 16, C4 + 18, C4 + 20, C4 + 22}, "Caug9#11",
+       "the whole-tone six, was C9b5b13")
+expect({C4, C4 + 4, C4 + 6, C4 + 11}, "Cmaj7b5", "one flattened fifth is unchanged")
+expect({C4, C4 + 4, C4 + 8, C4 + 11}, "Cmaj7#5", "and so is one raised")
+
 -- 4) The classic ambiguity: the same four notes, named by what is underneath.
 print("C6 against Amin7 - the bass decides:")
 expect({45, C4, 64, 67}, "Amin7", "A in the bass")
@@ -674,6 +687,31 @@ rings = 0
 for _, circle in ipairs(drawn) do if circle.fill == false then rings = rings + 1 end end
 if rings ~= 2 then fail("one pitch class in three octaves should ring one circle, got " .. rings) end
 print("  held notes are ringed, once per pitch class whatever the octave")
+
+--[[  9a) And the ring has to be visible against what it is drawn on. White
+     reads at 8.2:1 against an unlit circle but 1.6:1 to 2.4:1 against a lit
+     one, because every highlight is pale enough to carry dark note names -
+     so a played note that was in the scale looked unringed. Reported from
+     REAPER as "no light appears around B" with Cb held in Gb major, where Cb
+     is a degree of the scale. The ring follows the note names: dark on a lit
+     circle, white on an unlit one. ]]
+chooseScale("Gb Major")
+play({62, 64, 71})          -- D and E are outside Gb major, Cb is in it
+local whiteRings, darkRings = 0, 0
+for _, circle in ipairs(drawn) do
+  if circle.fill == false and circle.color then
+    if circle.color[1] > 0.9 then whiteRings = whiteRings + 1
+    else darkRings = darkRings + 1 end
+  end
+end
+if whiteRings ~= 4 then
+  fail("expected 4 white ring strokes on the two unlit circles, got " .. whiteRings)
+end
+if darkRings ~= 2 then
+  fail("expected 2 dark ring strokes on the lit circle, got " .. darkRings)
+end
+print("  and it is dark on a lit circle, white on an unlit one")
+chooseScale("Clear Scale")
 
 --[[  9b) The settings key was renamed with the file, which it had never been
      allowed to do before. EXT_LEGACY carries the one section that came

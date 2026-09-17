@@ -49,10 +49,16 @@ picking Gb Major still says Gb Major when simplified.
 usually belongs in the other - check both before considering a bug fixed. The
 docking fix applied to every script there was.
 
-Pro deliberately has **no white highlight colour**: the ring around a note
-being played is white, and a white highlight swallows it. Simple has no rings
-and so no clash, but it carries the same six colours because it is meant to
-match. Do not add white back to either.
+Pro deliberately has **no white highlight colour**, and the reason is sharper
+than it used to be written here. The ring round a played note is white *on an
+unlit circle* and dark on a lit one, because white manages 8.2:1 against the
+unlit grey but only 1.6:1 to 2.4:1 against any highlight - every one of them is
+pale enough to carry dark note names. Before that, a played note which was in
+the selected scale looked unringed, reported from REAPER as "no light appears
+around B" with Cb held in Gb major. A white *highlight* would leave the unlit
+ring nothing to show against, so it still must not be added. Simple has no
+rings and so no clash, but it carries the same six colours because it is meant
+to match.
 
 **Simple is now Pro minus the chord reader, and that is the only difference.**
 It was once its own lesser thing, with a **Swap Sharps & Flats** toggle instead
@@ -472,6 +478,14 @@ tuning them, each of which broke a test first:
 - **A diminished seventh carrying a ninth is a `dim9`**, not a `dim7` with a
   note stuck on the end. Only the spelling changes: it still costs what an
   added tone costs, so which reading wins is untouched.
+- **Which note is the fifth is costed, not guessed.** With both a flattened and
+  a raised fifth sounding and no perfect one between them, `core()` used to take
+  the flattened one greedily, so C E F# G# B read `Cmaj7b5b13` - a b13 over a
+  chord that is not at home with one - where `Cmaj7#5#11` costs 14 less. Both
+  readings are built and the cheaper wins; everywhere else the second is not
+  built at all. It moves 24 names in the sweep, `maj7b5b13` to `maj7#5#11` and
+  `9b5b13` to `aug9#11`. Found by running Wikipedia's *List of chords* through
+  the engine, which is `tools/wikipedia_chords.py`.
 - **Two notes are an interval, except a fifth or a third.** B D is `Bmin(no5)`
   and C E is `Cmaj(no5)` - the missing fifth is said out loud because with two
   notes it cannot be silent, and printing `C` for C E would claim a G nobody is

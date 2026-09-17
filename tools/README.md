@@ -1,6 +1,6 @@
 # How the chord naming is measured
 
-Seven small tools, kept because the measurements in `CLAUDE.md` are worth being
+Eight small tools, kept because the measurements in `CLAUDE.md` are worth being
 able to repeat. None of them is needed to *use* ScaleView; they exist to check
 it.
 
@@ -149,3 +149,19 @@ python3 tools/scaler_cases.py
 Every one of the 24 names accounts for exactly the notes played, and the bass
 agreed in all twelve, so what is left is which root to name and how to
 punctuate it.
+
+## `wikipedia_chords.py` — is anything missing from the vocabulary
+
+Every chord in Wikipedia's *List of chords*, 75 pitch-class sets, named by the
+engine and checked with `check_symbol.py`.
+
+```sh
+python3 tools/wikipedia_chords.py --all
+```
+
+It asks whether each is named at all and whether the symbol accounts for
+exactly the notes - **not** whether the name matches Wikipedia's. Many of those
+rows are names for a function (Tonic, Subdominant, Secondary dominant are all
+plain triads) or for one sonority in one piece (Tristan, Elektra, Petrushka),
+and the three augmented sixths are enharmonically dominant sevenths, which is
+what the engine prints.

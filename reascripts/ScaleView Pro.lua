@@ -55,7 +55,7 @@ local COLOR_OFF       = {0.30, 0.31, 0.35}  -- note not in the selected scale
 local COLOR_LABEL     = {0.72, 0.74, 0.80}  -- scale name text
 local COLOR_TEXT_OFF  = {0.62, 0.64, 0.70}  -- note name on an unlit circle
 local COLOR_TEXT_ON   = {0.06, 0.12, 0.11}  -- note name on a highlighted circle
-local COLOR_HELD      = {1.00, 1.00, 1.00}  -- ring around a note being played
+local COLOR_HELD      = {1.00, 1.00, 1.00}  -- ring around a played note, on an unlit circle
 local COLOR_CHORD     = {0.95, 0.96, 0.98}  -- the chord name, brighter than a scale name
 
 --[[  Chord analysis, built rather than looked up.
@@ -153,8 +153,15 @@ local COST_SIXTH     =   4  -- enough that C E A stays Amin/C
     Rome give it. One point settles the tie without touching any other sixth. ]]
 local COST_MIN_SIXTH =   5
 
--- Reading the intervals present into a third, a fifth and a seventh.
-local function core(has)
+--[[  Reading the intervals present into a third, a fifth and a seventh.
+
+    Where both a flattened and a raised fifth are sounding, which one is *the*
+    fifth is a real choice and not a lookup, so `preferSharpFive` lets the
+    caller ask for the other reading and cost them both. C E F# G# B was named
+    Cmaj7b5b13 because the flattened fifth was taken greedily, leaving the G#
+    to be described as a b13 over a chord that is not at home with one; read
+    the other way round it is Cmaj7#5#11, which costs 14 less. ]]
+local function core(has, preferSharpFive)
   local third, fifth, seventh
   local used = {[0] = true}
 
@@ -164,7 +171,8 @@ local function core(has)
   elseif has[2] then third, used[2] = "sus2", true
   else               third = "none" end
 
-  if     has[7] then fifth, used[7] = "P", true
+  if has[7] then fifth, used[7] = "P", true
+  elseif has[6] and has[8] and preferSharpFive then fifth, used[8] = "#", true
   elseif has[6] then fifth, used[6] = "b", true
   elseif has[8] then fifth, used[8] = "#", true
   else               fifth = "none" end
@@ -224,8 +232,8 @@ local EXTENSION = {
   [5] = {"11",  false, 11}, [6] = {"#11", true}, [8] = {"b13", true},
 }
 
-local function analyse(has, root, bass)
-  local third, fifth, seventh, used = core(has)
+local function analyseAs(has, root, bass, preferSharpFive)
+  local third, fifth, seventh, used = core(has, preferSharpFive)
   local rank = rankOf(third, fifth, seventh)
   local name, cost = coreName(third, fifth, seventh), rank
 
@@ -400,6 +408,19 @@ local function analyse(has, root, bass)
   if root ~= bass then cost = cost + COST_INVERSION end
   -- Two readings can cost the same - Emin6 and C#min7b5 are the same four
   -- notes - so the commoner quality settles it rather than the loop order.
+  return name, cost, rank
+end
+
+--[[  With both fifths sounding and no perfect one between them, neither is
+    obviously the fifth, so both readings are costed and the cheaper wins.
+    Everywhere else there is nothing to choose and the second reading is not
+    even built. ]]
+local function analyse(has, root, bass)
+  local name, cost, rank = analyseAs(has, root, bass, false)
+  if has[6] and has[8] and not has[7] then
+    local altName, altCost, altRank = analyseAs(has, root, bass, true)
+    if altCost < cost then return altName, altCost, altRank end
+  end
   return name, cost, rank
 end
 
@@ -1084,12 +1105,24 @@ end
 -- Drawing
 ------------------------------------------------------------------------------
 
--- A note being played is ringed, whether or not it is in the scale.
+--[[  A note being played is ringed, whether or not it is in the scale - and the
+    ring has to be visible against whatever it is drawn on.
+
+    White manages 8.2:1 against an unlit circle but only 1.6:1 to 2.4:1 against
+    a lit one, because every highlight is pale enough to carry dark note names.
+    A played note that was *in* the selected scale therefore looked unringed:
+    reported from REAPER as "no light appears around B" with Cb held in Gb
+    major, where Cb is a degree of the scale and so lit.
+
+    So the ring follows the note names it sits beside - dark on a lit circle,
+    white on an unlit one - which puts it between 7.2:1 and 10.6:1 everywhere.
+    This is also the real reason the palette has no white in it: a white
+    highlight would leave the *unlit* ring nothing to show against. ]]
 local function drawHeldRing(x, y, r, pc)
   for _, note in ipairs({pc, pc + 12, pc + 24, pc + 36, pc + 48, pc + 60,
                          pc + 72, pc + 84, pc + 96, pc + 108, pc + 120}) do
     if held[note] then
-      setColor(COLOR_HELD)
+      setColor(active[pc] == true and COLOR_TEXT_ON or COLOR_HELD)
       gfx.circle(x, y, r + 1.5, false, true)
       gfx.circle(x, y, r + 2.5, false, true)
       return
