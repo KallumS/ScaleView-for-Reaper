@@ -8,7 +8,9 @@ the 48 names - both engines, all 24 chords - accounts for exactly the notes
 played, and the bass agrees everywhere it can be compared: the disagreements
 are only ever about which root to name. The one exception is C minor's
 D F G# A#, where Scaler prints Ddim#5 with no slash over an F bass; every
-other non-bass root it gives carries one, so that reading is unconfirmed.
+other non-bass root it gives carries one. That reading was re-checked in
+Scaler and stands, so it is confirmed and unexplained - nothing in the voicing
+is doubled and the set is not symmetric. See CLAUDE.md.
 
 A thirteenth reading settled a rule that the twelve had only suggested. The
 first chord was played again in F#/Gb major and came back Db6(sus4) - the same
@@ -50,7 +52,7 @@ CASES = [
     #  The natural minor round. Same story: every name on both sides accounts
     #  for exactly the notes, and what differs is which root to name.
     ("C Minor (Natural)",  "D F G# A#",  "F",  "Ddim#5",
-     "the one reading nobody has confirmed - Scaler prints no slash over an F bass"),
+     "re-checked and confirmed: the only non-bass root Scaler prints with no slash"),
     ("C# Minor (Natural)", "C# D G A",   "C#", "Dmaj7(sus4)/C#",   ""),
     ("D Minor (Natural)",  "Db F Gb A",  "A",  "Aaug add13",
      "same root, same notes: Scaler calls the sixth a 13 with no seventh under it"),

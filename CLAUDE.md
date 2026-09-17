@@ -829,11 +829,19 @@ the notes played. **The bass agrees everywhere it can be compared.** It was
 never anything but a fight about which root to name, and Pro names the same
 root as Scaler on 12 of the 24.
 
-One reading is unconfirmed: C minor's D F G# A# is `Ddim#5` to Scaler, with no
-slash, over a bass of F - which is what makes Pro read `Bb7/F`. Every other
-non-bass root Scaler gives carries a slash, so either that voicing had D
-lowest or Scaler dropped the slash. Worth re-checking before anything is built
-on it.
+**One reading is confirmed and unexplained.** C minor's D F G# A# is `Ddim#5`
+to Scaler with no slash, over a bass of F - which is what makes Pro read
+`Bb7/F`. This was recorded here as possibly a voicing that had D lowest; it was
+re-checked in Scaler and the reading stands, so it is the one case of the 24
+where Scaler names a root that is not the bass and prints no slash. The other
+ten all carry one, and nothing else here accounts for it: **nothing is
+doubled**, so the doubled-root rule cannot be what is dropping the slash, and
+the set is not symmetric, so the root is derivable. Note also what Scaler
+passed up - D F G# A# is a plain dominant seventh on Bb - in favour of a
+quality carrying a flattened *and* a raised fifth. Pro is not moving; `Bb7/F`
+is what a musician writes. Keep the case in view rather than building on it:
+it is the only evidence in this repo that Scaler's bass rule is something other
+than "the lowest note, less a doubled root".
 
 Four rules came out of them and are implemented; two are not, and are listed
 below with what would settle them.
@@ -873,9 +881,14 @@ below with what would settle them.
   `min(no5)` - and goes looking elsewhere when it is not, but C E F# A breaks
   it: `C6(b5)` would be such a shape and Scaler still prints `F#min7(b5)/C`.
   Twelve chords are not enough to separate "prefers the bass" from "prefers a
-  quality". **The probe that would separate them is one pitch-class set voiced
-  four times, a different note lowest each time**: if Scaler's root follows
-  the bass it is bass-driven, and if it stays put it is quality-driven.
+  quality". C minor's D F G# A# is the second case that bears on it and it
+  points the other way: F as a root is no shape Scaler has a name for, and it
+  went looking and found `Ddim#5` - quality-driven - but then printed no slash,
+  which no bass rule here explains. **The probe that would separate them is one
+  pitch-class set voiced four times, a different note lowest each time**: if
+  Scaler's root follows the bass it is bass-driven, and if it stays put it is
+  quality-driven. D F G# A# is the set worth using, since it is also the one
+  that will say whether the missing slash follows the voicing or the quality.
 - **A natural 11 over a major third may be forbidden outright.** Eb major
   Eb E Gb B is `Emaj7(sus2)/D#` to Scaler, where Pro's `Badd11/Eb` puts E
   against D#. Pro brackets such elevenths rather than refusing them. This one
