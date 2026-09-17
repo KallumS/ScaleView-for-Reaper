@@ -6,6 +6,11 @@ They are the only hard evidence about Scaler in this repository. Every one of
 the 24 names accounts for exactly the notes played, and the bass agreed in all
 twelve: the disagreements were only ever about the root.
 
+A thirteenth reading settled a rule that the twelve had only suggested. The
+first chord was played again in F#/Gb major and came back Db6(sus4) - the same
+root as in C major, respelled - so Scaler does not choose its root by the
+selected scale. See CLAUDE.md, *Where Pro and Scaler 3 disagree*.
+
 The voicing is reconstructed from the bass each reading implies - bass lowest,
 the rest stacked above it - which is how the notes were played. A NOTE line
 records what Scaler and ScaleView still spell differently while reading the
@@ -20,6 +25,10 @@ PC = {"C": 0, "C#": 1, "Db": 1, "D": 2, "D#": 3, "Eb": 3, "E": 4, "F": 5,
 #  key, notes, the bass, what Scaler printed, and a note where the two read the
 #  chord the same way but write it differently.
 CASES = [
+    #  Also played in F#/Gb major, where Scaler says Db6(sus4): the same root,
+    #  respelled for the flat key. That is what settled the question of whether
+    #  Scaler picks its root by the selected scale - it does not, it uses the
+    #  key for spelling, exactly as ScaleView does.
     ("C Major",  "C# F# G# A#", "C#", "C#6(sus4)",      "Scaler takes the bass as root here"),
     ("C# Major", "D D# G A",    "D",  "D#maj7(b5)/D",   "same reading, Scaler brackets the b5"),
     ("D Major",  "C F F# A#",   "F",  "F#maj7(b5)/F",   "same reading, Scaler brackets the b5"),

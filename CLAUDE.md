@@ -191,11 +191,17 @@ named at the end of its line.
   Simple's project state, Simple's toggle state, the scale sweep's location.
   Each was corrected only after reading the code. Treat any claim here as a
   lead to verify, not a fact to act on.
-- **Two independent nulls beat one.** Tying chord detection to the selected
-  scale moved Pro's accuracy not at all, and moved a pattern-matching engine's
-  - a completely different architecture - by one hundredth of a point. One null
-  invites a retry with different weights; two, from unrelated engines, settle
-  it.
+- **Two independent nulls beat one, and three end the argument.** Tying chord
+  detection to the selected scale moved Pro's accuracy not at all, and moved a
+  pattern-matching engine's - a completely different architecture - by one
+  hundredth of a point. Then Scaler itself, which this repo treats as the
+  reference, turned out to name the same four notes on the same root in two
+  different keys and change only the spelling. One null invites a retry with
+  different weights; three, from unrelated engines, close the question.
+  **Note what the third one cost**: a rule was written into this file as
+  probable, with the experiment that would settle it written beside it. That
+  is the cheapest form a wrong guess can take - the experiment took one chord
+  in one key, and the note said in advance what each answer would mean.
 - **Prefer a number to an argument.** "A table cannot be made complete" was an
   opinion until the table-based engine was built alongside and measured at
   23.5% against Pro's 100% on the same 17,688 voicings, with the ceiling on its
@@ -815,20 +821,35 @@ below with what would settle them.
 
 **Not implemented, and why.**
 
-- **Scaler treats the key as a filter, not a tie-break.** In four of the twelve
-  its root is a degree of the selected scale and Pro's is not - C# major
-  `D#maj7b5/D` over `Dsus4b9`, B major `Bmaj(b5)b9/C` over `CminMaj7(11)`. In
-  two more, where no candidate root is both diatonic and nameable, it falls
-  back to the bass: C major `C#6(sus4)` and Ab major `D6(sus2 b5)`. This
-  contradicts a finding measured twice here, on two unrelated engines: making
-  the scale stronger than a tie-break does not improve accuracy. Both can be
-  true - it would not make Pro more correct, only more like Scaler - so it is
-  a deliberate choice and has not been made. **The test that settles it is one
-  chord in two keys**: C# F# G# A# reads `C#6(sus4)` in C major; if it reads
-  `F#add9/C#` in F# major the filter is real.
+- **Scaler does NOT use the key to choose the root. This was tested and the
+  answer was no.** It looked from the twelve as though it might: in four of
+  them Scaler's root is a degree of the selected scale and Pro's is not, and
+  in two more it falls back to the bass. That reading was written into this
+  file as a probable rule, with the experiment that would settle it - the same
+  chord in two keys. The experiment was run. **C# F# G# A# is `C#6(sus4)` in C
+  major and `Db6(sus4)` in F#/Gb major**: the same root, respelled for the
+  flat key. Scaler uses the key exactly the way ScaleView does, for spelling,
+  and Pro reads the same four notes as `F#add9/C#` and `Gbadd9/Db` in those
+  two keys - also the same root, also respelled.
+
+  So that is a **third independent null** for "the key decides the root",
+  after Pro and the pattern-matching engine, and this time from the reference
+  implementation itself. Four of the twelve merely *looked* diatonic because
+  a root Scaler liked for other reasons happened to be in the key.
+
+  **What actually drives Scaler's root choice is still unknown.** The
+  closest fit to the twelve is that it prefers the bass as root when the
+  resulting shape is one it has a name for - `6(sus4)`, `6(sus2 b5)`,
+  `min(no5)` - and goes looking elsewhere when it is not, but C E F# A breaks
+  it: `C6(b5)` would be such a shape and Scaler still prints `F#min7(b5)/C`.
+  Twelve chords are not enough to separate "prefers the bass" from "prefers a
+  quality". **The probe that would separate them is one pitch-class set voiced
+  four times, a different note lowest each time**: if Scaler's root follows
+  the bass it is bass-driven, and if it stays put it is quality-driven.
 - **A natural 11 over a major third may be forbidden outright.** Eb major
   Eb E Gb B is `Emaj7(sus2)/D#` to Scaler, where Pro's `Badd11/Eb` puts E
-  against D#. Pro brackets such elevenths rather than refusing them.
+  against D#. Pro brackets such elevenths rather than refusing them. This one
+  is still open.
 
 **One difference is punctuation, not reading.** After the four changes Pro
 picks Scaler's root and quality on five of the twelve but prints them
@@ -859,7 +880,8 @@ ninth should read C9, C#9, D9 and so on across the twelve.
 **The selected scale only breaks a draw.** At equal cost a root that is a scale
 degree wins, then a reading whose notes sit in the scale, then the commoner
 quality. It is deliberately no stronger, and it is not a filter: a chord from
-outside the key is named for what it is. Two of the three mismatches this work
+outside the key is named for what it is. **Scaler agrees**, which was checked
+rather than assumed - see *Where Pro and Scaler 3 disagree*. Two of the three mismatches this work
 started from had out-of-scale notes and Scaler named them anyway. Do not
 promote it to a filter.
 
