@@ -29,7 +29,7 @@ CASES = [
     #  respelled for the flat key. That is what settled the question of whether
     #  Scaler picks its root by the selected scale - it does not, it uses the
     #  key for spelling, exactly as ScaleView does.
-    ("C Major",  "C# F# G# A#", "C#", "C#6(sus4)",      "Scaler takes the bass as root here"),
+    ("C Major",  "C# F# G# A#", "C#", "C#6(sus4)",      "Scaler roots it on the bass; not because of the key"),
     ("C# Major", "D D# G A",    "D",  "D#maj7(b5)/D",   "same reading, Scaler brackets the b5"),
     ("D Major",  "C F F# A#",   "F",  "F#maj7(b5)/F",   "same reading, Scaler brackets the b5"),
     ("Eb Major", "Eb E Gb B",   "Eb", "Emaj7(sus2)/D#", "Scaler refuses an 11 over a major third"),
@@ -37,10 +37,10 @@ CASES = [
     ("F Major",  "C D Eb Gb A", "C",  "Cdim9",          ""),
     ("F# Major", "D E A#",      "E",  "Bbmaj(b5)/E",    "same reading; Scaler spells A# as Bb and writes maj"),
     ("G Major",  "C E F# A",    "C",  "F#min7(b5)/C",   "same reading, Scaler brackets the b5"),
-    ("Ab Major", "D E Ab B",    "D",  "D6(sus2 b5)",    "Scaler takes the bass as root here"),
+    ("Ab Major", "D E Ab B",    "D",  "D6(sus2 b5)",    "Scaler roots it on the bass; not because of the key"),
     ("A Major",  "D B",         "B",  "Bmin(no5)",      ""),
     ("Bb Major", "C E",         "C",  "Cmaj(no5)",      ""),
-    ("B Major",  "C D# F B",    "C",  "Bmaj(b5)b9/C",   "Scaler takes the root that is in the key"),
+    ("B Major",  "C D# F B",    "C",  "Bmaj(b5)b9/C",   "Scaler roots it elsewhere; why is not known"),
 ]
 
 
