@@ -49,16 +49,19 @@ picking Gb Major still says Gb Major when simplified.
 usually belongs in the other - check both before considering a bug fixed. The
 docking fix applied to every script there was.
 
-Pro deliberately has **no white highlight colour**, and the reason is sharper
-than it used to be written here. The ring round a played note is white *on an
-unlit circle* and dark on a lit one, because white manages 8.2:1 against the
-unlit grey but only 1.6:1 to 2.4:1 against any highlight - every one of them is
-pale enough to carry dark note names. Before that, a played note which was in
-the selected scale looked unringed, reported from REAPER as "no light appears
-around B" with Cb held in Gb major. A white *highlight* would leave the unlit
-ring nothing to show against, so it still must not be added. Simple has no
-rings and so no clash, but it carries the same six colours because it is meant
-to match.
+**The ring round a played note is always white. No exceptions, and it must not
+be made to depend on the circle underneath** - that was tried, on the strength
+of a contrast calculation, and it looked broken in REAPER. Keep the calculation
+in mind only as the shape of the mistake: white reads at just 1.6:1 to 2.4:1
+against a highlight colour, which is true, but **both strokes are drawn at
+`r + 1.5` and `r + 2.5`, outside the filled circle, on the background**. That
+is the surface a ring has to contrast with, and white reads 17.4:1 against it.
+The arithmetic was right about the wrong surface, and a test now pins the ring
+white so it cannot be made conditional again.
+
+Pro also deliberately has **no white highlight colour**, for the part of the
+ring that does touch a circle. Simple has no rings and so no clash, but it
+carries the same six colours because it is meant to match.
 
 **Simple is now Pro minus the chord reader, and that is the only difference.**
 It was once its own lesser thing, with a **Swap Sharps & Flats** toggle instead

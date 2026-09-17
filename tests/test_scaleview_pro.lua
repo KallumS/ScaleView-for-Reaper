@@ -688,29 +688,32 @@ for _, circle in ipairs(drawn) do if circle.fill == false then rings = rings + 1
 if rings ~= 2 then fail("one pitch class in three octaves should ring one circle, got " .. rings) end
 print("  held notes are ringed, once per pitch class whatever the octave")
 
---[[  9a) And the ring has to be visible against what it is drawn on. White
-     reads at 8.2:1 against an unlit circle but 1.6:1 to 2.4:1 against a lit
-     one, because every highlight is pale enough to carry dark note names -
-     so a played note that was in the scale looked unringed. Reported from
-     REAPER as "no light appears around B" with Cb held in Gb major, where Cb
-     is a degree of the scale. The ring follows the note names: dark on a lit
-     circle, white on an unlit one. ]]
+--[[  9a) Every ring is white, whether or not the circle under it is lit.
+
+     Making it depend on the circle was tried and looked broken in REAPER, and
+     the reason is that both strokes are drawn at r + 1.5 and r + 2.5 -
+     *outside* the filled circle, on the background - so what a ring has to
+     contrast with is the background, not the fill. White reads 17.4:1 there.
+     No exceptions: this test exists to stop it being made conditional again. ]]
 chooseScale("Gb Major")
 play({62, 64, 71})          -- D and E are outside Gb major, Cb is in it
-local whiteRings, darkRings = 0, 0
+local whiteRings, otherRings = 0, 0
 for _, circle in ipairs(drawn) do
   if circle.fill == false and circle.color then
-    if circle.color[1] > 0.9 then whiteRings = whiteRings + 1
-    else darkRings = darkRings + 1 end
+    if circle.color[1] == 1 and circle.color[2] == 1 and circle.color[3] == 1 then
+      whiteRings = whiteRings + 1
+    else
+      otherRings = otherRings + 1
+    end
   end
 end
-if whiteRings ~= 4 then
-  fail("expected 4 white ring strokes on the two unlit circles, got " .. whiteRings)
+if whiteRings ~= 6 then
+  fail("expected 6 white ring strokes for three held notes, got " .. whiteRings)
 end
-if darkRings ~= 2 then
-  fail("expected 2 dark ring strokes on the lit circle, got " .. darkRings)
+if otherRings ~= 0 then
+  fail("every ring must be white; " .. otherRings .. " were not")
 end
-print("  and it is dark on a lit circle, white on an unlit one")
+print("  and every ring is white, lit circle or not")
 chooseScale("Clear Scale")
 
 --[[  9b) The settings key was renamed with the file, which it had never been

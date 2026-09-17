@@ -55,7 +55,7 @@ local COLOR_OFF       = {0.30, 0.31, 0.35}  -- note not in the selected scale
 local COLOR_LABEL     = {0.72, 0.74, 0.80}  -- scale name text
 local COLOR_TEXT_OFF  = {0.62, 0.64, 0.70}  -- note name on an unlit circle
 local COLOR_TEXT_ON   = {0.06, 0.12, 0.11}  -- note name on a highlighted circle
-local COLOR_HELD      = {1.00, 1.00, 1.00}  -- ring around a played note, on an unlit circle
+local COLOR_HELD      = {1.00, 1.00, 1.00}  -- ring around a note being played, always
 local COLOR_CHORD     = {0.95, 0.96, 0.98}  -- the chord name, brighter than a scale name
 
 --[[  Chord analysis, built rather than looked up.
@@ -1105,24 +1105,24 @@ end
 -- Drawing
 ------------------------------------------------------------------------------
 
---[[  A note being played is ringed, whether or not it is in the scale - and the
-    ring has to be visible against whatever it is drawn on.
+--[[  A note being played is ringed, whether or not it is in the scale, and the
+    ring is **always white**. No exceptions, and do not make it depend on the
+    circle underneath: it was tried and it looked broken in REAPER.
 
-    White manages 8.2:1 against an unlit circle but only 1.6:1 to 2.4:1 against
-    a lit one, because every highlight is pale enough to carry dark note names.
-    A played note that was *in* the selected scale therefore looked unringed:
-    reported from REAPER as "no light appears around B" with Cb held in Gb
-    major, where Cb is a degree of the scale and so lit.
+    The reason it was tried is worth keeping, because the arithmetic was right
+    and the surface was wrong. White reads at only 1.6:1 to 2.4:1 against a
+    highlight colour, so a dark ring seemed the obvious fix for a played note
+    inside the scale - but both strokes are drawn at r + 1.5 and r + 2.5,
+    *outside* the filled circle, on the background. White reads 17.4:1 there
+    and a dark ring reads almost nothing, which is why it disappeared.
 
-    So the ring follows the note names it sits beside - dark on a lit circle,
-    white on an unlit one - which puts it between 7.2:1 and 10.6:1 everywhere.
-    This is also the real reason the palette has no white in it: a white
-    highlight would leave the *unlit* ring nothing to show against. ]]
+    It is also why the palette still has no white in it: a white highlight
+    would swallow the ring where the two do touch. ]]
 local function drawHeldRing(x, y, r, pc)
   for _, note in ipairs({pc, pc + 12, pc + 24, pc + 36, pc + 48, pc + 60,
                          pc + 72, pc + 84, pc + 96, pc + 108, pc + 120}) do
     if held[note] then
-      setColor(active[pc] == true and COLOR_TEXT_ON or COLOR_HELD)
+      setColor(COLOR_HELD)
       gfx.circle(x, y, r + 1.5, false, true)
       gfx.circle(x, y, r + 2.5, false, true)
       return
