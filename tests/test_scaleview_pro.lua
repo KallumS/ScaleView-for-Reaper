@@ -714,6 +714,45 @@ if otherRings ~= 0 then
   fail("every ring must be white; " .. otherRings .. " were not")
 end
 print("  and every ring is white, lit circle or not")
+
+--[[  9b) A note that joins or leaves without changing the chord name still
+     has to redraw the icon.
+
+     Adding B to D E Ab is E7/D either way - B is the fifth, and a missing
+     fifth is silent - so redrawing only when the NAME changed left B unringed
+     until something else forced a frame. Reported from REAPER as B never
+     lighting up, then lighting up on a window resize and staying lit for
+     seconds afterwards.
+
+     This has to be read from a frame the test did not ask for. `play` and
+     `label` both toggle gfx.w to force a redraw, which is exactly why the
+     suite never caught this: every assertion was reading a frame it had
+     forced itself. So below, `frame()` only - no resize, no label. ]]
+allNotesOff()
+frame()
+noteOn(62) noteOn(64) noteOn(68)       -- D E Ab: the name appears, so it draws
+frame()
+local function ringStrokes()
+  local n = 0
+  for _, circle in ipairs(drawn) do if circle.fill == false then n = n + 1 end end
+  return n
+end
+if ringStrokes() ~= 6 then
+  fail("three held notes should draw 6 ring strokes, got " .. ringStrokes())
+end
+noteOn(71)                             -- add B: E7/D is still E7/D
+frame()
+if ringStrokes() ~= 8 then
+  fail("adding a note that does not change the name must still redraw: got "
+       .. ringStrokes() .. " ring strokes, wanted 8")
+end
+noteOff(71)                            -- and taking it away must redraw too
+frame()
+if ringStrokes() ~= 6 then
+  fail("releasing a note that does not change the name must redraw: got "
+       .. ringStrokes() .. " ring strokes, wanted 6")
+end
+print("  a note that does not change the name still redraws the rings")
 chooseScale("Clear Scale")
 
 --[[  9b) The settings key was renamed with the file, which it had never been

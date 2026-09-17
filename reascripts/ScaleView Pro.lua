@@ -548,6 +548,11 @@ local keyUsesFlats = false -- whether the selected key spells its notes as flats
 
 local held      = {} -- held[midiNote] = true while the note is being played
 local heldCount = 0
+--[[  Bumped whenever the held set changes at all. The chord name is not the
+    only thing on the icon that follows the notes - every held note is ringed -
+    and a note can come or go without the name moving, so the name cannot be
+    what decides whether to redraw. ]]
+local heldVersion = 0
 local chordName = nil   -- what the held notes spell, or nil when nothing is held
 
 -- Declared here because the project watcher renames the chord when the key
@@ -1053,13 +1058,16 @@ local function applyEvent(message)
     if not held[note] then
       held[note] = true
       heldCount = heldCount + 1
+      heldVersion = heldVersion + 1
     end
   elseif command == 0x80 or (command == 0x90 and velocity == 0) then
     if held[note] then
       held[note] = nil
       heldCount = heldCount - 1
+      heldVersion = heldVersion + 1
     end
   elseif command == 0xB0 and (note == 120 or note == 123) then
+    if heldCount > 0 then heldVersion = heldVersion + 1 end
     held, heldCount = {}, 0       -- all sound off / all notes off
   end
 end
@@ -1089,6 +1097,7 @@ local function pollMidiInput()
 
   -- The history runs newest first, so apply it backwards to keep note-ons and
   -- note-offs in the order they were played.
+  local wasVersion = heldVersion
   for i = #fresh, 1, -1 do applyEvent(fresh[i]) end
 
   lastEventSeq = newestSeq or lastEventSeq
@@ -1098,7 +1107,19 @@ local function pollMidiInput()
     chordName = detected
     return true
   end
-  return false
+
+  --[[  A note can join or leave without the name moving: adding B to D E Ab
+      is E7/D either way, because B is the fifth and a missing fifth is
+      silent. The rings follow the notes, so the held set has to be able to
+      ask for a redraw on its own.
+
+      Reported from REAPER as B never lighting up, then lighting up on a
+      window resize and staying lit for seconds - which is exactly what
+      redrawing only on a name change looks like, since a resize is the other
+      thing that forces one. The suite missed it because its `label()` helper
+      toggles gfx.w to force a redraw, so every assertion was reading a frame
+      the test itself had asked for. ]]
+  return heldVersion ~= wasVersion
 end
 
 ------------------------------------------------------------------------------

@@ -63,6 +63,17 @@ Pro also deliberately has **no white highlight colour**, for the part of the
 ring that does touch a circle. Simple has no rings and so no clash, but it
 carries the same six colours because it is meant to match.
 
+**What decides a redraw is the held set, not the chord name** (`heldVersion`).
+Those are not the same thing: adding B to D E Ab leaves the name `E7/D`,
+because B is the fifth and a missing fifth is silent, so a poll that redrew
+only on a name change left that B unringed until something else forced a
+frame. It reached REAPER as "B never lights up, then lights up when I resize
+the window and stays lit for seconds" - which is what redrawing on the name
+looks like from outside, since a resize is the other thing that forces one.
+The JUCE plugin never had this: its editor repaints on the held-note mask.
+Anything else that gets drawn from the notes has to go through `heldVersion`
+too.
+
 **Simple is now Pro minus the chord reader, and that is the only difference.**
 It was once its own lesser thing, with a **Swap Sharps & Flats** toggle instead
 of key-aware spelling; the user asked for the two to match in every way except
@@ -189,6 +200,14 @@ named at the end of its line.
 - **Make the regression test fail on the old code first.** Stated above as a
   rule; repeated here because it has caught a test of ours that passed against
   the bug it was written for.
+- **A test that forces the frame it then reads cannot see a redraw bug.** The
+  suite's `label()` helper toggles `gfx.w` so the label can always be read,
+  and `play()` calls it - so every chord assertion in the file was reading a
+  frame the test itself had demanded. A note that failed to trigger a redraw
+  was therefore invisible to all of them, and shipped. The test for it calls
+  `frame()` alone, with no resize and no `label()`. **Ask what your harness
+  supplies that the real thing does not**: the mock was not wrong, it was
+  helpful, which is worse.
 - **This file is not evidence about the code.** Several confident claims in it
   turned out to describe a version that no longer existed - Simple's menus,
   Simple's project state, Simple's toggle state, the scale sweep's location.
