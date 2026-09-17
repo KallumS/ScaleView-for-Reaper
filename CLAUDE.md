@@ -821,11 +821,19 @@ recover it, and a corpus like that measures context we do not have.
 
 ### Where Pro and Scaler 3 disagree, and why
 
-**Twelve chords were put through Scaler 3 and reported back, one per major
-key.** They are the only hard evidence about Scaler in this repo, they are
-reproduced by `tools/scaler_cases.py`, and every one of the 24 names - both
-engines - accounts for exactly the notes played. **The bass agreed in all
-twelve.** It was never anything but a fight about the root.
+**Twenty-four chords were put through Scaler 3 and reported back** - one per
+major key, then one per natural minor key. They are the only hard evidence
+about Scaler in this repo, they are reproduced by `tools/scaler_cases.py`, and
+every one of the 48 names - both engines, all 24 chords - accounts for exactly
+the notes played. **The bass agrees everywhere it can be compared.** It was
+never anything but a fight about which root to name, and Pro names the same
+root as Scaler on 12 of the 24.
+
+One reading is unconfirmed: C minor's D F G# A# is `Ddim#5` to Scaler, with no
+slash, over a bass of F - which is what makes Pro read `Bb7/F`. Every other
+non-bass root Scaler gives carries a slash, so either that voicing had D
+lowest or Scaler dropped the slash. Worth re-checking before anything is built
+on it.
 
 Four rules came out of them and are implemented; two are not, and are listed
 below with what would settle them.
@@ -872,6 +880,46 @@ below with what would settle them.
   Eb E Gb B is `Emaj7(sus2)/D#` to Scaler, where Pro's `Badd11/Eb` puts E
   against D#. Pro brackets such elevenths rather than refusing them. This one
   is still open.
+
+**Tuning the weights cannot buy Scaler's remaining roots. This was measured.**
+Twelve of the 24 roots differ, and two weights look responsible for most of
+them: 7 of the 12 are Scaler printing a suspension that carries an added tone,
+which `COST_SUS_EXTRA` suppresses, and Scaler's root is the bass on 13 of 24
+against Pro's 9, which is `COST_INVERSION`. Both were swept:
+
+| | agreement with Scaler | what it costs |
+| --- | --- | --- |
+| shipped (sus 12, inversion 14) | 11/24 | - |
+| `COST_SUS_EXTRA` 12 -> 2 | 14/24 | 248 sweep names (1.4%) |
+| `COST_INVERSION` 14 -> 22 | 12/24 | 2,196 sweep names (12.4%) |
+| `COST_INVERSION` 14 -> 40 | 11/24 | 5,857 sweep names (33.1%) |
+| **best of 36 combinations of the two** | **14/24** | - |
+
+Raising `COST_INVERSION` does move Pro onto the bass - 8 of 24 becomes 21 -
+**and agreement does not improve**, because it lands on the bass in the cases
+where Scaler did not. The ceiling over the whole grid is three more chords than
+shipped, each bought with collateral, and no setting is stable: sus 2 gains
+three and sus 0 gives them back. **The remaining disagreements are not one
+systematic bias. They are individually different readings**, both exact, and
+weight-tuning is the wrong instrument for them. The objective score is 100% at
+every setting tried, which is the other half of the point: none of this is
+about correctness.
+
+**Three of the 24 are notation, not reading** - same root, same notes:
+
+- `Aaug6` against `Aaug add13`. Hutchinson 31.2 is explicit that a sixth is a
+  13 only with a seventh under it, and there is no seventh here, so this one
+  has a cited source behind it.
+- `D#11` against `D#9(sus4)`. Both are standard and both are written; ours is
+  the documented sus4-with-a-seventh-and-a-ninth rule.
+- `FminMaj7` against `Fmin(no5)maj7`. Scaler says the missing fifth out loud;
+  Hutchinson's 31.4 vocabulary never does, which is why ours is silent. Note
+  the deliberate exception: a two-note chord *does* say it, because there it
+  cannot be silent.
+
+And one is a category we do not name: `E F` is `E min second` to Scaler, which
+labels every two-note interval. ScaleView names a fifth and a third and reads
+the rest out as notes.
 
 **One difference is punctuation, not reading.** After the four changes Pro
 picks Scaler's root and quality on five of the twelve but prints them
