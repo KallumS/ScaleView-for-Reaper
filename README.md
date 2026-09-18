@@ -136,7 +136,7 @@ back to all circles the same colour.
 The colours are 0..1 RGB triplets near the top of the script:
 
 ```lua
-local COLOR_BG       = {0.10, 0.10, 0.12}  -- icon background
+local COLOR_BG       = {0.1375, 0.1532, 0.1806}  -- icon background, #23272e
 local COLOR_OFF      = {0.30, 0.31, 0.35}  -- note not in the selected scale
 ```
 

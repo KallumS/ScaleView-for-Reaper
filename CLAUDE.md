@@ -55,7 +55,9 @@ of a contrast calculation, and it looked broken in REAPER. Keep the calculation
 in mind only as the shape of the mistake: white reads at just 1.6:1 to 2.4:1
 against a highlight colour, which is true, but **both strokes are drawn at
 `r + 1.5` and `r + 2.5`, outside the filled circle, on the background**. That
-is the surface a ring has to contrast with, and white reads 17.4:1 against it.
+is the surface a ring has to contrast with, and white reads 15.0:1 against it
+(17.4:1 before the background moved to `#23272e`; recompute this if it moves
+again, but no plausible icon background brings it near a fill's 2.4:1).
 The arithmetic was right about the wrong surface, and a test now pins the ring
 white so it cannot be made conditional again.
 
