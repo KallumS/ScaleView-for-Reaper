@@ -54,8 +54,8 @@ local COLOR_BG        = {0.1375, 0.1532, 0.1806}  -- icon background, #23272e
 local COLOR_OFF       = {0.30, 0.31, 0.35}  -- note not in the selected scale
 local COLOR_LABEL     = {0.72, 0.74, 0.80}  -- scale name text
 local COLOR_TEXT_OFF  = {0.62, 0.64, 0.70}  -- note name on an unlit circle
-local COLOR_TEXT_ON   = {0.06, 0.12, 0.11}  -- note name on a highlighted circle
-local COLOR_HELD      = {1.00, 1.00, 1.00}  -- ring around a note being played, always
+local COLOR_TEXT_ON   = {0.0786, 0.0904, 0.1100}  -- note name on a lit circle, #14171c
+local COLOR_HELD      = {1.00, 0.9492, 0.0000}  -- ring around a played note, always, #FFF200
 local COLOR_CHORD     = {0.95, 0.96, 0.98}  -- the chord name, brighter than a scale name
 
 --[[  Chord analysis, built rather than looked up.
@@ -426,8 +426,9 @@ end
 
 -- Highlight colours offered in the menu. The first is the default.
 -- Keep these pale: the note names drawn on top of them are dark. There is
--- deliberately no white here - the ring around a note being played is white,
--- and a white highlight would swallow it.
+-- deliberately nothing here that the ring around a played note could hide in.
+-- That ring is #FFF200, so the colour to keep out is a yellow; Gold is the
+-- nearest the palette comes, and reads 1.4:1 against it where the two touch.
 local HIGHLIGHTS = {
   {name = "Teal",        rgb = {0.20, 0.80, 0.62}},
   {name = "Orange",      rgb = {0.98, 0.55, 0.15}},
@@ -1127,18 +1128,18 @@ end
 ------------------------------------------------------------------------------
 
 --[[  A note being played is ringed, whether or not it is in the scale, and the
-    ring is **always white**. No exceptions, and do not make it depend on the
-    circle underneath: it was tried and it looked broken in REAPER.
+    ring is **always COLOR_HELD**. No exceptions, and do not make it depend on
+    the circle underneath: it was tried and it looked broken in REAPER.
 
     The reason it was tried is worth keeping, because the arithmetic was right
-    and the surface was wrong. White reads at only 1.6:1 to 2.4:1 against a
+    and the surface was wrong. The ring reads at only 1.4:1 to 2.0:1 against a
     highlight colour, so a dark ring seemed the obvious fix for a played note
     inside the scale - but both strokes are drawn at r + 1.5 and r + 2.5,
-    *outside* the filled circle, on the background. White reads 17.4:1 there
+    *outside* the filled circle, on the background. #FFF200 reads 12.8:1 there
     and a dark ring reads almost nothing, which is why it disappeared.
 
-    It is also why the palette still has no white in it: a white highlight
-    would swallow the ring where the two do touch. ]]
+    It is also why no highlight may be the ring's own colour: it would swallow
+    the ring where the two do touch. ]]
 local function drawHeldRing(x, y, r, pc)
   for _, note in ipairs({pc, pc + 12, pc + 24, pc + 36, pc + 48, pc + 60,
                          pc + 72, pc + 84, pc + 96, pc + 108, pc + 120}) do

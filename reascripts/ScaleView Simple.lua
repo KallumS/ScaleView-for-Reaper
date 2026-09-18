@@ -48,12 +48,13 @@ local COLOR_BG        = {0.1375, 0.1532, 0.1806}  -- icon background, #23272e
 local COLOR_OFF       = {0.30, 0.31, 0.35}  -- note not in the selected scale
 local COLOR_LABEL     = {0.72, 0.74, 0.80}  -- scale name text
 local COLOR_TEXT_OFF  = {0.62, 0.64, 0.70}  -- note name on an unlit circle
-local COLOR_TEXT_ON   = {0.06, 0.12, 0.11}  -- note name on a highlighted circle
+local COLOR_TEXT_ON   = {0.0786, 0.0904, 0.1100}  -- note name on a lit circle, #14171c
 
 -- Highlight colours offered in the menu. The first is the default.
 -- Keep these pale: the note names drawn on top of them are dark. There is
--- deliberately no white here - the ring around a note being played is white,
--- and a white highlight would swallow it.
+-- deliberately nothing here that the ring around a played note could hide in.
+-- That ring is #FFF200, so the colour to keep out is a yellow; Gold is the
+-- nearest the palette comes, and reads 1.4:1 against it where the two touch.
 local HIGHLIGHTS = {
   {name = "Teal",        rgb = {0.20, 0.80, 0.62}},
   {name = "Orange",      rgb = {0.98, 0.55, 0.15}},

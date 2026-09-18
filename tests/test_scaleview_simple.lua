@@ -473,14 +473,17 @@ end
 
 projectsOn = false
 
--- 14) The highlight colours. There is no white one: the ring around a note
---     being played is white, so a white highlight would swallow it.
+-- 14) The highlight colours. None of them may be the ring colour: the ring
+--     around a played note is #FFF200, and a highlight of that would swallow
+--     it where the two touch.
 do
   local PALETTE = {
     {"Teal", {0.20, 0.80, 0.62}}, {"Orange", {0.98, 0.55, 0.15}},
     {"Light Green", {0.55, 0.87, 0.40}}, {"Light Blue", {0.40, 0.72, 0.98}},
     {"Light Pink", {0.98, 0.62, 0.78}}, {"Gold", {0.95, 0.78, 0.22}},
   }
+
+  local RING_RGB = {1.00, 0.9492, 0.0000}   -- #FFF200, what COLOR_HELD holds
 
   chooseScale("C Major")
 
@@ -489,18 +492,17 @@ do
     chooseOption(name)
     label()
 
-    local lit, white = 0, 0
+    local lit = 0
     for _, circle in ipairs(drawn) do
       if circle.color[1] == rgb[1] and circle.color[2] == rgb[2] then lit = lit + 1 end
-      if circle.color[1] == 1 and circle.color[2] == 1 and circle.color[3] == 1 then
-        white = white + 1
-      end
     end
 
     if lit ~= 7 then fail(name .. " lit " .. lit .. " circles, expected 7") end
-    if white > 0 then fail(name .. " is white, which the played-note ring uses") end
+    if rgb[1] == RING_RGB[1] and rgb[2] == RING_RGB[2] and rgb[3] == RING_RGB[3] then
+      fail(name .. " is the colour the played-note ring uses")
+    end
   end
-  print(string.format("highlights: %d colours, none of them white", #PALETTE))
+  print(string.format("highlights: %d colours, none of them the ring's", #PALETTE))
 
   -- The option is gone from the menu entirely.
   chooseOption(nil)

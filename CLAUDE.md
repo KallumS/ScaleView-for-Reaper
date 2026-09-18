@@ -49,21 +49,25 @@ picking Gb Major still says Gb Major when simplified.
 usually belongs in the other - check both before considering a bug fixed. The
 docking fix applied to every script there was.
 
-**The ring round a played note is always white. No exceptions, and it must not
-be made to depend on the circle underneath** - that was tried, on the strength
-of a contrast calculation, and it looked broken in REAPER. Keep the calculation
-in mind only as the shape of the mistake: white reads at just 1.6:1 to 2.4:1
-against a highlight colour, which is true, but **both strokes are drawn at
-`r + 1.5` and `r + 2.5`, outside the filled circle, on the background**. That
-is the surface a ring has to contrast with, and white reads 15.0:1 against it
-(17.4:1 before the background moved to `#23272e`; recompute this if it moves
-again, but no plausible icon background brings it near a fill's 2.4:1).
-The arithmetic was right about the wrong surface, and a test now pins the ring
-white so it cannot be made conditional again.
+**The ring round a played note is always one colour - `#FFF200` - and it must
+not be made to depend on the circle underneath.** The hue is the user's to
+choose and has changed once (it was white); what must not change is that it is
+unconditional. That was tried, on the strength of a contrast calculation, and
+it looked broken in REAPER. Keep the calculation in mind only as the shape of
+the mistake: the ring reads at just 1.4:1 to 2.0:1 against a highlight colour,
+which is true, but **both strokes are drawn at `r + 1.5` and `r + 2.5`, outside
+the filled circle, on the background**. That is the surface a ring has to
+contrast with, and `#FFF200` reads 12.8:1 against it (white read 17.4:1 on the
+old background and 15.0:1 on `#23272e`). Recompute when either colour moves;
+no plausible icon background brings the figure near a fill's 2.0:1. The
+arithmetic was right about the wrong surface, and a test pins the ring to one
+colour so it cannot be made conditional again.
 
-Pro also deliberately has **no white highlight colour**, for the part of the
-ring that does touch a circle. Simple has no rings and so no clash, but it
-carries the same six colours because it is meant to match.
+**No highlight may be the ring's own colour**, for the part of the ring that
+does touch a circle. With a yellow ring the colour to keep out is a yellow, and
+Gold is the nearest the palette comes - 1.4:1 against the ring, where white
+against Gold was 1.6:1. Simple has no rings and so no clash, but it carries the
+same six colours because it is meant to match, and both suites assert it.
 
 **What decides a redraw is the held set, not the chord name** (`heldVersion`).
 Those are not the same thing: adding B to D E Ab leaves the name `E7/D`,

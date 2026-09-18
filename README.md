@@ -77,7 +77,7 @@ Clicking the icon clear of the circles opens:
 | Random Scale | Picks a scale at random, for when you can't decide - never the one already showing |
 | Show Note Names | Draws the note name inside each circle |
 | Simplify Note Names | Turns off key-aware spelling and names every note like a piano key |
-| Highlight Colour | Teal (default), Orange, Light Green, Light Blue, Light Pink or Gold. Neither script offers White, because the ring around a note being played is white and a white highlight would swallow it |
+| Highlight Colour | Teal (default), Orange, Light Green, Light Blue, Light Pink or Gold. None of them is the colour of the ring around a note being played (`#FFF200`), because a highlight of that would swallow it |
 | Dock Window | Dock or undock the icon |
 | Close | Quit |
 
@@ -137,8 +137,14 @@ The colours are 0..1 RGB triplets near the top of the script:
 
 ```lua
 local COLOR_BG       = {0.1375, 0.1532, 0.1806}  -- icon background, #23272e
-local COLOR_OFF      = {0.30, 0.31, 0.35}  -- note not in the selected scale
+local COLOR_OFF      = {0.30, 0.31, 0.35}        -- note not in the scale
+local COLOR_TEXT_ON  = {0.0786, 0.0904, 0.1100}  -- note name on a lit circle, #14171c
+local COLOR_HELD     = {1.00, 0.9492, 0.0000}    -- ring around a played note, #FFF200
 ```
+
+They are triplets rather than hex, so a value has to be a hair above n/255 to
+land on the colour you meant whichever way REAPER rounds - `{0.14, 0.15, 0.18}`
+gives `#26262e`, not `#23272e`. The hex is in the comment beside each.
 
 The highlight colours are the `HIGHLIGHTS` table just below them. Add, remove
 or retune entries freely - the menu is built from the table, and the chosen

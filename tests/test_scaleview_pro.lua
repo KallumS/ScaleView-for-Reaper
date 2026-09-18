@@ -688,32 +688,35 @@ for _, circle in ipairs(drawn) do if circle.fill == false then rings = rings + 1
 if rings ~= 2 then fail("one pitch class in three octaves should ring one circle, got " .. rings) end
 print("  held notes are ringed, once per pitch class whatever the octave")
 
---[[  9a) Every ring is white, whether or not the circle under it is lit.
+--[[  9a) Every ring is RING, whether or not the circle under it is lit.
 
      Making it depend on the circle was tried and looked broken in REAPER, and
      the reason is that both strokes are drawn at r + 1.5 and r + 2.5 -
      *outside* the filled circle, on the background - so what a ring has to
-     contrast with is the background, not the fill. White reads 17.4:1 there.
-     No exceptions: this test exists to stop it being made conditional again. ]]
+     contrast with is the background, not the fill. #FFF200 reads 12.8:1 there.
+     No exceptions: this test exists to stop it being made conditional again.
+     The colour itself is allowed to change; that it is one colour is not. ]]
+local RING = {1.00, 0.9492, 0.0000}   -- #FFF200, and COLOR_HELD must match
 chooseScale("Gb Major")
 play({62, 64, 71})          -- D and E are outside Gb major, Cb is in it
-local whiteRings, otherRings = 0, 0
+local ringStrokes, otherRings = 0, 0
 for _, circle in ipairs(drawn) do
   if circle.fill == false and circle.color then
-    if circle.color[1] == 1 and circle.color[2] == 1 and circle.color[3] == 1 then
-      whiteRings = whiteRings + 1
+    if circle.color[1] == RING[1] and circle.color[2] == RING[2]
+       and circle.color[3] == RING[3] then
+      ringStrokes = ringStrokes + 1
     else
       otherRings = otherRings + 1
     end
   end
 end
-if whiteRings ~= 6 then
-  fail("expected 6 white ring strokes for three held notes, got " .. whiteRings)
+if ringStrokes ~= 6 then
+  fail("expected 6 ring strokes for three held notes, got " .. ringStrokes)
 end
 if otherRings ~= 0 then
-  fail("every ring must be white; " .. otherRings .. " were not")
+  fail("every ring must be the one ring colour; " .. otherRings .. " were not")
 end
-print("  and every ring is white, lit circle or not")
+print("  and every ring is #FFF200, lit circle or not")
 
 --[[  9b) A note that joins or leaves without changing the chord name still
      has to redraw the icon.
@@ -1018,14 +1021,17 @@ end
 
 projectsOn = false
 
--- 14) The highlight colours. There is no white one: the ring around a note
---     being played is white, so a white highlight would swallow it.
+-- 14) The highlight colours. None of them may be the ring colour: the ring
+--     around a played note is #FFF200, and a highlight of that would swallow
+--     it where the two touch.
 do
   local PALETTE = {
     {"Teal", {0.20, 0.80, 0.62}}, {"Orange", {0.98, 0.55, 0.15}},
     {"Light Green", {0.55, 0.87, 0.40}}, {"Light Blue", {0.40, 0.72, 0.98}},
     {"Light Pink", {0.98, 0.62, 0.78}}, {"Gold", {0.95, 0.78, 0.22}},
   }
+
+  local RING_RGB = {1.00, 0.9492, 0.0000}   -- #FFF200, what COLOR_HELD holds
 
   chooseScale("C Major")
 
@@ -1034,18 +1040,17 @@ do
     chooseOption(name)
     label()
 
-    local lit, white = 0, 0
+    local lit = 0
     for _, circle in ipairs(drawn) do
       if circle.color[1] == rgb[1] and circle.color[2] == rgb[2] then lit = lit + 1 end
-      if circle.color[1] == 1 and circle.color[2] == 1 and circle.color[3] == 1 then
-        white = white + 1
-      end
     end
 
     if lit ~= 7 then fail(name .. " lit " .. lit .. " circles, expected 7") end
-    if white > 0 then fail(name .. " is white, which the played-note ring uses") end
+    if rgb[1] == RING_RGB[1] and rgb[2] == RING_RGB[2] and rgb[3] == RING_RGB[3] then
+      fail(name .. " is the colour the played-note ring uses")
+    end
   end
-  print(string.format("highlights: %d colours, none of them white", #PALETTE))
+  print(string.format("highlights: %d colours, none of them the ring's", #PALETTE))
 
   -- The option is gone from the menu entirely.
   chooseOption(nil)
