@@ -53,15 +53,16 @@ local COLOR_TEXT_ON   = {0.0786, 0.0904, 0.1100}  -- note name on a lit circle, 
 -- Highlight colours offered in the menu. The first is the default.
 -- Keep these pale: the note names drawn on top of them are dark. There is
 -- deliberately nothing here that the ring around a played note could hide in.
--- That ring is #FFF200, so the colour to keep out is a yellow; Gold is the
--- nearest the palette comes, and reads 1.4:1 against it where the two touch.
+-- That ring is #FFF200, so the colour to keep out is a yellow. White is the
+-- nearest the palette comes, and reads 1.2:1 against it where the two touch -
+-- which is only the antialiased edge: both strokes sit outside the circle.
 local HIGHLIGHTS = {
   {name = "Teal",        rgb = {0.20, 0.80, 0.62}},
   {name = "Orange",      rgb = {0.98, 0.55, 0.15}},
   {name = "Light Green", rgb = {0.55, 0.87, 0.40}},
   {name = "Light Blue",  rgb = {0.40, 0.72, 0.98}},
   {name = "Light Pink",  rgb = {0.98, 0.62, 0.78}},
-  {name = "Gold",        rgb = {0.95, 0.78, 0.22}},
+  {name = "White",       rgb = {1.00, 1.00, 1.00}},
 }
 
 ------------------------------------------------------------------------------

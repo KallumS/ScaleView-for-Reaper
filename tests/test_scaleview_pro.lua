@@ -1028,7 +1028,7 @@ do
   local PALETTE = {
     {"Teal", {0.20, 0.80, 0.62}}, {"Orange", {0.98, 0.55, 0.15}},
     {"Light Green", {0.55, 0.87, 0.40}}, {"Light Blue", {0.40, 0.72, 0.98}},
-    {"Light Pink", {0.98, 0.62, 0.78}}, {"Gold", {0.95, 0.78, 0.22}},
+    {"Light Pink", {0.98, 0.62, 0.78}}, {"White", {1.00, 1.00, 1.00}},
   }
 
   local RING_RGB = {1.00, 0.9492, 0.0000}   -- #FFF200, what COLOR_HELD holds
@@ -1052,16 +1052,17 @@ do
   end
   print(string.format("highlights: %d colours, none of them the ring's", #PALETTE))
 
-  -- The option is gone from the menu entirely.
+  -- Gold was swapped out for White, so its option is gone from the menu.
   chooseOption(nil)
-  if lastMenuStr and lastMenuStr:find("White", 1, true) then
-    fail("White is still offered in the menu")
+  if lastMenuStr and lastMenuStr:find("Gold", 1, true) then
+    fail("Gold is still offered in the menu")
   end
 
-  -- Someone whose saved colour was White falls back to the default rather
-  -- than breaking, the same as when Purple and Red were dropped.
+  -- Someone whose saved colour was Gold falls back to the default rather
+  -- than breaking, the same as when White, Purple and Red were dropped -
+  -- which is the whole point of storing the choice by name.
   ext = {}
-  ext["ScaleViewPro:highlight"] = "White"
+  ext["ScaleViewPro:highlight"] = "Gold"
   ext["ScaleViewPro:root"]  = "C"
   ext["ScaleViewPro:scale"] = "Major"
   projectsOn = false
@@ -1073,9 +1074,9 @@ do
     if circle.color[1] == 0.20 and circle.color[2] == 0.80 then teal = teal + 1 end
   end
   if teal ~= 7 then
-    fail("a saved White should fall back to the default, lit " .. teal .. " teal circles")
+    fail("a saved Gold should fall back to the default, lit " .. teal .. " teal circles")
   else
-    print("  a saved White falls back to the default")
+    print("  a saved Gold falls back to the default")
   end
 end
 

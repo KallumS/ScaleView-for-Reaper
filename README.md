@@ -77,7 +77,7 @@ Clicking the icon clear of the circles opens:
 | Random Scale | Picks a scale at random, for when you can't decide - never the one already showing |
 | Show Note Names | Draws the note name inside each circle |
 | Simplify Note Names | Turns off key-aware spelling and names every note like a piano key |
-| Highlight Colour | Teal (default), Orange, Light Green, Light Blue, Light Pink or Gold. None of them is the colour of the ring around a note being played (`#FFF200`), because a highlight of that would swallow it |
+| Highlight Colour | Teal (default), Orange, Light Green, Light Blue, Light Pink or White. None of them is the colour of the ring around a note being played (`#FFF200`), because a highlight of that would swallow it |
 | Dock Window | Dock or undock the icon |
 | Close | Quit |
 

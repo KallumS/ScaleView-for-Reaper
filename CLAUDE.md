@@ -64,10 +64,15 @@ arithmetic was right about the wrong surface, and a test pins the ring to one
 colour so it cannot be made conditional again.
 
 **No highlight may be the ring's own colour**, for the part of the ring that
-does touch a circle. With a yellow ring the colour to keep out is a yellow, and
-Gold is the nearest the palette comes - 1.4:1 against the ring, where white
-against Gold was 1.6:1. Simple has no rings and so no clash, but it carries the
-same six colours because it is meant to match, and both suites assert it.
+does touch a circle. With a yellow ring the colour to keep out is a yellow.
+**White is now the nearest the palette comes, at 1.17:1**, having replaced Gold
+(1.38:1) at the user's request - so the margin is the tightest it has been, and
+it is only the antialiased edge, because both strokes are drawn outside the
+filled circle. White was barred from the palette for years for exactly this
+reason and became free the moment the ring stopped being white; note that the
+bar was never about white, only about whatever colour the ring is. Simple has
+no rings and so no clash, but it carries the same six colours because it is
+meant to match, and both suites assert it.
 
 ## The house colour scheme
 
