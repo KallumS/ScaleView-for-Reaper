@@ -46,7 +46,7 @@ local DEFAULT_H    = 100
 -- Colours are 0..1 RGB triplets, tweak to taste.
 local COLOR_BG        = {0.1375, 0.1532, 0.1806}  -- icon background, #23272e
 local COLOR_OFF       = {0.30, 0.31, 0.35}  -- note not in the selected scale
-local COLOR_LABEL     = {0.72, 0.74, 0.80}  -- scale name text
+local COLOR_LABEL     = {0.7492, 0.7727, 0.8080}  -- scale name text, #BFC5CE
 local COLOR_TEXT_OFF  = {0.62, 0.64, 0.70}  -- note name on an unlit circle
 local COLOR_TEXT_ON   = {0.0786, 0.0904, 0.1100}  -- note name on a lit circle, #14171c
 

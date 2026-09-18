@@ -69,6 +69,71 @@ Gold is the nearest the palette comes - 1.4:1 against the ring, where white
 against Gold was 1.6:1. Simple has no rings and so no clash, but it carries the
 same six colours because it is meant to match, and both suites assert it.
 
+## The house colour scheme
+
+ScaleView's colours are not arbitrary any more: the user is standardising one
+scheme across their projects, and this is it, written down because the message
+carrying it does not survive the session.
+
+**The three that carry it, plus the ink.**
+
+| | | |
+| --- | --- | --- |
+| Accent | `#FFF200` | chosen buttons, checkmarks, active slider grab, every MIDI note |
+| Controls | `#A9AFBA` | unchosen buttons, slider grabs |
+| Ground | `#23272E` | window chrome |
+| Ink | `#14171C` | text on any button - grey and yellow alike |
+
+**The cool grey ramp**, darkest to lightest. **Every entry satisfies R < G < B,
+and that is the load-bearing property** - a neutral grey of the same lightness
+reads flat beside the yellow.
+
+| | | | | | |
+| --- | --- | --- | --- | --- | --- |
+| `#111419` piano-roll ground | `#14171C` borders, button ink | `#1A1D23` sunken frames, scrollbar track | `#1B1F25` popups, title bar | `#1E2228` roll beat lines | `#22262D` frame hover |
+| `#23272E` window chrome, active title | `#2A2F37` frame active | `#3A404A` separators, roll bar lines | `#585F6B` scrollbar grab | `#6D7581` scrollbar hover | `#8A919C` disabled/dim text |
+| `#8F96A2` button held | `#A9AFBA` buttons | `#BFC5CE` step numbers | `#C0C6CF` button hover | `#DDE1E7` body text | `#F2F4F7` playhead |
+
+One off-ramp colour: **`#D2483F` for warnings** - red rather than a shade of the
+accent, so a warning cannot be mistaken for a selection.
+
+**Two rules travel with the hexes, and they are the part worth keeping:**
+
+- **Light controls force dark text.** `#A9AFBA` and `#FFF200` are both far
+  lighter than the ground, so body text at `#DDE1E7` vanishes on them. Every
+  button needs `#14171C`, *including the unselected ones* - that is the trap,
+  because the selected button looks fine while the rest go unreadable.
+- **Hover and held are derived, not picked.** `#C0C6CF` and `#8F96A2` are
+  `#A9AFBA` shifted +/-18% toward white and black, and the yellow's states are
+  computed the same way at runtime rather than stored - so re-tinting means
+  changing one value, not three.
+
+### Where ScaleView sits against it
+
+Exact: `COLOR_BG` is Ground, `COLOR_TEXT_ON` is Ink, `COLOR_HELD` is Accent.
+`COLOR_LABEL` and `COLOR_CHORD` were near-misses - `#B8BDCC` and `#F2F5FA`,
+10.8 and 3.2 away from `#BFC5CE` and `#F2F4F7` - and have been snapped to the
+ramp. All four of ScaleView's greys already satisfied R < G < B, which is why
+the scheme sat on it so easily.
+
+**Two things are deliberately still off it, and both need a decision rather
+than a tidy-up:**
+
+- **The unlit circle is dark with light text** (`COLOR_OFF` `#4C4F59`,
+  `COLOR_TEXT_OFF` `#9EA3B2`), where the scheme's unchosen button is `#A9AFBA`
+  with `#14171C` ink. Inverting it would follow the scheme exactly, and it
+  would also make the notes *outside* the key the brightest thing in the icon -
+  which is the opposite of what the icon is for. These two constants move
+  together or not at all: a light fill demands the dark ink, and a dark fill
+  demands light text.
+- **Lit circles are one of six user-chosen highlights, not the Accent.** In a
+  piano roll every MIDI note is `#FFF200`; here the accent already means
+  *being played* (the ring), and the highlight means *in the key*. Those are
+  two different states in one icon and they cannot share a colour - the ring
+  would vanish into the circle, which is the rule two paragraphs up. So
+  standardising the lit circle onto `#FFF200` requires moving the ring
+  somewhere else first, and the six-colour menu becomes vestigial.
+
 **What decides a redraw is the held set, not the chord name** (`heldVersion`).
 Those are not the same thing: adding B to D E Ab leaves the name `E7/D`,
 because B is the fifth and a missing fifth is silent, so a poll that redrew

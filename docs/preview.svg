@@ -26,7 +26,7 @@
 <text x="177.1" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">A</text>
 <circle cx="205.7" cy="94.8" r="11.4" fill="#4d4f59"/>
 <text x="205.7" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">B</text>
-<text x="120.0" y="128.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#b8bccc">No scale selected</text>
+<text x="120.0" y="128.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#bfc5ce">No scale selected</text>
 <text x="340.0" y="26" font-family="Arial,Helvetica,sans-serif" font-size="11" text-anchor="middle" fill="#8d92a3">C Major, default teal</text>
 <rect x="240" y="34" width="200" height="100" fill="#23272e" rx="4"/>
 <circle cx="268.6" cy="60.4" r="11.4" fill="#4d4f59"/>
@@ -53,7 +53,7 @@
 <text x="397.1" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#14171c">A</text>
 <circle cx="425.7" cy="94.8" r="11.4" fill="#33cc9e"/>
 <text x="425.7" y="98.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#14171c">B</text>
-<text x="340.0" y="128.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#b8bccc">C Major</text>
+<text x="340.0" y="128.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#bfc5ce">C Major</text>
 <text x="120.0" y="160" font-family="Arial,Helvetica,sans-serif" font-size="11" text-anchor="middle" fill="#8d92a3">orange highlight</text>
 <rect x="20" y="168" width="200" height="100" fill="#23272e" rx="4"/>
 <circle cx="48.6" cy="194.4" r="11.4" fill="#4d4f59"/>
@@ -80,7 +80,7 @@
 <text x="177.1" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">A</text>
 <circle cx="205.7" cy="228.8" r="11.4" fill="#4d4f59"/>
 <text x="205.7" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">B</text>
-<text x="120.0" y="262.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#b8bccc">C Minor Blues</text>
+<text x="120.0" y="262.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#bfc5ce">C Minor Blues</text>
 <text x="340.0" y="160" font-family="Arial,Helvetica,sans-serif" font-size="11" text-anchor="middle" fill="#8d92a3">light pink highlight</text>
 <rect x="240" y="168" width="200" height="100" fill="#23272e" rx="4"/>
 <circle cx="268.6" cy="194.4" r="11.4" fill="#fa9ec7"/>
@@ -107,7 +107,7 @@
 <text x="397.1" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#14171c">A</text>
 <circle cx="425.7" cy="228.8" r="11.4" fill="#fa9ec7"/>
 <text x="425.7" y="232.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#14171c">B</text>
-<text x="340.0" y="262.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#b8bccc">F# Harmonic Minor</text>
+<text x="340.0" y="262.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#bfc5ce">F# Harmonic Minor</text>
 <text x="120.0" y="294" font-family="Arial,Helvetica,sans-serif" font-size="11" text-anchor="middle" fill="#8d92a3">gold, "Swap Sharps &amp; Flats" on</text>
 <rect x="20" y="302" width="200" height="100" fill="#23272e" rx="4"/>
 <circle cx="48.6" cy="328.4" r="11.4" fill="#f2c738"/>
@@ -134,7 +134,7 @@
 <text x="177.1" y="366.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">A</text>
 <circle cx="205.7" cy="362.8" r="11.4" fill="#4d4f59"/>
 <text x="205.7" y="366.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#9ea3b3">B</text>
-<text x="120.0" y="396.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#b8bccc">Db Major</text>
+<text x="120.0" y="396.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#bfc5ce">Db Major</text>
 <text x="340.0" y="294" font-family="Arial,Helvetica,sans-serif" font-size="11" text-anchor="middle" fill="#8d92a3">light blue, 8-note scale</text>
 <rect x="240" y="302" width="200" height="100" fill="#23272e" rx="4"/>
 <circle cx="268.6" cy="328.4" r="11.4" fill="#4d4f59"/>
@@ -161,7 +161,7 @@
 <text x="397.1" y="366.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#14171c">A</text>
 <circle cx="425.7" cy="362.8" r="11.4" fill="#66b8fa"/>
 <text x="425.7" y="366.6" font-family="Arial,Helvetica,sans-serif" font-size="10.9" text-anchor="middle" fill="#14171c">B</text>
-<text x="340.0" y="396.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#b8bccc">C Diminished Whole-Half</text>
+<text x="340.0" y="396.3" font-family="Arial,Helvetica,sans-serif" font-size="12" text-anchor="middle" fill="#bfc5ce">C Diminished Whole-Half</text>
 <text x="20" y="442" font-family="Arial,Helvetica,sans-serif" font-size="11" fill="#8d92a3">Highlight Colour:</text>
 <circle cx="116" cy="438" r="8" fill="#33cc9e"/>
 <circle cx="142" cy="438" r="8" fill="#fa8c26"/>
