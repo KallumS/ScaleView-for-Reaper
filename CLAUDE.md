@@ -207,6 +207,18 @@ Two other findings from it are worth keeping:
 
 ## Working in this repo
 
+- **Three kinds of written record, and they are not interchangeable:**
+
+  | | |
+  | --- | --- |
+  | this file | the standing instructions and the evidence - measurements, REAPER API behaviour, the arithmetic behind each rule |
+  | `docs/decisions/` | one short record per decision that constrains how the code may change, saying what it rules out and pointing here for the proof |
+  | `docs/sessions/` | what happened in a session, including what was tried and abandoned and what each mistake cost |
+
+  A decision record is a summary, never a second source of truth. Where any of
+  them disagree with the code, **the code wins** - see the lesson below about
+  this file not being evidence, which applies to all three.
+
 - **The tests are the specification.** Run both before and after any change;
   they need only `lua5.4` and take under a second:
 
@@ -284,6 +296,13 @@ named at the end of its line.
   `frame()` alone, with no resize and no `label()`. **Ask what your harness
   supplies that the real thing does not**: the mock was not wrong, it was
   helpful, which is worse.
+- **A test that asserts a fallback can pass for free.** The plugin's guard on
+  a dropped setting name was first written with a hand-built state block the
+  processor rejected outright - which leaves the default in place, which is
+  exactly what the test asserts. It round-trips a real saved state now and
+  checks the *other* fields came through, so a block that failed to parse
+  cannot satisfy it. Whenever a test asserts "X falls back to the default",
+  ask what else would produce that default.
 - **This file is not evidence about the code.** Several confident claims in it
   turned out to describe a version that no longer existed - Simple's menus,
   Simple's project state, Simple's toggle state, the scale sweep's location.
