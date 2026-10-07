@@ -13,8 +13,9 @@ diatonic root and ambiguous chords resolve themselves.
 ## Decision
 
 The scale **breaks ties and nothing more**. At equal cost a root that is a
-scale degree wins, then a reading whose notes sit in the scale, then the
-commoner quality. It is not a filter: a chord from outside the key is named
+scale degree wins, then a reading whose notes sit in the scale, then (since
+October 2026, decision [0010](0010-a-draw-goes-to-the-reading-without-a-slash.md))
+a reading that needs no slash, then the commoner quality. It is not a filter: a chord from outside the key is named
 for what it is.
 
 ## Consequences

@@ -39,6 +39,8 @@ Commits  - where it landed
 | [0006](0006-the-played-note-ring-is-unconditional.md) | The played-note ring is unconditional | Accepted |
 | [0007](0007-store-settings-by-name.md) | Store settings by name, never by index | Accepted |
 | [0008](0008-adopt-the-house-colour-scheme.md) | Adopt the house colour scheme | Accepted |
+| [0009](0009-an-altered-dominant-keeps-its-root.md) | An altered dominant on its root keeps its alterations | Accepted |
+| [0010](0010-a-draw-goes-to-the-reading-without-a-slash.md) | A draw goes to the reading without a slash | Accepted |
 
 Records 0001 to 0007 were taken before they were written down; the dates and
 commits are when each landed in the code, not when this file was created.

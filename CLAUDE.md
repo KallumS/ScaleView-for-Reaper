@@ -324,6 +324,19 @@ named at the end of its line.
   23.5% against Pro's 100% on the same 17,688 voicings, with the ceiling on its
   tuning located as well. Building the thing you are arguing against is often
   cheaper than the argument. (*A table cannot be made complete*.)
+- **A perfect score on one question hides failures on another.** Every
+  objective figure here was 100% - 1.2 million sonorities, 17,688 voicings -
+  while C7#5b9 came out `A#min9b5/C`. That name *does* account for exactly the
+  notes; the test was never asking whether it was the name a musician writes.
+  One round trip through symbols people actually wrote found it in the first
+  page of output. When a metric saturates, it has stopped telling you
+  anything, so go and ask a different question. (*Against the symbols people
+  write*.)
+- **A cap is a silent drop.** `MAX_EVENTS_PER_POLL` was described as "a
+  generous ceiling", and everything past it was discarded without a trace -
+  including note-offs. A bound on a loop that already has a natural stop
+  should be a safety stop far above any real load, and a test should push past
+  the old value. (*REAPER API facts*, `MIDI_GetRecentInputEvent`.)
 - **Measure without redistributing.** Two of the five corpora are CC BY-NC-SA.
   They were cloned, scanned, scored and discarded; nothing from any corpus is
   in this repository, and the table records each licence so the next person
@@ -381,7 +394,14 @@ These cost real debugging time. Two of them contradict the documentation.
   latches the list. `retval` is a non-zero sequence number, or zero when there
   are no more events - remember the newest one and walk back to it to get
   exactly the events not yet seen, then apply them in reverse so note-ons and
-  note-offs stay in order. It reads the *global input history*: it sees a
+  note-offs stay in order. **Walk all the way back to it.** Pro used to stop
+  after 64 events, and everything older in that poll was dropped - pitch bend
+  and pressure stream continuously while keys are held (an MPE controller
+  sends both per finger), and the defer loop does not run while a modal
+  `gfx.showmenu` is open, so a note-off with 64 messages after it was lost and
+  the note stayed ringed. The bound is now 16,384, purely as a safety stop;
+  the suite proves it with a note-off behind 600 other messages. It reads the
+  *global input history*: it sees a
   controller being played anywhere in REAPER, but NOT MIDI items playing back,
   and it is not per-track.
 - Settings are stored with `SetExtState`/`GetExtState` **by name, never by
@@ -525,7 +545,25 @@ tuning them, each of which broke a test first:
   dominant's; over a min7 or a plain triad they mean the root is wrong. Without
   that rule C D E G B over E came out `Emin7b13` rather than `Cmaj9/E`. A #11 is
   the exception - at home on anything with a perfect fifth - and any alteration
-  over an already-altered fifth is suspect (`COST_CLASHING`).
+  over an already-altered fifth is suspect (`COST_CLASHING`), **except on a
+  dominant standing on its own root** - see the next rule.
+- **An altered dominant keeps its root.** A major third and a flat seventh
+  with the root in the bass take a b9, #9, #11 or b13 whatever the fifth is
+  doing, because that is the altered dominant - `7#5b9`, `7b5#9`, `7b9b13` -
+  and every lead sheet writes it. Barring it read C7#5b9 as `A#min9b5/C`,
+  C7b5b9 as `F#7#11/C` and C7b5#9 as `D#min6b9/C`: each accounting for exactly
+  the notes, so no objective figure here could see it. It was found by
+  round-tripping lead-sheet symbols (*Against the symbols people write*).
+  **Only from the bass**, and that was measured: allowing it from an inversion
+  too moved 790 sweep names rather than 455, read F A C G C# over C as
+  `Aaug7#9/C` (a #9 in the bass), and broke `Cmaj7#5#11`. Every three- and
+  four-note name is untouched; the five-note moves are exactly four shapes
+  in twelve keys - the three above and C E F# G# Bb, `G#aug9/C` to
+  `Caug7#11`. The full seven-note 7alt still reads as its tritone substitute,
+  `F#13#11/C`, which is the same notes as natural tensions of F#13. On real
+  music it is nearly invisible, as it should be: **11 of the music21 core
+  corpus's 363,963 sonorities** are renamed, every one a real altered
+  dominant - A C# F G Bb from `Gmin9b5/A` to `Aaug7b9`.
 - **There are two suspensions, not three. `sus#4` was tried and reverted.**
   A reader's chord-theory document lists `Csus#4` (C F# G), and it was added
   here on the strength of that. It was wrong, and the user caught it. Three
@@ -625,8 +663,13 @@ a chord. It is expressed as what counts as a home for an alteration:
 ```lua
 local dominant = third == "maj" and seventh == "b7"
 local triad    = (third == "maj" or third == "min") and fifth == "P"
-athome = ... and (token == "#11" or dominant or (triad and token ~= "b13"))
+athome = token ~= "maj7"
+         and ((dominant and (plainFifth or root == bass))
+              or (plainFifth and (token == "#11" or (triad and token ~= "b13"))))
 ```
+
+(`plainFifth` is the old `fifth ~= "b" and fifth ~= "#"`; the `root == bass`
+clause is the altered-dominant rule above, added October 2026.)
 
 Without the `triad` clause, only a dominant is at home with a b9, #9 or b13,
 and C D Eb Gb Cb reads `D13b9/C` rather than Scaler's `Cbaddb9#9/C`.
@@ -751,8 +794,12 @@ rebuilt from the test suite's mocks: it reads MIDI note numbers on stdin and
 writes the name the script shows. Scanning the whole corpus takes about twenty
 minutes on four cores.
 
-**The tools are in `tools/`** - `runner.lua`, `check_symbol.py` and
-`corpus_scan.py`, with a README explaining each. They were in a scratchpad that
+**The tools are in `tools/`** - `runner.lua`, `check_symbol.py`,
+`corpus_scan.py` and the rest, with a README explaining each. `sweep.py`
+regenerates the 17,688-voicing sweep and checks every name, one line per
+voicing so two builds can be diffed; it was a scratchpad script until
+October 2026, which meant every blast radius quoted here had to be rebuilt
+from the description before it could be checked. The first three were in a scratchpad that
 does not survive the session, and every measurement quoted above was made with
 them, so they are committed rather than described.
 
@@ -853,6 +900,21 @@ joins them to the sonorities and `tools/score_labels.py` scores the result:
 | --- | --- | --- | --- |
 | DCML, 13 repos | 84,788 | **91.1%** (93.9% excl. symmetric) | **100%** |
 | When in Rome | 26,935 | **92.0%** (95.6% excl. symmetric) | **100%** |
+| BPS-FH, Beethoven's 32 first movements (GPL-3.0) | 11,190 | **94.8%** (98.5% excl. symmetric) | **100%** |
+
+BPS-FH was added in October 2026 (`collect_labels.py bps`). Its notes come from
+its own CSVs rather than a score, and its degree arithmetic follows the
+dataset's own `r2tconvert()` - harmonic minor, secondary keys major, augmented
+sixths on the flattened sixth - which was checked against ten numerals whose
+notes are known before any score was believed. Same shape as the other two:
+2,072 span-level bass claims, 291 from the doubled-root rule, and 1,170
+cadential six-fours set aside. The altered-dominant and tie-break changes move
+none of it, which is what a Classical corpus should say.
+
+Two more annotated corpora were found and **not** re-run, because they are
+already inside When in Rome: Haydn's Op. 20 quartets (`napulen/haydn_op20_harm`,
+24 movements) and TAVERN's Mozart and Beethoven variations
+(`jcdevaney/TAVERN`). Checked from When in Rome's file list, not assumed.
 
 **The bass figure is the striking one: whenever the analyst's bass is the
 lowest note sounding, Pro names it, on every one of 111,723 slices.** The
@@ -896,6 +958,64 @@ and that last half is two things, the same two in both corpora:
 - **Roman numerals answer a different question.** They name function; a chord
   symbol names notes. Agreement is interesting, disagreement is mostly the gap
   between the two notations, and neither is evidence of a defect.
+
+### Against the symbols people write
+
+Every other comparison here is against an analyst's Roman numeral, or a
+generator's label. **A lead sheet is a musician writing chord symbols in the
+notation ScaleView prints**, so it asks the question closest to the one users
+ask. `tools/leadsheet_check.py` reads every `<harmony>` in a set of MusicXML
+lead sheets, turns it back into notes from the MusicXML *kind* table (the
+standard's own definitions, plus the degrees the file adds, alters or
+subtracts), voices it with its bass lowest, and plays it into the real script
+in the song's own key.
+
+**OpenEWLD** (MIT; the songs themselves are public domain) is 502 Wikifonia
+lead sheets, 20,030 chord symbols, 135 distinct shapes:
+
+| | |
+| --- | --- |
+| symbol accounts for exactly the notes, right bass | **100%** (20,027 of 20,027) |
+| names the arranger's root | **99.27%** (19,880) |
+
+The 147 root differences are four kinds, and three are notation:
+
+- **103 are a slash over a bass outside the chord**, which is how an arranger
+  writes a suspended or extended chord: `Fm7/Bb` is `Bb11`, `F/G` is `G11`,
+  `Eb/Ab` is `Abmaj7sus2`. Same notes, the symbol written as one chord rather
+  than a triad over a bass. One of these, `Gm/C`, moved with the tie-break and
+  now reads `C7sus2`.
+- **37 are inversions.** 28 are the 6/min7 family this repo settled long
+  ago, half-diminished and minor sixth included - `Bbm7/Db` reads `Db6`,
+  `G6/D` reads `Emin7/D`, `Am6/F#` reads `F#min7b5`. 5 are sus inversions,
+  which are inversionally equivalent: `Gsus/C` is `Csus2`, and `G7sus/C`
+  reads `Csus4Add9` (it read `Dmin7(11)/C` before the tie-break). 1 is a
+  whole-tone `D7#5/C`. **3 are a preference worth knowing**: `E9/B` reads
+  `Bmin6Add11`, root position beating a plainer chord in inversion - that is
+  `COST_INVERSION`, already measured as not worth moving (*Tuning the weights
+  cannot buy Scaler's remaining roots*).
+- **4 in root position**, all arranger spellings of a plainer chord: `Am#5` is
+  A C F, which is `F/A`; `Dm+` is D F Bb, which is `Bb/D`.
+- **3 symmetric sets**, two diminished sevenths and a 7b5, where no root is
+  derivable.
+
+Before the altered-dominant rule there were seven root-position misses, and
+three were `E7#5b9` reading `Dmin9b5/E`. That is how the rule was found:
+every objective figure in this file was 100% while a standard jazz chord came
+out under the wrong name, because the objective test asks whether the symbol
+names the notes, not whether it names them the way a musician would.
+
+**Caveats.** The notes are rendered from the symbol, so this measures the
+vocabulary arrangers write, not voicings anyone played - the same limit noted
+for Hooktheory below. A dominant 11th is voiced without its third and a 13th
+without its eleventh, as every chord book plays them. Wikifonia's editor wrote
+two non-standard kinds, `minor-major` and `augmented-ninth`, read for what
+their names say, and three harmonies with an empty kind, which are skipped and
+counted. "7" as an added degree is the flat seventh: all 73 carry the text
+`7sus` or `9sus`. Naming everything with no key selected instead of the
+song's own changes the spelling of 249 of the 1,096 distinct voicings (`Db9`
+against `C#9`) and the root, quality or bass of none - the key spells, it
+does not choose.
 
 **On jazz specifically, a labelled corpus does not exist in the useful form**,
 and this was surveyed rather than guessed. The Weimar Jazz Database (ODbL, 456
@@ -1084,8 +1204,20 @@ cheap sanity check is that a known shape transposes to itself - a dominant
 ninth should read C9, C#9, D9 and so on across the twelve.
 
 **The selected scale only breaks a draw.** At equal cost a root that is a scale
-degree wins, then a reading whose notes sit in the scale, then the commoner
-quality. It is deliberately no stronger, and it is not a filter: a chord from
+degree wins, then a reading whose notes sit in the scale, then **a reading that
+needs no slash**, then the commoner quality. The slash step was added in
+October 2026: before it, C D G Bb over C read `GminAdd11/C` and C D F G over C
+`Dmin7(11)/C`, because a minor triad outranks a sus and the tie went to rank.
+They are `C7sus2` and `Csus4Add9` now. It moves 132 of the 17,688 sweep names
+(28 of them four-note, all of those to the bass as root), and none in jazznet,
+the Scaler cases or Wikipedia's list. **On real music it is the larger of the
+two October changes**: 2,955 of the music21 core corpus's 363,963 sonorities
+(0.81%; 636 of 37,106 distinct sets), almost all quartal and suspended
+voicings - G D F A from `DminAdd11/G` to `G7sus2`, G C D A from
+`Amin7(11)/G` to `Gsus4Add9`. 2,924 of them lose a slash; the other 31 had a
+doubled root hiding theirs (C G Bb D G printed `GminAdd11` over a C bass) and
+now name the note actually in the bass. The objective score does not move -
+363,959 of 363,963, the four eight-note clusters as before. It is deliberately no stronger, and it is not a filter: a chord from
 outside the key is named for what it is. **Scaler agrees**, which was checked
 rather than assumed - see *Where Pro and Scaler 3 disagree*. Two of the three mismatches this work
 started from had out-of-scale notes and Scaler named them anyway. Do not
@@ -1271,6 +1403,13 @@ notes come from. Verified from the JSFX reference:
 - REAPER 7.79 as of this writing.
 
 ## Related
+
+**Pending, October 2026: the plugin has not had this month's changes** -
+the altered-dominant rule and the no-slash tiebreak, both in the naming
+engine, and the MIDI poll bound if its input path has a cap like the one
+removed here. They were made here only; the plugin repository
+was not in that session. Port them and re-run the parity diff before calling
+the two in step again.
 
 `KallumS/ScaleView` is the same icon as a VST3 / AU / CLAP plugin (JUCE, C++).
 It matches Pro, and its musical core is a port of **both** engines here - the

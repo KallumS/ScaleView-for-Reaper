@@ -232,7 +232,9 @@ read:
   are the dominant's alterations; over a minor seventh or a plain triad they
   are not colours a musician hears, they are a sign the root has been guessed
   wrong and the notes belong to some plainer chord standing on one of the
-  others.
+  others. A dominant seventh standing on its own root takes them whatever its
+  fifth is doing, so the altered dominants read as themselves - `C7b5#9`,
+  `C7b5b9`, and `Caug7b9` for C7#5b9.
 
 ### The complete triad wins
 
@@ -264,7 +266,9 @@ keep their settings separately.
 
 The scale you have chosen is used, but only to settle a draw. Where two
 readings come out at exactly the same cost, a root that is a degree of the
-scale wins, and then a reading whose notes sit in it.
+scale wins, and then a reading whose notes sit in it. After the key, a reading
+that needs no slash beats one that does - C D G Bb over C is `C7sus2`, not
+`GminAdd11/C`.
 
 It is deliberately no stronger than that. A chord from outside the key is
 named for what it is rather than bent to fit - play F# A# C# with C major
