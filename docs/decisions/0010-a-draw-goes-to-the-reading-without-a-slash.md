@@ -31,7 +31,7 @@ the scale, **then no slash**, then the commoner quality.
   `Amin7/G`.
 - The key still breaks a draw first, so decision 0002 stands - this adds a
   step after it, not before.
-- **The plugin does not have it yet**; see 0009.
+- **Every copy took it the same day**; see 0009.
 
 ## Evidence
 

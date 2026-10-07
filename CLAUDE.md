@@ -1404,12 +1404,31 @@ notes come from. Verified from the JSFX reference:
 
 ## Related
 
-**Pending, October 2026: the plugin has not had this month's changes** -
-the altered-dominant rule and the no-slash tiebreak, both in the naming
-engine, and the MIDI poll bound if its input path has a cap like the one
-removed here. They were made here only; the plugin repository
-was not in that session. Port them and re-run the parity diff before calling
-the two in step again.
+**ScaleView Pro is the reference for every copy of the chord reader** - the
+user's instruction, October 2026, and the direction every port runs. Four
+repositories carry it, and all four took Pro's `f9e2691` changes the same day,
+each on a branch named `claude/amazing-brahmagupta-33qdfm`, **not yet merged**:
+
+| repository | copy | at | checked against Pro |
+| --- | --- | --- | --- |
+| `KallumS/ScaleView` (plugin) | `Source/ScaleModel.h`, a C++ port | `da943f1` | 541,908 names, nine keys, byte-identical |
+| `KallumS/Midi-Suggester` | `ms_theory.lua`, the reader verbatim | `6ed412b` | 481,696 names, eight keys, byte-identical |
+| `KallumS/Midi-Variator` | `mv_theory.lua`, Suggester's file whole | `eb926a0` | same body as Suggester's |
+| `KallumS/Noterator` | the plugin's `ScaleModel.h` and both Lua engines, vendored | `a154e19` | the plugin's file byte for byte |
+
+The parity rig is 60,212 voicings - the sweep, every one- and two-note chord,
+and every distinct sonority of music21's core corpus with its doublings - fed
+to Pro through `tools/runner.lua` and to the copy through a small dumper, then
+diffed; against the *previous* Pro it reports 1,231 differences, so it can see
+one. Good Idea, Midi Catalogue and both Starting Blocks carry only Pro's scale
+and root tables, which did not change. **The MIDI poll bound is Pro's alone**:
+none of the others reads `MIDI_GetRecentInputEvent`.
+
+**Midi Variator acts on the reading, not only prints it.** It changes a chord
+from the root the reader finds, so the tiebreak changes its variations
+(suspended chords now resolve like suspensions), and the altered-dominant rule
+leaves C7#5b9 with only "drop the seventh" in its rule table, giving
+`DbminMaj7/C`. That is recorded there as an open question for its table.
 
 `KallumS/ScaleView` is the same icon as a VST3 / AU / CLAP plugin (JUCE, C++).
 It matches Pro, and its musical core is a port of **both** engines here - the

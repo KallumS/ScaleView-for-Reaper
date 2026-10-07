@@ -33,8 +33,10 @@ with any alteration whatever the fifth is doing. Everything else about
   `Cmaj7#5#11`. Do not widen it without re-running that comparison.
 - The full seven-note 7alt still reads as its tritone substitute,
   `F#13#11/C` - the same notes as natural tensions. Left alone deliberately.
-- **The plugin does not have it yet.** `KallumS/ScaleView` ports this engine
-  and must take the same change, followed by the parity diff.
+- **Every copy took it the same day**, checked against Pro: the plugin,
+  Midi Suggester, Midi Variator and Noterator (`CLAUDE.md`, *Related*). In
+  Midi Variator it changes variations, not only names: C7#5b9 now becomes
+  `DbminMaj7/C`, the only move its rule table has for an altered fifth.
 
 ## Evidence
 
