@@ -1,6 +1,6 @@
 # How the chord naming is measured
 
-Eight small tools, kept because the measurements in `CLAUDE.md` are worth being
+Ten small tools, kept because the measurements in `CLAUDE.md` are worth being
 able to repeat. None of them is needed to *use* ScaleView; they exist to check
 it.
 
@@ -51,6 +51,24 @@ preference rather than theory. Score with `claimed` alone for the strict
 figure and with `names_bass` for what the engine is actually trying to do;
 `CLAUDE.md` quotes both.
 
+## `sweep.py` — every chord shape over every bass
+
+Every pitch-class set of three to seven notes over every bass it contains -
+17,688 voicings - named by the real script, one line per voicing, with any
+name that fails `check_symbol.py` marked. The summary goes to stderr, so two
+builds can be diffed directly:
+
+```sh
+python3 tools/sweep.py > before.txt
+python3 tools/sweep.py --script candidate.lua > after.txt
+diff before.txt after.txt | grep -c '^>'      # names moved
+python3 tools/sweep.py --scale "Gb Major"     # in a key
+```
+
+This is the blast-radius measurement every weight change in `CLAUDE.md` is
+judged by. It builds each voicing relative to its bass and asserts no pitch
+class repeats, because the obvious construction silently does.
+
 ## `chord_types.lua` — dump the closed half of the vocabulary
 
 Loads the shipped script under the same mocks and asks the real `core()`,
@@ -89,7 +107,15 @@ streams whose absolute offsets drift at an anacrusis.
 ```sh
 python3 tools/collect_labels.py dcml  path/to/dcml  dcml_pairs.json
 python3 tools/collect_labels.py wir   path/to/when-in-rome  wir_pairs.json
+python3 tools/collect_labels.py bps   path/to/functional-harmony/BPS_FH_Dataset  bps_pairs.json
 ```
+
+`bps` is BPS-FH (GPL-3.0), Beethoven's 32 first movements: `notes.csv` beside
+`chords.xlsx` on one crotchet timeline, so the join is exact like DCML's. Its
+degree arithmetic follows the dataset's own `r2tconvert()` - harmonic minor,
+secondary keys major, augmented sixths on the flattened sixth - and was
+checked against numerals with known answers first. Needs `pandas` and
+`openpyxl`.
 
 Neither corpus is in this repository - both are non-commercial or share-alike,
 and these are measurements, not redistribution.
@@ -121,6 +147,25 @@ of this script counted them and read 68%:
 
 Symmetric sets are also separated: a set that maps onto itself under
 transposition has no root derivable from the notes, so nobody can find one.
+
+## `leadsheet_check.py` — the chord symbols people wrote
+
+Reads every `<harmony>` in a folder of MusicXML lead sheets, turns each back
+into notes from the MusicXML *kind* table and its degrees, voices it with the
+bass lowest, names it in the song's key, and asks two things: does the name
+account for exactly the notes (with `check_symbol.py`), and does it name the
+root the arranger wrote. Where the root differs it says why - a slash over a
+bass outside the chord, an inversion, root position, or a symmetric set.
+
+```sh
+python3 tools/leadsheet_check.py path/to/OpenEWLD/dataset
+python3 tools/leadsheet_check.py path/to/OpenEWLD/dataset --no-key
+```
+
+Written for OpenEWLD (MIT, public-domain songs): 502 Wikifonia lead sheets.
+It is the tool that found the altered-dominant rule. The notes are rendered
+from the symbol, so it tests the vocabulary arrangers write, not voicings
+anyone played.
 
 ## `jazznet_check.py` — against a labelled chord dataset
 

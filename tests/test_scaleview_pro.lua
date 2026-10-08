@@ -250,6 +250,34 @@ expect({C4, C4 + 14, C4 + 16, C4 + 18, C4 + 20, C4 + 22}, "Caug9#11",
 expect({C4, C4 + 4, C4 + 6, C4 + 11}, "Cmaj7b5", "one flattened fifth is unchanged")
 expect({C4, C4 + 4, C4 + 8, C4 + 11}, "Cmaj7#5", "and so is one raised")
 
+--[[  3e) An altered dominant is at home with alterations whatever its fifth.
+
+    A b9 or #9 over an altered fifth usually means the root is wrong - except
+    over a dominant seventh, where that combination is the whole point of the
+    chord: 7#5b9, 7b5#9 and 7b9b13 are the standard altered dominants, and
+    every lead sheet writes them. They were read as some half-diminished or
+    minor sixth standing on another note, with the real root as a slash bass.
+    Found by round-tripping the chord symbols on 502 public-domain lead sheets
+    (OpenEWLD), where E7#5b9 came back Dmin9b5/E. ]]
+print("altered dominants:")
+expect({C3, C4 + 4, C4 + 8, C4 + 10, C4 + 13}, "Caug7b9", "C7#5b9, was A#min9b5/C")
+expect({C3, C4 + 4, C4 + 6, C4 + 10, C4 + 13}, "C7b5b9", "was F#7#11/C")
+expect({C3, C4 + 4, C4 + 6, C4 + 10, C4 + 15}, "C7b5#9", "was D#min6b9/C")
+expect({C3, C4 + 4, C4 + 10, C4 + 13, C4 + 20}, "Caug7b9", "C7b9b13, was A#min9b5/C")
+expect({C3, C4 + 4, C4 + 8, C4 + 10, C4 + 15}, "Caug7#9", "and C7#5#9 already read right")
+expect({C3, C4 + 3, C4 + 6, C4 + 10, C4 + 14}, "Cmin9b5",
+       "the half-diminished is not a dominant, and is unchanged")
+
+--[[  3f) At equal cost, a symbol with no slash beats one with. The key still
+    breaks a draw first; after it, a reading that needs no slash is simpler
+    than one that does, and that comes before which quality is commoner.
+    C D G Bb read Gmin add11 over C because a minor triad outranks a sus2,
+    though both cost the same - the slash was the tiebreak nobody asked. ]]
+print("a draw goes to the reading without a slash:")
+expect({C3, C4 + 2, C4 + 7, C4 + 10}, "C7sus2", "was GminAdd11/C")
+expect({C3, C4 + 2, C4 + 5, C4 + 7}, "Csus4Add9", "G7sus over C, was Dmin7(11)/C")
+expect({45, C4, 64, 67}, "Amin7", "a real difference in cost still decides")
+
 -- 4) The classic ambiguity: the same four notes, named by what is underneath.
 print("C6 against Amin7 - the bass decides:")
 expect({45, C4, 64, 67}, "Amin7", "A in the bass")
@@ -674,6 +702,26 @@ noteOn(C4 + 10)
 frame()
 if label() ~= "C7" then fail("a new event after idle polls was missed, got " .. tostring(label())) end
 print("  polling again applies nothing twice, and still catches the next note")
+
+--[[  8a) A burst of other messages cannot push a note-off out of reach.
+
+    The poll used to stop after 64 events, newest first, so anything older in
+    the same poll was dropped. Pitch bend and pressure stream continuously
+    while keys are held - an MPE controller sends both for every finger - and
+    the script stops polling altogether while one of its own menus is open,
+    so a note-off with more than 64 messages after it was lost and the note
+    stayed ringed until something else cleared it. ]]
+play({C4, C4 + 4, C4 + 7})
+noteOff(C4 + 4)
+for i = 1, 300 do
+  pushEvent(string.char(0xE0, i % 128, 64))         -- pitch bend
+  pushEvent(string.char(0xA0, C4, i % 128))         -- polyphonic pressure
+end
+frame()
+if label() ~= "C5" then
+  fail("a note-off followed by 600 other messages was lost, got " .. tostring(label()))
+end
+print("  a note-off is not lost behind a burst of pitch bend and pressure")
 
 -- 9) Notes being played are ringed, whichever octave they are in.
 play({C4, C4 + 4, C4 + 7})

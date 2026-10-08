@@ -210,13 +210,124 @@ def collect_wir(root_dir, workers=4):
     return pairs
 
 
+#  BPS-FH (GPL-3.0): Beethoven's 32 first movements, notes.csv beside
+#  chords.xlsx, both timed in crotchets from the same zero, so - like DCML -
+#  the join is exact. A label is a key, a degree, a quality and an inversion.
+#  The degree arithmetic follows the dataset's own r2tconvert() in
+#  preprocessing.py, which is the authors' reading of their labels: a minor
+#  key's scale is the HARMONIC minor, a secondary chord's key is always major,
+#  and an augmented sixth stands on the flattened sixth degree.
+BPS_QUALITY = {"M": (0, 4, 7), "m": (0, 3, 7), "d": (0, 3, 6), "a": (0, 4, 8),
+               "M7": (0, 4, 7, 11), "m7": (0, 3, 7, 10), "D7": (0, 4, 7, 10),
+               "d7": (0, 3, 6, 9), "h7": (0, 3, 6, 10)}
+#  The three augmented sixths, from the flattened sixth degree they stand on:
+#  It Ab C F#, Fr Ab C D F#, Ger Ab C Eb F#. Told apart by the numeral column.
+BPS_AUG6 = {"It": (0, 4, 10), "Fr": (0, 4, 6, 10), "Gr": (0, 4, 7, 10)}
+HARMONIC_MINOR = [0, 2, 3, 5, 7, 8, 11]
+
+
+def bps_key(name):
+    """'E-' is E flat major, 'c+' C sharp minor."""
+    name = str(name).strip()
+    pc = (LETTER[name[0].upper()] + name.count("+") - name.count("-")) % 12
+    return pc, name[0].islower()
+
+
+def bps_degree(scale_tonic, minor, text):
+    """Pitch class of a degree like '5', '-2' or '+4' in a key."""
+    m = re.match(r'^([+-]?)(\d)$', text)
+    if not m:
+        return None
+    pc = (scale_tonic + (HARMONIC_MINOR if minor else MAJOR)[int(m.group(2)) - 1]) % 12
+    return (pc + {"+": 1, "-": -1, "": 0}[m.group(1)]) % 12
+
+
+def bps_label(key, degree, quality, inversion, numeral):
+    tonic, minor = bps_key(key)
+    degree = str(degree).strip()
+    if degree.endswith(".0"):
+        degree = degree[:-2]
+    aug6 = quality == "a6"
+    if "/" in degree:
+        top, below = degree.split("/")
+        sec = bps_degree(tonic, minor, below)
+        if sec is None:
+            return None
+        tonic, minor = sec, False                 # a secondary key is major
+        degree = top
+    if aug6:
+        #  It, Fr and Ger all stand on the flattened sixth.
+        root = (tonic + (8 if not minor else HARMONIC_MINOR[5])) % 12
+        kind = next((k for k in BPS_AUG6 if str(numeral).startswith(k)), None)
+        if kind is None:
+            return None
+        ivs = BPS_AUG6[kind]
+    else:
+        if quality not in BPS_QUALITY:
+            return None
+        root = bps_degree(tonic, minor, degree)
+        if root is None:
+            return None
+        ivs = BPS_QUALITY[quality]
+    pcs = {(root + i) % 12 for i in ivs}
+    #  Inversion counts chord members up the stack: root, third, fifth, seventh.
+    #  An augmented sixth's figure is about function, not stacking, so its bass
+    #  is taken as the note it stands on, which is where Beethoven puts it.
+    stack = sorted(ivs)
+    try:
+        inversion = int(inversion)
+    except (TypeError, ValueError):
+        return None
+    if aug6 or inversion >= len(stack):
+        bass = root
+    else:
+        bass = (root + stack[inversion]) % 12
+    return pcs, root, bass
+
+
+def collect_bps(root_dir):
+    import pandas as pd
+    pairs = []
+    for movement in sorted(glob.glob(f"{root_dir}/*/notes.csv"),
+                           key=lambda p: int(os.path.basename(os.path.dirname(p)))):
+        here = os.path.dirname(movement)
+        events = []
+        with open(movement, newline="") as fh:
+            for r in csv.reader(fh):
+                on, midi, dur = float(r[0]), int(float(r[1])), float(r[3])
+                if dur > 0:
+                    events.append((on, on + dur, midi))
+        labels = []
+        for _, r in pd.read_excel(f"{here}/chords.xlsx", header=None).iterrows():
+            got = bps_label(r[2], r[3], r[4], r[5], r[6])
+            if got:
+                labels.append((float(r[0]), float(r[1])) + got + (str(r[6]),))
+        labels.sort()
+        i = 0
+        for t in sorted({e[0] for e in events}):
+            sounding = tuple(sorted({m for (s, e, m) in events if s <= t < e}))
+            while i < len(labels) and labels[i][1] <= t:
+                i += 1
+            if i >= len(labels) or labels[i][0] > t:
+                continue
+            _, _, pcs, root, bass, numeral = labels[i]
+            played = {m % 12 for m in sounding}
+            if len(played) < 3 or (played - pcs):
+                continue
+            pairs.append({"notes": list(sounding), "root": root, "bass": bass,
+                          "chord": numeral, "full": played == pcs,
+                          "source": "BPS-FH " + os.path.basename(here)})
+    print(f"  {len(pairs)} pairs", flush=True)
+    return pairs
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("corpus", choices=["dcml", "wir"])
+    ap.add_argument("corpus", choices=["dcml", "wir", "bps"])
     ap.add_argument("directory")
     ap.add_argument("out")
     args = ap.parse_args()
-    rows = collect_dcml(args.directory) if args.corpus == "dcml" else collect_wir(args.directory)
+    rows = {"dcml": collect_dcml, "wir": collect_wir, "bps": collect_bps}[args.corpus](args.directory)
     json.dump(rows, open(args.out, "w"))
     print(f"DONE {len(rows)} pairs -> {args.out}")

@@ -124,7 +124,10 @@ The rules that combine them:
   so the notes are read out instead.
 
 Over every voicing of three to seven notes in every bass position - 17,688 of
-them - that grammar prints **496 distinct chord types**.
+them - that grammar prints **539 distinct chord types**. (It was 500 just
+before the altered-dominant and tie-break changes of October 2026; an older
+figure of 496 here had already gone stale. `tools/sweep.py` regenerates it:
+strip the root and any slash bass from each name and count.)
 
 ## Checked against the standard formulas
 
@@ -166,6 +169,37 @@ not clash with an eleventh.
 The shells behave the same way: `R 3 7 9` is `Cmaj9`, `R b3 b7 9 11` is
 `Cmin11`, `R 3 b7 9 13` is `C13`. A missing fifth changes nothing, which is the
 rule above.
+
+### Altered dominants
+
+Root in the bass, as they are played. Until October 2026 the four with an
+altered fifth *and* an altered ninth came back as some other chord over a
+slash - `C7#5b9` as `A#min9b5/C` - because any alteration over an altered fifth
+was taken as a sign the root was wrong. Over a dominant standing on its root it
+is not; see CLAUDE.md, *An altered dominant keeps its root*.
+
+| chord | formula | Pro prints |
+| --- | --- | --- |
+| 7b9 | R 3 5 b7 b9 | `C7b9` |
+| 7#9 | R 3 5 b7 #9 | `C7#9` |
+| 7#11 | R 3 5 b7 #11 | `C7#11` |
+| 7b13 | R 3 5 b7 b13 | `C7b13` |
+| 7#5 | R 3 #5 b7 | `Caug7` |
+| 7b5 | R 3 b5 b7 | `C7b5` |
+| 9#5 | R 3 #5 b7 9 | `Caug9` |
+| 9b5 | R 3 b5 b7 9 | `C9b5` |
+| 7#5b9, the same notes as 7b9b13 | R 3 #5 b7 b9 | `Caug7b9` |
+| 7#5#9, the same notes as 7#9b13 | R 3 #5 b7 #9 | `Caug7#9` |
+| 7b5b9 | R 3 b5 b7 b9 | `C7b5b9` |
+| 7b5#9 | R 3 b5 b7 #9 | `C7b5#9` |
+| 7b9#9, no fifth | R 3 b7 b9 #9 | `C7b9#9` |
+| 13b9 | R 3 5 b7 b9 13 | `C13b9` |
+
+One does not come back as itself: all four alterations at once, `R 3 b7 b9 #9
+#11 b13`, prints `F#13#11/C`. That is the tritone substitute, and it is the
+same seven notes with every one of them a natural tension of F#13 - a
+legitimate reading, but not what a lead sheet writes over a C bass. A pianist
+almost never plays the root under a full 7alt, so it is left alone.
 
 ## What is deliberately absent
 
