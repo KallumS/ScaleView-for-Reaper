@@ -262,6 +262,18 @@ chord reader is the one thing it does not have: it never reads MIDI at all, so
 the label always shows the scale name. Both can be installed at once, and they
 keep their settings separately.
 
+### Starting Blocks' chords come first
+
+Where the notes you play are a chord that Starting Blocks builds - any of its
+78 chord types on any root, in any inversion, or one of the key's own chords
+on its degrees - the name is on a root Blocks builds them on. Starting Blocks
+has the correct chord construction, so it is the dictionary. Where Blocks
+could mean more than one root, the usual cost chooses: C E G A over C is
+`C6`, C F G is `Csus4`. Some names this changes: C Eb Gb B is `CminMaj7b5`
+(Blocks' diminished major seventh), C D F G is `Dmin7(11)/C` (its quartal
+chord on D), and in C major B F is `B(b5)(no3)`, Blocks' fifth on B. Notes
+that are no Blocks chord are read exactly as before.
+
 ### What the selected scale does
 
 The scale you have chosen is used, but only to settle a draw. Where two

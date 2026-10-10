@@ -654,6 +654,49 @@ tuning them, each of which broke a test first:
   one way and a minor sixth the other. A second, a fourth, a tritone, a sixth
   or a seventh is still read out as notes.
 
+### Starting Blocks decides which roots a chord can have
+
+Since October 2026 (decision 0011), **Starting Blocks is the dictionary**.
+The user's call: Blocks has the correct chord construction, and wherever Pro
+and Blocks disagree, Blocks is right. Where the notes held are a Blocks chord
+- one of its 78 chord types (`BLOCKS_CHORDS`, `M.CHORDS` in Starting Blocks'
+`sb_engine.lua`) on any root with any of its notes in the bass, or one of the
+key's own chords (`BLOCKS_DIATONIC`, `M.DIATONIC`) on its degrees - the
+symbol is on **one of Blocks' roots for them**, and the cost below chooses
+between those roots as it chooses between any. Everything else is read as
+before. The tables are Starting Blocks' at `fc4dd32`, copied unchanged; if
+they change there, they change here and in every copy.
+
+Things learned measuring it, against every chord Blocks builds in all 288
+keys (670,248, generated through Noterator's own Blocks toolbox):
+
+- **No reading of notes alone can match Blocks every time.** 19% of Blocks'
+  chords share their notes and bass with a Blocks chord on another root -
+  C E G A over C is I6 and vi7 in first inversion. Noterator gets 100% for
+  chords *inserted* from Blocks by recording the root with them (its 0046);
+  Pro can only choose, and its ceiling was 85.7%.
+- **Majority voting among Blocks' readings scores higher and reads worse.**
+  It reached 85% but read C F G as `Fsus2/C`: Blocks can build those notes
+  from F three ways (sus2 in two families, the quintal triad) and from C two.
+  Taking the bass first fixed that and read E G B C as `Eminb6` (Blocks'
+  scale-built "6th" on E). Letting the reader's cost choose among Blocks'
+  roots keeps `Csus4` and `Cmaj7/E`.
+- **Restricting roots to the selected key matches Blocks best and reads real
+  music worse**: 83.4% of Blocks' chords, but a Bm7 in F major read `D6/B`
+  and lead-sheet agreement fell from 99.27% to 97.93%. Chord types on any
+  root: 74.4% and 99.33%. The user chose the second.
+- **Count a voicing once.** Blocks offers a "3rd inversion" of a triad, which
+  is its second again; counting it twice flipped C E G# to `Eaug/C`.
+- **In Lua, `t[#t + 1] = table.remove(t, 1) + 12` leaves a hole**: the slot
+  is counted before the removal. The first version read C E G as `D11/C`.
+
+The blast radius: 1,074 of the 17,688 sweep names in every key (all still
+exact), 8,400 of the corpus's 363,963 sonorities (2.31% - suspended and
+quartal voicings, now Blocks' quartal and whole-tone chords: `Gsus4Add9` to
+`Amin7(11)/G`, `G7sus2` to `Fadd9/G`), lead sheets 99.27% to 99.33%,
+jazznet and Wikipedia's list unchanged. Six pinned names moved, listed in the
+decision.
+
 ### The complete triad wins
 
 Where two readings fit, the one holding a complete triad - a real third with a
@@ -1405,16 +1448,21 @@ notes come from. Verified from the JSFX reference:
 ## Related
 
 **ScaleView Pro is the reference for every copy of the chord reader** - the
-user's instruction, October 2026, and the direction every port runs. Four
-repositories carry it, and all four took Pro's `f9e2691` changes the same day,
-each on a branch named `claude/amazing-brahmagupta-33qdfm`, **not yet merged**:
+user's instruction, October 2026, and the direction every port runs. Five
+repositories carry it. All took Pro's `f9e2691` changes (since merged), and
+all took the Blocks dictionary of `df4ea43` (decision 0011) on branches named
+`ccr-ac8da7d9-3sbl5x`, **not yet merged**:
 
 | repository | copy | at | checked against Pro |
 | --- | --- | --- | --- |
-| `KallumS/ScaleView` (plugin) | `Source/ScaleModel.h`, a C++ port | `da943f1` | 541,908 names, nine keys, byte-identical |
-| `KallumS/Midi-Suggester` | `ms_theory.lua`, the reader verbatim | `6ed412b` | 481,696 names, eight keys, byte-identical |
-| `KallumS/Midi-Variator` | `mv_theory.lua`, Suggester's file whole | `eb926a0` | same body as Suggester's |
-| `KallumS/Noterator` | the plugin's `ScaleModel.h` and both Lua engines, vendored | `a154e19` | the plugin's file byte for byte |
+| `KallumS/ScaleView` (plugin) | `Source/ScaleModel.h`, a C++ port | `b34d6f7` | 457,336 names, nine keys, byte-identical |
+| `KallumS/Midi-Suggester` | `ms_theory.lua`, the reader verbatim | `4577b87` | 439,504 names, eight keys, byte-identical |
+| `KallumS/Midi-Variator` | `mv_theory.lua`, Suggester's file whole | `3309681` | same body as Suggester's |
+| `KallumS/Noterator` | the plugin's `ScaleModel.h` and both Lua engines, vendored | `5fae0da` | the plugin's file byte for byte |
+| `KallumS/Miderator` | Noterator's files, synced | `50ad6ef` | Noterator's byte for byte |
+
+Middaw carries an older Python port (`middaw/scaleview.py`) that never took
+decisions 0003, 0009, 0010 or 0011; left for now, the user's call.
 
 The parity rig is 60,212 voicings - the sweep, every one- and two-note chord,
 and every distinct sonority of music21's core corpus with its doublings - fed
