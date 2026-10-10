@@ -696,6 +696,19 @@ keys (670,248, generated through Noterator's own Blocks toolbox):
   the 1st to 5th inversions, 30.2% for a thirteenth's 6th. That last is the
   notes, not the reader: a diatonic thirteenth is all seven notes of the
   scale, so I13 over its 13th is vi13 in root position, note for note.
+- **Matching Blocks as far as it can be matched, and no further** (the user
+  chose to leave it here, 10 October 2026). The fairer question than "on the
+  root Blocks used" is "named as something Blocks makes from those notes and
+  bass in that key": 90.35% of the 735,822, **100% of the key's own chords
+  and of every chord whose notes are all in the key**, the bass right on
+  99.93% (the rest are doubled roots read as root position, by design). Every
+  one of the 70,992 others has notes outside the key and is read from a root
+  that is not a note of the key, where Blocks builds only on the key's
+  notes - in C major Blocks' E6 reads `C#min7/G#`. Preferring the key's
+  notes as roots would close it and is the restriction measured above (Bm7
+  in F major as `D6/B`, lead sheets down to 97.93%). The exact-root ceiling
+  from notes, bass and key is 81.0%, from notes and bass alone 72.1%: Blocks
+  builds the same notes over the same bass from different buttons.
 - **In Lua, `t[#t + 1] = table.remove(t, 1) + 12` leaves a hole**: the slot
   is counted before the removal. The first version read C E G as `D11/C`.
 
@@ -1465,10 +1478,10 @@ all took the Blocks dictionary of `df4ea43` (decision 0011) on branches named
 | repository | copy | at | checked against Pro |
 | --- | --- | --- | --- |
 | `KallumS/ScaleView` (plugin) | `Source/ScaleModel.h`, a C++ port | `b34d6f7` | 457,336 names, nine keys, byte-identical |
-| `KallumS/Midi-Suggester` | `ms_theory.lua`, the reader verbatim | `4577b87` | 439,504 names, eight keys, byte-identical |
-| `KallumS/Midi-Variator` | `mv_theory.lua`, Suggester's file whole | `3309681` | same body as Suggester's |
-| `KallumS/Noterator` | the plugin's `ScaleModel.h` and both Lua engines, vendored | `5fae0da` | the plugin's file byte for byte |
-| `KallumS/Miderator` | Noterator's files, synced | `50ad6ef` | Noterator's byte for byte |
+| `KallumS/Midi-Suggester` | `ms_theory.lua`, the reader verbatim | `40c14bc` | 439,504 names, eight keys, byte-identical |
+| `KallumS/Midi-Variator` | `mv_theory.lua`, Suggester's file whole | `417ed44` | same body as Suggester's |
+| `KallumS/Noterator` | the plugin's `ScaleModel.h` and both Lua engines, vendored | `58b10f1` | the plugin's file byte for byte |
+| `KallumS/Miderator` | Noterator's files, synced | `324920c` | Noterator's byte for byte |
 
 Middaw carries an older Python port (`middaw/scaleview.py`) that never took
 decisions 0003, 0009, 0010 or 0011; left for now, the user's call.
