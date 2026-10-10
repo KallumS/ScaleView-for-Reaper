@@ -945,6 +945,110 @@ local function readAsRootPosition(root, bass, voices)
   return tonicDegrees()[root] == true
 end
 
+--[[  Blocks' chords: which roots a chord can have.
+
+    Starting Blocks builds its chords from two tables: chord types stacked on
+    a root, and chords taken from the key itself on each of its degrees. The
+    user's call (October 2026) is that Blocks has the correct construction,
+    so it is the dictionary: where the notes held are a Blocks chord, the
+    name is on a root Blocks builds them on. A chord type counts on any root,
+    in any inversion - any of its notes in the bass, so a ninth chord's
+    fourth inversion has its ninth there - and the key's own chords count on
+    its degrees. Copied unchanged from Starting Blocks' `sb_engine.lua`
+    (`M.CHORDS` intervals, `M.DIATONIC` offsets) at `fc4dd32`; Noterator
+    checks every chord Blocks makes in every key against this reading.
+
+    Notes that are more than one Blocks chord - C E G A is C6 and Amin7 -
+    are named on whichever of Blocks' roots the reader below prefers, by the
+    same cost as always, so C E G A over C stays C6 and C F G stays Csus4.
+    Notes that are no Blocks chord at all - a cluster, a chord no table has -
+    are read as before, and named for what they are. Measured, decision
+    0011: on Blocks' own 670,248 chords the root is Blocks' in 74%, against
+    52% before; on 20,027 lead-sheet symbols 99.33% name the arranger's
+    root, against 99.27%. ]]
+local BLOCKS_CHORDS = {
+  {0,4,7}, {0,3,7}, {0,3,6}, {0,4,8}, {0,4,6}, {0,7},
+  {0,4,7,9}, {0,3,7,9}, {0,4,7,9,14}, {0,3,7,9,14}, {0,4,7,10}, {0,4,7,11},
+  {0,3,7,10}, {0,3,7,11}, {0,3,6,10}, {0,3,6,9}, {0,4,8,10}, {0,4,8,11},
+  {0,4,6,10}, {0,3,6,11}, {0,4,7,9,10},
+  {0,4,7,10,14}, {0,4,7,11,14}, {0,3,7,10,14}, {0,3,7,11,14}, {0,4,7,10,14,17},
+  {0,4,7,11,14,17}, {0,3,7,10,14,17}, {0,4,7,10,14,17,21}, {0,4,7,11,14,17,21},
+  {0,3,7,10,14,17,21},
+  {0,4,7,10,13}, {0,4,7,10,15}, {0,4,7,10,18}, {0,4,7,10,20}, {0,4,8,10,13},
+  {0,4,8,10,15}, {0,4,6,10,13}, {0,4,8,10,13,15}, {0,4,7,10,13,21},
+  {0,4,7,11,18}, {0,3,6,10,14}, {0,4,8,10,14}, {0,4,6,10,14}, {0,4,7,10,14,18},
+  {0,4,8,11,18}, {0,4,6,10,13,21},
+  {0,2,7}, {0,5,7}, {0,5,7,10}, {0,5,7,10,14}, {0,5,7,11}, {0,4,7,14},
+  {0,3,7,14}, {0,4,5,7}, {0,4,7,17}, {0,4,7,21}, {0,2,4,7}, {0,2,3,7},
+  {0,5,10}, {0,5,10,15}, {0,7,14}, {0,2,4}, {0,1,2}, {0,2,4,5},
+  {0,6,10,16,21,26}, {0,4,6,7,10,13}, {0,6,10,15}, {0,5,10,15,19}, {0,5,6,7},
+  {0,1,6}, {0,6,7}, {0,1,4,5,8,9}, {0,7,9,13,16}, {0,8,11,16,21}, {0,4,10},
+  {0,4,6,10}, {0,4,7,10},
+}
+-- Scale degrees above the one chosen: triad, 7th, 9th, 11th, 13th, 6th,
+-- sus2, sus4, 5th.
+local BLOCKS_DIATONIC = {
+  {0,2,4}, {0,2,4,6}, {0,2,4,6,8}, {0,2,4,6,8,10}, {0,2,4,6,8,10,12},
+  {0,2,4,5}, {0,1,4}, {0,3,4}, {0,4},
+}
+
+-- A set of pitch classes as a 12-bit mask, read from a root.
+local function maskFrom(classes, root)
+  local mask = 0
+  for pc in pairs(classes) do mask = mask | (1 << ((pc - root) % 12)) end
+  return mask
+end
+
+-- Every chord type, as the pitch classes it holds above its root.
+local BLOCKS_TYPES = {}
+for _, shape in ipairs(BLOCKS_CHORDS) do
+  local mask = 0
+  for _, interval in ipairs(shape) do mask = mask | (1 << (interval % 12)) end
+  BLOCKS_TYPES[mask] = true
+end
+
+--[[  The key's own chords: on each degree, the pitch classes of each, and
+    the degree they are built on. Built once per key; with no scale
+    selected, for C major - the key the reader assumes, so choosing C Major
+    still changes nothing. ]]
+local keyChords = {}
+local function blocksKeyChords()
+  local rootPc = (state.root and state.scale) and rootPitch(ROOTS[state.root]) or 0
+  local scale  = (state.root and state.scale) and state.scale or 1
+  local cacheKey = rootPc * 100 + scale
+  if keyChords.key ~= cacheKey then
+    local intervals, chords = SCALES[scale].intervals, {}
+    local n = #intervals
+    local function pitch(degree)
+      local octave = degree // n
+      return rootPc + intervals[degree - octave * n + 1] + 12 * octave
+    end
+    for degree = 0, n - 1 do
+      local root = pitch(degree) % 12
+      for _, offsets in ipairs(BLOCKS_DIATONIC) do
+        local mask = 0
+        for _, o in ipairs(offsets) do mask = mask | (1 << (pitch(degree + o) % 12)) end
+        chords[mask] = chords[mask] or {}
+        chords[mask][root] = true
+      end
+    end
+    keyChords = {key = cacheKey, chords = chords}
+  end
+  return keyChords.chords
+end
+
+-- The roots Blocks builds these notes on, or nil if it builds them on none.
+local function blocksRoots(classes)
+  local roots, any = {}, false
+  local inKey = blocksKeyChords()[maskFrom(classes, 0)] or {}
+  for root = 0, 11 do
+    if classes[root] and (inKey[root] or BLOCKS_TYPES[maskFrom(classes, root)]) then
+      roots[root], any = true, true
+    end
+  end
+  return any and roots or nil
+end
+
 --[[  Reading the chord.
 
     Every note being held is tried as the root and the cheapest reading wins.
@@ -966,6 +1070,48 @@ function detectChord()
   local count = 0
   for _ in pairs(classes) do count = count + 1 end
   if count == 1 then return chordNoteName(bass) end
+
+  --[[  A Blocks chord is named on one of Blocks' roots for it, chosen the
+      way the reader below chooses - the cheaper reading, then
+      the key, then no slash, then the commoner quality. Named in the reader's own
+      words from that root - two notes as the reader names two notes from a
+      root - with the bass after a slash as everywhere else. ]]
+  local blocks = blocksRoots(classes)
+  if blocks then
+    local key = (state.root and state.scale) and active or ASSUMED_KEY
+    local pick
+    for root = 0, 11 do
+      if blocks[root] then
+        local has = {}
+        for pc = 0, 11 do
+          if classes[pc] then has[(pc - root) % 12] = true end
+        end
+        local quality, cost, rank = analyse(has, root, bass)
+        if count == 2 then
+          quality = (has[7] and "5") or (has[4] and "maj(no5)")
+                 or (has[3] and "min(no5)") or quality
+        end
+        local fit = key[root] and 100 or 0
+        for pc = 0, 11 do
+          if classes[pc] and key[pc] then fit = fit + 1 end
+        end
+        local slash = root ~= bass
+        if not pick or cost < pick.cost
+           or (cost == pick.cost and fit > pick.fit)
+           or (cost == pick.cost and fit == pick.fit and pick.slash and not slash)
+           or (cost == pick.cost and fit == pick.fit and slash == pick.slash
+               and rank < pick.rank) then
+          pick = {root = root, cost = cost, fit = fit, slash = slash,
+                  rank = rank, quality = quality}
+        end
+      end
+    end
+    local name = chordNoteName(pick.root) .. pick.quality
+    if not readAsRootPosition(pick.root, bass, voices) then
+      name = name .. "/" .. chordNoteName(bass)
+    end
+    return name
+  end
 
   local function spellOut()
     local spelled = {}

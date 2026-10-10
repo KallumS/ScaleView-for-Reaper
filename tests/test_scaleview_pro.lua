@@ -227,9 +227,10 @@ chooseScale("Clear Scale")
     is a chord players write constantly and was missing from CORE_RANK, and a
     third-less quality whose fifth is also altered is odd twice over. ]]
 print("what the Scaler comparison moved:")
-expect({C4, C4 + 2, C4 + 3, C4 + 6, C4 + 9}, "Cdim9", "a dim7 with a ninth in it")
+expect({C4, C4 + 2, C4 + 3, C4 + 6, C4 + 9}, "D7b9/C",
+       "Blocks builds these notes as D7b9 over its seventh, never on C - was Cdim9")
 expect({C4, C4 + 16, C4 + 18, C4 + 21}, "F#min7b5/C",
-       "A C E F# is the half-diminished, not Amin6")
+       "Am6 and F#m7b5 are both Blocks chords: the half-diminished, as before")
 expect({C4, C4 + 3, C4 + 7, C4 + 9}, "Cmin6", "but a minor sixth in root position stays")
 expect({62, 63, 67, 69}, "D#maj7b5/D", "was Dsus4b9, which has no third in it")
 expect({64, 70, 74}, "A#(b5)/E", "was E7b5(no3), which has none either")
@@ -275,7 +276,8 @@ expect({C3, C4 + 3, C4 + 6, C4 + 10, C4 + 14}, "Cmin9b5",
     though both cost the same - the slash was the tiebreak nobody asked. ]]
 print("a draw goes to the reading without a slash:")
 expect({C3, C4 + 2, C4 + 7, C4 + 10}, "C7sus2", "was GminAdd11/C")
-expect({C3, C4 + 2, C4 + 5, C4 + 7}, "Csus4Add9", "G7sus over C, was Dmin7(11)/C")
+expect({C3, C4 + 2, C4 + 5, C4 + 7}, "Dmin7(11)/C",
+       "Blocks builds C D F G only as its quartal tetrad on D - was Csus4Add9")
 expect({45, C4, 64, 67}, "Amin7", "a real difference in cost still decides")
 
 -- 4) The classic ambiguity: the same four notes, named by what is underneath.
@@ -283,6 +285,29 @@ print("C6 against Amin7 - the bass decides:")
 expect({45, C4, 64, 67}, "Amin7", "A in the bass")
 expect({C3, 64, 67, 69}, "C6", "C in the bass")
 expect({43, C4, 64, 69}, "Amin7/G", "neither: the commoner chord, with a slash")
+
+--[[  4b) Blocks decides which roots a chord can have (decision 0011). Where
+    the notes are a Starting Blocks chord - one of its chord types on any
+    root, in any inversion, or one of the key's own chords on its degrees -
+    the name is on one of Blocks' roots for them; between those, the
+    reader's cost decides as always. Other notes are read as before. ]]
+print("Blocks' roots:")
+expect({C4, C4 + 3, C4 + 6, C4 + 11}, "CminMaj7b5",
+       "Blocks' diminished major seventh on C - was Baddb9/C")
+expect({C3, 64, 67, 69}, "C6", "I6 and vi7 over C are both Blocks chords: the cheaper reading")
+expect({C4, C4 + 5, C4 + 7}, "Csus4", "and Csus4 stays Csus4, though Blocks builds Fsus2 over C too")
+expect({71, 77}, "B(b5)(no3)", "B F is Blocks' fifth on B in C major")
+expect({65, 71}, "B(b5)(no3)/F", "and over F, its first inversion")
+expect({C4, C4 + 2, C4 + 5, C4 + 7}, "Dmin7(11)/C", "C D F G is Blocks' quartal tetrad on D, in any key")
+expect({64, 74, 78, 81, 84}, "D9/E", "a ninth chord's fourth inversion puts its ninth in the bass")
+expect({60, 61, 63, 64, 68, 70}, "Caug7b9#9",
+       "Blocks' altered dominant on C, inverted high - was A#min11b5/C")
+chooseScale("Db Major")
+expect({71, 77}, "F B", "in Db major Blocks builds no chord on B: an interval, read out")
+expect({C4, C4 + 2, C4 + 5, C4 + 7}, "Dmin7(11)/C", "a chord type counts on any root, in any key")
+expect({61, 65, 68}, "Db", "Blocks' I in Db major")
+chooseScale("Clear Scale")
+expect({61, 65, 68}, "C#", "no Blocks chord on C# in C major - the reader names it, sharp")
 
 -- 5) One and two notes.
 print("one and two notes:")
@@ -383,14 +408,15 @@ expect({C4, C4 + 2, C4 + 4, C4 + 7, C4 + 9, C4 + 10}, "C13", "and with the ninth
 expect({C4, C4 + 3, C4 + 7, C4 + 9, C4 + 10}, "Cmin7(13)", nil)
 expect({C4, C4 + 1, C4 + 4, C4 + 7, C4 + 9, C4 + 10}, "C13b9")
 expect({C4, C4 + 2, C4 + 4, C4 + 6, C4 + 7, C4 + 9, C4 + 10}, "C13#11")
-expect({C4, C4 + 3, C4 + 4, C4 + 6, C4 + 7, C4 + 10}, "C7#9#11")
+expect({C4, C4 + 3, C4 + 4, C4 + 6, C4 + 7, C4 + 10}, "F#13b5b9/C",
+       "Blocks' 13b9b5 on F#; Blocks has no 7#9#11 - was C7#9#11")
 expect({C4, C4 + 2, C4 + 4, C4 + 5, C4 + 7}, "Cadd9Add11")
 expect({C4, C4 + 2, C4 + 3, C4 + 5, C4 + 7}, "CminAdd9Add11")
 expect({C4, C4 + 3, C4 + 5, C4 + 7, C4 + 10}, "Cmin7(11)",
        "five notes: Hutchinson 31.4 prints exactly this as Cm7(11)")
 expect({C4, C4 + 2, C4 + 3, C4 + 5, C4 + 7, C4 + 10}, "Cmin11",
        "six notes, the ninth among them: the same list prints Cm11")
-expect({C4, C4 + 3, C4 + 5, C4 + 6, C4 + 10}, "Cmin7b5(11)", nil)
+expect({C4, C4 + 3, C4 + 5, C4 + 6, C4 + 10}, "D#min6/9/C", "Blocks' m6/9 on Eb - was Cmin7b5(11)")
 
 --[[  The interval that decides most about a chord is the root to the third, so
     a quality the table does not name is still ranked by whether it has one.
@@ -458,7 +484,9 @@ print("both sevenths at once:")
 expect({55, 59, 62, 66, 77}, "G7(maj7)", "G B D F with an F# over it")
 
 print("a flat sixth is a b6 until a seventh arrives:")
-expect({C4, C4 + 4, C4 + 7, C4 + 8}, "Caddb6", "C E G Ab, no seventh")
+-- C E G Ab, no seventh, was Caddb6; it is Blocks' maj7#5 on Ab, so it can no
+-- longer show the b6 - the rule is unchanged for notes that are no Blocks chord.
+expect({C4, C4 + 4, C4 + 7, C4 + 8}, "G#maj7#5/C", "Blocks' maj7#5 on Ab")
 expect({C4, C4 + 4, C4 + 7, C4 + 8, C4 + 10}, "C7b13", "and a b13 once one does")
 
 --[[  A sixth stands where a seventh would, so the symbol is rebuilt around it
@@ -477,8 +505,8 @@ expect({C4, C4 + 7, C4 + 10}, "C7(no3)", "but a missing third changes the qualit
 -- A suspension replaces the third rather than decorating it, so where the
 -- merged script read D G A C as a suspension carrying extras, Alt prefers the
 -- chord that has a third in it.
-expect({C4, C4 + 2, C4 + 7, C4 + 11}, "Cmaj7sus2",
-       "deliberately not Cmaj9(no3): a 2 with no 3 is a suspension")
+expect({C4, C4 + 2, C4 + 7, C4 + 11}, "Gadd11/C",
+       "Blocks builds C D G B as Gadd11 over its eleventh, and has no Cmaj7sus2 - was Cmaj7sus2")
 
 -- 6f) The scale only ever breaks a tie. A chord from outside the key is named
 --     for what it is, never bent to fit, and everything still works with no
