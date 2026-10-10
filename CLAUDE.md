@@ -685,8 +685,17 @@ keys (670,248, generated through Noterator's own Blocks toolbox):
   music worse**: 83.4% of Blocks' chords, but a Bm7 in F major read `D6/B`
   and lead-sheet agreement fell from 99.27% to 97.93%. Chord types on any
   root: 74.4% and 99.33%. The user chose the second.
-- **Count a voicing once.** Blocks offers a "3rd inversion" of a triad, which
-  is its second again; counting it twice flipped C E G# to `Eaug/C`.
+- **Count a voicing once.** Blocks offered a "3rd inversion" of a triad, which
+  was its second again; counting it twice flipped C E G# to `Eaug/C`.
+- **Blocks now offers each chord its own inversions** (Starting Blocks'
+  decision 0007, the same day): a triad two, a seventh three, a thirteenth
+  six. The dictionary needed nothing - it already took any of a chord's notes
+  in the bass, and the tables did not change. Re-measured over the new set
+  (735,822 chords in 288 keys, through Noterator's copy of this reader):
+  71.2% on Blocks' root over its bass; 97.0% in root position, 60-70% for
+  the 1st to 5th inversions, 30.2% for a thirteenth's 6th. That last is the
+  notes, not the reader: a diatonic thirteenth is all seven notes of the
+  scale, so I13 over its 13th is vi13 in root position, note for note.
 - **In Lua, `t[#t + 1] = table.remove(t, 1) + 12` leaves a hole**: the slot
   is counted before the removal. The first version read C E G as `D11/C`.
 
