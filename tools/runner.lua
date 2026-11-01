@@ -64,6 +64,9 @@ gfx = {
   w = 200, h = 100, x = 0, y = 0, mouse_x = 10, mouse_y = 10, mouse_cap = 0,
   init = function() end, quit = function() end, update = function() end,
   rect = function() end, setfont = function() end,
+  --  Since 1.2.0 the script asks which face it was given (pickFace). Answer as
+  --  an OS that has none of the system faces would, so it settles on Arial.
+  getfont = function() return 1, "Arial" end,
   measurestr = function(s) return #s * 6, 12 end,
   set = function(r, g, b) gfx._color = {r, g, b} end,
   circle = function(x, y, r, fill) drawn[#drawn + 1] = {r = r, fill = fill} end,
