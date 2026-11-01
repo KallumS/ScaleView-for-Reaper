@@ -1131,21 +1131,18 @@ about Scaler in this repo, they are reproduced by `tools/scaler_cases.py`, and
 every one of the 48 names - both engines, all 24 chords - accounts for exactly
 the notes played. **The bass agrees everywhere it can be compared.** It was
 never anything but a fight about which root to name, and Pro names the same
-root as Scaler on 12 of the 24.
+root as Scaler on 12 of the 24. Thirty-seven more were played into REAPER on
+1 November 2026 to find out what decides Scaler's root; see *What the probe
+found* below. In short: the bass, whenever the notes read up from it make a
+shape Scaler has a name for.
 
-**One reading is confirmed and unexplained.** C minor's D F G# A# is `Ddim#5`
-to Scaler with no slash, over a bass of F - which is what makes Pro read
-`Bb7/F`. This was recorded here as possibly a voicing that had D lowest; it was
-re-checked in Scaler and the reading stands, so it is the one case of the 24
-where Scaler names a root that is not the bass and prints no slash. The other
-ten all carry one, and nothing else here accounts for it: **nothing is
-doubled**, so the doubled-root rule cannot be what is dropping the slash, and
-the set is not symmetric, so the root is derivable. Note also what Scaler
-passed up - D F G# A# is a plain dominant seventh on Bb - in favour of a
-quality carrying a flattened *and* a raised fifth. Pro is not moving; `Bb7/F`
-is what a musician writes. Keep the case in view rather than building on it:
-it is the only evidence in this repo that Scaler's bass rule is something other
-than "the lowest note, less a doubled root".
+**The one unexplained reading turned out to be a wrong bass.** C minor's
+D F G# A# was recorded as `Ddim#5` over F, the only case where Scaler named a
+root that was not the bass and printed no slash. The four-voicing probe of
+1 November 2026 (below) played it over F and Scaler said `F min6 11`. With D
+lowest it says `D dim #5`. So the original voicing had D in the bass, and the
+row in `tools/scaler_cases.py` now says so. Scaler's bass rule is "the lowest
+note, less a doubled root" after all.
 
 Four rules came out of them and are implemented; two are not, and are listed
 below with what would settle them.
@@ -1159,7 +1156,10 @@ below with what would settle them.
   third, Scaler's has none, so this is Scaler disagreeing with the third rule
   rather than Pro getting it wrong. Scaler evidently will write a suspension
   carrying a sixth, which `COST_SUS_EXTRA` deliberately suppresses. Change that
-  only if asked, and expect the D E G A family to move with it.
+  only if asked, and expect the D E G A family to move with it. The bass rule
+  found on 1 November explains Scaler's side: G A E read up from G is a
+  `6(sus2)`, a shape it names, so G wins. With E lowest the same notes are
+  `E min add 11` to Scaler, the same as Pro.
 
 **Not implemented, and why.**
 
@@ -1179,24 +1179,21 @@ below with what would settle them.
   implementation itself. Four of the twelve merely *looked* diatonic because
   a root Scaler liked for other reasons happened to be in the key.
 
-  **What actually drives Scaler's root choice is still unknown.** The
-  closest fit to the twelve is that it prefers the bass as root when the
-  resulting shape is one it has a name for - `6(sus4)`, `6(sus2 b5)`,
-  `min(no5)` - and goes looking elsewhere when it is not, but C E F# A breaks
-  it: `C6(b5)` would be such a shape and Scaler still prints `F#min7(b5)/C`.
-  Twelve chords are not enough to separate "prefers the bass" from "prefers a
-  quality". C minor's D F G# A# is the second case that bears on it and it
-  points the other way: F as a root is no shape Scaler has a name for, and it
-  went looking and found `Ddim#5` - quality-driven - but then printed no slash,
-  which no bass rule here explains. **The probe that would separate them is one
-  pitch-class set voiced four times, a different note lowest each time**: if
-  Scaler's root follows the bass it is bass-driven, and if it stays put it is
-  quality-driven. D F G# A# is the set worth using, since it is also the one
-  that will say whether the missing slash follows the voicing or the quality.
-- **A natural 11 over a major third may be forbidden outright.** Eb major
-  Eb E Gb B is `Emaj7(sus2)/D#` to Scaler, where Pro's `Badd11/Eb` puts E
-  against D#. Pro brackets such elevenths rather than refusing them. This one
-  is still open.
+  **What drives Scaler's root choice is now known, from the 1 November
+  probes below: the bass first.** If the notes, read up from the bass, make a
+  quality Scaler has a name for, Scaler names the chord from the bass with no
+  slash. Only when they do not does it pick another root and print a slash.
+  The earlier objection, C E F# A, fits: Scaler has no `6(b5)`, so C cannot
+  be the root, and F A B D (the same shape on F) also gets a slash. So does
+  every voicing whose bass-up reading is not a named shape: E G C, E G B C,
+  E G A C, G A C E, B C E G, Bb C Eb G.
+- **A natural 11 over a major third is NOT forbidden. Tested, and settled.**
+  Scaler writes `C maj add 11`, `C maj7 11`, `C7 11`, `C maj add 9 11`,
+  `F maj7 11 / E` and, with B lowest, `B maj add 11` for Eb E Gb B. What made
+  Eb E Gb B `Emaj7(sus2)/D#` is the bass rule plus a preference: with no
+  seventh and the add11's root not in the bass, Scaler takes the maj7(sus2)
+  rooted on the 11 (`F maj7(sus2) / E` for C E F G over E). Pro's
+  `COST_CLASH` stays as it is.
 
 #### The probe that would settle the root rule, written down in advance
 
@@ -1225,6 +1222,70 @@ to find; if it names none of them, the rule is "a dominant seventh is named
 from its root or not at all", which is a real difference from Pro and a
 decidable one. Note `C7/A#`: C major has no flats, so Pro spells the seventh
 A#. Same root, same notes.
+
+#### What the probe found (1 November 2026)
+
+Run in REAPER with the notes held live, so both read the same MIDI. Scaler
+here is **Scaler Detector**, Scaler's detection plugin, which gave Scaler 3's
+names on the three earlier rows it was checked against. ScaleView was in
+C minor, which is why it spells Bb and Gb; Scaler had no scale selected. All 34
+new readings are in `tools/scaler_cases.py`.
+
+| notes, bass first | Pro | Scaler |
+| --- | --- | --- |
+| D F G# A# | `Bb7/D` | `D dim #5` |
+| F G# A# D | `Bb7/F` | `F min6 11` |
+| G# A# D F | `Bb7/Ab` | `G#/Ab 6(sus2 b5)` |
+| A# D F G# | `Bb7` | `A#/Bb 7` |
+| C E G Bb | `C7` | `C 7` |
+| E G Bb C | `C7/E` | `E dim #5` |
+| G Bb C E | `C7/G` | `G min6 11` |
+| Bb C E G | `C7/Bb` | `A#/Bb 6(sus2 b5)` |
+| B D F G | `G7/B` | `B dim #5` |
+| E G C | `C/E` | `C maj / E` |
+| E G B C | `Cmaj7/E` | `C maj7 / E` |
+| B C E G | `Cmaj7/B` | `C maj7 / B` |
+| A C E G / G A C E | `Amin7` / `Amin7/G` | `A min7` / `A min7 / G` |
+| C E G A / E G A C | `C6` / `Amin7/E` | `C maj add 13` / `C maj add 13 / E` |
+| Eb G Bb C / Bb C Eb G | `Eb6` / `Cmin7/Bb` | `D#/Eb maj add 13` / `D#/Eb maj add 13 / A#` |
+| F A B D | `Bmin7b5/F` | `D min6 / F` |
+| C E F# A, over E, F#, A | `Gbmin7b5/E`, `Gbmin7b5`, `Amin6` | `F#/Gb min7(b5) / E`, `F#/Gb min7(b5)`, `A min6` |
+| E G A | `EminAdd11` | `E min add 11` |
+| G A D F | `G7sus2` | `G 7(sus2)` |
+| C E F G, C E F, C D E F G | `Cadd11`, `Cadd11`, `Cadd9Add11` | `C maj add 11`, same, `C maj add 9 11` |
+| C E G B F / C E G Bb F | `Cmaj7(11)` / `C7(11)` | `C maj7 11` / `C 7 11` |
+| E F A Bb | `Fmaj7(11)/E` | `F maj7 11 / E` |
+| Eb E Gb B, over Eb, E, Gb, B | `Badd11/Eb`, `Badd11/E`, `Badd11/Gb`, `Badd11` | `E maj7(sus2) / D#`, `E maj7(sus2)`, `E maj7(sus2) / F#`, `B maj add 11` |
+| C E F G, over E, F | `Cadd11/E`, `Cadd11/F` | `F maj7(sus2) / E`, `F maj7(sus2)` |
+
+22 of the 37 put the same root on the same notes. The 15 that do not fall into
+three groups:
+
+1. **Scaler never inverts a dominant seventh (7 readings, plus `E7/D` and
+   `Bb7/D` from the original 24).** Every inversion of Bb7, C7 and G7 is named
+   from its bass, as a quality that is that rotation of a dominant seventh:
+   first inversion `dim #5`, second `min6 11`, third `6(sus2 b5)`. Maj7, min7
+   and min7b5 inversions keep their slash, so it is the dominant only. This is
+   the bass rule meeting a dictionary that happens to name all three rotations.
+   **Pro does not follow it.** `C7/E` is what musicians write; `E dim #5`
+   names a raised fifth that is really a root. Nothing to change.
+2. **maj7(sus2) against add11 (5 readings).** With no seventh and the add11's
+   root not in the bass, Scaler takes the maj7(sus2) on the 11. Pro cannot even
+   offer that root: maj7(sus2), `{0,2,7,11}`, is not a Starting Blocks chord
+   type, and decision 0011 limits roots to Blocks' readings. Two of the five
+   are worth a second look, because Pro's slash puts **its own added 11 in the
+   bass**, which is a voicing nobody writes over its root: C E F G over F
+   (`Cadd11/F`, Scaler `Fmaj7(sus2)`) and Eb E Gb B over E (`Badd11/E`, Scaler
+   `Emaj7(sus2)`). The other three put a chord tone in the bass and Pro's
+   reading is the more ordinary one; leave them.
+3. **A sixth against a seventh on another root (3 readings).** Scaler chose
+   `C6/E` over `Amin7/E` and `Eb6/Bb` over `Cmin7/Bb`, but `Dmin6/F` over
+   `Bmin7b5/F` while choosing `F#min7b5/C` over `Amin6/C`, the same two roles
+   the other way round. That is not a rule anyone can copy. Nothing to change.
+
+**Scaler's names are also spaced and bracketed differently** - `C maj add 13`
+for C6, `min7(b5)`, both enharmonic roots on a black key - which is the
+punctuation question below, not a reading.
 
 **Tuning the weights cannot buy Scaler's remaining roots. This was measured.**
 Twelve of the 24 roots differ, and two weights look responsible for most of

@@ -6,11 +6,21 @@ Scaler printed.
 They are the only hard evidence about Scaler in this repository. Every one of
 the 48 names - both engines, all 24 chords - accounts for exactly the notes
 played, and the bass agrees everywhere it can be compared: the disagreements
-are only ever about which root to name. The one exception is C minor's
-D F G# A#, where Scaler prints Ddim#5 with no slash over an F bass; every
-other non-bass root it gives carries one. That reading was re-checked in
-Scaler and stands, so it is confirmed and unexplained - nothing in the voicing
-is doubled and the set is not symmetric. See CLAUDE.md.
+are only ever about which root to name. C minor's D F G# A# was recorded here
+as Ddim#5 over an F bass, the one non-bass root Scaler printed with no slash.
+The four-voicing probe of 1 November 2026 showed the bass was D: over F the
+same notes are F min6 11, and Scaler names every inversion of that chord from
+its bass. The row now says D. See CLAUDE.md.
+
+The last block of CASES, the probes, was played into REAPER on 1 November 2026
+with the notes held live, so ScaleView Pro and Scaler Detector read the same
+MIDI at once. Scaler Detector is Scaler's detection plugin, not Scaler 3
+itself. It was checked against three earlier rows it could not have been tuned
+to (E G C, Eb E Gb B over Eb, C E F# A over C) and gave Scaler 3's names each
+time, only spaced out and with "maj" written in. ScaleView
+was set to C Minor (Natural) and Scaler had no scale selected. Scaler Detector
+prints both enharmonic names for a black-key root ("G#/Ab 6(sus2 b5)"); only
+the first is kept here, so the slash in a name is always the bass.
 
 A thirteenth reading settled a rule that the twelve had only suggested. The
 first chord was played again in F#/Gb major and came back Db6(sus4) - the same
@@ -51,8 +61,11 @@ CASES = [
 
     #  The natural minor round. Same story: every name on both sides accounts
     #  for exactly the notes, and what differs is which root to name.
-    ("C Minor (Natural)",  "D F G# A#",  "F",  "Ddim#5",
-     "re-checked and confirmed: the only non-bass root Scaler prints with no slash"),
+    #  Recorded with F as the bass until 1 November 2026. Over F, Scaler
+    #  says F min6 11 (see PROBES), so the voicing that gave Ddim#5 had D
+    #  lowest. That is why it carried no slash.
+    ("C Minor (Natural)",  "D F G# A#",  "D",  "Ddim#5",
+     "Scaler names a dominant seventh's inversions from the bass; see PROBES"),
     ("C# Minor (Natural)", "C# D G A",   "C#", "Dmaj7(sus4)/C#",   ""),
     ("D Minor (Natural)",  "Db F Gb A",  "A",  "Aaug add13",
      "same root, same notes: Scaler calls the sixth a 13 with no seventh under it"),
@@ -71,6 +84,59 @@ CASES = [
     ("A# Minor (Natural)", "B# D# E#",   "D#", "Eb6(sus2)",
      "the E G A family again"),
     ("B Minor (Natural)",  "C D F A#",   "D",  "C9(sus4)/D",       ""),
+
+    #  The probes, 1 November 2026 - see the docstring. All in C minor for
+    #  ScaleView. What ScaleView printed in REAPER is in each note, because
+    #  lua5.4 was not installed to run this file that day.
+    #
+    #  1. One set in all four positions: a dominant seventh's inversions are
+    #     named from the bass, with no slash, in a quality Scaler has for that
+    #     rotation. Repeated on C7 and G7. Maj7, min7 and min7b5 inversions
+    #     keep their slash, so it is the dominant only.
+    ("C Minor (Natural)", "Bb D F Ab", "Bb", "A#7",              "Pro Bb7: same"),
+    ("C Minor (Natural)", "Bb D F Ab", "F",  "Fmin6 11",         "Pro Bb7/F"),
+    ("C Minor (Natural)", "Bb D F Ab", "Ab", "G#6(sus2 b5)",     "Pro Bb7/Ab"),
+    ("C Minor (Natural)", "C E G Bb",  "C",  "C7",               "Pro C7: same"),
+    ("C Minor (Natural)", "C E G Bb",  "E",  "Edim#5",           "Pro C7/E"),
+    ("C Minor (Natural)", "C E G Bb",  "G",  "Gmin6 11",         "Pro C7/G"),
+    ("C Minor (Natural)", "C E G Bb",  "Bb", "A#6(sus2 b5)",     "Pro C7/Bb"),
+    ("C Minor (Natural)", "G B D F",   "B",  "Bdim#5",           "Pro G7/B"),
+    #     The controls: the same move on other qualities keeps the slash.
+    ("C Minor (Natural)", "C E G",     "E",  "Cmaj/E",           "Pro C/E: same"),
+    ("C Minor (Natural)", "C E G B",   "E",  "Cmaj7/E",          "Pro Cmaj7/E: same"),
+    ("C Minor (Natural)", "C E G B",   "B",  "Cmaj7/B",          "Pro Cmaj7/B: same"),
+    ("C Minor (Natural)", "A C E G",   "A",  "Amin7",            "Pro Amin7: same"),
+    ("C Minor (Natural)", "A C E G",   "G",  "Amin7/G",          "Pro Amin7/G: same"),
+    ("C Minor (Natural)", "C Eb G Bb", "Eb", "D#maj add 13",     "Pro Eb6: same reading"),
+    ("C Minor (Natural)", "E G A",     "E",  "Emin add 11",      "Pro EminAdd11: same"),
+    ("C Minor (Natural)", "G A D F",   "G",  "G7(sus2)",         "Pro G7sus2: same"),
+    #     A sixth against a seventh on another root, with neither in the bass.
+    #     Scaler's choice here is not consistent: it takes the major sixth over
+    #     the minor seventh twice, but the minor sixth over the half-diminished
+    #     on F A B D and the opposite on C E F# A.
+    ("C Minor (Natural)", "C E G A",   "C",  "Cmaj add 13",      "Pro C6: same reading"),
+    ("C Minor (Natural)", "C E G A",   "E",  "Cmaj add 13/E",    "Pro Amin7/E"),
+    ("C Minor (Natural)", "C Eb G Bb", "Bb", "D#maj add 13/A#",  "Pro Cmin7/Bb"),
+    ("C Minor (Natural)", "B D F A",   "F",  "Dmin6/F",          "Pro Bmin7b5/F"),
+    ("C Minor (Natural)", "C E F# A",  "E",  "F#min7(b5)/E",     "Pro Gbmin7b5/E: same"),
+    ("C Minor (Natural)", "C E F# A",  "F#", "F#min7(b5)",       "Pro Gbmin7b5: same"),
+    ("C Minor (Natural)", "C E F# A",  "A",  "Amin6",            "Pro Amin6: same"),
+    #  2. A natural 11 over a major third is not forbidden: Scaler writes it
+    #     whenever the root it wants is the bass or the chord has a seventh.
+    ("C Minor (Natural)", "C E F G",   "C",  "Cmaj add 11",      "Pro Cadd11: same"),
+    ("C Minor (Natural)", "C E F",     "C",  "Cmaj add 11",      "Pro Cadd11: same"),
+    ("C Minor (Natural)", "C D E F G", "C",  "Cmaj add 9 11",    "Pro Cadd9Add11: same"),
+    ("C Minor (Natural)", "C E G B F", "C",  "Cmaj7 11",         "Pro Cmaj7(11): same"),
+    ("C Minor (Natural)", "C E G Bb F","C",  "C7 11",            "Pro C7(11): same"),
+    ("C Minor (Natural)", "F A Bb E",  "E",  "Fmaj7 11/E",       "Pro Fmaj7(11)/E: same"),
+    ("C Minor (Natural)", "Eb E Gb B", "B",  "Bmaj add 11",      "Pro Badd11: same"),
+    #     Without a seventh and with the add11's root not in the bass, Scaler
+    #     takes the maj7(sus2) on the 11 instead. Pro cannot: maj7(sus2) is not
+    #     a Starting Blocks chord type, so that root is never offered.
+    ("C Minor (Natural)", "Eb E Gb B", "E",  "Emaj7(sus2)",      "Pro Badd11/E: the 11 in the bass"),
+    ("C Minor (Natural)", "Eb E Gb B", "Gb", "Emaj7(sus2)/F#",   "Pro Badd11/Gb"),
+    ("C Minor (Natural)", "C E F G",   "E",  "Fmaj7(sus2)/E",    "Pro Cadd11/E"),
+    ("C Minor (Natural)", "C E F G",   "F",  "Fmaj7(sus2)",      "Pro Cadd11/F: the 11 in the bass"),
 ]
 
 
