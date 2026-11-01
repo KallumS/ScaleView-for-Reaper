@@ -49,7 +49,7 @@ CASES = [
     ("C Major",  "C# F# G# A#", "C#", "C#6(sus4)",      "Scaler roots it on the bass; not because of the key"),
     ("C# Major", "D D# G A",    "D",  "D#maj7(b5)/D",   "same reading, Scaler brackets the b5"),
     ("D Major",  "C F F# A#",   "F",  "F#maj7(b5)/F",   "same reading, Scaler brackets the b5"),
-    ("Eb Major", "Eb E Gb B",   "Eb", "Emaj7(sus2)/D#", "Scaler refuses an 11 over a major third"),
+    ("Eb Major", "Eb E Gb B",   "Eb", "Emaj7(sus2)/D#", "not a refused 11: Scaler takes maj7(sus2) on the 11; a chord tone in the bass keeps Pro's add11"),
     ("E Major",  "C# D# G# A",  "C#", "Amaj7(b5)/C#",   "same reading, Scaler brackets the b5"),
     ("F Major",  "C D Eb Gb A", "C",  "Cdim9",          ""),
     ("F# Major", "D E A#",      "E",  "Bbmaj(b5)/E",    "same reading; Scaler spells A# as Bb and writes maj"),

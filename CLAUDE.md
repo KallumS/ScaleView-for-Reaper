@@ -743,6 +743,20 @@ quartal voicings, now Blocks' quartal and whole-tone chords: `Gsus4Add9` to
 jazznet and Wikipedia's list unchanged. Six pinned names moved, listed in the
 decision.
 
+**One root outside Blocks: maj7(sus2)** (decision 0014, 1 November 2026).
+`{0,2,7,11}` is accepted beside Blocks' types in `blocksRoots`. Its notes are
+Blocks' add11 on its fifth, so without it F G C E over F could only read
+`Cadd11/F` - the add11's own 11 in the bass - where Scaler says
+`Fmaj7(sus2)`. The cost picks it only from its own root; in every other
+position the add11 still wins, in all 288 keys. Measured: 12 sweep names (one
+shape in twelve keys, each `Xadd11/` over its 11 to `Ymaj7sus2`), Scaler root
+agreement 31 to 33 of 58, jazznet and Wikipedia unchanged, lead sheets 99.33%
+to 99.27% (`Eb/Ab` reads `Abmaj7sus2` again), music21 corpus pending. The 0011 pin
+`Gadd11/C` is `Cmaj7sus2` again. It makes Blocks' add11 voiced over its 11 the
+one Blocks chord in the key not named on a Blocks root. **Do not add a second
+exception without the same evidence** - Scaler naming from the bass where
+Pro's slash puts its own added tone there.
+
 ### The complete triad wins
 
 Where two readings fit, the one holding a complete triad - a real third with a
@@ -1065,7 +1079,15 @@ lead sheets, 20,030 chord symbols, 135 distinct shapes:
 | | |
 | --- | --- |
 | symbol accounts for exactly the notes, right bass | **100%** (20,027 of 20,027) |
-| names the arranger's root | **99.27%** (19,880) |
+| names the arranger's root | **99.27%** (19,881) |
+
+That is the figure after decision 0014 (1 November 2026). Decision 0011 had
+raised it to 99.33% (19,892), almost all of it `Eb/Ab` (11 symbols) reading
+`Ebadd11/Ab`; 0014 gives that back, because those notes over that bass are
+`Abmaj7sus2`, Eb's 11 no longer standing in the bass. The breakdown below was
+counted before 0011 and has not been redone; run today it is 79 slash over a
+bass outside the chord, 33 inversions, 31 root position (26 of them `C13`
+reading `Amin11b9/C`, which the list below predates) and 3 symmetric.
 
 The 147 root differences are four kinds, and three are notation:
 
@@ -1273,11 +1295,14 @@ three groups:
    root not in the bass, Scaler takes the maj7(sus2) on the 11. Pro cannot even
    offer that root: maj7(sus2), `{0,2,7,11}`, is not a Starting Blocks chord
    type, and decision 0011 limits roots to Blocks' readings. Two of the five
-   are worth a second look, because Pro's slash puts **its own added 11 in the
+   were worth a second look, because Pro's slash put **its own added 11 in the
    bass**, which is a voicing nobody writes over its root: C E F G over F
    (`Cadd11/F`, Scaler `Fmaj7(sus2)`) and Eb E Gb B over E (`Badd11/E`, Scaler
-   `Emaj7(sus2)`). The other three put a chord tone in the bass and Pro's
-   reading is the more ordinary one; leave them.
+   `Emaj7(sus2)`). **Pro now takes those two** (decision 0014, the one root
+   outside Blocks): `Fmaj7sus2` and `Emaj7sus2`. The other three put a chord
+   tone in the bass and Pro's reading is the more ordinary one; the cost keeps
+   them add11 without being told to. Root agreement over all 58 cases went
+   from 31 to 33, with no losses.
 3. **A sixth against a seventh on another root (3 readings).** Scaler chose
    `C6/E` over `Amin7/E` and `Eb6/Bb` over `Cmin7/Bb`, but `Dmin6/F` over
    `Bmin7b5/F` while choosing `F#min7b5/C` over `Amin6/C`, the same two roles
@@ -1570,6 +1595,10 @@ all took the Blocks dictionary of `df4ea43` (decision 0011) on branches named
 
 Middaw carries an older Python port (`middaw/scaleview.py`) that never took
 decisions 0003, 0009, 0010 or 0011; left for now, the user's call.
+
+**None of the five has taken decision 0014** (maj7(sus2), November 2026). It
+is one entry beside Blocks' chord types in each; the 12 sweep names it moves
+are the parity check.
 
 The parity rig is 60,212 voicings - the sweep, every one- and two-note chord,
 and every distinct sonority of music21's core corpus with its doublings - fed

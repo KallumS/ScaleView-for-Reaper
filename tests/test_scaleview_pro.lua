@@ -517,8 +517,17 @@ expect({C4, C4 + 7, C4 + 10}, "C7(no3)", "but a missing third changes the qualit
 -- A suspension replaces the third rather than decorating it, so where the
 -- merged script read D G A C as a suspension carrying extras, Alt prefers the
 -- chord that has a third in it.
-expect({C4, C4 + 2, C4 + 7, C4 + 11}, "Gadd11/C",
-       "Blocks builds C D G B as Gadd11 over its eleventh, and has no Cmaj7sus2 - was Cmaj7sus2")
+-- Decision 0014: maj7(sus2) is the one root Pro offers that Blocks does not.
+-- It wins from its own root, where the add11 reading put its 11 in the bass,
+-- and nowhere else - the other three positions stay an add11, as Scaler
+-- Detector read the same notes on 1 November 2026.
+expect({C4, C4 + 2, C4 + 7, C4 + 11}, "Cmaj7sus2",
+       "decision 0011 made this Gadd11/C, the add11's own 11 in the bass")
+expect({65, 79, 84, 88}, "Fmaj7sus2", "F G C E over F: Scaler Fmaj7(sus2) - was Cadd11/F")
+expect({64, 75, 78, 83}, "Emaj7sus2", "E D# F# B over E: Scaler Emaj7(sus2) - was Badd11/E")
+expect({64, 77, 79, 84}, "Cadd11/E", "a chord tone in the bass keeps the add11")
+expect({67, 77, 84, 88}, "Cadd11/G", "and over its fifth")
+expect({60, 76, 77, 79}, "Cadd11", "and from its own root")
 
 -- 6f) The scale only ever breaks a tie. A chord from outside the key is named
 --     for what it is, never bent to fit, and everything still works with no
