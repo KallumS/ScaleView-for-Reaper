@@ -181,11 +181,12 @@ Its label records how the file was generated - a root and an inversion - not
 what a musician would write over the printed voicing, so what this measures is
 agreement between two naming conventions.
 
-## `scaler_cases.py` — the twelve chords Scaler 3 was asked about
+## `scaler_cases.py` — the chords Scaler 3 was asked about
 
-One per major key, with what ScaleView prints beside what Scaler printed. They
-are the only hard evidence about Scaler in this repository; four rules came out
-of them and two more are recorded in `CLAUDE.md` as not implemented.
+58 cases: one per major and natural minor key, then the 34 probes of
+1 November 2026 that found Scaler's bass-first rule, each with what ScaleView
+prints beside what Scaler printed. Four rules came out of the first 24 and two
+more are recorded in `CLAUDE.md` as not implemented.
 
 ```sh
 python3 tools/scaler_cases.py
@@ -194,6 +195,24 @@ python3 tools/scaler_cases.py
 Every one of the 24 names accounts for exactly the notes played, and the bass
 agreed in all twelve, so what is left is which root to name and how to
 punctuate it.
+
+## `scaler_vocabulary.py` — every shape Scaler names, two to four notes
+
+All 231 two-, three- and four-note sets containing C, played over C in REAPER
+with Scaler Detector's name and ScaleView Pro's beside each, plus three shapes
+played over all twelve basses (`TRANSPOSED`). It holds data, not a harness:
+run it for the list of shapes Scaler names from the bass, its slash readings
+and the agreement count. The Pro names are as read on 1 November 2026, before
+decision 0014; `CLAUDE.md`, *Scaler's vocabulary, mapped*, has the one that
+has moved since.
+
+```sh
+python3 tools/scaler_vocabulary.py
+```
+
+`scaler_vocabulary_5to7/` is the five- to seven-note run, **in progress**:
+371 of 1,254 chords read, with the stepper ReaScript that plays them and the
+steps to resume in its README. Every Pro name in it matches the script.
 
 ## `wikipedia_chords.py` — is anything missing from the vocabulary
 

@@ -41,8 +41,11 @@ all 288 keys identically, so the simpler form was kept.
   reads `Abmaj7sus2` again rather than `Ebadd11/Ab`, 99.33% to 99.27% on the
   arranger's root. Same notes, a triad over a bass outside it written as one
   chord, the category that section already calls notation.
-- jazznet and Wikipedia's list do not move. The music21 corpus: see
-  `docs/sessions/2026-11-01-maj7sus2.md`.
+- jazznet and Wikipedia's list do not move. **The music21 core corpus:
+  918 of 363,963 sonorities (0.25%), 222 of 37,106 distinct**, every one
+  the shape over its own root, mostly F C E G over F. 859 lose a slash; 59
+  had a doubled root hiding it and now name the note in the bass. The
+  objective score stays 363,959.
 - **Blocks agreement goes down by design.** Blocks' add11 voiced over its 11
   is now named on a root Blocks does not use, so 0011's "100% of every chord
   whose notes are all in the key" no longer holds for that one voicing. Not
