@@ -195,6 +195,19 @@ Every one of the 24 names accounts for exactly the notes played, and the bass
 agreed in all twelve, so what is left is which root to name and how to
 punctuate it.
 
+## `scaler_agree.py` — every chord Scaler Detector named
+
+All 803 chords of two to seven notes over C that Scaler Detector named (the
+`?` rows left out), from `scaler_vocabulary.py` and `scaler_vocabulary_5to7/`,
+named afresh by a script in C Minor (Natural) as they were played, and scored
+on root and bass - so `C maj add 13` and `C6` agree. One line per chord, so
+two builds diff; the summary goes to stderr.
+
+```sh
+python3 tools/scaler_agree.py
+python3 tools/scaler_agree.py --script candidate.lua > after.txt
+```
+
 ## `wikipedia_chords.py` — is anything missing from the vocabulary
 
 Every chord in Wikipedia's *List of chords*, 75 pitch-class sets, named by the
