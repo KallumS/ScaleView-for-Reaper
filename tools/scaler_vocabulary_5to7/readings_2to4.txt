@@ -1,0 +1,286 @@
+# Scaler Detector vs ScaleView Pro: 2-, 3- and 4-note chords over C (COMPLETE)
+# Played 1 Nov 2026 in REAPER 7.84, notes held live. C = MIDI 48 lowest, the rest close above (49-59).
+# ScaleView Pro set to C Minor (Natural); Scaler Detector with no scale selected.
+# All 231 chords: 11 two-note, 55 three-note, 165 four-note. Source: tools/scaler_vocabulary.py (VOCAB).
+# Scaler '?' = it named no chord. 'from bass' = Scaler named it with C as root and no slash.
+
+   n | intervals    | notes            | ScaleView Pro        | Scaler Detector                | Scaler root
+   1 | 0 1          | C Db             | C Db                 | C min second                   | from bass
+   2 | 0 2          | C D              | C D                  | C maj second                   | from bass
+   3 | 0 3          | C Eb             | Cmin(no5)            | C min(no5)                     | from bass
+   4 | 0 4          | C E              | Cmaj(no5)            | C maj(no5)                     | from bass
+   5 | 0 5          | C F              | F5/C                 | F 5                            | F (no slash)
+   6 | 0 6          | C Gb             | C Gb                 | C tritone                      | from bass
+   7 | 0 7          | C G              | C5                   | C 5                            | from bass
+   8 | 0 8          | C Ab             | Abmaj(no5)/C         | G#/Ab maj(no5)                 | G#/Ab (no slash)
+   9 | 0 9          | C A              | Amin(no5)/C          | A min(no5)                     | A (no slash)
+  10 | 0 10         | C Bb             | C Bb                 | C min seventh                  | from bass
+  11 | 0 11         | C B              | C B                  | C maj seventh                  | from bass
+  12 | 0 1 2        | C Db D           | Csus2b9              | C ?                            | ?
+  13 | 0 1 3        | C Db Eb          | Dbmaj7sus2/C         | C min b9                       | from bass
+  14 | 0 1 4        | C Db E           | DbminMaj7/C          | C maj b9                       | from bass
+  15 | 0 1 5        | C Db F           | Dbmaj7/C             | C#/Db maj7 / C                 | C#/Db (slash)
+  16 | 0 1 6        | C Db Gb          | Gbadd#11(no3)/C      | C#/Db maj7(sus4) / C           | C#/Db (slash)
+  17 | 0 1 7        | C Db G           | Caddb9(no3)          | C#/Db maj7(no3 b5) / C         | C#/Db (slash)
+  18 | 0 1 8        | C Db Ab          | Abadd11/C            | C#/Db maj7(no3) / C            | C#/Db (slash)
+  19 | 0 1 9        | C Db A           | Aadd#9/C             | C#/Db maj7(no3 #5) / C         | C#/Db (slash)
+  20 | 0 1 10       | C Db Bb          | BbminAdd9/C          | A#/Bb min(no5) add 9 / C       | A#/Bb (slash)
+  21 | 0 1 11       | C Db B           | Bsus2b9/C            | C ?                            | ?
+  22 | 0 2 3        | C D Eb           | CminAdd9             | C min(no5) add 9               | from bass
+  23 | 0 2 4        | C D E            | Cadd9                | C maj(no5) 9                   | from bass
+  24 | 0 2 5        | C D F            | Dmin7/C              | D min7 / C                     | D (slash)
+  25 | 0 2 6        | C D Gb           | D7/C                 | C sus2(b5)                     | from bass
+  26 | 0 2 7        | C D G            | Csus2                | C sus2                         | from bass
+  27 | 0 2 8        | C D Ab           | Ab(b5)/C             | G#/Ab maj(b5) / C              | G#/Ab (slash)
+  28 | 0 2 9        | C D A            | AminAdd11/C          | C 6(sus2)                      | from bass
+  29 | 0 2 10       | C D Bb           | Bbadd9/C             | C 7(sus2)                      | from bass
+  30 | 0 2 11       | C D B            | Cmaj7sus2            | C maj7(sus2)                   | from bass
+  31 | 0 3 4        | C Eb E           | Cadd#9               | C maj #9                       | from bass
+  32 | 0 3 5        | C Eb F           | CminAdd11            | C min add 11                   | from bass
+  33 | 0 3 6        | C Eb Gb          | Cdim                 | C dim                          | from bass
+  34 | 0 3 7        | C Eb G           | Cmin                 | C min                          | from bass
+  35 | 0 3 8        | C Eb Ab          | Ab/C                 | G#/Ab maj / C                  | G#/Ab (slash)
+  36 | 0 3 9        | C Eb A           | Adim/C               | C min6                         | from bass
+  37 | 0 3 10       | C Eb Bb          | Cmin7                | C min7                         | from bass
+  38 | 0 3 11       | C Eb B           | CminMaj7             | C min(no5) maj7                | from bass
+  39 | 0 4 5        | C E F            | Cadd11               | C maj add 11                   | from bass
+  40 | 0 4 6        | C E Gb           | C(b5)                | C maj(b5)                      | from bass
+  41 | 0 4 7        | C E G            | C                    | C maj                          | from bass
+  42 | 0 4 8        | C E Ab           | Caug                 | C aug                          | from bass
+  43 | 0 4 9        | C E A            | Amin/C               | A min / C                      | A (slash)
+  44 | 0 4 10       | C E Bb           | C7                   | C 7                            | from bass
+  45 | 0 4 11       | C E B            | Cmaj7                | C maj7                         | from bass
+  46 | 0 5 6        | C F Gb           | Gbmaj7b5(no3)/C      | F#/Gb maj7(no3 b5) / C         | F#/Gb (slash)
+  47 | 0 5 7        | C F G            | Csus4                | C sus4                         | from bass
+  48 | 0 5 8        | C F Ab           | Fmin/C               | F min / C                      | F (slash)
+  49 | 0 5 9        | C F A            | F/C                  | F maj / C                      | F (slash)
+  50 | 0 5 10       | C F Bb           | C7sus4               | C 7(sus4)                      | from bass
+  51 | 0 5 11       | C F B            | Fadd#11(no3)/C       | C maj7(sus4)                   | from bass
+  52 | 0 6 7        | C Gb G           | Cadd#11(no3)         | C 5 #11                        | from bass
+  53 | 0 6 8        | C Gb Ab          | Ab7/C                | F#/Gb sus2(b5) / C             | F#/Gb (slash)
+  54 | 0 6 9        | C Gb A           | Gbdim/C              | F#/Gb dim / C                  | F#/Gb (slash)
+  55 | 0 6 10       | C Gb Bb          | Gb(b5)/C             | F#/Gb maj(b5) / C              | F#/Gb (slash)
+  56 | 0 6 11       | C Gb B           | Cmaj7b5(no3)         | C maj7(no3 b5)                 | from bass
+  57 | 0 7 8        | C G Ab           | Abmaj7/C             | G#/Ab maj7 / C                 | G#/Ab (slash)
+  58 | 0 7 9        | C G A            | Amin7/C              | A min7 / C                     | A (slash)
+  59 | 0 7 10       | C G Bb           | C7(no3)              | C 7(no3)                       | from bass
+  60 | 0 7 11       | C G B            | Cmaj7(no3)           | C maj7(no3)                    | from bass
+  61 | 0 8 9        | C Ab A           | AminMaj7/C           | G#/Ab maj b9 / C               | G#/Ab (slash)
+  62 | 0 8 10       | C Ab Bb          | Abadd9/C             | G#/Ab maj(no5) 9 / C           | G#/Ab (slash)
+  63 | 0 8 11       | C Ab B           | Abadd#9/C            | C maj7(no3 #5)                 | from bass
+  64 | 0 9 10       | C A Bb           | C7(13)(no3)          | A min b9 / C                   | A (slash)
+  65 | 0 9 11       | C A B            | Cmaj7(13)(no3)       | A min(no5) add 9 / C           | A (slash)
+  66 | 0 10 11      | C Bb B           | Bbsus2b9/C           | C ?                            | ?
+  67 | 0 1 2 3      | C Db D Eb        | CminAdd9b9           | C ?                            | ?
+  68 | 0 1 2 4      | C Db D E         | Cadd9b9              | C#/Db min maj7 b9 / C          | C#/Db (slash)
+  69 | 0 1 2 5      | C Db D F         | Dmin7(maj7)/C        | C#/Db maj7 b9 / C              | C#/Db (slash)
+  70 | 0 1 2 6      | C Db D Gb        | D7(maj7)/C           | C#/Db maj7(sus4) b9 / C        | C#/Db (slash)
+  71 | 0 1 2 7      | C Db D G         | Gsus4#11/C           | C ?                            | ?
+  72 | 0 1 2 8      | C Db D Ab        | Ab(b5)Add11/C        | G#/Ab maj(b5) 11 / C           | G#/Ab (slash)
+  73 | 0 1 2 9      | C Db D A         | Aadd11#9/C           | C 6(sus2) b9                   | from bass
+  74 | 0 1 2 10     | C Db D Bb        | C7sus2b9             | C ?                            | ?
+  75 | 0 1 2 11     | C Db D B         | Cmaj7sus2b9          | C ?                            | ?
+  76 | 0 1 3 4      | C Db Eb E        | DbminMaj9/C          | C maj b9 #9                    | from bass
+  77 | 0 1 3 5      | C Db Eb F        | Dbmaj9/C             | C#/Db maj9 / C                 | C#/Db (slash)
+  78 | 0 1 3 6      | C Db Eb Gb       | Ebmin7(13)/C         | C dim b9                       | from bass
+  79 | 0 1 3 7      | C Db Eb G        | Cminb9               | C min b9                       | from bass
+  80 | 0 1 3 8      | C Db Eb Ab       | Abadd11/C            | C#/Db maj7(sus2) / C           | C#/Db (slash)
+  81 | 0 1 3 9      | C Db Eb A        | Cmin6b9              | C min6 b9                      | from bass
+  82 | 0 1 3 10     | C Db Eb Bb       | Cmin7b9              | C min7 b9                      | from bass
+  83 | 0 1 3 11     | C Db Eb B        | CminMaj7b9           | C min maj7 b9                  | from bass
+  84 | 0 1 4 5      | C Db E F         | Dbmaj7#9/C           | C#/Db maj7 #9 / C              | C#/Db (slash)
+  85 | 0 1 4 6      | C Db E Gb        | DbminMaj7(11)/C      | C maj(b5) b9                   | from bass
+  86 | 0 1 4 7      | C Db E G         | DbminMaj7b5/C        | C maj b9                       | from bass
+  87 | 0 1 4 8      | C Db E Ab        | DbminMaj7/C          | C#/Db min maj7 / C             | C#/Db (slash)
+  88 | 0 1 4 9      | C Db E A         | Aadd#9/C             | A maj #9 / C                   | A (slash)
+  89 | 0 1 4 10     | C Db E Bb        | C7b9                 | C 7 b9                         | from bass
+  90 | 0 1 4 11     | C Db E B         | Cmaj7b9              | C maj7 b9                      | from bass
+  91 | 0 1 5 6      | C Db F Gb        | Dbmaj7(11)/C         | C#/Db maj7 11 / C              | C#/Db (slash)
+  92 | 0 1 5 7      | C Db F G         | Dbmaj7b5/C           | C#/Db maj7(b5) / C             | C#/Db (slash)
+  93 | 0 1 5 8      | C Db F Ab        | Dbmaj7/C             | C#/Db maj7 / C                 | C#/Db (slash)
+  94 | 0 1 5 9      | C Db F A         | Dbmaj7#5/C           | C#/Db maj7(#5) / C             | C#/Db (slash)
+  95 | 0 1 5 10     | C Db F Bb        | BbminAdd9/C          | C 7(sus4) b9                   | from bass
+  96 | 0 1 5 11     | C Db F B         | Db7(maj7)/C          | C maj7(sus4) b9                | from bass
+  97 | 0 1 6 7      | C Db Gb G        | Caddb9#11(no3)       | C ?                            | ?
+  98 | 0 1 6 8      | C Db Gb Ab       | Dbmaj7sus4/C         | C#/Db maj7(sus4) / C           | C#/Db (slash)
+  99 | 0 1 6 9      | C Db Gb A        | Gbmin#11/C           | F#/Gb min #11 / C              | F#/Gb (slash)
+ 100 | 0 1 6 10     | C Db Gb Bb       | Gbadd#11/C           | C#/Db maj13(sus4) / C          | C#/Db (slash)
+ 101 | 0 1 6 11     | C Db Gb B        | Gbsus4#11/C          | C ?                            | ?
+ 102 | 0 1 7 8      | C Db G Ab        | Abmaj7(11)/C         | C#/Db 5 maj7 #11 / C           | C#/Db (slash)
+ 103 | 0 1 7 9      | C Db G A         | A7#9/C               | A 7 #9 / C                     | A (slash)
+ 104 | 0 1 7 10     | C Db G Bb        | GdimAdd11/C          | A#/Bb min6 9 / C               | A#/Bb (slash)
+ 105 | 0 1 7 11     | C Db G B         | G(b5)Add11/C         | G maj(b5) 11 / C               | G (slash)
+ 106 | 0 1 8 9      | C Db Ab A        | Amaj7#9/C            | A maj7 #9 / C                  | A (slash)
+ 107 | 0 1 8 10     | C Db Ab Bb       | Abadd9Add11/C        | G#/Ab maj add 9 11 / C         | G#/Ab (slash)
+ 108 | 0 1 8 11     | C Db Ab B        | Abadd11#9/C          | B 6(sus2) b9 / C               | B (slash)
+ 109 | 0 1 9 10     | C Db A Bb        | BbminMaj9/C          | A maj b9 #9 / C                | A (slash)
+ 110 | 0 1 9 11     | C Db A B         | Cmaj13b9(no3)        | C ?                            | ?
+ 111 | 0 1 10 11    | C Db Bb B        | BbminAdd9b9/C        | C ?                            | ?
+ 112 | 0 2 3 4      | C D Eb E         | Cadd9#9              | C ?                            | ?
+ 113 | 0 2 3 5      | C D Eb F         | CminAdd9Add11        | C min add 9 11                 | from bass
+ 114 | 0 2 3 6      | C D Eb Gb        | CdimAdd9             | C dim add 9                    | from bass
+ 115 | 0 2 3 7      | C D Eb G         | CminAdd9             | C min add 9                    | from bass
+ 116 | 0 2 3 8      | C D Eb Ab        | Abadd#11/C           | D#/Eb maj13(sus4) / C          | D#/Eb (slash)
+ 117 | 0 2 3 9      | C D Eb A         | AdimAdd11/C          | C min6 9                       | from bass
+ 118 | 0 2 3 10     | C D Eb Bb        | Bbadd9Add11/C        | C min9                         | from bass
+ 119 | 0 2 3 11     | C D Eb B         | CminMaj9             | C min maj9                     | from bass
+ 120 | 0 2 4 5      | C D E F          | Cadd9Add11           | C maj add 9 11                 | from bass
+ 121 | 0 2 4 6      | C D E Gb         | D9/C                 | D 9 / C                        | D (slash)
+ 122 | 0 2 4 7      | C D E G          | Cadd9                | C maj add 9                    | from bass
+ 123 | 0 2 4 8      | C D E Ab         | Eaug7/C              | C aug add 9                    | from bass
+ 124 | 0 2 4 9      | C D E A          | AminAdd11/C          | C 6 9                          | from bass
+ 125 | 0 2 4 10     | C D E Bb         | C9                   | C 9                            | from bass
+ 126 | 0 2 4 11     | C D E B          | Cmaj9                | C maj9                         | from bass
+ 127 | 0 2 5 6      | C D F Gb         | D7#9/C               | D 7 #9 / C                     | D (slash)
+ 128 | 0 2 5 7      | C D F G          | Dmin7(11)/C          | D min11 / C                    | D (slash)
+ 129 | 0 2 5 8      | C D F Ab         | Dmin7b5/C            | D min7(b5) / C                 | D (slash)
+ 130 | 0 2 5 9      | C D F A          | Dmin7/C              | D min7 / C                     | D (slash)
+ 131 | 0 2 5 10     | C D F Bb         | Bbadd9/C             | C 9(sus4)                      | from bass
+ 132 | 0 2 5 11     | C D F B          | Dmin7(13)/C          | C maj9(sus4)                   | from bass
+ 133 | 0 2 6 7      | C D Gb G         | Gmaj7sus4/C          | D 7 11 / C                     | D (slash)
+ 134 | 0 2 6 8      | C D Gb Ab        | D7b5/C               | D 7(b5) / C                    | D (slash)
+ 135 | 0 2 6 9      | C D Gb A         | D7/C                 | C 6(sus2 b5)                   | from bass
+ 136 | 0 2 6 10     | C D Gb Bb        | Daug7/C              | C 7(sus2 b5)                   | from bass
+ 137 | 0 2 6 11     | C D Gb B         | Bminb9/C             | D 7 13 / C                     | D (slash)
+ 138 | 0 2 7 8      | C D G Ab         | Abmaj7b5/C           | G#/Ab maj7(b5) / C             | G#/Ab (slash)
+ 139 | 0 2 7 9      | C D G A          | Amin7(11)/C          | C 6(sus2)                      | from bass
+ 140 | 0 2 7 10     | C D G Bb         | C7sus2               | C 7(sus2)                      | from bass
+ 141 | 0 2 7 11     | C D G B          | Gadd11/C             | C maj7(sus2)                   | from bass
+ 142 | 0 2 8 9      | C D Ab A         | AminMaj7(11)/C       | G#/Ab maj(b5) b9 / C           | G#/Ab (slash)
+ 143 | 0 2 8 10     | C D Ab Bb        | Bb9/C                | A#/Bb 9 / C                    | A#/Bb (slash)
+ 144 | 0 2 8 11     | C D Ab B         | Ab(b5)#9/C           | G#/Ab maj(b5) #9 / C           | G#/Ab (slash)
+ 145 | 0 2 9 10     | C D A Bb         | Bbmaj9/C             | A#/Bb maj9 / C                 | A#/Bb (slash)
+ 146 | 0 2 9 11     | C D A B          | Cmaj7sus2(13)        | C maj7(sus2) 13                | from bass
+ 147 | 0 2 10 11    | C D Bb B         | BminMaj7b9/C         | B min maj7 b9 / C              | B (slash)
+ 148 | 0 3 4 5      | C Eb E F         | Cadd11#9             | D#/Eb 6(sus2) b9 / C           | D#/Eb (slash)
+ 149 | 0 3 4 6      | C Eb E Gb        | C(b5)#9              | C maj(b5) #9                   | from bass
+ 150 | 0 3 4 7      | C Eb E G         | Cadd#9               | C maj #9                       | from bass
+ 151 | 0 3 4 8      | C Eb E Ab        | Emaj7#5/C            | E maj7(#5) / C                 | E (slash)
+ 152 | 0 3 4 9      | C Eb E A         | Amin#11/C            | C 6 #9                         | from bass
+ 153 | 0 3 4 10     | C Eb E Bb        | C7#9                 | C 7 #9                         | from bass
+ 154 | 0 3 4 11     | C Eb E B         | Cmaj7#9              | C maj7 #9                      | from bass
+ 155 | 0 3 5 6      | C Eb F Gb        | CdimAdd11            | D#/Eb min6 9 / C               | D#/Eb (slash)
+ 156 | 0 3 5 7      | C Eb F G         | CminAdd11            | C min add 11                   | from bass
+ 157 | 0 3 5 8      | C Eb F Ab        | Fmin7/C              | F min7 / C                     | F (slash)
+ 158 | 0 3 5 9      | C Eb F A         | F7/C                 | C min6 11                      | from bass
+ 159 | 0 3 5 10     | C Eb F Bb        | Cmin7(11)            | C min11                        | from bass
+ 160 | 0 3 5 11     | C Eb F B         | CminMaj7(11)         | B maj(b5) b9 / C               | B (slash)
+ 161 | 0 3 6 7      | C Eb Gb G        | Cmin#11              | C min #11                      | from bass
+ 162 | 0 3 6 8      | C Eb Gb Ab       | Ab7/C                | C dim #5                       | from bass
+ 163 | 0 3 6 9      | C Eb Gb A        | Cdim7                | C dim7                         | from bass
+ 164 | 0 3 6 10     | C Eb Gb Bb       | Cmin7b5              | C min7(b5)                     | from bass
+ 165 | 0 3 6 11     | C Eb Gb B        | CminMaj7b5           | B maj b9 / C                   | B (slash)
+ 166 | 0 3 7 8      | C Eb G Ab        | Abmaj7/C             | G#/Ab maj7 / C                 | G#/Ab (slash)
+ 167 | 0 3 7 9      | C Eb G A         | Cmin6                | C min6                         | from bass
+ 168 | 0 3 7 10     | C Eb G Bb        | Cmin7                | C min7                         | from bass
+ 169 | 0 3 7 11     | C Eb G B         | CminMaj7             | C min maj7                     | from bass
+ 170 | 0 3 8 9      | C Eb Ab A        | AminMaj7b5/C         | G#/Ab maj b9 / C               | G#/Ab (slash)
+ 171 | 0 3 8 10     | C Eb Ab Bb       | Abadd9/C             | D#/Eb 6(sus4) / C              | D#/Eb (slash)
+ 172 | 0 3 8 11     | C Eb Ab B        | Abadd#9/C            | G#/Ab maj #9 / C               | G#/Ab (slash)
+ 173 | 0 3 9 10     | C Eb A Bb        | Cmin7(13)            | C min7 13                      | from bass
+ 174 | 0 3 9 11     | C Eb A B         | CminMaj7(13)         | A dim add 9 / C                | A (slash)
+ 175 | 0 3 10 11    | C Eb Bb B        | Cmin7(maj7)          | B maj7 b9 / C                  | B (slash)
+ 176 | 0 4 5 6      | C E F Gb         | C(b5)Add11           | C maj(b5) 11                   | from bass
+ 177 | 0 4 5 7      | C E F G          | Cadd11               | C maj add 11                   | from bass
+ 178 | 0 4 5 8      | C E F Ab         | FminMaj7/C           | C aug add 11                   | from bass
+ 179 | 0 4 5 9      | C E F A          | Fmaj7/C              | F maj7 / C                     | F (slash)
+ 180 | 0 4 5 10     | C E F Bb         | Fmaj7sus4/C          | C 7 11                         | from bass
+ 181 | 0 4 5 11     | C E F B          | Cmaj7(11)            | C maj7 11                      | from bass
+ 182 | 0 4 6 7      | C E Gb G         | Cadd#11              | C maj #11                      | from bass
+ 183 | 0 4 6 8      | C E Gb Ab        | Abaug7/C             | E aug add 9 / C                | E (slash)
+ 184 | 0 4 6 9      | C E Gb A         | Gbmin7b5/C           | F#/Gb min7(b5) / C             | F#/Gb (slash)
+ 185 | 0 4 6 10     | C E Gb Bb        | C7b5                 | C 7(b5)                        | from bass
+ 186 | 0 4 6 11     | C E Gb B         | Cmaj7b5              | C maj7(b5)                     | from bass
+ 187 | 0 4 7 8      | C E G Ab         | Abmaj7#5/C           | G#/Ab maj7(#5) / C             | G#/Ab (slash)
+ 188 | 0 4 7 9      | C E G A          | C6                   | C maj add 13                   | from bass
+ 189 | 0 4 7 10     | C E G Bb         | C7                   | C 7                            | from bass
+ 190 | 0 4 7 11     | C E G B          | Cmaj7                | C maj7                         | from bass
+ 191 | 0 4 8 9      | C E Ab A         | AminMaj7/C           | C aug add 13                   | from bass
+ 192 | 0 4 8 10     | C E Ab Bb        | Caug7                | C 7(#5)                        | from bass
+ 193 | 0 4 8 11     | C E Ab B         | Cmaj7#5              | C maj7(#5)                     | from bass
+ 194 | 0 4 9 10     | C E A Bb         | C7(13)               | C 7 13                         | from bass
+ 195 | 0 4 9 11     | C E A B          | AminAdd9/C           | C maj7 13                      | from bass
+ 196 | 0 4 10 11    | C E Bb B         | C7(maj7)             | C 7 maj7                       | from bass
+ 197 | 0 5 6 7      | C F Gb G         | Csus4#11             | C ?                            | ?
+ 198 | 0 5 6 8      | C F Gb Ab        | Fminb9/C             | F min b9 / C                   | F (slash)
+ 199 | 0 5 6 9      | C F Gb A         | GbminMaj7b5/C        | F maj b9 / C                   | F (slash)
+ 200 | 0 5 6 10     | C F Gb Bb        | Gbmaj7b5/C           | F#/Gb maj7(b5) / C             | F#/Gb (slash)
+ 201 | 0 5 6 11     | C F Gb B         | Faddb9#11(no3)/C     | C ?                            | ?
+ 202 | 0 5 7 8      | C F G Ab         | FminAdd9/C           | F min add 9 / C                | F (slash)
+ 203 | 0 5 7 9      | C F G A          | Fadd9/C              | C 6(sus4)                      | from bass
+ 204 | 0 5 7 10     | C F G Bb         | C7sus4               | C 7(sus4)                      | from bass
+ 205 | 0 5 7 11     | C F G B          | Cmaj7sus4            | C maj7(sus4)                   | from bass
+ 206 | 0 5 8 9      | C F Ab A         | Fadd#9/C             | F maj #9 / C                   | F (slash)
+ 207 | 0 5 8 10     | C F Ab Bb        | FminAdd11/C          | F min add 11 / C               | F (slash)
+ 208 | 0 5 8 11     | C F Ab B         | Fmin#11/C            | F min #11 / C                  | F (slash)
+ 209 | 0 5 9 10     | C F A Bb         | Fadd11/C             | F maj add 11 / C               | F (slash)
+ 210 | 0 5 9 11     | C F A B          | Fadd#11/C            | C maj13(sus4)                  | from bass
+ 211 | 0 5 10 11    | C F Bb B         | Fsus4#11/C           | C ?                            | ?
+ 212 | 0 6 7 8      | C Gb G Ab        | Ab7(maj7)/C          | G maj7(sus4) b9 / C            | G (slash)
+ 213 | 0 6 7 9      | C Gb G A         | Amin7(13)/C          | F#/Gb dim b9 / C               | F#/Gb (slash)
+ 214 | 0 6 7 10     | C Gb G Bb        | GminMaj7(11)/C       | F#/Gb maj(b5) b9 / C           | F#/Gb (slash)
+ 215 | 0 6 7 11     | C Gb G B         | Gmaj7(11)/C          | C 5 maj7 #11                   | from bass
+ 216 | 0 6 8 9      | C Gb Ab A        | GbdimAdd9/C          | F#/Gb dim add 9 / C            | F#/Gb (slash)
+ 217 | 0 6 8 10     | C Gb Ab Bb       | Ab9/C                | G#/Ab 9 / C                    | G#/Ab (slash)
+ 218 | 0 6 8 11     | C Gb Ab B        | Ab7#9/C              | G#/Ab 7 #9 / C                 | G#/Ab (slash)
+ 219 | 0 6 9 10     | C Gb A Bb        | C7b5(13)(no3)        | F#/Gb maj(b5) #9 / C           | F#/Gb (slash)
+ 220 | 0 6 9 11     | C Gb A B         | GbdimAdd11/C         | A min6 9 / C                   | A (slash)
+ 221 | 0 6 10 11    | C Gb Bb B        | Gb(b5)Add11/C        | F#/Gb maj(b5) 11 / C           | F#/Gb (slash)
+ 222 | 0 7 8 9      | C G Ab A         | Amin7(maj7)/C        | G#/Ab maj7 b9 / C              | G#/Ab (slash)
+ 223 | 0 7 8 10     | C G Ab Bb        | Abmaj9/C             | G#/Ab maj9 / C                 | G#/Ab (slash)
+ 224 | 0 7 8 11     | C G Ab B         | Abmaj7#9/C           | G#/Ab maj7 #9 / C              | G#/Ab (slash)
+ 225 | 0 7 9 10     | C G A Bb         | C7(13)(no3)          | G min add 9 11 / C             | G (slash)
+ 226 | 0 7 9 11     | C G A B          | Gadd9Add11/C         | G maj add 9 11 / C             | G (slash)
+ 227 | 0 7 10 11    | C G Bb B         | C7(maj7)(no3)        | A#/Bb 6(sus2) b9 / C           | A#/Bb (slash)
+ 228 | 0 8 9 10     | C Ab A Bb        | AminMaj7b9/C         | A min maj7 b9 / C              | A (slash)
+ 229 | 0 8 9 11     | C Ab A B         | AminMaj9/C           | G#/Ab maj b9 #9 / C            | G#/Ab (slash)
+ 230 | 0 8 10 11    | C Ab Bb B        | Abadd9#9/C           | C ?                            | ?
+ 231 | 0 9 10 11    | C A Bb B         | C7(13)(maj7)(no3)    | C ?                            | ?
+
+# Same three shapes over all twelve bass notes (TRANSPOSED in scaler_vocabulary.py). Scaler only.
+
+  0 4 6 9  over C      | F#/Gb min7(b5) / C
+  0 4 6 9  over C#     | G min7(b5) / C#
+  0 4 6 9  over D      | G#/Ab min7(b5) / D
+  0 4 6 9  over D#     | C min6 / D#
+  0 4 6 9  over E      | C#/Db min6 / E
+  0 4 6 9  over F      | D min6 / F
+  0 4 6 9  over F#     | D#/Eb min6 / F#
+  0 4 6 9  over G      | E min6 / G
+  0 4 6 9  over G#     | F min6 / G#
+  0 4 6 9  over A      | F#/Gb min6 / A
+  0 4 6 9  over A#     | G min6 / A#
+  0 4 6 9  over B      | G#/Ab min6 / B
+  0 4 6 9  over C+12   | F#/Gb min7(b5) / C
+  0 3 5 8  over C      | F min7 / C
+  0 3 5 8  over C#     | F#/Gb min7 / C#
+  0 3 5 8  over D      | G min7 / D
+  0 3 5 8  over D#     | G#/Ab min7 / D#
+  0 3 5 8  over E      | C maj add 13 / E
+  0 3 5 8  over F      | C#/Db maj add 13 / F
+  0 3 5 8  over F#     | D maj add 13 / F#
+  0 3 5 8  over G      | D#/Eb maj add 13 / G
+  0 3 5 8  over G#     | E maj add 13 / G#
+  0 3 5 8  over A      | F maj add 13 / A
+  0 3 5 8  over A#     | F#/Gb maj add 13 / A#
+  0 3 5 8  over B      | G maj add 13 / B
+  0 3 5 8  over C+12   | F min7 / C
+  0 3 5 8  over C-12   | F min7 / C
+  0 3 5 8  over E+12   | C maj add 13 / E
+  0 3 5 8  over E-12   | C maj add 13 / E
+  0 3 5 8  over D#+12  | G#/Ab min7 / D#
+  0 2 5 9  over C      | D min7 / C
+  0 2 5 9  over C#     | D#/Eb min7 / C#
+  0 2 5 9  over D      | E min7 / D
+  0 2 5 9  over D#     | F min7 / D#
+  0 2 5 9  over E      | F#/Gb min7 / E
+  0 2 5 9  over F      | G min7 / F
+  0 2 5 9  over F#     | G#/Ab min7 / F#
+  0 2 5 9  over G      | A min7 / G
+  0 2 5 9  over G#     | A#/Bb min7 / G#
+  0 2 5 9  over A      | B min7 / A
+  0 2 5 9  over A#     | D#/Eb maj add 13 / A#
+  0 2 5 9  over B      | E maj add 13 / B
+  0 2 5 9  over A+12   | B min7 / A
+  0 2 5 9  over A-12   | B min7 / A
+  0 2 5 9  over A#-12  | D#/Eb maj add 13 / A#

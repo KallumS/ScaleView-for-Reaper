@@ -1,0 +1,1262 @@
+# Scaler Detector vs ScaleView Pro: 5-, 6- and 7-note chords over C (IN PROGRESS)
+# Played 1-7 Nov 2026 in REAPER 7.84, notes held live. C = MIDI 48 lowest, the rest close above (49-59).
+# ScaleView Pro set to C Minor (Natural); Scaler Detector with no scale selected.
+# Done: chords 1-1254 of 1,254 (5-note = 1-330, 6-note = 331-792, 7-note = 793-1254). Left: 1255-1254.
+# RECHECK = hard to read on screen; replay before trusting. Chords 76-100 were read at lower zoom.
+# Scaler '?' = it named no chord. Every Pro name is checked against its notes (check_readings.py).
+
+   n | intervals        | notes                      | ScaleView Pro              | Scaler Detector                      | flag
+   1 | 0 1 2 3 4        | C Db D Eb E                | DbminMaj9b9/C              | C ?                                  | 
+   2 | 0 1 2 3 5        | C Db D Eb F                | Dbmaj9b9/C                 | C ?                                  | 
+   3 | 0 1 2 3 6        | C Db D Eb Gb               | CdimAdd9b9                 | C ?                                  | 
+   4 | 0 1 2 3 7        | C Db D Eb G                | CminAdd9b9                 | C ?                                  | 
+   5 | 0 1 2 3 8        | C Db D Eb Ab               | Abadd11#11/C               | C ?                                  | 
+   6 | 0 1 2 3 9        | C Db D Eb A                | Cmin6/9b9                  | C ?                                  | 
+   7 | 0 1 2 3 10       | C Db D Eb Bb               | Cmin9b9                    | C ?                                  | 
+   8 | 0 1 2 3 11       | C Db D Eb B                | CminMaj9b9                 | C ?                                  | 
+   9 | 0 1 2 4 5        | C Db D E F                 | Dmin9(maj7)/C              | C ?                                  | 
+  10 | 0 1 2 4 6        | C Db D E Gb                | D9(maj7)/C                 | C#/Db min maj11(b9) / C              | 
+  11 | 0 1 2 4 7        | C Db D E G                 | Cadd9b9                    | C ?                                  | 
+  12 | 0 1 2 4 8        | C Db D E Ab                | CaugAdd9b9                 | C#/Db min maj7 b9 / C                | 
+  13 | 0 1 2 4 9        | C Db D E A                 | Aadd11#9/C                 | C 6 9 b9                             | 
+  14 | 0 1 2 4 10       | C Db D E Bb                | C9b9                       | C ?                                  | 
+  15 | 0 1 2 4 11       | C Db D E B                 | Cmaj9b9                    | C ?                                  | 
+  16 | 0 1 2 5 6        | C Db D F Gb                | D7#9(maj7)/C               | C#/Db maj11(b9) / C                  | 
+  17 | 0 1 2 5 7        | C Db D F G                 | Dmin7(11)(maj7)/C          | C#/Db maj7(b5) b9 / C                | 
+  18 | 0 1 2 5 8        | C Db D F Ab                | Dbmaj7b9/C                 | C#/Db maj7 b9 / C                    | 
+  19 | 0 1 2 5 9        | C Db D F A                 | Dmin7(maj7)/C              | C ?                                  | 
+  20 | 0 1 2 5 10       | C Db D F Bb                | Bbadd9#9/C                 | C ?                                  | 
+  21 | 0 1 2 5 11       | C Db D F B                 | Dmin7(13)(maj7)/C          | C ?                                  | 
+  22 | 0 1 2 6 7        | C Db D Gb G                | D7(11)(maj7)/C             | G maj7(sus4) #11 / C                 | 
+  23 | 0 1 2 6 8        | C Db D Gb Ab               | Ab7b5(11)/C                | C#/Db maj7(sus4) b9 / C              | 
+  24 | 0 1 2 6 9        | C Db D Gb A                | D7(maj7)/C                 | C 6(sus2 b5) b9                      | 
+  25 | 0 1 2 6 10       | C Db D Gb Bb               | Gbadd#11b6/C               | C 7(sus2 b5) b9                      | 
+  26 | 0 1 2 6 11       | C Db D Gb B                | BminAdd9b9/C               | C ?                                  | 
+  27 | 0 1 2 7 8        | C Db D G Ab                | Abmaj7b5(11)/C             | G sus4 b9 #11 / C                    | 
+  28 | 0 1 2 7 9        | C Db D G A                 | A7(11)#9/C                 | C 6(sus2) b9                         | 
+  29 | 0 1 2 7 10       | C Db D G Bb                | GminAdd11#11/C             | C ?                                  | 
+  30 | 0 1 2 7 11       | C Db D G B                 | Gadd11#11/C                | C ?                                  | 
+  31 | 0 1 2 8 9        | C Db D Ab A                | Amaj7(11)#9/C              | A maj(11)(#9) / C                    | 
+  32 | 0 1 2 8 10       | C Db D Ab Bb               | Bb9#9/C                    | A#/Bb min9 b11 / C                   | 
+  33 | 0 1 2 8 11       | C Db D Ab B                | Bmin6/9b9/C                | C ?                                  | 
+  34 | 0 1 2 9 10       | C Db D A Bb                | Bbmaj9#9/C                 | C ?                                  | 
+  35 | 0 1 2 9 11       | C Db D A B                 | Bmin9b9/C                  | C ?                                  | 
+  36 | 0 1 2 10 11      | C Db D Bb B                | BminMaj9b9/C               | C ?                                  | 
+  37 | 0 1 3 4 5        | C Db Eb E F                | Dbmaj9#9/C                 | C ?                                  | 
+  38 | 0 1 3 4 6        | C Db Eb E Gb               | DbminMaj11/C               | C#/Db min maj11 / C                  | 
+  39 | 0 1 3 4 7        | C Db Eb E G                | Caddb9#9                   | C maj b9 #9                          | 
+  40 | 0 1 3 4 8        | C Db Eb E Ab               | DbminMaj9/C                | C#/Db min maj9 / C                   | 
+  41 | 0 1 3 4 9        | C Db Eb E A                | Aadd#9#11/C                | C min6 b9 b11                        | 
+  42 | 0 1 3 4 10       | C Db Eb E Bb               | C7b9#9                     | C 7 b9 #9                            | 
+  43 | 0 1 3 4 11       | C Db Eb E B                | Dbmin9(maj7)/C             | C ?                                  | 
+  44 | 0 1 3 5 6        | C Db Eb F Gb               | Ebmin13/C                  | C dim b9 11                          | 
+  45 | 0 1 3 5 7        | C Db Eb F G                | CminAdd11b9                | C#/Db maj9 #11 / C                   | 
+  46 | 0 1 3 5 8        | C Db Eb F Ab               | Dbmaj9/C                   | C#/Db maj9 / C                       | 
+  47 | 0 1 3 5 9        | C Db Eb F A                | F7b13/C                    | C#/Db maj9(#5) / C                   | 
+  48 | 0 1 3 5 10       | C Db Eb F Bb               | BbminAdd9Add11/C           | C min11(b9)                          | 
+  49 | 0 1 3 5 11       | C Db Eb F B                | CminMaj11b9                | C min maj11(b9)                      | 
+  50 | 0 1 3 6 7        | C Db Eb Gb G               | Cminb9#11                  | C ?                                  | 
+  51 | 0 1 3 6 8        | C Db Eb Gb Ab              | Ab7(11)/C                  | C#/Db maj9(sus4) / C                 | 
+  52 | 0 1 3 6 9        | C Db Eb Gb A               | Ebmin7b5(13)/C             | C dim7 b9                            | 
+  53 | 0 1 3 6 10       | C Db Eb Gb Bb              | Ebmin7(13)/C               | C min7(b5) b9                        | 
+  54 | 0 1 3 6 11       | C Db Eb Gb B               | Badd9b9/C                  | C ?                                  | 
+  55 | 0 1 3 7 8        | C Db Eb G Ab               | Cminb9b6                   | D#/Eb 7 11 13 / C                    | 
+  56 | 0 1 3 7 9        | C Db Eb G A                | Cmin6b9                    | C min6 b9                            | 
+  57 | 0 1 3 7 10       | C Db Eb G Bb               | Eb7(13)/C                  | C min7 b9                            | 
+  58 | 0 1 3 7 11       | C Db Eb G B                | CminMaj7b9                 | C min maj7 b9                        | 
+  59 | 0 1 3 8 9        | C Db Eb Ab A               | Abadd11b9/C                | C ?                                  | 
+  60 | 0 1 3 8 10       | C Db Eb Ab Bb              | Abadd9Add11/C              | C#/Db maj7(sus2) 13 / C              | 
+  61 | 0 1 3 8 11       | C Db Eb Ab B               | Abadd11#9/C                | B 6 9 b9 / C                         | 
+  62 | 0 1 3 9 10       | C Db Eb A Bb               | Cmin13b9                   | A#/Bb min maj11 / C                  | 
+  63 | 0 1 3 9 11       | C Db Eb A B                | B9b9/C                     | C ?                                  | 
+  64 | 0 1 3 10 11      | C Db Eb Bb B               | Bmaj9b9/C                  | C ?                                  | 
+  65 | 0 1 4 5 6        | C Db E F Gb                | Dbmaj7(11)#9/C             | C#/Db maj11(#9) / C                  | 
+  66 | 0 1 4 5 7        | C Db E F G                 | Cadd11b9                   | C ?                                  | 
+  67 | 0 1 4 5 8        | C Db E F Ab                | Dbmaj7#9/C                 | C#/Db maj7 #9 / C                    | 
+  68 | 0 1 4 5 9        | C Db E F A                 | Fmaj7b13/C                 | C#/Db maj7(#5) #9 / C                | 
+  69 | 0 1 4 5 10       | C Db E F Bb                | C7(11)b9                   | C 11(b9)                             | 
+  70 | 0 1 4 5 11       | C Db E F B                 | Cmaj7(11)b9                | C maj11(b9)                          | 
+  71 | 0 1 4 6 7        | C Db E Gb G                | Caddb9#11                  | C ?                                  | 
+  72 | 0 1 4 6 8        | C Db E Gb Ab               | DbminMaj7(11)/C            | F#/Gb 7(sus2) #11 / C                | 
+  73 | 0 1 4 6 9        | C Db E Gb A                | Gbmin7#11/C                | F#/Gb min7 #11 / C                   | 
+  74 | 0 1 4 6 10       | C Db E Gb Bb               | C7b5b9                     | C 7(b5) b9                           | 
+  75 | 0 1 4 6 11       | C Db E Gb B                | Cmaj7b5b9                  | C maj7(b5) b9                        | 
+  76 | 0 1 4 7 8        | C Db E G Ab                | Caddb9b6                   | C#/Db min maj7 / C                   | RECHECK
+  77 | 0 1 4 7 9        | C Db E G A                 | C6b9                       | A 7 #9 / C                           | 
+  78 | 0 1 4 7 10       | C Db E G Bb                | C7b9                       | C 7 b9                               | 
+  79 | 0 1 4 7 11       | C Db E G B                 | Cmaj7b9                    | C maj7 b9                            | 
+  80 | 0 1 4 8 9        | C Db E Ab A                | Amaj7#9/C                  | A maj7 #9 / C                        | 
+  81 | 0 1 4 8 10       | C Db E Ab Bb               | Caug7b9                    | C 7(#5) b9                           | 
+  82 | 0 1 4 8 11       | C Db E Ab B                | Cmaj7#5b9                  | C ?                                  | 
+  83 | 0 1 4 9 10       | C Db E A Bb                | C13b9                      | A maj b9 #9 / C                      | 
+  84 | 0 1 4 9 11       | C Db E A B                 | Aadd9#9/C                  | C ?                                  | 
+  85 | 0 1 4 10 11      | C Db E Bb B                | C7b9(maj7)                 | C ?                                  | 
+  86 | 0 1 5 6 7        | C Db F Gb G                | Dbmaj7b5(11)/C             | C sus4 b9 #11                        | 
+  87 | 0 1 5 6 8        | C Db F Gb Ab               | Dbmaj7(11)/C               | C#/Db maj7 11 / C                    | 
+  88 | 0 1 5 6 9        | C Db F Gb A                | GbminMaj7#11/C             | F#/Gb min maj7 #11 / C               | 
+  89 | 0 1 5 6 10       | C Db F Gb Bb               | Gbmaj7#11/C                | C#/Db maj7 11 13 / C                 | 
+  90 | 0 1 5 6 11       | C Db F Gb B                | Db7(11)(maj7)/C            | F#/Gb maj7(sus4) #11 / C             | 
+  91 | 0 1 5 7 8        | C Db F G Ab                | Dbmaj7#11/C                | C#/Db maj7 #11 / C                   | 
+  92 | 0 1 5 7 9        | C Db F G A                 | Aaug7#9/C                  | A 7(#5) #9 / C                       | 
+  93 | 0 1 5 7 10       | C Db F G Bb                | Bbmin6/9/C                 | C 7(sus4) b9                         | 
+  94 | 0 1 5 7 11       | C Db F G B                 | G7b5(11)/C                 | C maj7(sus4) b9                      | 
+  95 | 0 1 5 8 9        | C Db F Ab A                | Dbmaj7b13/C                | C#/Db maj7 b13 / C                   | 
+  96 | 0 1 5 8 10       | C Db F Ab Bb               | Bbmin9/C                   | C#/Db maj13 / C                      | 
+  97 | 0 1 5 8 11       | C Db F Ab B                | Db7(maj7)/C                | C#/Db 7 maj7 / C                     | 
+  98 | 0 1 5 9 10       | C Db F A Bb                | BbminMaj9/C                | A#/Bb min maj9 / C                   | 
+  99 | 0 1 5 9 11       | C Db F A B                 | Fadd#11b6/C                | B 7(sus2 b5) b6 / C                  | RECHECK
+ 100 | 0 1 5 10 11      | C Db F Bb B                | BbminAdd9b9/C              | C ?                                  | 
+ 101 | 0 1 6 7 8        | C Db Gb G Ab               | Ab7(11)(maj7)/C            | C#/Db maj7(sus4) #11 / C             | 
+ 102 | 0 1 6 7 9        | C Db Gb G A                | Gbminb9#11/C               | C ?                                  | 
+ 103 | 0 1 6 7 10       | C Db Gb G Bb               | Gbaddb9#11/C               | C ?                                  | 
+ 104 | 0 1 6 7 11       | C Db Gb G B                | Gmaj7b5(11)/C              | F#/Gb sus4 b9 #11 / C                | 
+ 105 | 0 1 6 8 9        | C Db Gb Ab A               | GbminAdd9#11/C             | G#/Ab 11(b9) / C                     | PRO RE-READ (screen read G, notes say Gb)
+ 106 | 0 1 6 8 10       | C Db Gb Ab Bb              | Gbadd9#11/C                | C#/Db maj13(sus4) / C                | 
+ 107 | 0 1 6 8 11       | C Db Gb Ab B               | Ab7(11)#9/C                | B 6(sus2) b9 / C                     | 
+ 108 | 0 1 6 9 10       | C Db Gb A Bb               | Gbadd#9#11/C               | A min6 b9 b11 / C                    | 
+ 109 | 0 1 6 9 11       | C Db Gb A B                | GbminAdd11#11/C            | C ?                                  | PRO RE-READ (screen read G, notes say Gb)
+ 110 | 0 1 6 10 11      | C Db Gb Bb B               | Gbadd11#11/C               | C ?                                  | 
+ 111 | 0 1 7 8 9        | C Db G Ab A                | A7#9(maj7)/C               | G#/Ab maj(11)(b9) / C                | 
+ 112 | 0 1 7 8 10       | C Db G Ab Bb               | Bbmin13/C                  | G dim b9 11 / C                      | 
+ 113 | 0 1 7 8 11       | C Db G Ab B                | Abmaj7(11)#9/C             | G#/Ab maj(11)(#9) / C                | 
+ 114 | 0 1 7 9 10       | C Db G A Bb                | GdimAdd9Add11/C            | A 7 b9 #9 / C                        | 
+ 115 | 0 1 7 9 11       | C Db G A B                 | A9#9/C                     | A min9 b11 / C                       | 
+ 116 | 0 1 7 10 11      | C Db G Bb B                | Bbmin6/9b9/C               | C ?                                  | 
+ 117 | 0 1 8 9 10       | C Db Ab A Bb               | Bbmin9(maj7)/C             | C ?                                  | 
+ 118 | 0 1 8 9 11       | C Db Ab A B                | Amaj9#9/C                  | C ?                                  | 
+ 119 | 0 1 8 10 11      | C Db Ab Bb B               | Bbmin9b9/C                 | C ?                                  | 
+ 120 | 0 1 9 10 11      | C Db A Bb B                | BbminMaj9b9/C              | C ?                                  | 
+ 121 | 0 2 3 4 5        | C D Eb E F                 | Dmin9b9/C                  | C ?                                  | 
+ 122 | 0 2 3 4 6        | C D Eb E Gb                | D9b9/C                     | C ?                                  | 
+ 123 | 0 2 3 4 7        | C D Eb E G                 | Cadd9#9                    | C ?                                  | 
+ 124 | 0 2 3 4 8        | C D Eb E Ab                | CaugAdd9#9                 | D 7(sus2 b5) b9 / C                  | 
+ 125 | 0 2 3 4 9        | C D Eb E A                 | AminAdd11#11/C             | C ?                                  | 
+ 126 | 0 2 3 4 10       | C D Eb E Bb                | C9#9                       | C min9 b11                           | 
+ 127 | 0 2 3 4 11       | C D Eb E B                 | Cmaj9#9                    | C ?                                  | 
+ 128 | 0 2 3 5 6        | C D Eb F Gb                | CdimAdd9Add11              | D 7 b9 #9 / C                        | 
+ 129 | 0 2 3 5 7        | C D Eb F G                 | CminAdd9Add11              | C min add 9 11                       | 
+ 130 | 0 2 3 5 8        | C D Eb F Ab                | Dmin7b5b9/C                | D min7(b5) b9 / C                    | 
+ 131 | 0 2 3 5 9        | C D Eb F A                 | F7(13)/C                   | D min7 b9 / C                        | 
+ 132 | 0 2 3 5 10       | C D Eb F Bb                | Cmin11                     | C min11                              | 
+ 133 | 0 2 3 5 11       | C D Eb F B                 | CminMaj11                  | C min maj11                          | 
+ 134 | 0 2 3 6 7        | C D Eb Gb G                | CminAdd9#11                | D 11(b9) / C                         | 
+ 135 | 0 2 3 6 8        | C D Eb Gb Ab               | Ab7#11/C                   | D 7(b5) b9 / C                       | 
+ 136 | 0 2 3 6 9        | C D Eb Gb A                | D7b9/C                     | C dim9                               | 
+ 137 | 0 2 3 6 10       | C D Eb Gb Bb               | Cmin9b5                    | C min9(b5)                           | 
+ 138 | 0 2 3 6 11       | C D Eb Gb B                | Baddb9#9/C                 | B maj b9 #9 / C                      | 
+ 139 | 0 2 3 7 8        | C D Eb G Ab                | Abmaj7#11/C                | D#/Eb maj7 11 13 / C                 | 
+ 140 | 0 2 3 7 9        | C D Eb G A                 | Cmin6/9                    | C min6 9                             | 
+ 141 | 0 2 3 7 10       | C D Eb G Bb                | Cmin9                      | C min9                               | 
+ 142 | 0 2 3 7 11       | C D Eb G B                 | CminMaj9                   | C min maj9                           | 
+ 143 | 0 2 3 8 9        | C D Eb Ab A                | Abaddb9#11/C               | C ?                                  | 
+ 144 | 0 2 3 8 10       | C D Eb Ab Bb               | Abadd9#11/C                | D#/Eb maj13(sus4) / C                | 
+ 145 | 0 2 3 8 11       | C D Eb Ab B                | Abadd#9#11/C               | B min6 b9 b11 / C                    | 
+ 146 | 0 2 3 9 10       | C D Eb A Bb                | Cmin13                     | C min13                              | 
+ 147 | 0 2 3 9 11       | C D Eb A B                 | CminMaj13                  | B 7 b9 #9 / C                        | 
+ 148 | 0 2 3 10 11      | C D Eb Bb B                | Cmin9(maj7)                | C ?                                  | 
+ 149 | 0 2 4 5 6        | C D E F Gb                 | D9#9/C                     | D min9 b11 / C                       | 
+ 150 | 0 2 4 5 7        | C D E F G                  | Cadd9Add11                 | C maj add 9 11                       | 
+ 151 | 0 2 4 5 8        | C D E F Ab                 | Dmin9b5/C                  | C aug add 9 11                       | 
+ 152 | 0 2 4 5 9        | C D E F A                  | Dmin9/C                    | D min9 / C                           | 
+ 153 | 0 2 4 5 10       | C D E F Bb                 | C9(11)                     | C 11                                 | 
+ 154 | 0 2 4 5 11       | C D E F B                  | Cmaj9(11)                  | C maj11                              | 
+ 155 | 0 2 4 6 7        | C D E Gb G                 | Cadd9#11                   | D 11 / C                             | 
+ 156 | 0 2 4 6 8        | C D E Gb Ab                | Eaug9/C                    | D 9(b5) / C                          | 
+ 157 | 0 2 4 6 9        | C D E Gb A                 | D9/C                       | D 9 / C                              | 
+ 158 | 0 2 4 6 10       | C D E Gb Bb                | C9b5                       | C 9(b5)                              | 
+ 159 | 0 2 4 6 11       | C D E Gb B                 | Cmaj9b5                    | C maj9 #11                           | 
+ 160 | 0 2 4 7 8        | C D E G Ab                 | Eaug7#9/C                  | E 7(#5) #9 / C                       | 
+ 161 | 0 2 4 7 9        | C D E G A                  | C6/9                       | C 6 9                                | 
+ 162 | 0 2 4 7 10       | C D E G Bb                 | C9                         | C 9                                  | 
+ 163 | 0 2 4 7 11       | C D E G B                  | Cmaj9                      | C maj9                               | 
+ 164 | 0 2 4 8 9        | C D E Ab A                 | C6/9#5                     | D 7(sus2) #11 / C                    | 
+ 165 | 0 2 4 8 10       | C D E Ab Bb                | Caug9                      | C 9(#5)                              | 
+ 166 | 0 2 4 8 11       | C D E Ab B                 | E7b13/C                    | C maj9(#5)                           | 
+ 167 | 0 2 4 9 10       | C D E A Bb                 | C13                        | C 9 13                               | 
+ 168 | 0 2 4 9 11       | C D E A B                  | Cmaj13                     | C maj13                              | 
+ 169 | 0 2 4 10 11      | C D E Bb B                 | C9(maj7)                   | B min maj11(b9) / C                  | 
+ 170 | 0 2 5 6 7        | C D F Gb G                 | D7(11)#9/C                 | F 6(sus2) b9 / C                     | 
+ 171 | 0 2 5 6 8        | C D F Gb Ab                | Fmin6b9/C                  | D 7(b5) #9 / C                       | 
+ 172 | 0 2 5 6 9        | C D F Gb A                 | D7#9/C                     | D 7 #9 / C                           | 
+ 173 | 0 2 5 6 10       | C D F Gb Bb                | Daug7#9/C                  | D 7(#5) #9 / C                       | 
+ 174 | 0 2 5 6 11       | C D F Gb B                 | Bminb9#11/C                | C ?                                  | 
+ 175 | 0 2 5 7 8        | C D F G Ab                 | Fmin6/9/C                  | F min6 9 / C                         | 
+ 176 | 0 2 5 7 9        | C D F G A                  | Dmin7(11)/C                | D min11 / C                          | 
+ 177 | 0 2 5 7 10       | C D F G Bb                 | C11                        | C 9(sus4)                            | 
+ 178 | 0 2 5 7 11       | C D F G B                  | G7(11)/C                   | C maj9(sus4)                         | 
+ 179 | 0 2 5 8 9        | C D F Ab A                 | Dmin7#11/C                 | D min7 #11 / C                       | 
+ 180 | 0 2 5 8 10       | C D F Ab Bb                | Bb9/C                      | F min6 11 / C                        | 
+ 181 | 0 2 5 8 11       | C D F Ab B                 | Dmin7b5(13)/C              | B dim7 b9 / C                        | 
+ 182 | 0 2 5 9 10       | C D F A Bb                 | Bbmaj9/C                   | C 13(sus4)                           | 
+ 183 | 0 2 5 9 11       | C D F A B                  | Dmin7(13)/C                | C maj13(sus4)                        | 
+ 184 | 0 2 5 10 11      | C D F Bb B                 | Bbadd9b9/C                 | C ?                                  | 
+ 185 | 0 2 6 7 8        | C D Gb G Ab                | D7b5(11)/C                 | D 7(b5) 11 / C                       | 
+ 186 | 0 2 6 7 9        | C D Gb G A                 | D7(11)/C                   | D 7 11 / C                           | 
+ 187 | 0 2 6 7 10       | C D Gb G Bb                | GminMaj7(11)/C             | C 7(sus2) #11                        | 
+ 188 | 0 2 6 7 11       | C D Gb G B                 | Gmaj7(11)/C                | D 7 11 13 / C                        | 
+ 189 | 0 2 6 8 9        | C D Gb Ab A                | D7#11/C                    | D 7 #11 / C                          | 
+ 190 | 0 2 6 8 10       | C D Gb Ab Bb               | Bbaug9/C                   | G#/Ab 9(b5) / C                      | 
+ 191 | 0 2 6 8 11       | C D Gb Ab B                | Bmin6b9/C                  | G#/Ab 7(b5) #9 / C                   | 
+ 192 | 0 2 6 9 10       | C D Gb A Bb                | D7b13/C                    | F#/Gb aug #9 #11 / C                 | 
+ 193 | 0 2 6 9 11       | C D Gb A B                 | D7(13)/C                   | D 7 13 / C                           | 
+ 194 | 0 2 6 10 11      | C D Gb Bb B                | Daug7(13)/C                | B min maj7 b9 / C                    | 
+ 195 | 0 2 7 8 9        | C D G Ab A                 | Amin7(11)(maj7)/C          | G#/Ab maj7(b5) b9 / C                | 
+ 196 | 0 2 7 8 10       | C D G Ab Bb                | GminAdd11b9/C              | G#/Ab maj9 #11 / C                   | 
+ 197 | 0 2 7 8 11       | C D G Ab B                 | Gadd11b9/C                 | C ?                                  | 
+ 198 | 0 2 7 9 10       | C D G A Bb                 | GminAdd9Add11/C            | G min add 9 11 / C                   | 
+ 199 | 0 2 7 9 11       | C D G A B                  | Gadd9Add11/C               | C maj7(sus2) 13                      | 
+ 200 | 0 2 7 10 11      | C D G Bb B                 | Gadd11#9/C                 | A#/Bb 6 9 b9 / C                     | 
+ 201 | 0 2 8 9 10       | C D Ab A Bb                | Bb9(maj7)/C                | A min maj11(b9) / C                  | 
+ 202 | 0 2 8 9 11       | C D Ab A B                 | AminMaj11/C                | A min maj11 / C                      | 
+ 203 | 0 2 8 10 11      | C D Ab Bb B                | Bb9b9/C                    | C ?                                  | 
+ 204 | 0 2 9 10 11      | C D A Bb B                 | Bbmaj9b9/C                 | C ?                                  | 
+ 205 | 0 3 4 5 6        | C Eb E F Gb                | C(b5)Add11#9               | C ?                                  | 
+ 206 | 0 3 4 5 7        | C Eb E F G                 | Cadd11#9                   | D#/Eb 6 9 b9 / C                     | 
+ 207 | 0 3 4 5 8        | C Eb E F Ab                | CaugAdd11#9                | C ?                                  | 
+ 208 | 0 3 4 5 9        | C Eb E F A                 | F7(maj7)/C                 | D#/Eb 6(sus2 b5) b9 / C              | 
+ 209 | 0 3 4 5 10       | C Eb E F Bb                | C7(11)#9                   | D#/Eb 6(sus2) b9 / C                 | 
+ 210 | 0 3 4 5 11       | C Eb E F B                 | Cmaj7(11)#9                | C maj11(#9)                          | 
+ 211 | 0 3 4 6 7        | C Eb E Gb G                | Cadd#9#11                  | D#/Eb min6 b9 b11 / C                | 
+ 212 | 0 3 4 6 8        | C Eb E Gb Ab               | Ab7b13/C                   | C aug #9 #11                         | 
+ 213 | 0 3 4 6 9        | C Eb E Gb A                | Gbmin7b5(13)/C             | D#/Eb dim7 b9 / C                    | 
+ 214 | 0 3 4 6 10       | C Eb E Gb Bb               | C7b5#9                     | C 7(b5) #9                           | 
+ 215 | 0 3 4 6 11       | C Eb E Gb B                | Badd11b9/C                 | C ?                                  | 
+ 216 | 0 3 4 7 8        | C Eb E G Ab                | Cadd#9b6                   | C maj #9 b13                         | 
+ 217 | 0 3 4 7 9        | C Eb E G A                 | C6#9                       | C 6 #9                               | 
+ 218 | 0 3 4 7 10       | C Eb E G Bb                | C7#9                       | C 7 #9                               | 
+ 219 | 0 3 4 7 11       | C Eb E G B                 | Cmaj7#9                    | C maj7 #9                            | 
+ 220 | 0 3 4 8 9        | C Eb E Ab A                | Caug6#9                    | A min maj7 #11 / C                   | 
+ 221 | 0 3 4 8 10       | C Eb E Ab Bb               | Caug7#9                    | C 7(#5) #9                           | 
+ 222 | 0 3 4 8 11       | C Eb E Ab B                | Cmaj7#5#9                  | C maj7(#5) #9                        | 
+ 223 | 0 3 4 9 10       | C Eb E A Bb                | C13#9                      | C ?                                  | 
+ 224 | 0 3 4 9 11       | C Eb E A B                 | AminAdd9#11/C              | B 11(b9) / C                         | 
+ 225 | 0 3 4 10 11      | C Eb E Bb B                | C7#9(maj7)                 | B maj(11)(b9) / C                    | 
+ 226 | 0 3 5 6 7        | C Eb F Gb G                | CminAdd11#11               | C ?                                  | 
+ 227 | 0 3 5 6 8        | C Eb F Gb Ab               | Ab7(13)/C                  | F min7 b9 / C                        | 
+ 228 | 0 3 5 6 9        | C Eb F Gb A                | F7b9/C                     | D#/Eb dim9 / C                       | 
+ 229 | 0 3 5 6 10       | C Eb F Gb Bb               | Ebmin6/9/C                 | D#/Eb min6 9 / C                     | 
+ 230 | 0 3 5 6 11       | C Eb F Gb B                | Baddb9#11/C                | C ?                                  | 
+ 231 | 0 3 5 7 8        | C Eb F G Ab                | Fmin9/C                    | F min9 / C                           | 
+ 232 | 0 3 5 7 9        | C Eb F G A                 | F9/C                       | C min6 11                            | 
+ 233 | 0 3 5 7 10       | C Eb F G Bb                | Cmin7(11)                  | C min11                              | 
+ 234 | 0 3 5 7 11       | C Eb F G B                 | CminMaj7(11)               | F 7(sus2) #11 / C                    | 
+ 235 | 0 3 5 8 9        | C Eb F Ab A                | F7#9/C                     | F 7 #9 / C                           | 
+ 236 | 0 3 5 8 10       | C Eb F Ab Bb               | Fmin7(11)/C                | F min11 / C                          | 
+ 237 | 0 3 5 8 11       | C Eb F Ab B                | Fmin7#11/C                 | F min7 #11 / C                       | 
+ 238 | 0 3 5 9 10       | C Eb F A Bb                | Cmin7(11,13)               | C min13                              | 
+ 239 | 0 3 5 9 11       | C Eb F A B                 | F7#11/C                    | F 7 #11 / C                          | 
+ 240 | 0 3 5 10 11      | C Eb F Bb B                | Cmin7(11)(maj7)            | B maj7(b5) b9 / C                    | 
+ 241 | 0 3 6 7 8        | C Eb Gb G Ab               | Cmin#11b6                  | C min #11 b13                        | 
+ 242 | 0 3 6 7 9        | C Eb Gb G A                | Cmin6#11                   | F#/Gb dim7 b9 / C                    | 
+ 243 | 0 3 6 7 10       | C Eb Gb G Bb               | Cmin7#11                   | C min7 #11                           | 
+ 244 | 0 3 6 7 11       | C Eb Gb G B                | CminMaj7#11                | C min maj7 #11                       | 
+ 245 | 0 3 6 8 9        | C Eb Gb Ab A               | Ab7b9/C                    | F#/Gb dim9 / C                       | 
+ 246 | 0 3 6 8 10       | C Eb Gb Ab Bb              | Ab9/C                      | D#/Eb min6 11 / C                    | 
+ 247 | 0 3 6 8 11       | C Eb Gb Ab B               | Ab7#9/C                    | G#/Ab 7 #9 / C                       | 
+ 248 | 0 3 6 9 10       | C Eb Gb A Bb               | Cmin7b5(13)                | A dim7 b9 / C                        | 
+ 249 | 0 3 6 9 11       | C Eb Gb A B                | B7b9/C                     | A dim9 / C                           | 
+ 250 | 0 3 6 10 11      | C Eb Gb Bb B               | Cmin7b5(maj7)              | B maj7 b9 / C                        | 
+ 251 | 0 3 7 8 9        | C Eb G Ab A                | Abmaj7b9/C                 | G#/Ab maj7 b9 / C                    | 
+ 252 | 0 3 7 8 10       | C Eb G Ab Bb               | Abmaj9/C                   | G#/Ab maj9 / C                       | 
+ 253 | 0 3 7 8 11       | C Eb G Ab B                | Abmaj7#9/C                 | G#/Ab maj7 #9 / C                    | 
+ 254 | 0 3 7 9 10       | C Eb G A Bb                | Cmin7(13)                  | C min13                              | 
+ 255 | 0 3 7 9 11       | C Eb G A B                 | Amin9b5/C                  | G aug add 9 11 / C                   | 
+ 256 | 0 3 7 10 11      | C Eb G Bb B                | Cmin7(maj7)                | C ?                                  | 
+ 257 | 0 3 8 9 10       | C Eb Ab A Bb               | Abadd9b9/C                 | C ?                                  | 
+ 258 | 0 3 8 9 11       | C Eb Ab A B                | Abaddb9#9/C                | G#/Ab maj b9 #9 / C                  | 
+ 259 | 0 3 8 10 11      | C Eb Ab Bb B               | Abadd9#9/C                 | C ?                                  | 
+ 260 | 0 3 9 10 11      | C Eb A Bb B                | Cmin7(13)(maj7)            | C ?                                  | 
+ 261 | 0 4 5 6 7        | C E F Gb G                 | Cadd11#11                  | C ?                                  | 
+ 262 | 0 4 5 6 8        | C E F Gb Ab                | Abaug7(13)/C               | F min maj7 b9 / C                    | 
+ 263 | 0 4 5 6 9        | C E F Gb A                 | Fmaj7b9/C                  | F maj7 b9 / C                        | 
+ 264 | 0 4 5 6 10       | C E F Gb Bb                | C7b5(11)                   | C 7(b5) 11                           | 
+ 265 | 0 4 5 6 11       | C E F Gb B                 | Cmaj7b5(11)                | B sus4 b9 #11 / C                    | 
+ 266 | 0 4 5 7 8        | C E F G Ab                 | FminMaj9/C                 | F min maj9 / C                       | 
+ 267 | 0 4 5 7 9        | C E F G A                  | Fmaj9/C                    | F maj9 / C                           | 
+ 268 | 0 4 5 7 10       | C E F G Bb                 | C7(11)                     | C 7 11                               | 
+ 269 | 0 4 5 7 11       | C E F G B                  | Cmaj7(11)                  | C maj7 11                            | 
+ 270 | 0 4 5 8 9        | C E F Ab A                 | Caug6Add11                 | F maj7 #9 / C                        | 
+ 271 | 0 4 5 8 10       | C E F Ab Bb                | Caug7(11)                  | A#/Bb 7(sus2) #11 / C                | 
+ 272 | 0 4 5 8 11       | C E F Ab B                 | Cmaj7#5(11)                | F min maj7 #11 / C                   | 
+ 273 | 0 4 5 9 10       | C E F A Bb                 | C7(11,13)                  | C 7 11 13                            | 
+ 274 | 0 4 5 9 11       | C E F A B                  | Fmaj7#11/C                 | C maj7 11 13                         | 
+ 275 | 0 4 5 10 11      | C E F Bb B                 | C7(11)(maj7)               | F maj7(sus4) #11 / C                 | 
+ 276 | 0 4 6 7 8        | C E Gb G Ab                | Cadd#11b6                  | F#/Gb 7(sus2 b5) b9 / C              | 
+ 277 | 0 4 6 7 9        | C E Gb G A                 | C6#11                      | F#/Gb min7(b5) b9 / C                | 
+ 278 | 0 4 6 7 10       | C E Gb G Bb                | C7#11                      | C 7 #11                              | 
+ 279 | 0 4 6 7 11       | C E Gb G B                 | Cmaj7#11                   | C maj7 #11                           | 
+ 280 | 0 4 6 8 9        | C E Gb Ab A                | Gbmin9b5/C                 | E aug add 9 11 / C                   | 
+ 281 | 0 4 6 8 10       | C E Gb Ab Bb               | Abaug9/C                   | F#/Gb 9(b5) / C                      | 
+ 282 | 0 4 6 8 11       | C E Gb Ab B                | Cmaj7#5#11                 | G#/Ab 7(#5) #9 / C                   | 
+ 283 | 0 4 6 9 10       | C E Gb A Bb                | C7b5(13)                   | F#/Gb 7(b5) #9 / C                   | 
+ 284 | 0 4 6 9 11       | C E Gb A B                 | Amin6/9/C                  | A min6 9 / C                         | 
+ 285 | 0 4 6 10 11      | C E Gb Bb B                | C7b5(maj7)                 | F#/Gb 7(b5) 11 / C                   | 
+ 286 | 0 4 7 8 9        | C E G Ab A                 | C6b6                       | C ?                                  | 
+ 287 | 0 4 7 8 10       | C E G Ab Bb                | C7b13                      | E aug #9 #11 / C                     | 
+ 288 | 0 4 7 8 11       | C E G Ab B                 | Cmaj7b13                   | C maj11 b13                          | 
+ 289 | 0 4 7 9 10       | C E G A Bb                 | C7(13)                     | C 7 13                               | 
+ 290 | 0 4 7 9 11       | C E G A B                  | Amin9/C                    | C maj13                              | 
+ 291 | 0 4 7 10 11      | C E G Bb B                 | C7(maj7)                   | C 7 maj7                             | 
+ 292 | 0 4 8 9 10       | C E Ab A Bb                | Caug7(13)                  | A min maj7 b9 / C                    | 
+ 293 | 0 4 8 9 11       | C E Ab A B                 | Cmaj7#5(13)                | A min maj9 / C                       | 
+ 294 | 0 4 8 10 11      | C E Ab Bb B                | Caug7(maj7)                | A#/Bb 7(sus2 b5) b9 / C              | 
+ 295 | 0 4 9 10 11      | C E A Bb B                 | AminAdd9b9/C               | C ?                                  | 
+ 296 | 0 5 6 7 8        | C F Gb G Ab                | FminAdd9b9/C               | C ?                                  | 
+ 297 | 0 5 6 7 9        | C F Gb G A                 | Fadd9b9/C                  | C ?                                  | 
+ 298 | 0 5 6 7 10       | C F Gb G Bb                | C7sus4#11                  | F#/Gb maj7(b5) b9 / C                | 
+ 299 | 0 5 6 7 11       | C F Gb G B                 | Cmaj7sus4#11               | C maj7(sus4) #11                     | 
+ 300 | 0 5 6 8 9        | C F Gb Ab A                | Faddb9#9/C                 | F maj b9 #9 / C                      | 
+ 301 | 0 5 6 8 10       | C F Gb Ab Bb               | FminAdd11b9/C              | F#/Gb maj9 #11 / C                   | 
+ 302 | 0 5 6 8 11       | C F Gb Ab B                | Fminb9#11/C                | C ?                                  | 
+ 303 | 0 5 6 9 10       | C F Gb A Bb                | Fadd11b9/C                 | C ?                                  | 
+ 304 | 0 5 6 9 11       | C F Gb A B                 | Faddb9#11/C                | C ?                                  | 
+ 305 | 0 5 6 10 11      | C F Gb Bb B                | Gbmaj7b5(11)/C             | F sus4 b9 #11 / C                    | 
+ 306 | 0 5 7 8 9        | C F G Ab A                 | Fadd9#9/C                  | C ?                                  | 
+ 307 | 0 5 7 8 10       | C F G Ab Bb                | FminAdd9Add11/C            | F min add 9 11 / C                   | 
+ 308 | 0 5 7 8 11       | C F G Ab B                 | FminAdd9#11/C              | G 11(b9) / C                         | 
+ 309 | 0 5 7 9 10       | C F G A Bb                 | Fadd9Add11/C               | F maj add 9 11 / C                   | 
+ 310 | 0 5 7 9 11       | C F G A B                  | Fadd9#11/C                 | C maj13(sus4)                        | 
+ 311 | 0 5 7 10 11      | C F G Bb B                 | G7(11)#9/C                 | A#/Bb 6(sus2) b9 / C                 | 
+ 312 | 0 5 8 9 10       | C F Ab A Bb                | Fadd11#9/C                 | G#/Ab 6 9 b9 / C                     | 
+ 313 | 0 5 8 9 11       | C F Ab A B                 | Fadd#9#11/C                | G#/Ab min6 b9 b11 / C                | 
+ 314 | 0 5 8 10 11      | C F Ab Bb B                | FminAdd11#11/C             | C ?                                  | 
+ 315 | 0 5 9 10 11      | C F A Bb B                 | Fadd11#11/C                | C ?                                  | 
+ 316 | 0 6 7 8 9        | C Gb G Ab A                | GbdimAdd9b9/C              | C ?                                  | 
+ 317 | 0 6 7 8 10       | C Gb G Ab Bb               | Ab9(maj7)/C                | G min maj11(b9) / C                  | 
+ 318 | 0 6 7 8 11       | C Gb G Ab B                | Ab7#9(maj7)/C              | G maj11(b9) / C                      | 
+ 319 | 0 6 7 9 10       | C Gb G A Bb                | GminMaj11/C                | G min maj11 / C                      | 
+ 320 | 0 6 7 9 11       | C Gb G A B                 | Amin13/C                   | F#/Gb dim b9 11 / C                  | 
+ 321 | 0 6 7 10 11      | C Gb G Bb B                | Gmaj7(11)#9/C              | G maj11(#9) / C                      | 
+ 322 | 0 6 8 9 10       | C Gb Ab A Bb               | Ab9b9/C                    | C ?                                  | 
+ 323 | 0 6 8 9 11       | C Gb Ab A B                | GbdimAdd9Add11/C           | G#/Ab 7 b9 #9 / C                    | 
+ 324 | 0 6 8 10 11      | C Gb Ab Bb B               | Ab9#9/C                    | G#/Ab min9 b11 / C                   | 
+ 325 | 0 6 9 10 11      | C Gb A Bb B                | Amin6/9b9/C                | C ?                                  | 
+ 326 | 0 7 8 9 10       | C G Ab A Bb                | Abmaj9b9/C                 | C ?                                  | 
+ 327 | 0 7 8 9 11       | C G Ab A B                 | Amin9(maj7)/C              | C ?                                  | 
+ 328 | 0 7 8 10 11      | C G Ab Bb B                | Abmaj9#9/C                 | C ?                                  | 
+ 329 | 0 7 9 10 11      | C G A Bb B                 | Amin9b9/C                  | C ?                                  | 
+ 330 | 0 8 9 10 11      | C Ab A Bb B                | AminMaj9b9/C               | C ?                                  | 
+ 331 | 0 1 2 3 4 5      | C Db D Eb E F              | Dmin9b9(maj7)/C            | C ?                                  | 
+ 332 | 0 1 2 3 4 6      | C Db D Eb E Gb             | D9b9(maj7)/C               | C ?                                  | 
+ 333 | 0 1 2 3 4 7      | C Db D Eb E G              | Cadd9b9#9                  | C ?                                  | 
+ 334 | 0 1 2 3 4 8      | C Db D Eb E Ab             | DbminMaj9b9/C              | C ?                                  | 
+ 335 | 0 1 2 3 4 9      | C Db D Eb E A              | Aadd11#9#11/C              | C ?                                  | 
+ 336 | 0 1 2 3 4 10     | C Db D Eb E Bb             | C9b9#9                     | C ?                                  | 
+ 337 | 0 1 2 3 4 11     | C Db D Eb E B              | Cmaj9b9#9                  | C ?                                  | 
+ 338 | 0 1 2 3 5 6      | C Db D Eb F Gb             | CdimAdd9Add11b9            | D 7 maj7 b9 #9 / C                   | 
+ 339 | 0 1 2 3 5 7      | C Db D Eb F G              | CminAdd9Add11b9            | C ?                                  | 
+ 340 | 0 1 2 3 5 8      | C Db D Eb F Ab             | Dbmaj9b9/C                 | C ?                                  | 
+ 341 | 0 1 2 3 5 9      | C Db D Eb F A              | F7(13)b13/C                | C ?                                  | 
+ 342 | 0 1 2 3 5 10     | C Db D Eb F Bb             | Cmin11b9                   | C ?                                  | 
+ 343 | 0 1 2 3 5 11     | C Db D Eb F B              | CminMaj11b9                | C ?                                  | 
+ 344 | 0 1 2 3 6 7      | C Db D Eb Gb G             | CminAdd9b9#11              | C ?                                  | 
+ 345 | 0 1 2 3 6 8      | C Db D Eb Gb Ab            | Ab7(11)#11/C               | C ?                                  | 
+ 346 | 0 1 2 3 6 9      | C Db D Eb Gb A             | Cdim9b9                    | C ?                                  | 
+ 347 | 0 1 2 3 6 10     | C Db D Eb Gb Bb            | Cmin9b5b9                  | D 7(#5) maj7 b9 / C                  | 
+ 348 | 0 1 2 3 6 11     | C Db D Eb Gb B             | Badd9b9#9/C                | C ?                                  | 
+ 349 | 0 1 2 3 7 8      | C Db D Eb G Ab             | CminAdd9b9b6               | C ?                                  | 
+ 350 | 0 1 2 3 7 9      | C Db D Eb G A              | Cmin6/9b9                  | C ?                                  | 
+ 351 | 0 1 2 3 7 10     | C Db D Eb G Bb             | Cmin9b9                    | C ?                                  | 
+ 352 | 0 1 2 3 7 11     | C Db D Eb G B              | CminMaj9b9                 | C ?                                  | 
+ 353 | 0 1 2 3 8 9      | C Db D Eb Ab A             | Abadd11b9#11/C             | C ?                                  | 
+ 354 | 0 1 2 3 8 10     | C Db D Eb Ab Bb            | Abadd9Add11#11/C           | C ?                                  | 
+ 355 | 0 1 2 3 8 11     | C Db D Eb Ab B             | Abadd11#9#11/C             | C ?                                  | 
+ 356 | 0 1 2 3 9 10     | C Db D Eb A Bb             | Cmin13b9                   | C ?                                  | 
+ 357 | 0 1 2 3 9 11     | C Db D Eb A B              | B9b9#9/C                   | C ?                                  | 
+ 358 | 0 1 2 3 10 11    | C Db D Eb Bb B             | Cmin9b9(maj7)              | C ?                                  | 
+ 359 | 0 1 2 4 5 6      | C Db D E F Gb              | D9#9(maj7)/C               | C ?                                  | 
+ 360 | 0 1 2 4 5 7      | C Db D E F G               | Cadd9Add11b9               | C ?                                  | 
+ 361 | 0 1 2 4 5 8      | C Db D E F Ab              | Dbmaj7b9#9/C               | C ?                                  | 
+ 362 | 0 1 2 4 5 9      | C Db D E F A               | Dmin9(maj7)/C              | C ?                                  | 
+ 363 | 0 1 2 4 5 10     | C Db D E F Bb              | C9(11)b9                   | C ?                                  | 
+ 364 | 0 1 2 4 5 11     | C Db D E F B               | Cmaj9(11)b9                | C#/Db 7 maj7 b9 #9 / C               | 
+ 365 | 0 1 2 4 6 7      | C Db D E Gb G              | Cadd9b9#11                 | C ?                                  | 
+ 366 | 0 1 2 4 6 8      | C Db D E Gb Ab             | Eaug13/C                   | C#/Db min maj11(b9) / C              | 
+ 367 | 0 1 2 4 6 9      | C Db D E Gb A              | A6Add11#9/C                | C 6(b5) 9 b9                         | 
+ 368 | 0 1 2 4 6 10     | C Db D E Gb Bb             | C9b5b9                     | C 9(b5) b9                           | 
+ 369 | 0 1 2 4 6 11     | C Db D E Gb B              | BminAdd9Add11b9/C          | C ?                                  | 
+ 370 | 0 1 2 4 7 8      | C Db D E G Ab              | Cadd9b9b6                  | C#/Db min maj7 b9 #11 / C            | 
+ 371 | 0 1 2 4 7 9      | C Db D E G A               | C6/9b9                     | C 6 9 b9                             | 
+ 372 | 0 1 2 4 7 10     | C Db D E G Bb              | C9b9                       | C ?                                  | 
+ 373 | 0 1 2 4 7 11     | C Db D E G B               | Cmaj9b9                    | C ?                                  | 
+ 374 | 0 1 2 4 8 9      | C Db D E Ab A              | Amaj7(11)#9/C              | A maj11(#9) / C                      | 
+ 375 | 0 1 2 4 8 10     | C Db D E Ab Bb             | Caug9b9                    | A#/Bb 9(b5) #9 / C                   | 
+ 376 | 0 1 2 4 8 11     | C Db D E Ab B              | E7(13)b13/C                | C ?                                  | 
+ 377 | 0 1 2 4 9 10     | C Db D E A Bb              | C13b9                      | C ?                                  | 
+ 378 | 0 1 2 4 9 11     | C Db D E A B               | Aadd9Add11#9/C             | C ?                                  | 
+ 379 | 0 1 2 4 10 11    | C Db D E Bb B              | C9b9(maj7)                 | C ?                                  | 
+ 380 | 0 1 2 5 6 7      | C Db D F Gb G              | D7(11)#9(maj7)/C           | C#/Db maj11(b5 b9) / C               | 
+ 381 | 0 1 2 5 6 8      | C Db D F Gb Ab             | Dbmaj7(11)b9/C             | C#/Db maj11(b9) / C                  | 
+ 382 | 0 1 2 5 6 9      | C Db D F Gb A              | D7#9(maj7)/C               | C 6(sus2 b5) b9 11                   | 
+ 383 | 0 1 2 5 6 10     | C Db D F Gb Bb             | Bbadd9#9b6/C               | F#/Gb maj7 #11 b13 / C               | 
+ 384 | 0 1 2 5 6 11     | C Db D F Gb B              | BminAdd9b9#11/C            | C ?                                  | 
+ 385 | 0 1 2 5 7 8      | C Db D F G Ab              | Dbmaj7b9#11/C              | C ?                                  | 
+ 386 | 0 1 2 5 7 9      | C Db D F G A               | G11#11/C                   | A 11(#5 #9) / C                      | 
+ 387 | 0 1 2 5 7 10     | C Db D F G Bb              | Gmin7(11)#11/C             | C ?                                  | 
+ 388 | 0 1 2 5 7 11     | C Db D F G B               | G7(11)#11/C                | C ?                                  | 
+ 389 | 0 1 2 5 8 9      | C Db D F Ab A              | Dmin7#11(maj7)/C           | D min7 maj7 #11 / C                  | 
+ 390 | 0 1 2 5 8 10     | C Db D F Ab Bb             | Bb9#9/C                    | A#/Bb min9 b11 / C                   | 
+ 391 | 0 1 2 5 8 11     | C Db D F Ab B              | Dmin7b5(13)(maj7)/C        | C ?                                  | 
+ 392 | 0 1 2 5 9 10     | C Db D F A Bb              | Bbmaj9#9/C                 | C ?                                  | 
+ 393 | 0 1 2 5 9 11     | C Db D F A B               | Dmin7(13)(maj7)/C          | C#/Db 7(#5) maj7 b9 / C              | 
+ 394 | 0 1 2 5 10 11    | C Db D F Bb B              | Bbadd9b9#9/C               | C ?                                  | 
+ 395 | 0 1 2 6 7 8      | C Db D Gb G Ab             | D7b5(11)(maj7)/C           | C ?                                  | 
+ 396 | 0 1 2 6 7 9      | C Db D Gb G A              | A13(11)#9/C                | G maj9(sus4) #11 / C                 | 
+ 397 | 0 1 2 6 7 10     | C Db D Gb G Bb             | GminMaj7(11)#11/C          | C ?                                  | 
+ 398 | 0 1 2 6 7 11     | C Db D Gb G B              | Gmaj7(11)#11/C             | C ?                                  | 
+ 399 | 0 1 2 6 8 9      | C Db D Gb Ab A             | D7#11(maj7)/C              | D 7 maj7 #11 / C                     | 
+ 400 | 0 1 2 6 8 10     | C Db D Gb Ab Bb            | Ab9b5(11)/C                | G#/Ab 11(b5 b9) / C                  | 
+ 401 | 0 1 2 6 8 11     | C Db D Gb Ab B             | Bmin6/9b9/C                | C ?                                  | 
+ 402 | 0 1 2 6 9 10     | C Db D Gb A Bb             | D7b13(maj7)/C              | C ?                                  | 
+ 403 | 0 1 2 6 9 11     | C Db D Gb A B              | Bmin9b9/C                  | C ?                                  | 
+ 404 | 0 1 2 6 10 11    | C Db D Gb Bb B             | BminMaj9b9/C               | C ?                                  | 
+ 405 | 0 1 2 7 8 9      | C Db D G Ab A              | A7(11)#9(maj7)/C           | G#/Ab maj11(b5 b9) / C               | 
+ 406 | 0 1 2 7 8 10     | C Db D G Ab Bb             | GminAdd11b9#11/C           | G#/Ab maj11(b5) / C                  | 
+ 407 | 0 1 2 7 8 11     | C Db D G Ab B              | Gadd11b9#11/C              | C ?                                  | 
+ 408 | 0 1 2 7 9 10     | C Db D G A Bb              | GminAdd9Add11#11/C         | C ?                                  | 
+ 409 | 0 1 2 7 9 11     | C Db D G A B               | Gadd9Add11#11/C            | C ?                                  | 
+ 410 | 0 1 2 7 10 11    | C Db D G Bb B              | Gadd11#9#11/C              | C ?                                  | 
+ 411 | 0 1 2 8 9 10     | C Db D Ab A Bb             | Bb9#9(maj7)/C              | C ?                                  | 
+ 412 | 0 1 2 8 9 11     | C Db D Ab A B              | Bmin13b9/C                 | C ?                                  | 
+ 413 | 0 1 2 8 10 11    | C Db D Ab Bb B             | Bb9b9#9/C                  | C ?                                  | 
+ 414 | 0 1 2 9 10 11    | C Db D A Bb B              | Bmin9b9(maj7)/C            | C ?                                  | 
+ 415 | 0 1 3 4 5 6      | C Db Eb E F Gb             | Ebmin13b9/C                | C ?                                  | 
+ 416 | 0 1 3 4 5 7      | C Db Eb E F G              | Cadd11b9#9                 | C ?                                  | 
+ 417 | 0 1 3 4 5 8      | C Db Eb E F Ab             | Dbmaj9#9/C                 | C ?                                  | 
+ 418 | 0 1 3 4 5 9      | C Db Eb E F A              | F7b13(maj7)/C              | C ?                                  | 
+ 419 | 0 1 3 4 5 10     | C Db Eb E F Bb             | C7(11)b9#9                 | C ?                                  | 
+ 420 | 0 1 3 4 5 11     | C Db Eb E F B              | Db9#9(maj7)/C              | C ?                                  | 
+ 421 | 0 1 3 4 6 7      | C Db Eb E Gb G             | Caddb9#9#11                | C ?                                  | 
+ 422 | 0 1 3 4 6 8      | C Db Eb E Gb Ab            | Ab7(11)b13/C               | C#/Db min maj11 / C                  | 
+ 423 | 0 1 3 4 6 9      | C Db Eb E Gb A             | Gbmin7(13)#11/C            | C 6(b5) b9 #9                        | 
+ 424 | 0 1 3 4 6 10     | C Db Eb E Gb Bb            | C7b5b9#9                   | C 7(b5) b9 #9                        | 
+ 425 | 0 1 3 4 6 11     | C Db Eb E Gb B             | Badd9Add11b9/C             | C ?                                  | 
+ 426 | 0 1 3 4 7 8      | C Db Eb E G Ab             | Caddb9#9b6                 | C#/Db min maj9 #11 / C               | 
+ 427 | 0 1 3 4 7 9      | C Db Eb E G A              | Eb13b5b9/C                 | C min6 b9 b11                        | 
+ 428 | 0 1 3 4 7 10     | C Db Eb E G Bb             | Eb13b9/C                   | C 7 b9 #9                            | 
+ 429 | 0 1 3 4 7 11     | C Db Eb E G B              | Cmaj7b9#9                  | C ?                                  | 
+ 430 | 0 1 3 4 8 9      | C Db Eb E Ab A             | Amaj7#9#11/C               | A maj7 #9 #11 / C                    | 
+ 431 | 0 1 3 4 8 10     | C Db Eb E Ab Bb            | Caug7b9#9                  | A#/Bb min11(b5) / C                  | 
+ 432 | 0 1 3 4 8 11     | C Db Eb E Ab B             | Dbmin9(maj7)/C             | C ?                                  | 
+ 433 | 0 1 3 4 9 10     | C Db Eb E A Bb             | C13b9#9                    | C ?                                  | 
+ 434 | 0 1 3 4 9 11     | C Db Eb E A B              | Aadd9#9#11/C               | C ?                                  | 
+ 435 | 0 1 3 4 10 11    | C Db Eb E Bb B             | C7b9#9(maj7)               | C 7 maj7 b9 #9                       | 
+ 436 | 0 1 3 5 6 7      | C Db Eb F Gb G             | CminAdd11b9#11             | C#/Db maj11(b5) / C                  | 
+ 437 | 0 1 3 5 6 8      | C Db Eb F Gb Ab            | Dbmaj9(11)/C               | C dim b9 11 b13                      | 
+ 438 | 0 1 3 5 6 9      | C Db Eb F Gb A             | Ebmin13b5/C                | C dim11(b9)                          | 
+ 439 | 0 1 3 5 6 10     | C Db Eb F Gb Bb            | Ebmin13/C                  | C min11(b5 b9)                       | 
+ 440 | 0 1 3 5 6 11     | C Db Eb F Gb B             | Badd9b9#11/C               | C ?                                  | 
+ 441 | 0 1 3 5 7 8      | C Db Eb F G Ab             | Dbmaj9#11/C                | C#/Db maj9 #11 / C                   | 
+ 442 | 0 1 3 5 7 9      | C Db Eb F G A              | Eb13b5/C                   | C#/Db maj9(#5) #11 / C               | 
+ 443 | 0 1 3 5 7 10     | C Db Eb F G Bb             | Cmin11b9                   | C min11(b9)                          | 
+ 444 | 0 1 3 5 7 11     | C Db Eb F G B              | CminMaj11b9                | C min maj11(b9)                      | 
+ 445 | 0 1 3 5 8 9      | C Db Eb F Ab A             | F7#9b13/C                  | C#/Db maj11 b13 / C                  | 
+ 446 | 0 1 3 5 8 10     | C Db Eb F Ab Bb            | Bbmin11/C                  | C min11(b9) b13                      | 
+ 447 | 0 1 3 5 8 11     | C Db Eb F Ab B             | Ab6Add11#9/C               | B 6(b5) 9 b9 / C                     | 
+ 448 | 0 1 3 5 9 10     | C Db Eb F A Bb             | Cmin13b9                   | C min13(b9)                          | 
+ 449 | 0 1 3 5 9 11     | C Db Eb F A B              | F7#11b13/C                 | C min maj13(b9)                      | 
+ 450 | 0 1 3 5 10 11    | C Db Eb F Bb B             | BbminAdd9Add11b9/C         | C ?                                  | 
+ 451 | 0 1 3 6 7 8      | C Db Eb Gb G Ab            | Cminb9#11b6                | C#/Db maj9(sus4) #11 / C             | 
+ 452 | 0 1 3 6 7 9      | C Db Eb Gb G A             | Cmin6b9#11                 | C ?                                  | 
+ 453 | 0 1 3 6 7 10     | C Db Eb Gb G Bb            | Cmin7b9#11                 | C min7 b9 #11                        | 
+ 454 | 0 1 3 6 7 11     | C Db Eb Gb G B             | CminMaj7b9#11              | C min maj7 b9 #11                    | 
+ 455 | 0 1 3 6 8 9      | C Db Eb Gb Ab A            | Ebmin7b5(11,13)/C          | G#/Ab 11(b9) / C                     | 
+ 456 | 0 1 3 6 8 10     | C Db Eb Gb Ab Bb           | Ab9(11)/C                  | C#/Db maj13(sus4) / C                | 
+ 457 | 0 1 3 6 8 11     | C Db Eb Gb Ab B            | B6/9b9/C                   | B 6 9 b9 / C                         | 
+ 458 | 0 1 3 6 9 10     | C Db Eb Gb A Bb            | Cmin13b5b9                 | A 6(b5) b9 #9 / C                    | 
+ 459 | 0 1 3 6 9 11     | C Db Eb Gb A B             | B9b9/C                     | C ?                                  | 
+ 460 | 0 1 3 6 10 11    | C Db Eb Gb Bb B            | Bmaj9b9/C                  | C ?                                  | 
+ 461 | 0 1 3 7 8 9      | C Db Eb G Ab A             | Cmin6b9b6                  | G#/Ab maj11(b9) / C                  | 
+ 462 | 0 1 3 7 8 10     | C Db Eb G Ab Bb            | Abmaj9(11)/C               | D#/Eb 7 11 13 / C                    | 
+ 463 | 0 1 3 7 8 11     | C Db Eb G Ab B             | Abmaj7(11)#9/C             | G#/Ab maj11(#9) / C                  | 
+ 464 | 0 1 3 7 9 10     | C Db Eb G A Bb             | Cmin13b9                   | A 7(b5) b9 #9 / C                    | 
+ 465 | 0 1 3 7 9 11     | C Db Eb G A B              | CminMaj13b9                | A 9(b5) #9 / C                       | 
+ 466 | 0 1 3 7 10 11    | C Db Eb G Bb B             | Eb7(13)b13/C               | C ?                                  | 
+ 467 | 0 1 3 8 9 10     | C Db Eb Ab A Bb            | Abadd9Add11b9/C            | C ?                                  | 
+ 468 | 0 1 3 8 9 11     | C Db Eb Ab A B             | B13b9/C                    | C ?                                  | 
+ 469 | 0 1 3 8 10 11    | C Db Eb Ab Bb B            | Abadd9Add11#9/C            | C ?                                  | 
+ 470 | 0 1 3 9 10 11    | C Db Eb A Bb B             | Cmin13b9(maj7)             | C ?                                  | 
+ 471 | 0 1 4 5 6 7      | C Db E F Gb G              | Cadd11b9#11                | C ?                                  | 
+ 472 | 0 1 4 5 6 8      | C Db E F Gb Ab             | Dbmaj7(11)#9/C             | C#/Db maj11(#9) / C                  | 
+ 473 | 0 1 4 5 6 9      | C Db E F Gb A              | Gbmin7#11(maj7)/C          | C#/Db maj11(#5 #9) / C               | 
+ 474 | 0 1 4 5 6 10     | C Db E F Gb Bb             | C7b5(11)b9                 | C 11(b5 b9)                          | 
+ 475 | 0 1 4 5 6 11     | C Db E F Gb B              | Cmaj7b5(11)b9              | C maj11(b5 b9)                       | 
+ 476 | 0 1 4 5 7 8      | C Db E F G Ab              | Dbmaj7#9#11/C              | C#/Db maj7 #9 #11 / C                | 
+ 477 | 0 1 4 5 7 9      | C Db E F G A               | C6Add11b9                  | C#/Db maj7(#5) #9 #11 / C            | 
+ 478 | 0 1 4 5 7 10     | C Db E F G Bb              | C7(11)b9                   | C 11(b9)                             | 
+ 479 | 0 1 4 5 7 11     | C Db E F G B               | Cmaj7(11)b9                | C maj11(b9)                          | 
+ 480 | 0 1 4 5 8 9      | C Db E F Ab A              | Caug6Add11b9               | C ?                                  | 
+ 481 | 0 1 4 5 8 10     | C Db E F Ab Bb             | Caug7(11)b9                | A#/Bb min9 #11 / C                   | 
+ 482 | 0 1 4 5 8 11     | C Db E F Ab B              | Cmaj7#5(11)b9              | B 6(sus2 b5) b9 11 / C               | 
+ 483 | 0 1 4 5 9 10     | C Db E F A Bb              | C13(11)b9                  | C 13(b9)                             | 
+ 484 | 0 1 4 5 9 11     | C Db E F A B               | Cmaj13(11)b9               | F maj7 #11 b13 / C                   | 
+ 485 | 0 1 4 5 10 11    | C Db E F Bb B              | BbminAdd9b9#11/C           | C ?                                  | 
+ 486 | 0 1 4 6 7 8      | C Db E Gb G Ab             | Caddb9#11b6                | C ?                                  | 
+ 487 | 0 1 4 6 7 9      | C Db E Gb G A              | C6b9#11                    | F#/Gb min7 b9 #11 / C                | 
+ 488 | 0 1 4 6 7 10     | C Db E Gb G Bb             | C7b9#11                    | C ?                                  | 
+ 489 | 0 1 4 6 7 11     | C Db E Gb G B              | Cmaj7b9#11                 | C ?                                  | 
+ 490 | 0 1 4 6 8 9      | C Db E Gb Ab A             | Gbmin9#11/C                | F#/Gb min9 #11 / C                   | 
+ 491 | 0 1 4 6 8 10     | C Db E Gb Ab Bb            | Gb9#11/C                   | F#/Gb 9 #11 / C                      | 
+ 492 | 0 1 4 6 8 11     | C Db E Gb Ab B             | Gb11#11/C                  | G#/Ab 11(#5 #9) / C                  | 
+ 493 | 0 1 4 6 9 10     | C Db E Gb A Bb             | C13b5b9                    | A min6 b9 b11 / C                    | 
+ 494 | 0 1 4 6 9 11     | C Db E Gb A B              | Gbmin7(11)#11/C            | C ?                                  | 
+ 495 | 0 1 4 6 10 11    | C Db E Gb Bb B             | Gb7(11)#11/C               | C ?                                  | 
+ 496 | 0 1 4 7 8 9      | C Db E G Ab A              | C6b9b6                     | G 6(sus2 b5) b9 11 / C               | 
+ 497 | 0 1 4 7 8 10     | C Db E G Ab Bb             | C7b9b13                    | G dim11(b9) / C                      | 
+ 498 | 0 1 4 7 8 11     | C Db E G Ab B              | Cmaj7b9b13                 | C#/Db min7 maj7 #11 / C              | 
+ 499 | 0 1 4 7 9 10     | C Db E G A Bb              | C13b9                      | G dim11 / C                          | 
+ 500 | 0 1 4 7 9 11     | C Db E G A B               | Cmaj13b9                   | A min9 b11 / C                       | 
+ 501 | 0 1 4 7 10 11    | C Db E G Bb B              | C7b9(maj7)                 | C ?                                  | 
+ 502 | 0 1 4 8 9 10     | C Db E Ab A Bb             | Caug13b9                   | C ?                                  | 
+ 503 | 0 1 4 8 9 11     | C Db E Ab A B              | Amaj9#9/C                  | C ?                                  | 
+ 504 | 0 1 4 8 10 11    | C Db E Ab Bb B             | Caug7b9(maj7)              | C 7(#5) maj7 b9                      | 
+ 505 | 0 1 4 9 10 11    | C Db E A Bb B              | Aadd9b9#9/C                | C ?                                  | 
+ 506 | 0 1 5 6 7 8      | C Db F Gb G Ab             | Dbmaj7(11)#11/C            | C ?                                  | 
+ 507 | 0 1 5 6 7 9      | C Db F Gb G A              | GbminMaj7b9#11/C           | F#/Gb min maj7 b9 #11 / C            | 
+ 508 | 0 1 5 6 7 10     | C Db F Gb G Bb             | Gbmaj7b9#11/C              | C ?                                  | 
+ 509 | 0 1 5 6 7 11     | C Db F Gb G B              | G7b5(11)(maj7)/C           | C ?                                  | 
+ 510 | 0 1 5 6 8 9      | C Db F Gb Ab A             | GbminMaj9#11/C             | C#/Db maj11 b13 / C                  | 
+ 511 | 0 1 5 6 8 10     | C Db F Gb Ab Bb            | Gbmaj9#11/C                | C#/Db maj7 11 13 / C                 | 
+ 512 | 0 1 5 6 8 11     | C Db F Gb Ab B             | Ab13(11)#9/C               | F#/Gb maj9(sus4) #11 / C             | 
+ 513 | 0 1 5 6 9 10     | C Db F Gb A Bb             | Gbmaj7#9#11/C              | F#/Gb maj7 #9 #11 / C                | 
+ 514 | 0 1 5 6 9 11     | C Db F Gb A B              | GbminMaj7(11)#11/C         | C ?                                  | 
+ 515 | 0 1 5 6 10 11    | C Db F Gb Bb B             | Gbmaj7(11)#11/C            | C ?                                  | 
+ 516 | 0 1 5 7 8 9      | C Db F G Ab A              | Fadd9#9b6/C                | C#/Db maj7 #11 b13 / C               | 
+ 517 | 0 1 5 7 8 10     | C Db F G Ab Bb             | Bbmin13/C                  | G min11(b5 b9) / C                   | 
+ 518 | 0 1 5 7 8 11     | C Db F G Ab B              | Db7#11(maj7)/C             | C#/Db 7 maj7 #11 / C                 | 
+ 519 | 0 1 5 7 9 10     | C Db F G A Bb              | Aaug7b9#9/C                | G min11(b5) / C                      | 
+ 520 | 0 1 5 7 9 11     | C Db F G A B               | G9b5(11)/C                 | G 11(b5) / C                         | 
+ 521 | 0 1 5 7 10 11    | C Db F G Bb B              | Bbmin6/9b9/C               | C ?                                  | 
+ 522 | 0 1 5 8 9 10     | C Db F Ab A Bb             | Bbmin9(maj7)/C             | C ?                                  | 
+ 523 | 0 1 5 8 9 11     | C Db F Ab A B              | Db7b13(maj7)/C             | C ?                                  | 
+ 524 | 0 1 5 8 10 11    | C Db F Ab Bb B             | Bbmin9b9/C                 | C ?                                  | 
+ 525 | 0 1 5 9 10 11    | C Db F A Bb B              | BbminMaj9b9/C              | C ?                                  | 
+ 526 | 0 1 6 7 8 9      | C Db Gb G Ab A             | GbminAdd9b9#11/C           | C ?                                  | 
+ 527 | 0 1 6 7 8 10     | C Db Gb G Ab Bb            | Gbadd9b9#11/C              | C ?                                  | 
+ 528 | 0 1 6 7 8 11     | C Db Gb G Ab B             | Ab7(11)#9(maj7)/C          | G maj11(b5 b9) / C                   | 
+ 529 | 0 1 6 7 9 10     | C Db Gb G A Bb             | Gbaddb9#9#11/C             | C ?                                  | 
+ 530 | 0 1 6 7 9 11     | C Db Gb G A B              | GbminAdd11b9#11/C          | G maj11(b5) / C                      | 
+ 531 | 0 1 6 7 10 11    | C Db Gb G Bb B             | Gbadd11b9#11/C             | C ?                                  | 
+ 532 | 0 1 6 8 9 10     | C Db Gb Ab A Bb            | Gbadd9#9#11/C              | C ?                                  | 
+ 533 | 0 1 6 8 9 11     | C Db Gb Ab A B             | GbminAdd9Add11#11/C        | C ?                                  | 
+ 534 | 0 1 6 8 10 11    | C Db Gb Ab Bb B            | Gbadd9Add11#11/C           | C ?                                  | 
+ 535 | 0 1 6 9 10 11    | C Db Gb A Bb B             | Gbadd11#9#11/C             | C ?                                  | 
+ 536 | 0 1 7 8 9 10     | C Db G Ab A Bb             | Bbmin13(maj7)/C            | A 7 maj7 b9 #9 / C                   | 
+ 537 | 0 1 7 8 9 11     | C Db G Ab A B              | A9#9(maj7)/C               | C ?                                  | 
+ 538 | 0 1 7 8 10 11    | C Db G Ab Bb B             | Bbmin13b9/C                | C ?                                  | 
+ 539 | 0 1 7 9 10 11    | C Db G A Bb B              | A9b9#9/C                   | C ?                                  | 
+ 540 | 0 1 8 9 10 11    | C Db Ab A Bb B             | Bbmin9b9(maj7)/C           | C ?                                  | 
+ 541 | 0 2 3 4 5 6      | C D Eb E F Gb              | D9b9#9/C                   | C ?                                  | 
+ 542 | 0 2 3 4 5 7      | C D Eb E F G               | Cadd9Add11#9               | C ?                                  | 
+ 543 | 0 2 3 4 5 8      | C D Eb E F Ab              | CaugAdd9Add11#9            | E 7(#5) maj7 b9 / C                  | 
+ 544 | 0 2 3 4 5 9      | C D Eb E F A               | Dmin9b9/C                  | C ?                                  | 
+ 545 | 0 2 3 4 5 10     | C D Eb E F Bb              | C9(11)#9                   | C ?                                  | 
+ 546 | 0 2 3 4 5 11     | C D Eb E F B               | Cmaj9(11)#9                | C ?                                  | 
+ 547 | 0 2 3 4 6 7      | C D Eb E Gb G              | Cadd9#9#11                 | C ?                                  | 
+ 548 | 0 2 3 4 6 8      | C D Eb E Gb Ab             | Ab7#11b13/C                | D 9(b5) b9 / C                       | 
+ 549 | 0 2 3 4 6 9      | C D Eb E Gb A              | D9b9/C                     | C ?                                  | 
+ 550 | 0 2 3 4 6 10     | C D Eb E Gb Bb             | C9b5#9                     | C 9(b5) #9                           | 
+ 551 | 0 2 3 4 6 11     | C D Eb E Gb B              | D13b9/C                    | C ?                                  | 
+ 552 | 0 2 3 4 7 8      | C D Eb E G Ab              | Cadd9#9b6                  | G#/Ab maj7 #11 b13 / C               | 
+ 553 | 0 2 3 4 7 9      | C D Eb E G A               | C6/9#9                     | C ?                                  | 
+ 554 | 0 2 3 4 7 10     | C D Eb E G Bb              | C9#9                       | C min9 b11                           | 
+ 555 | 0 2 3 4 7 11     | C D Eb E G B               | Cmaj9#9                    | C ?                                  | 
+ 556 | 0 2 3 4 8 9      | C D Eb E Ab A              | C6/9#5#9                   | C ?                                  | 
+ 557 | 0 2 3 4 8 10     | C D Eb E Ab Bb             | Caug9#9                    | A#/Bb 11(b5) / C                     | 
+ 558 | 0 2 3 4 8 11     | C D Eb E Ab B              | Cmaj9#5#9                  | C ?                                  | 
+ 559 | 0 2 3 4 9 10     | C D Eb E A Bb              | C13#9                      | A#/Bb maj11(b5) / C                  | 
+ 560 | 0 2 3 4 9 11     | C D Eb E A B               | AminAdd9Add11#11/C         | C ?                                  | 
+ 561 | 0 2 3 4 10 11    | C D Eb E Bb B              | C9#9(maj7)                 | C ?                                  | 
+ 562 | 0 2 3 5 6 7      | C D Eb F Gb G              | CminAdd9Add11#11           | C ?                                  | 
+ 563 | 0 2 3 5 6 8      | C D Eb F Gb Ab             | Ab7(13)#11/C               | D 7(b5) b9 #9 / C                    | 
+ 564 | 0 2 3 5 6 9      | C D Eb F Gb A              | F13b9/C                    | C dim11                              | 
+ 565 | 0 2 3 5 6 10     | C D Eb F Gb Bb             | Daug7b9#9/C                | C min11(b5)                          | 
+ 566 | 0 2 3 5 6 11     | C D Eb F Gb B              | Baddb9#9#11/C              | C ?                                  | 
+ 567 | 0 2 3 5 7 8      | C D Eb F G Ab              | Dmin11b5b9/C               | D min11(b5 b9) / C                   | 
+ 568 | 0 2 3 5 7 9      | C D Eb F G A               | Cmin6/9Add11               | D min11(b9) / C                      | 
+ 569 | 0 2 3 5 7 10     | C D Eb F G Bb              | Cmin11                     | C min11                              | 
+ 570 | 0 2 3 5 7 11     | C D Eb F G B               | CminMaj11                  | C min maj11                          | 
+ 571 | 0 2 3 5 8 9      | C D Eb F Ab A              | F13#9/C                    | D min7 b9 #11 / C                    | 
+ 572 | 0 2 3 5 8 10     | C D Eb F Ab Bb             | Bb9(11)/C                  | C min11 b13                          | 
+ 573 | 0 2 3 5 8 11     | C D Eb F Ab B              | Fmin7(13)#11/C             | B 6(b5) b9 #9 / C                    | 
+ 574 | 0 2 3 5 9 10     | C D Eb F A Bb              | Bbmaj9(11)/C               | C min13                              | 
+ 575 | 0 2 3 5 9 11     | C D Eb F A B               | CminMaj13                  | C min maj13                          | 
+ 576 | 0 2 3 5 10 11    | C D Eb F Bb B              | Cmin11(maj7)               | C ?                                  | 
+ 577 | 0 2 3 6 7 8      | C D Eb Gb G Ab             | CminAdd9#11b6              | D 11(b5 b9) / C                      | 
+ 578 | 0 2 3 6 7 9      | C D Eb Gb G A              | Cmin6/9#11                 | D 11(b9) / C                         | 
+ 579 | 0 2 3 6 7 10     | C D Eb Gb G Bb             | Cmin9#11                   | C min9 #11                           | 
+ 580 | 0 2 3 6 7 11     | C D Eb Gb G B              | CminMaj9#11                | C min maj9 #11                       | 
+ 581 | 0 2 3 6 8 9      | C D Eb Gb Ab A             | D7b9#11/C                  | C ?                                  | 
+ 582 | 0 2 3 6 8 10     | C D Eb Gb Ab Bb            | Ab9#11/C                   | G#/Ab 9 #11 / C                      | 
+ 583 | 0 2 3 6 8 11     | C D Eb Gb Ab B             | D13b5b9/C                  | B min6 b9 b11 / C                    | 
+ 584 | 0 2 3 6 9 10     | C D Eb Gb A Bb             | Cmin13b5                   | A dim11(b9) / C                      | 
+ 585 | 0 2 3 6 9 11     | C D Eb Gb A B              | D13b9/C                    | A dim11 / C                          | 
+ 586 | 0 2 3 6 10 11    | C D Eb Gb Bb B             | Cmin9b5(maj7)              | C ?                                  | 
+ 587 | 0 2 3 7 8 9      | C D Eb G Ab A              | Cmin6/9b6                  | C ?                                  | 
+ 588 | 0 2 3 7 8 10     | C D Eb G Ab Bb             | Abmaj9#11/C                | D#/Eb maj7 11 13 / C                 | 
+ 589 | 0 2 3 7 8 11     | C D Eb G Ab B              | Abmaj7#9#11/C              | G#/Ab maj7 #9 #11 / C                | 
+ 590 | 0 2 3 7 9 10     | C D Eb G A Bb              | Cmin13                     | C min13                              | 
+ 591 | 0 2 3 7 9 11     | C D Eb G A B               | Baug7b9#9/C                | A min11(b5) / C                      | 
+ 592 | 0 2 3 7 10 11    | C D Eb G Bb B              | Cmin9(maj7)                | C ?                                  | 
+ 593 | 0 2 3 8 9 10     | C D Eb Ab A Bb             | Abadd9b9#11/C              | C ?                                  | 
+ 594 | 0 2 3 8 9 11     | C D Eb Ab A B              | Abaddb9#9#11/C             | C ?                                  | 
+ 595 | 0 2 3 8 10 11    | C D Eb Ab Bb B             | Abadd9#9#11/C              | C ?                                  | 
+ 596 | 0 2 3 9 10 11    | C D Eb A Bb B              | Cmin13(maj7)               | B 7 maj7 b9 #9 / C                   | 
+ 597 | 0 2 4 5 6 7      | C D E F Gb G               | Cadd9Add11#11              | C ?                                  | 
+ 598 | 0 2 4 5 6 8      | C D E F Gb Ab              | FminMaj13b9/C              | D 9(b5) #9 / C                       | 
+ 599 | 0 2 4 5 6 9      | C D E F Gb A               | D9#9/C                     | D min9 b11 / C                       | 
+ 600 | 0 2 4 5 6 10     | C D E F Gb Bb              | C9b5(11)                   | C 11(b5)                             | 
+ 601 | 0 2 4 5 6 11     | C D E F Gb B               | Cmaj9b5(11)                | C maj11(b5)                          | 
+ 602 | 0 2 4 5 7 8      | C D E F G Ab               | Eaug7b9#9/C                | D min11(b5) / C                      | 
+ 603 | 0 2 4 5 7 9      | C D E F G A                | Dmin11/C                   | D min11 / C                          | 
+ 604 | 0 2 4 5 7 10     | C D E F G Bb               | C9(11)                     | C 11                                 | 
+ 605 | 0 2 4 5 7 11     | C D E F G B                | Cmaj9(11)                  | C maj11                              | 
+ 606 | 0 2 4 5 8 9      | C D E F Ab A               | C6/9#5Add11                | D min9 #11 / C                       | 
+ 607 | 0 2 4 5 8 10     | C D E F Ab Bb              | Bb9#11/C                   | C 11(#5)                             | 
+ 608 | 0 2 4 5 8 11     | C D E F Ab B               | Cmaj9#5(11)                | C maj11(#5)                          | 
+ 609 | 0 2 4 5 9 10     | C D E F A Bb               | C13(11)                    | C 13                                 | 
+ 610 | 0 2 4 5 9 11     | C D E F A B                | Cmaj13(11)                 | C maj13                              | 
+ 611 | 0 2 4 5 10 11    | C D E F Bb B               | Bbadd9b9#11/C              | C ?                                  | 
+ 612 | 0 2 4 6 7 8      | C D E Gb G Ab              | Cadd9#11b6                 | D 11(b5) / C                         | 
+ 613 | 0 2 4 6 7 9      | C D E Gb G A               | D9(11)/C                   | D 11 / C                             | 
+ 614 | 0 2 4 6 7 10     | C D E Gb G Bb              | C9#11                      | C 9 #11                              | 
+ 615 | 0 2 4 6 7 11     | C D E Gb G B               | Cmaj9#11                   | C maj9 #11                           | 
+ 616 | 0 2 4 6 8 9      | C D E Gb Ab A              | D9#11/C                    | D 9 #11 / C                          | 
+ 617 | 0 2 4 6 8 10     | C D E Gb Ab Bb             | Caug9#11                   | C 9(#5) #11                          | 
+ 618 | 0 2 4 6 8 11     | C D E Gb Ab B              | D13b5/C                    | C maj9(#5) #11                       | 
+ 619 | 0 2 4 6 9 10     | C D E Gb A Bb              | C13b5                      | A#/Bb maj9(#5) #11 / C               | 
+ 620 | 0 2 4 6 9 11     | C D E Gb A B               | Cmaj13b5                   | D 13 / C                             | 
+ 621 | 0 2 4 6 10 11    | C D E Gb Bb B              | Daug13/C                   | B min maj11(b9) / C                  | 
+ 622 | 0 2 4 7 8 9      | C D E G Ab A               | C6/9b6                     | E 11(#5 #9) / C                      | 
+ 623 | 0 2 4 7 8 10     | C D E G Ab Bb              | Bb13b5/C                   | G#/Ab maj9(#5) #11 / C               | 
+ 624 | 0 2 4 7 8 11     | C D E G Ab B               | Cmaj9b13                   | C maj11 b13                          | 
+ 625 | 0 2 4 7 9 10     | C D E G A Bb               | C13                        | C 13                                 | 
+ 626 | 0 2 4 7 9 11     | C D E G A B                | Amin11/C                   | C maj13                              | 
+ 627 | 0 2 4 7 10 11    | C D E G Bb B               | C9(maj7)                   | A#/Bb 6(b5) 9 b9 / C                 | 
+ 628 | 0 2 4 8 9 10     | C D E Ab A Bb              | Caug13                     | A min maj11(b9) / C                  | 
+ 629 | 0 2 4 8 9 11     | C D E Ab A B               | Cmaj13#5                   | A min maj11 / C                      | 
+ 630 | 0 2 4 8 10 11    | C D E Ab Bb B              | E7#11b13/C                 | A#/Bb 9(b5) b9 / C                   | 
+ 631 | 0 2 4 9 10 11    | C D E A Bb B               | AminAdd9Add11b9/C          | C ?                                  | 
+ 632 | 0 2 5 6 7 8      | C D F Gb G Ab              | Fmin6/9b9/C                | C ?                                  | 
+ 633 | 0 2 5 6 7 9      | C D F Gb G A               | F6/9b9/C                   | C ?                                  | 
+ 634 | 0 2 5 6 7 10     | C D F Gb G Bb              | C11#11                     | D 11(#5 #9) / C                      | 
+ 635 | 0 2 5 6 7 11     | C D F Gb G B               | D13(11)#9/C                | C maj9(sus4) #11                     | 
+ 636 | 0 2 5 6 8 9      | C D F Gb Ab A              | Ab13b5b9/C                 | F min6 b9 b11 / C                    | 
+ 637 | 0 2 5 6 8 10     | C D F Gb Ab Bb             | Ab13b5/C                   | F#/Gb maj9(#5) #11 / C               | 
+ 638 | 0 2 5 6 8 11     | C D F Gb Ab B              | Fmin6b9#11/C               | C ?                                  | 
+ 639 | 0 2 5 6 9 10     | C D F Gb A Bb              | D7#9b13/C                  | F#/Gb maj7(#5) #9 #11 / C            | 
+ 640 | 0 2 5 6 9 11     | C D F Gb A B               | D13#9/C                    | B min7 b9 #11 / C                    | 
+ 641 | 0 2 5 6 10 11    | C D F Gb Bb B              | BminMaj7b9#11/C            | B min maj7 b9 #11 / C                | 
+ 642 | 0 2 5 7 8 9      | C D F G Ab A               | Dmin7(11)#11/C             | C ?                                  | 
+ 643 | 0 2 5 7 8 10     | C D F G Ab Bb              | Gmin11b9/C                 | G min11(b9) / C                      | 
+ 644 | 0 2 5 7 8 11     | C D F G Ab B               | Dmin7b5(11,13)/C           | G 11(b9) / C                         | 
+ 645 | 0 2 5 7 9 10     | C D F G A Bb               | Gmin11/C                   | C 13(sus4)                           | 
+ 646 | 0 2 5 7 9 11     | C D F G A B                | G9(11)/C                   | C maj13(sus4)                        | 
+ 647 | 0 2 5 7 10 11    | C D F G Bb B               | C11(maj7)                  | A#/Bb 6 9 b9 / C                     | 
+ 648 | 0 2 5 8 9 10     | C D F Ab A Bb              | F6Add11#9/C                | G#/Ab 6(b5) 9 b9 / C                 | 
+ 649 | 0 2 5 8 9 11     | C D F Ab A B               | Dmin7(13)#11/C             | G#/Ab 6(b5) b9 #9 / C                | 
+ 650 | 0 2 5 8 10 11    | C D F Ab Bb B              | Bb9b9/C                    | C ?                                  | 
+ 651 | 0 2 5 9 10 11    | C D F A Bb B               | Bbmaj9b9/C                 | C ?                                  | 
+ 652 | 0 2 6 7 8 9      | C D Gb G Ab A              | D7(11)#11/C                | C ?                                  | 
+ 653 | 0 2 6 7 8 10     | C D Gb G Ab Bb             | Bbaug13/C                  | G min maj11(b9) / C                  | 
+ 654 | 0 2 6 7 8 11     | C D Gb G Ab B              | Gmaj7(11)b9/C              | G maj11(b9) / C                      | 
+ 655 | 0 2 6 7 9 10     | C D Gb G A Bb              | D7(11)b13/C                | G min maj11 / C                      | 
+ 656 | 0 2 6 7 9 11     | C D Gb G A B               | Gmaj9(11)/C                | D 7 11 13 / C                        | 
+ 657 | 0 2 6 7 10 11    | C D Gb G Bb B              | Gmaj7(11)#9/C              | G maj11(#9) / C                      | 
+ 658 | 0 2 6 8 9 10     | C D Gb Ab A Bb             | D7#11b13/C                 | G#/Ab 9(b5) b9 / C                   | 
+ 659 | 0 2 6 8 9 11     | C D Gb Ab A B              | D7(13)#11/C                | G#/Ab 7(b5) b9 #9 / C                | 
+ 660 | 0 2 6 8 10 11    | C D Gb Ab Bb B             | BminMaj13b9/C              | G#/Ab 9(b5) #9 / C                   | 
+ 661 | 0 2 6 9 10 11    | C D Gb A Bb B              | D7(13)b13/C                | C ?                                  | 
+ 662 | 0 2 7 8 9 10     | C D G Ab A Bb              | GminAdd9Add11b9/C          | C ?                                  | 
+ 663 | 0 2 7 8 9 11     | C D G Ab A B               | Gadd9Add11b9/C             | C ?                                  | 
+ 664 | 0 2 7 8 10 11    | C D G Ab Bb B              | Bb13b9/C                   | C ?                                  | 
+ 665 | 0 2 7 9 10 11    | C D G A Bb B               | Gadd9Add11#9/C             | C ?                                  | 
+ 666 | 0 2 8 9 10 11    | C D Ab A Bb B              | Bb9b9(maj7)/C              | C ?                                  | 
+ 667 | 0 3 4 5 6 7      | C Eb E F Gb G              | Cadd11#9#11                | C ?                                  | 
+ 668 | 0 3 4 5 6 8      | C Eb E F Gb Ab             | Ab7(13)b13/C               | C ?                                  | 
+ 669 | 0 3 4 5 6 9      | C Eb E F Gb A              | F7b9(maj7)/C               | C ?                                  | 
+ 670 | 0 3 4 5 6 10     | C Eb E F Gb Bb             | C7b5(11)#9                 | C ?                                  | 
+ 671 | 0 3 4 5 6 11     | C Eb E F Gb B              | Badd11b9#11/C              | C ?                                  | 
+ 672 | 0 3 4 5 7 8      | C Eb E F G Ab              | Cadd11#9b6                 | C ?                                  | 
+ 673 | 0 3 4 5 7 9      | C Eb E F G A               | C6Add11#9                  | D#/Eb 6(b5) 9 b9 / C                 | 
+ 674 | 0 3 4 5 7 10     | C Eb E F G Bb              | C7(11)#9                   | D#/Eb 6 9 b9 / C                     | 
+ 675 | 0 3 4 5 7 11     | C Eb E F G B               | Cmaj7(11)#9                | C maj11(#9)                          | 
+ 676 | 0 3 4 5 8 9      | C Eb E F Ab A              | Caug6Add11#9               | D#/Eb 6(sus2 b5) b9 11 / C           | 
+ 677 | 0 3 4 5 8 10     | C Eb E F Ab Bb             | Caug7(11)#9                | C 11(#5 #9)                          | 
+ 678 | 0 3 4 5 8 11     | C Eb E F Ab B              | Cmaj7#5(11)#9              | C maj11(#5 #9)                       | 
+ 679 | 0 3 4 5 9 10     | C Eb E F A Bb              | C13(11)#9                  | C 13(#9)                             | 
+ 680 | 0 3 4 5 9 11     | C Eb E F A B               | Cmaj13(11)#9               | C maj13(#9)                          | 
+ 681 | 0 3 4 5 10 11    | C Eb E F Bb B              | C7(11)#9(maj7)             | C maj11(#9) b7                       | 
+ 682 | 0 3 4 6 7 8      | C Eb E Gb G Ab             | Cadd#9#11b6                | C ?                                  | 
+ 683 | 0 3 4 6 7 9      | C Eb E Gb G A              | C6#9#11                    | D#/Eb 6(b5) b9 #9 / C                | 
+ 684 | 0 3 4 6 7 10     | C Eb E Gb G Bb             | Gb13b5b9/C                 | D#/Eb min6 b9 b11 / C                | 
+ 685 | 0 3 4 6 7 11     | C Eb E Gb G B              | Cmaj7#9#11                 | C maj7 #9 #11                        | 
+ 686 | 0 3 4 6 8 9      | C Eb E Gb Ab A             | Gbmin13b5/C                | D#/Eb dim11(b9) / C                  | 
+ 687 | 0 3 4 6 8 10     | C Eb E Gb Ab Bb            | Gb13b5/C                   | E maj9(#5) #11 / C                   | 
+ 688 | 0 3 4 6 8 11     | C Eb E Gb Ab B             | Ab7#9b13/C                 | C maj7(#5) #9 #11                    | 
+ 689 | 0 3 4 6 9 10     | C Eb E Gb A Bb             | C13b5#9                    | C ?                                  | 
+ 690 | 0 3 4 6 9 11     | C Eb E Gb A B              | Gbmin7b5(11,13)/C          | C maj(b5) #9 13                      | 
+ 691 | 0 3 4 6 10 11    | C Eb E Gb Bb B             | Bmaj7(11)b9/C              | B maj11(b9) / C                      | 
+ 692 | 0 3 4 7 8 9      | C Eb E G Ab A              | C6#9b6                     | E maj11(#5 #9) / C                   | 
+ 693 | 0 3 4 7 8 10     | C Eb E G Ab Bb             | C7#9b13                    | E maj7(#5) #9 #11 / C                | 
+ 694 | 0 3 4 7 8 11     | C Eb E G Ab B              | Ebaug6Add11b9/C            | C ?                                  | 
+ 695 | 0 3 4 7 9 10     | C Eb E G A Bb              | C13#9                      | A min7 b9 #11 / C                    | 
+ 696 | 0 3 4 7 9 11     | C Eb E G A B               | Cmaj13#9                   | A min9 #11 / C                       | 
+ 697 | 0 3 4 7 10 11    | C Eb E G Bb B              | C7#9(maj7)                 | A#/Bb 6(sus2 b5) b9 11 / C           | 
+ 698 | 0 3 4 8 9 10     | C Eb E Ab A Bb             | Caug13#9                   | A min maj7 b9 #11 / C                | 
+ 699 | 0 3 4 8 9 11     | C Eb E Ab A B              | AminMaj9#11/C              | E maj11 b13 / C                      | 
+ 700 | 0 3 4 8 10 11    | C Eb E Ab Bb B             | Caug7#9(maj7)              | E maj7 #11 b13 / C                   | 
+ 701 | 0 3 4 9 10 11    | C Eb E A Bb B              | AminAdd9b9#11/C            | C ?                                  | 
+ 702 | 0 3 5 6 7 8      | C Eb F Gb G Ab             | Fmin9b9/C                  | C ?                                  | 
+ 703 | 0 3 5 6 7 9      | C Eb F Gb G A              | Cmin6Add11#11              | C ?                                  | 
+ 704 | 0 3 5 6 7 10     | C Eb F Gb G Bb             | Cmin7(11)#11               | C ?                                  | 
+ 705 | 0 3 5 6 7 11     | C Eb F Gb G B              | CminMaj7(11)#11            | C ?                                  | 
+ 706 | 0 3 5 6 8 9      | C Eb F Gb Ab A             | Ab13b9/C                   | D#/Eb dim11 / C                      | 
+ 707 | 0 3 5 6 8 10     | C Eb F Gb Ab Bb            | Ab13/C                     | F min11(b9) / C                      | 
+ 708 | 0 3 5 6 8 11     | C Eb F Gb Ab B             | Ab13#9/C                   | F min7 b9 #11 / C                    | 
+ 709 | 0 3 5 6 9 10     | C Eb F Gb A Bb             | Cmin7b5(11,13)             | F 11(b9) / C                         | 
+ 710 | 0 3 5 6 9 11     | C Eb F Gb A B              | F7b9#11/C                  | C ?                                  | 
+ 711 | 0 3 5 6 10 11    | C Eb F Gb Bb B             | Cmin7b5(11)(maj7)          | C ?                                  | 
+ 712 | 0 3 5 7 8 9      | C Eb F G Ab A              | F9#9/C                     | F min9 b11 / C                       | 
+ 713 | 0 3 5 7 8 10     | C Eb F G Ab Bb             | Fmin11/C                   | F min11 / C                          | 
+ 714 | 0 3 5 7 8 11     | C Eb F G Ab B              | Fmin9#11/C                 | F min9 #11 / C                       | 
+ 715 | 0 3 5 7 9 10     | C Eb F G A Bb              | F9(11)/C                   | C min13                              | 
+ 716 | 0 3 5 7 9 11     | C Eb F G A B               | F9#11/C                    | F 9 #11 / C                          | 
+ 717 | 0 3 5 7 10 11    | C Eb F G Bb B              | Cmin7(11)(maj7)            | G 11(#5 #9) / C                      | 
+ 718 | 0 3 5 8 9 10     | C Eb F Ab A Bb             | Ab6/9b9/C                  | G#/Ab 6 9 b9 / C                     | 
+ 719 | 0 3 5 8 9 11     | C Eb F Ab A B              | B13b5b9/C                  | G#/Ab min6 b9 b11 / C                | 
+ 720 | 0 3 5 8 10 11    | C Eb F Ab Bb B             | Fmin7(11)#11/C             | C ?                                  | 
+ 721 | 0 3 5 9 10 11    | C Eb F A Bb B              | F7(11)#11/C                | C ?                                  | 
+ 722 | 0 3 6 7 8 9      | C Eb Gb G Ab A             | Cmin6#11b6                 | C ?                                  | 
+ 723 | 0 3 6 7 8 10     | C Eb Gb G Ab Bb            | Cmin7#11b13                | F#/Gb 6(b5) 9 b9 / C                 | 
+ 724 | 0 3 6 7 8 11     | C Eb Gb G Ab B             | CminMaj7#11b13             | F#/Gb 6(sus2 b5) b9 11 / C           | 
+ 725 | 0 3 6 7 9 10     | C Eb Gb G A Bb             | Cmin7(13)#11               | F#/Gb 6(b5) b9 #9 / C                | 
+ 726 | 0 3 6 7 9 11     | C Eb Gb G A B              | CminMaj7(13)#11            | F#/Gb dim11(b9) / C                  | 
+ 727 | 0 3 6 7 10 11    | C Eb Gb G Bb B             | Cmin7#11(maj7)             | C min7 maj7 #11                      | 
+ 728 | 0 3 6 8 9 10     | C Eb Gb Ab A Bb            | Ab9b9/C                    | C ?                                  | 
+ 729 | 0 3 6 8 9 11     | C Eb Gb Ab A B             | B13b9/C                    | F#/Gb dim11 / C                      | 
+ 730 | 0 3 6 8 10 11    | C Eb Gb Ab Bb B            | Ab9#9/C                    | G#/Ab min9 b11 / C                   | 
+ 731 | 0 3 6 9 10 11    | C Eb Gb A Bb B             | Cmin7b5(13)(maj7)          | C ?                                  | 
+ 732 | 0 3 7 8 9 10     | C Eb G Ab A Bb             | Cmin7(13)b13               | C ?                                  | 
+ 733 | 0 3 7 8 9 11     | C Eb G Ab A B              | Abmaj7b9#9/C               | C ?                                  | 
+ 734 | 0 3 7 8 10 11    | C Eb G Ab Bb B             | Abmaj9#9/C                 | C ?                                  | 
+ 735 | 0 3 7 9 10 11    | C Eb G A Bb B              | Cmin7(13)(maj7)            | B 7(#5) maj7 b9 / C                  | 
+ 736 | 0 3 8 9 10 11    | C Eb Ab A Bb B             | Abadd9b9#9/C               | C ?                                  | 
+ 737 | 0 4 5 6 7 8      | C E F Gb G Ab              | Cadd11#11b6                | C ?                                  | 
+ 738 | 0 4 5 6 7 9      | C E F Gb G A               | C6Add11#11                 | C ?                                  | 
+ 739 | 0 4 5 6 7 10     | C E F Gb G Bb              | C7(11)#11                  | C ?                                  | 
+ 740 | 0 4 5 6 7 11     | C E F Gb G B               | Cmaj7(11)#11               | C ?                                  | 
+ 741 | 0 4 5 6 8 9      | C E F Gb Ab A              | Fmaj7b9#9/C                | C ?                                  | 
+ 742 | 0 4 5 6 8 10     | C E F Gb Ab Bb             | Caug7(11)#11               | F min maj11(b9) / C                  | 
+ 743 | 0 4 5 6 8 11     | C E F Gb Ab B              | FminMaj7b9#11/C            | F min maj7 b9 #11 / C                | 
+ 744 | 0 4 5 6 9 10     | C E F Gb A Bb              | C7b5(11,13)                | F maj11(b9) / C                      | 
+ 745 | 0 4 5 6 9 11     | C E F Gb A B               | Cmaj7b5(11,13)             | C ?                                  | 
+ 746 | 0 4 5 6 10 11    | C E F Gb Bb B              | C7b5(11)(maj7)             | C ?                                  | 
+ 747 | 0 4 5 7 8 9      | C E F G Ab A               | Fmaj9#9/C                  | C ?                                  | 
+ 748 | 0 4 5 7 8 10     | C E F G Ab Bb              | C7(11)b13                  | F min maj11 / C                      | 
+ 749 | 0 4 5 7 8 11     | C E F G Ab B               | Cmaj7(11)b13               | C maj11 b13                          | 
+ 750 | 0 4 5 7 9 10     | C E F G A Bb               | Fmaj9(11)/C                | C 7 11 13                            | 
+ 751 | 0 4 5 7 9 11     | C E F G A B                | Cmaj7(11,13)               | C maj7 11 13                         | 
+ 752 | 0 4 5 7 10 11    | C E F G Bb B               | C7(11)(maj7)               | F maj9(sus4) #11 / C                 | 
+ 753 | 0 4 5 8 9 10     | C E F Ab A Bb              | Caug7(11,13)               | F maj11(#9) / C                      | 
+ 754 | 0 4 5 8 9 11     | C E F Ab A B               | Cmaj7#5(11,13)             | F maj7 #9 #11 / C                    | 
+ 755 | 0 4 5 8 10 11    | C E F Ab Bb B              | FminMaj7(11)#11/C          | C ?                                  | 
+ 756 | 0 4 5 9 10 11    | C E F A Bb B               | Fmaj7(11)#11/C             | C ?                                  | 
+ 757 | 0 4 6 7 8 9      | C E Gb G Ab A              | C6#11b6                    | G#/Ab 7(#5) maj7 b9 / C              | 
+ 758 | 0 4 6 7 8 10     | C E Gb G Ab Bb             | C7#11b13                   | F#/Gb 9(b5) b9 / C                   | 
+ 759 | 0 4 6 7 8 11     | C E Gb G Ab B              | Cmaj7#11b13                | C maj7 #11 b13                       | 
+ 760 | 0 4 6 7 9 10     | C E Gb G A Bb              | C7(13)#11                  | F#/Gb 7(b5) b9 #9 / C                | 
+ 761 | 0 4 6 7 9 11     | C E Gb G A B               | Cmaj7(13)#11               | F#/Gb min11(b5 b9) / C               | 
+ 762 | 0 4 6 7 10 11    | C E Gb G Bb B              | C7#11(maj7)                | C 7 maj7 #11                         | 
+ 763 | 0 4 6 8 9 10     | C E Gb Ab A Bb             | Caug7(13)#11               | F#/Gb 9(b5) #9 / C                   | 
+ 764 | 0 4 6 8 9 11     | C E Gb Ab A B              | Abaug7b9#9/C               | F#/Gb min11(b5) / C                  | 
+ 765 | 0 4 6 8 10 11    | C E Gb Ab Bb B             | Gb9b5(11)/C                | F#/Gb 11(b5) / C                     | 
+ 766 | 0 4 6 9 10 11    | C E Gb A Bb B              | Amin6/9b9/C                | C ?                                  | 
+ 767 | 0 4 7 8 9 10     | C E G Ab A Bb              | C7(13)b13                  | C ?                                  | 
+ 768 | 0 4 7 8 9 11     | C E G Ab A B               | Cmaj7(13)b13               | C ?                                  | 
+ 769 | 0 4 7 8 10 11    | C E G Ab Bb B              | C7b13(maj7)                | C ?                                  | 
+ 770 | 0 4 7 9 10 11    | C E G A Bb B               | C7(13)(maj7)               | C ?                                  | 
+ 771 | 0 4 8 9 10 11    | C E Ab A Bb B              | AminMaj9b9/C               | C ?                                  | 
+ 772 | 0 5 6 7 8 9      | C F Gb G Ab A              | Fadd9b9#9/C                | C ?                                  | 
+ 773 | 0 5 6 7 8 10     | C F Gb G Ab Bb             | FminAdd9Add11b9/C          | C ?                                  | 
+ 774 | 0 5 6 7 8 11     | C F Gb G Ab B              | FminAdd9b9#11/C            | C ?                                  | 
+ 775 | 0 5 6 7 9 10     | C F Gb G A Bb              | Fadd9Add11b9/C             | C ?                                  | 
+ 776 | 0 5 6 7 9 11     | C F Gb G A B               | Fadd9b9#11/C               | C ?                                  | 
+ 777 | 0 5 6 7 10 11    | C F Gb G Bb B              | G7(11)#9(maj7)/C           | F#/Gb maj11(b5 b9) / C               | 
+ 778 | 0 5 6 8 9 10     | C F Gb Ab A Bb             | Ab13b9/C                   | C ?                                  | 
+ 779 | 0 5 6 8 9 11     | C F Gb Ab A B              | Faddb9#9#11/C              | C ?                                  | 
+ 780 | 0 5 6 8 10 11    | C F Gb Ab Bb B             | FminAdd11b9#11/C           | F#/Gb maj11(b5) / C                  | 
+ 781 | 0 5 6 9 10 11    | C F Gb A Bb B              | Fadd11b9#11/C              | C ?                                  | 
+ 782 | 0 5 7 8 9 10     | C F G Ab A Bb              | Fadd9Add11#9/C             | C ?                                  | 
+ 783 | 0 5 7 8 9 11     | C F G Ab A B               | Fadd9#9#11/C               | C ?                                  | 
+ 784 | 0 5 7 8 10 11    | C F G Ab Bb B              | FminAdd9Add11#11/C         | C ?                                  | 
+ 785 | 0 5 7 9 10 11    | C F G A Bb B               | Fadd9Add11#11/C            | C ?                                  | 
+ 786 | 0 5 8 9 10 11    | C F Ab A Bb B              | Fadd11#9#11/C              | C ?                                  | 
+ 787 | 0 6 7 8 9 10     | C Gb G Ab A Bb             | Ab9b9(maj7)/C              | C ?                                  | 
+ 788 | 0 6 7 8 9 11     | C Gb G Ab A B              | Amin13(maj7)/C             | G#/Ab 7 maj7 b9 #9 / C               | 
+ 789 | 0 6 7 8 10 11    | C Gb G Ab Bb B             | Ab9#9(maj7)/C              | C ?                                  | 
+ 790 | 0 6 7 9 10 11    | C Gb G A Bb B              | Amin13b9/C                 | C ?                                  | 
+ 791 | 0 6 8 9 10 11    | C Gb Ab A Bb B             | Ab9b9#9/C                  | C ?                                  | 
+ 792 | 0 7 8 9 10 11    | C G Ab A Bb B              | Amin9b9(maj7)/C            | C ?                                  | 
+ 793 | 0 1 2 3 4 5 6    | C Db D Eb E F Gb           | D9b9#9(maj7)/C             | C ?                                  | 
+ 794 | 0 1 2 3 4 5 7    | C Db D Eb E F G            | Cadd9Add11b9#9             | C ?                                  | 
+ 795 | 0 1 2 3 4 5 8    | C Db D Eb E F Ab           | Dbmaj9b9#9/C               | C ?                                  | 
+ 796 | 0 1 2 3 4 5 9    | C Db D Eb E F A            | F7(13)b13(maj7)/C          | C ?                                  | 
+ 797 | 0 1 2 3 4 5 10   | C Db D Eb E F Bb           | C9(11)b9#9                 | C ?                                  | 
+ 798 | 0 1 2 3 4 5 11   | C Db D Eb E F B            | Db9b9#9(maj7)/C            | C ?                                  | 
+ 799 | 0 1 2 3 4 6 7    | C Db D Eb E Gb G           | Cadd9b9#9#11               | C ?                                  | 
+ 800 | 0 1 2 3 4 6 8    | C Db D Eb E Gb Ab          | Ab7(11)#11b13/C            | C ?                                  | 
+ 801 | 0 1 2 3 4 6 9    | C Db D Eb E Gb A           | A6Add11#9#11/C             | C ?                                  | 
+ 802 | 0 1 2 3 4 6 10   | C Db D Eb E Gb Bb          | C9b5b9#9                   | C ?                                  | 
+ 803 | 0 1 2 3 4 6 11   | C Db D Eb E Gb B           | Badd9Add11b9#9/C           | C ?                                  | 
+ 804 | 0 1 2 3 4 7 8    | C Db D Eb E G Ab           | Cadd9b9#9b6                | C ?                                  | 
+ 805 | 0 1 2 3 4 7 9    | C Db D Eb E G A            | C6/9b9#9                   | C ?                                  | 
+ 806 | 0 1 2 3 4 7 10   | C Db D Eb E G Bb           | C9b9#9                     | C ?                                  | 
+ 807 | 0 1 2 3 4 7 11   | C Db D Eb E G B            | Cmaj9b9#9                  | C ?                                  | 
+ 808 | 0 1 2 3 4 8 9    | C Db D Eb E Ab A           | Amaj7(11)#9#11/C           | C ?                                  | 
+ 809 | 0 1 2 3 4 8 10   | C Db D Eb E Ab Bb          | Caug9b9#9                  | C ?                                  | 
+ 810 | 0 1 2 3 4 8 11   | C Db D Eb E Ab B           | E7(13)b13(maj7)/C          | C ?                                  | 
+ 811 | 0 1 2 3 4 9 10   | C Db D Eb E A Bb           | C13b9#9                    | C ?                                  | 
+ 812 | 0 1 2 3 4 9 11   | C Db D Eb E A B            | Aadd9Add11#9#11/C          | C ?                                  | 
+ 813 | 0 1 2 3 4 10 11  | C Db D Eb E Bb B           | C9b9#9(maj7)               | C ?                                  | 
+ 814 | 0 1 2 3 5 6 7    | C Db D Eb F Gb G           | CminAdd9Add11b9#11         | C ?                                  | 
+ 815 | 0 1 2 3 5 6 8    | C Db D Eb F Gb Ab          | Ab7(11,13)#11/C            | C ?                                  | 
+ 816 | 0 1 2 3 5 6 9    | C Db D Eb F Gb A           | F13b9b13/C                 | D 7 maj7 b9 #9 / C                   | 
+ 817 | 0 1 2 3 5 6 10   | C Db D Eb F Gb Bb          | Cmin11b5b9                 | C ?                                  | 
+ 818 | 0 1 2 3 5 6 11   | C Db D Eb F Gb B           | Badd9b9#9#11/C             | C ?                                  | 
+ 819 | 0 1 2 3 5 7 8    | C Db D Eb F G Ab           | CminAdd9Add11b9b6          | C ?                                  | 
+ 820 | 0 1 2 3 5 7 9    | C Db D Eb F G A            | Cmin6/9Add11b9             | C ?                                  | 
+ 821 | 0 1 2 3 5 7 10   | C Db D Eb F G Bb           | Cmin11b9                   | C ?                                  | 
+ 822 | 0 1 2 3 5 7 11   | C Db D Eb F G B            | CminMaj11b9                | C ?                                  | 
+ 823 | 0 1 2 3 5 8 9    | C Db D Eb F Ab A           | F13#9b13/C                 | C ?                                  | 
+ 824 | 0 1 2 3 5 8 10   | C Db D Eb F Ab Bb          | Dbmaj13b9/C                | C ?                                  | 
+ 825 | 0 1 2 3 5 8 11   | C Db D Eb F Ab B           | Ab6Add11#9#11/C            | C ?                                  | 
+ 826 | 0 1 2 3 5 9 10   | C Db D Eb F A Bb           | Cmin13b9                   | C ?                                  | 
+ 827 | 0 1 2 3 5 9 11   | C Db D Eb F A B            | F7(13)#11b13/C             | C ?                                  | 
+ 828 | 0 1 2 3 5 10 11  | C Db D Eb F Bb B           | Bbadd9Add11b9#9/C          | C ?                                  | 
+ 829 | 0 1 2 3 6 7 8    | C Db D Eb Gb G Ab          | CminAdd9b9#11b6            | C ?                                  | 
+ 830 | 0 1 2 3 6 7 9    | C Db D Eb Gb G A           | Cmin6/9b9#11               | C ?                                  | 
+ 831 | 0 1 2 3 6 7 10   | C Db D Eb Gb G Bb          | Cmin9b9#11                 | C ?                                  | 
+ 832 | 0 1 2 3 6 7 11   | C Db D Eb Gb G B           | CminMaj9b9#11              | C ?                                  | 
+ 833 | 0 1 2 3 6 8 9    | C Db D Eb Gb Ab A          | Ab7(11)b9#11/C             | C ?                                  | 
+ 834 | 0 1 2 3 6 8 10   | C Db D Eb Gb Ab Bb         | Ab9(11)#11/C               | C ?                                  | 
+ 835 | 0 1 2 3 6 8 11   | C Db D Eb Gb Ab B          | B6/9b9#9/C                 | C ?                                  | 
+ 836 | 0 1 2 3 6 9 10   | C Db D Eb Gb A Bb          | Cmin13b5b9                 | C ?                                  | 
+ 837 | 0 1 2 3 6 9 11   | C Db D Eb Gb A B           | B9b9#9/C                   | C ?                                  | 
+ 838 | 0 1 2 3 6 10 11  | C Db D Eb Gb Bb B          | Bmaj9b9#9/C                | C ?                                  | 
+ 839 | 0 1 2 3 7 8 9    | C Db D Eb G Ab A           | Cmin6/9b9b6                | C ?                                  | 
+ 840 | 0 1 2 3 7 8 10   | C Db D Eb G Ab Bb          | Cmin9b9b13                 | C ?                                  | 
+ 841 | 0 1 2 3 7 8 11   | C Db D Eb G Ab B           | Abmaj7(11)#9#11/C          | C ?                                  | 
+ 842 | 0 1 2 3 7 9 10   | C Db D Eb G A Bb           | Cmin13b9                   | C ?                                  | 
+ 843 | 0 1 2 3 7 9 11   | C Db D Eb G A B            | CminMaj13b9                | C ?                                  | 
+ 844 | 0 1 2 3 7 10 11  | C Db D Eb G Bb B           | Cmin9b9(maj7)              | C ?                                  | 
+ 845 | 0 1 2 3 8 9 10   | C Db D Eb Ab A Bb          | Abadd9Add11b9#11/C         | C ?                                  | 
+ 846 | 0 1 2 3 8 9 11   | C Db D Eb Ab A B           | B13b9#9/C                  | C ?                                  | 
+ 847 | 0 1 2 3 8 10 11  | C Db D Eb Ab Bb B          | Abadd9Add11#9#11/C         | C ?                                  | 
+ 848 | 0 1 2 3 9 10 11  | C Db D Eb A Bb B           | Cmin13b9(maj7)             | C ?                                  | 
+ 849 | 0 1 2 4 5 6 7    | C Db D E F Gb G            | Cadd9Add11b9#11            | C ?                                  | 
+ 850 | 0 1 2 4 5 6 8    | C Db D E F Gb Ab           | Dbmaj7(11)b9#9/C           | C ?                                  | 
+ 851 | 0 1 2 4 5 6 9    | C Db D E F Gb A            | D9#9(maj7)/C               | C ?                                  | 
+ 852 | 0 1 2 4 5 6 10   | C Db D E F Gb Bb           | C9b5(11)b9                 | C ?                                  | 
+ 853 | 0 1 2 4 5 6 11   | C Db D E F Gb B            | BminAdd9Add11b9#11/C       | C ?                                  | 
+ 854 | 0 1 2 4 5 7 8    | C Db D E F G Ab            | Cadd9Add11b9b6             | C ?                                  | 
+ 855 | 0 1 2 4 5 7 9    | C Db D E F G A             | C6/9Add11b9                | C ?                                  | 
+ 856 | 0 1 2 4 5 7 10   | C Db D E F G Bb            | C9(11)b9                   | C ?                                  | 
+ 857 | 0 1 2 4 5 7 11   | C Db D E F G B             | Cmaj9(11)b9                | C ?                                  | 
+ 858 | 0 1 2 4 5 8 9    | C Db D E F Ab A            | C6/9#5Add11b9              | A maj11(#9) b13 / C                  | 
+ 859 | 0 1 2 4 5 8 10   | C Db D E F Ab Bb           | Caug9(11)b9                | C ?                                  | 
+ 860 | 0 1 2 4 5 8 11   | C Db D E F Ab B            | E13b9b13/C                 | C#/Db 7 maj7 b9 #9 / C               | 
+ 861 | 0 1 2 4 5 9 10   | C Db D E F A Bb            | C13(11)b9                  | C ?                                  | 
+ 862 | 0 1 2 4 5 9 11   | C Db D E F A B             | Cmaj13(11)b9               | C ?                                  | 
+ 863 | 0 1 2 4 5 10 11  | C Db D E F Bb B            | Bbadd9b9#9#11/C            | C ?                                  | 
+ 864 | 0 1 2 4 6 7 8    | C Db D E Gb G Ab           | Cadd9b9#11b6               | C ?                                  | 
+ 865 | 0 1 2 4 6 7 9    | C Db D E Gb G A            | C6/9b9#11                  | F#/Gb min7 b9 #11 b13 / C            | 
+ 866 | 0 1 2 4 6 7 10   | C Db D E Gb G Bb           | C9b9#11                    | C ?                                  | 
+ 867 | 0 1 2 4 6 7 11   | C Db D E Gb G B            | Cmaj9b9#11                 | C ?                                  | 
+ 868 | 0 1 2 4 6 8 9    | C Db D E Gb Ab A           | Amaj13(11)#9/C             | C 6(b5) 9 b9 b13                     | 
+ 869 | 0 1 2 4 6 8 10   | C Db D E Gb Ab Bb          | Caug9b9#11                 | C 9(b5) b9 b13                       | 
+ 870 | 0 1 2 4 6 8 11   | C Db D E Gb Ab B           | E13b13/C                   | C ?                                  | 
+ 871 | 0 1 2 4 6 9 10   | C Db D E Gb A Bb           | C13b5b9                    | C ?                                  | 
+ 872 | 0 1 2 4 6 9 11   | C Db D E Gb A B            | Bmin11b9/C                 | C ?                                  | 
+ 873 | 0 1 2 4 6 10 11  | C Db D E Gb Bb B           | Gb7(11)#11b13/C            | C ?                                  | 
+ 874 | 0 1 2 4 7 8 9    | C Db D E G Ab A            | C6/9b9b6                   | C 6 9 b9 b13                         | 
+ 875 | 0 1 2 4 7 8 10   | C Db D E G Ab Bb           | C9b9b13                    | C ?                                  | 
+ 876 | 0 1 2 4 7 8 11   | C Db D E G Ab B            | E13#9b13/C                 | C ?                                  | 
+ 877 | 0 1 2 4 7 9 10   | C Db D E G A Bb            | C13b9                      | C ?                                  | 
+ 878 | 0 1 2 4 7 9 11   | C Db D E G A B             | Cmaj13b9                   | C ?                                  | 
+ 879 | 0 1 2 4 7 10 11  | C Db D E G Bb B            | C9b9(maj7)                 | C ?                                  | 
+ 880 | 0 1 2 4 8 9 10   | C Db D E Ab A Bb           | Caug13b9                   | C ?                                  | 
+ 881 | 0 1 2 4 8 9 11   | C Db D E Ab A B            | E7(11,13)b13/C             | C ?                                  | 
+ 882 | 0 1 2 4 8 10 11  | C Db D E Ab Bb B           | E7(13)#11b13/C             | C ?                                  | 
+ 883 | 0 1 2 4 9 10 11  | C Db D E A Bb B            | C13b9(maj7)                | C ?                                  | 
+ 884 | 0 1 2 5 6 7 8    | C Db D F Gb G Ab           | Dbmaj7(11)b9#11/C          | C ?                                  | 
+ 885 | 0 1 2 5 6 7 9    | C Db D F Gb G A            | F6/9b9b6/C                 | C 6(sus2) b5 b9 11                   | 
+ 886 | 0 1 2 5 6 7 10   | C Db D F Gb G Bb           | C11b9#11                   | C ?                                  | 
+ 887 | 0 1 2 5 6 7 11   | C Db D F Gb G B            | G7(11)#11(maj7)/C          | C ?                                  | 
+ 888 | 0 1 2 5 6 8 9    | C Db D F Gb Ab A           | D7#9#11(maj7)/C            | C 6(sus2 b5) b9 11 b13               | 
+ 889 | 0 1 2 5 6 8 10   | C Db D F Gb Ab Bb          | Bb9#9b13/C                 | D maj7(#5) #9 #11 #13 / C            | 
+ 890 | 0 1 2 5 6 8 11   | C Db D F Gb Ab B           | Bmin6/9b9#11/C             | C ?                                  | 
+ 891 | 0 1 2 5 6 9 10   | C Db D F Gb A Bb           | Bbmaj9#9b13/C              | C ?                                  | 
+ 892 | 0 1 2 5 6 9 11   | C Db D F Gb A B            | Bmin9b9#11/C               | C ?                                  | 
+ 893 | 0 1 2 5 6 10 11  | C Db D F Gb Bb B           | BminMaj9b9#11/C            | C ?                                  | 
+ 894 | 0 1 2 5 7 8 9    | C Db D F G Ab A            | Dmin7(11)#11(maj7)/C       | C ?                                  | 
+ 895 | 0 1 2 5 7 8 10   | C Db D F G Ab Bb           | Bb13#9/C                   | C ?                                  | 
+ 896 | 0 1 2 5 7 8 11   | C Db D F G Ab B            | G7(11)b9#11/C              | C ?                                  | 
+ 897 | 0 1 2 5 7 9 10   | C Db D F G A Bb            | Gmin11#11/C                | C ?                                  | 
+ 898 | 0 1 2 5 7 9 11   | C Db D F G A B             | G9(11)#11/C                | C ?                                  | 
+ 899 | 0 1 2 5 7 10 11  | C Db D F G Bb B            | Bb6/9b9#9/C                | C ?                                  | 
+ 900 | 0 1 2 5 8 9 10   | C Db D F Ab A Bb           | Bb9#9(maj7)/C              | C ?                                  | 
+ 901 | 0 1 2 5 8 9 11   | C Db D F Ab A B            | Bmin13b5b9/C               | C ?                                  | 
+ 902 | 0 1 2 5 8 10 11  | C Db D F Ab Bb B           | Bb9b9#9/C                  | C ?                                  | 
+ 903 | 0 1 2 5 9 10 11  | C Db D F A Bb B            | Bbmaj9b9#9/C               | C ?                                  | 
+ 904 | 0 1 2 6 7 8 9    | C Db D Gb G Ab A           | D7(11)#11(maj7)/C          | C ?                                  | 
+ 905 | 0 1 2 6 7 8 10   | C Db D Gb G Ab Bb          | GminMaj11b9#11/C           | C ?                                  | 
+ 906 | 0 1 2 6 7 8 11   | C Db D Gb G Ab B           | Gmaj7(11)b9#11/C           | C ?                                  | 
+ 907 | 0 1 2 6 7 9 10   | C Db D Gb G A Bb           | GminMaj11#11/C             | C ?                                  | 
+ 908 | 0 1 2 6 7 9 11   | C Db D Gb G A B            | Gmaj9(11)#11/C             | C ?                                  | 
+ 909 | 0 1 2 6 7 10 11  | C Db D Gb G Bb B           | Gmaj7(11)#9#11/C           | C ?                                  | 
+ 910 | 0 1 2 6 8 9 10   | C Db D Gb Ab A Bb          | D7#11b13(maj7)/C           | C ?                                  | 
+ 911 | 0 1 2 6 8 9 11   | C Db D Gb Ab A B           | Bmin13b9/C                 | C ?                                  | 
+ 912 | 0 1 2 6 8 10 11  | C Db D Gb Ab Bb B          | BminMaj13b9/C              | C ?                                  | 
+ 913 | 0 1 2 6 9 10 11  | C Db D Gb A Bb B           | D7(13)b13(maj7)/C          | C ?                                  | 
+ 914 | 0 1 2 7 8 9 10   | C Db D G Ab A Bb           | GminAdd9Add11b9#11/C       | C ?                                  | 
+ 915 | 0 1 2 7 8 9 11   | C Db D G Ab A B            | Gadd9Add11b9#11/C          | C ?                                  | 
+ 916 | 0 1 2 7 8 10 11  | C Db D G Ab Bb B           | Bb13b9#9/C                 | C ?                                  | 
+ 917 | 0 1 2 7 9 10 11  | C Db D G A Bb B            | Gadd9Add11#9#11/C          | C ?                                  | 
+ 918 | 0 1 2 8 9 10 11  | C Db D Ab A Bb B           | Bb9b9#9(maj7)/C            | C ?                                  | 
+ 919 | 0 1 3 4 5 6 7    | C Db Eb E F Gb G           | Cadd11b9#9#11              | C ?                                  | 
+ 920 | 0 1 3 4 5 6 8    | C Db Eb E F Gb Ab          | Ab7(11,13)b13/C            | C ?                                  | 
+ 921 | 0 1 3 4 5 6 9    | C Db Eb E F Gb A           | Ebmin13b5b9/C              | C ?                                  | 
+ 922 | 0 1 3 4 5 6 10   | C Db Eb E F Gb Bb          | Ebmin13b9/C                | C ?                                  | 
+ 923 | 0 1 3 4 5 6 11   | C Db Eb E F Gb B           | Badd9Add11b9#11/C          | C ?                                  | 
+ 924 | 0 1 3 4 5 7 8    | C Db Eb E F G Ab           | Dbmaj9#9#11/C              | C ?                                  | 
+ 925 | 0 1 3 4 5 7 9    | C Db Eb E F G A            | C6Add11b9#9                | C ?                                  | 
+ 926 | 0 1 3 4 5 7 10   | C Db Eb E F G Bb           | C7(11)b9#9                 | C ?                                  | 
+ 927 | 0 1 3 4 5 7 11   | C Db Eb E F G B            | Cmaj7(11)b9#9              | C ?                                  | 
+ 928 | 0 1 3 4 5 8 9    | C Db Eb E F Ab A           | Dbmaj9#9b13/C              | C ?                                  | 
+ 929 | 0 1 3 4 5 8 10   | C Db Eb E F Ab Bb          | Bbmin11#11/C               | C ?                                  | 
+ 930 | 0 1 3 4 5 8 11   | C Db Eb E F Ab B           | Db9#9(maj7)/C              | C ?                                  | 
+ 931 | 0 1 3 4 5 9 10   | C Db Eb E F A Bb           | C13(11)b9#9                | C ?                                  | 
+ 932 | 0 1 3 4 5 9 11   | C Db Eb E F A B            | F7#11b13(maj7)/C           | C ?                                  | 
+ 933 | 0 1 3 4 5 10 11  | C Db Eb E F Bb B           | BbminAdd9Add11b9#11/C      | C ?                                  | 
+ 934 | 0 1 3 4 6 7 8    | C Db Eb E Gb G Ab          | DbminMaj11#11/C            | C ?                                  | 
+ 935 | 0 1 3 4 6 7 9    | C Db Eb E Gb G A           | C6b9#9#11                  | A 13(#9 #11) / C                     | 
+ 936 | 0 1 3 4 6 7 10   | C Db Eb E Gb G Bb          | C7b9#9#11                  | F#/Gb 13(b9 #11) / C                 | 
+ 937 | 0 1 3 4 6 7 11   | C Db Eb E Gb G B           | Cmaj7b9#9#11               | C ?                                  | 
+ 938 | 0 1 3 4 6 8 9    | C Db Eb E Gb Ab A          | Gbmin13#11/C               | C 6(b5) b9 #9 b13                    | 
+ 939 | 0 1 3 4 6 8 10   | C Db Eb E Gb Ab Bb         | Gb13#11/C                  | C 7(b5) b9 #9 b13                    | 
+ 940 | 0 1 3 4 6 8 11   | C Db Eb E Gb Ab B          | Gb11(13)#11/C              | C ?                                  | 
+ 941 | 0 1 3 4 6 9 10   | C Db Eb E Gb A Bb          | C13b5b9#9                  | F#/Gb 13(#9 #11) / C                 | 
+ 942 | 0 1 3 4 6 9 11   | C Db Eb E Gb A B           | Gbmin7(11,13)#11/C         | C ?                                  | 
+ 943 | 0 1 3 4 6 10 11  | C Db Eb E Gb Bb B          | Gb7(11,13)#11/C            | C ?                                  | 
+ 944 | 0 1 3 4 7 8 9    | C Db Eb E G Ab A           | C6b9#9b6                   | C min6 b9 b11 b13                    | 
+ 945 | 0 1 3 4 7 8 10   | C Db Eb E G Ab Bb          | C7b9#9b13                  | C 7 b9 #9 b13                        | 
+ 946 | 0 1 3 4 7 8 11   | C Db Eb E G Ab B           | Cmaj7b9#9b13               | G#/Ab maj11(#9) b13 / C              | 
+ 947 | 0 1 3 4 7 9 10   | C Db Eb E G A Bb           | C13b9#9                    | D#/Eb 13(b9 #11) / C                 | 
+ 948 | 0 1 3 4 7 9 11   | C Db Eb E G A B            | Cmaj13b9#9                 | C ?                                  | 
+ 949 | 0 1 3 4 7 10 11  | C Db Eb E G Bb B           | Eb13b9b13/C                | C 7 maj7 b9 #9                       | 
+ 950 | 0 1 3 4 8 9 10   | C Db Eb E Ab A Bb          | Caug13b9#9                 | C ?                                  | 
+ 951 | 0 1 3 4 8 9 11   | C Db Eb E Ab A B           | Amaj9#9#11/C               | C ?                                  | 
+ 952 | 0 1 3 4 8 10 11  | C Db Eb E Ab Bb B          | Dbmin13(maj7)/C            | C ?                                  | 
+ 953 | 0 1 3 4 9 10 11  | C Db Eb E A Bb B           | Aadd9b9#9#11/C             | C ?                                  | 
+ 954 | 0 1 3 5 6 7 8    | C Db Eb F Gb G Ab          | Dbmaj9(11)#11/C            | C ?                                  | 
+ 955 | 0 1 3 5 6 7 9    | C Db Eb F Gb G A           | Cmin6Add11b9#11            | C ?                                  | 
+ 956 | 0 1 3 5 6 7 10   | C Db Eb F Gb G Bb          | Cmin11b9#11                | C ?                                  | 
+ 957 | 0 1 3 5 6 7 11   | C Db Eb F Gb G B           | CminMaj11b9#11             | C ?                                  | 
+ 958 | 0 1 3 5 6 8 9    | C Db Eb F Gb Ab A          | Ebmin13b5/C                | C dim11(b9) b13                      | 
+ 959 | 0 1 3 5 6 8 10   | C Db Eb F Gb Ab Bb         | Ebmin13/C                  | C min11(b5 b9) b13                   | 
+ 960 | 0 1 3 5 6 8 11   | C Db Eb F Gb Ab B          | Ab13(11)#9/C               | F min7 b9 #11 b13 / C                | 
+ 961 | 0 1 3 5 6 9 10   | C Db Eb F Gb A Bb          | Ebmin13#11/C               | C min13(b5 b9)                       | 
+ 962 | 0 1 3 5 6 9 11   | C Db Eb F Gb A B           | B9b9#11/C                  | C ?                                  | 
+ 963 | 0 1 3 5 6 10 11  | C Db Eb F Gb Bb B          | Bmaj9b9#11/C               | C ?                                  | 
+ 964 | 0 1 3 5 7 8 9    | C Db Eb F G Ab A           | F9#9b13/C                  | C#/Db maj9 #11 b13 / C               | 
+ 965 | 0 1 3 5 7 8 10   | C Db Eb F G Ab Bb          | Bbmin13/C                  | C min11(b9) b13                      | 
+ 966 | 0 1 3 5 7 8 11   | C Db Eb F G Ab B           | Abmaj13(11)#9/C            | C min maj11(b9) b13                  | 
+ 967 | 0 1 3 5 7 9 10   | C Db Eb F G A Bb           | Cmin13b9                   | C min13(b9)                          | 
+ 968 | 0 1 3 5 7 9 11   | C Db Eb F G A B            | CminMaj13b9                | C min maj13(b9)                      | 
+ 969 | 0 1 3 5 7 10 11  | C Db Eb F G Bb B           | Eb13b13/C                  | C ?                                  | 
+ 970 | 0 1 3 5 8 9 10   | C Db Eb F Ab A Bb          | Eb11(13)#11/C              | C ?                                  | 
+ 971 | 0 1 3 5 8 9 11   | C Db Eb F Ab A B           | F7#9#11b13/C               | C ?                                  | 
+ 972 | 0 1 3 5 8 10 11  | C Db Eb F Ab Bb B          | Bbmin11b9/C                | C ?                                  | 
+ 973 | 0 1 3 5 9 10 11  | C Db Eb F A Bb B           | F7(11)#11b13/C             | C ?                                  | 
+ 974 | 0 1 3 6 7 8 9    | C Db Eb Gb G Ab A          | Gbmin6/9b9#11/C            | C ?                                  | 
+ 975 | 0 1 3 6 7 8 10   | C Db Eb Gb G Ab Bb         | Eb13(11)#9/C               | C min7 b9 #11 b13                    | 
+ 976 | 0 1 3 6 7 8 11   | C Db Eb Gb G Ab B          | CminMaj7b9#11b13           | C min maj7 b9 #11 b13                | 
+ 977 | 0 1 3 6 7 9 10   | C Db Eb Gb G A Bb          | Cmin13b9#11                | D#/Eb 13(#9 #11) / C                 | 
+ 978 | 0 1 3 6 7 9 11   | C Db Eb Gb G A B           | CminMaj13b9#11             | C ?                                  | 
+ 979 | 0 1 3 6 7 10 11  | C Db Eb Gb G Bb B          | Eb13#9b13/C                | C ?                                  | 
+ 980 | 0 1 3 6 8 9 10   | C Db Eb Gb Ab A Bb         | Ebmin7(11,13)#11/C         | C ?                                  | 
+ 981 | 0 1 3 6 8 9 11   | C Db Eb Gb Ab A B          | B13b9/C                    | C ?                                  | 
+ 982 | 0 1 3 6 8 10 11  | C Db Eb Gb Ab Bb B         | Bmaj13b9/C                 | C ?                                  | 
+ 983 | 0 1 3 6 9 10 11  | C Db Eb Gb A Bb B          | Gb6Add11#9#11/C            | C ?                                  | 
+ 984 | 0 1 3 7 8 9 10   | C Db Eb G Ab A Bb          | Cmin13b9b13                | C ?                                  | 
+ 985 | 0 1 3 7 8 9 11   | C Db Eb G Ab A B           | Abmaj7(11)b9#9/C           | C ?                                  | 
+ 986 | 0 1 3 7 8 10 11  | C Db Eb G Ab Bb B          | Eb7(11,13)b13/C            | C ?                                  | 
+ 987 | 0 1 3 7 9 10 11  | C Db Eb G A Bb B           | Cmin13b9(maj7)             | C ?                                  | 
+ 988 | 0 1 3 8 9 10 11  | C Db Eb Ab A Bb B          | Abadd9Add11b9#9/C          | C ?                                  | 
+ 989 | 0 1 4 5 6 7 8    | C Db E F Gb G Ab           | Cadd11b9#11b6              | C ?                                  | 
+ 990 | 0 1 4 5 6 7 9    | C Db E F Gb G A            | C6Add11b9#11               | C ?                                  | 
+ 991 | 0 1 4 5 6 7 10   | C Db E F Gb G Bb           | C7(11)b9#11                | C ?                                  | 
+ 992 | 0 1 4 5 6 7 11   | C Db E F Gb G B            | Cmaj7(11)b9#11             | C ?                                  | 
+ 993 | 0 1 4 5 6 8 9    | C Db E F Gb Ab A           | Gbmin9#11(maj7)/C          | C#/Db maj11(#9) b13 / C              | 
+ 994 | 0 1 4 5 6 8 10   | C Db E F Gb Ab Bb          | Caug7(11)b9#11             | C 11(b5 b9) b13                      | 
+ 995 | 0 1 4 5 6 8 11   | C Db E F Gb Ab B           | E6/9b9b6/C                 | C maj11(b5 b9) b13                   | 
+ 996 | 0 1 4 5 6 9 10   | C Db E F Gb A Bb           | C13b5(11)b9                | C 13(b5 b9)                          | 
+ 997 | 0 1 4 5 6 9 11   | C Db E F Gb A B            | Cmaj13b5(11)b9             | C ?                                  | 
+ 998 | 0 1 4 5 6 10 11  | C Db E F Gb Bb B           | C7b5(11)b9(maj7)           | C ?                                  | 
+ 999 | 0 1 4 5 7 8 9    | C Db E F G Ab A            | C6Add11b9b6                | C ?                                  | 
+1000 | 0 1 4 5 7 8 10   | C Db E F G Ab Bb           | C7(11)b9b13                | C 11(b9) b13                         | 
+1001 | 0 1 4 5 7 8 11   | C Db E F G Ab B            | Cmaj7(11)b9b13             | C maj11(b9) b13                      | 
+1002 | 0 1 4 5 7 9 10   | C Db E F G A Bb            | C13(11)b9                  | C 13(b9)                             | 
+1003 | 0 1 4 5 7 9 11   | C Db E F G A B             | Cmaj13(11)b9               | C#/Db maj7(#5) #9 #11 #13 / C        | 
+1004 | 0 1 4 5 7 10 11  | C Db E F G Bb B            | C7(11)b9(maj7)             | C ?                                  | 
+1005 | 0 1 4 5 8 9 10   | C Db E F Ab A Bb           | Caug13(11)b9               | F maj11(#9) b13 / C                  | 
+1006 | 0 1 4 5 8 9 11   | C Db E F Ab A B            | Cmaj13#5(11)b9             | C ?                                  | 
+1007 | 0 1 4 5 8 10 11  | C Db E F Ab Bb B           | Bbmin9b9#11/C              | C ?                                  | 
+1008 | 0 1 4 5 9 10 11  | C Db E F A Bb B            | C13(11)b9(maj7)            | C ?                                  | 
+1009 | 0 1 4 6 7 8 9    | C Db E Gb G Ab A           | Gbmin9b9#11/C              | C ?                                  | 
+1010 | 0 1 4 6 7 8 10   | C Db E Gb G Ab Bb          | C7b9#11b13                 | C ?                                  | 
+1011 | 0 1 4 6 7 8 11   | C Db E Gb G Ab B           | Cmaj7b9#11b13              | C ?                                  | 
+1012 | 0 1 4 6 7 9 10   | C Db E Gb G A Bb           | C13b9#11                   | C 13(b9 #11)                         | 
+1013 | 0 1 4 6 7 9 11   | C Db E Gb G A B            | Cmaj13b9#11                | C ?                                  | 
+1014 | 0 1 4 6 7 10 11  | C Db E Gb G Bb B           | C7b9#11(maj7)              | C ?                                  | 
+1015 | 0 1 4 6 8 9 10   | C Db E Gb Ab A Bb          | Caug13b9#11                | C ?                                  | 
+1016 | 0 1 4 6 8 9 11   | C Db E Gb Ab A B           | Gbmin11#11/C               | C ?                                  | 
+1017 | 0 1 4 6 8 10 11  | C Db E Gb Ab Bb B          | Gb9(11)#11/C               | C ?                                  | 
+1018 | 0 1 4 6 9 10 11  | C Db E Gb A Bb B           | A6/9b9#9/C                 | C ?                                  | 
+1019 | 0 1 4 7 8 9 10   | C Db E G Ab A Bb           | C13b9b13                   | A 7 maj7 b9 #9 / C                   | 
+1020 | 0 1 4 7 8 9 11   | C Db E G Ab A B            | Cmaj13b9b13                | C ?                                  | 
+1021 | 0 1 4 7 8 10 11  | C Db E G Ab Bb B           | C7b9b13(maj7)              | C ?                                  | 
+1022 | 0 1 4 7 9 10 11  | C Db E G A Bb B            | C13b9(maj7)                | C ?                                  | 
+1023 | 0 1 4 8 9 10 11  | C Db E Ab A Bb B           | Amaj9b9#9/C                | C ?                                  | 
+1024 | 0 1 5 6 7 8 9    | C Db F Gb G Ab A           | GbminMaj9b9#11/C           | C ?                                  | 
+1025 | 0 1 5 6 7 8 10   | C Db F Gb G Ab Bb          | Gbmaj9b9#11/C              | C ?                                  | 
+1026 | 0 1 5 6 7 8 11   | C Db F Gb G Ab B           | FminAdd9b9#11b6/C          | C ?                                  | 
+1027 | 0 1 5 6 7 9 10   | C Db F Gb G A Bb           | Gbmaj7b9#9#11/C            | C ?                                  | 
+1028 | 0 1 5 6 7 9 11   | C Db F Gb G A B            | GbminMaj11b9#11/C          | C ?                                  | 
+1029 | 0 1 5 6 7 10 11  | C Db F Gb G Bb B           | Gbmaj7(11)b9#11/C          | C ?                                  | 
+1030 | 0 1 5 6 8 9 10   | C Db F Gb Ab A Bb          | Gbmaj9#9#11/C              | C ?                                  | 
+1031 | 0 1 5 6 8 9 11   | C Db F Gb Ab A B           | GbminMaj11#11/C            | C ?                                  | 
+1032 | 0 1 5 6 8 10 11  | C Db F Gb Ab Bb B          | Gbmaj9(11)#11/C            | C ?                                  | 
+1033 | 0 1 5 6 9 10 11  | C Db F Gb A Bb B           | Gbmaj7(11)#9#11/C          | C ?                                  | 
+1034 | 0 1 5 7 8 9 10   | C Db F G Ab A Bb           | Bbmin13(maj7)/C            | C ?                                  | 
+1035 | 0 1 5 7 8 9 11   | C Db F G Ab A B            | Fadd9#9#11b6/C             | C ?                                  | 
+1036 | 0 1 5 7 8 10 11  | C Db F G Ab Bb B           | Bbmin13b9/C                | C ?                                  | 
+1037 | 0 1 5 7 9 10 11  | C Db F G A Bb B            | BbminMaj13b9/C             | C ?                                  | 
+1038 | 0 1 5 8 9 10 11  | C Db F Ab A Bb B           | Bbmin9b9(maj7)/C           | C ?                                  | 
+1039 | 0 1 6 7 8 9 10   | C Db Gb G Ab A Bb          | Gbadd9b9#9#11/C            | C ?                                  | 
+1040 | 0 1 6 7 8 9 11   | C Db Gb G Ab A B           | GbminAdd9Add11b9#11/C      | C ?                                  | 
+1041 | 0 1 6 7 8 10 11  | C Db Gb G Ab Bb B          | Gbadd9Add11b9#11/C         | C ?                                  | 
+1042 | 0 1 6 7 9 10 11  | C Db Gb G A Bb B           | A13b9#9/C                  | C ?                                  | 
+1043 | 0 1 6 8 9 10 11  | C Db Gb Ab A Bb B          | Gbadd9Add11#9#11/C         | C ?                                  | 
+1044 | 0 1 7 8 9 10 11  | C Db G Ab A Bb B           | A9b9#9(maj7)/C             | C ?                                  | 
+1045 | 0 2 3 4 5 6 7    | C D Eb E F Gb G            | Cadd9Add11#9#11            | C ?                                  | 
+1046 | 0 2 3 4 5 6 8    | C D Eb E F Gb Ab           | Ab7(13)#11b13/C            | C ?                                  | 
+1047 | 0 2 3 4 5 6 9    | C D Eb E F Gb A            | D9b9#9/C                   | C ?                                  | 
+1048 | 0 2 3 4 5 6 10   | C D Eb E F Gb Bb           | C9b5(11)#9                 | C ?                                  | 
+1049 | 0 2 3 4 5 6 11   | C D Eb E F Gb B            | D13b9#9/C                  | C ?                                  | 
+1050 | 0 2 3 4 5 7 8    | C D Eb E F G Ab            | Cadd9Add11#9b6             | C ?                                  | 
+1051 | 0 2 3 4 5 7 9    | C D Eb E F G A             | C6/9Add11#9                | C ?                                  | 
+1052 | 0 2 3 4 5 7 10   | C D Eb E F G Bb            | C9(11)#9                   | C ?                                  | 
+1053 | 0 2 3 4 5 7 11   | C D Eb E F G B             | Cmaj9(11)#9                | C ?                                  | 
+1054 | 0 2 3 4 5 8 9    | C D Eb E F Ab A            | Dmin9b9#11/C               | C ?                                  | 
+1055 | 0 2 3 4 5 8 10   | C D Eb E F Ab Bb           | Caug9(11)#9                | C ?                                  | 
+1056 | 0 2 3 4 5 8 11   | C D Eb E F Ab B            | Cmaj9#5(11)#9              | C ?                                  | 
+1057 | 0 2 3 4 5 9 10   | C D Eb E F A Bb            | C13(11)#9                  | C ?                                  | 
+1058 | 0 2 3 4 5 9 11   | C D Eb E F A B             | Dmin13b9/C                 | C ?                                  | 
+1059 | 0 2 3 4 5 10 11  | C D Eb E F Bb B            | Bbadd9Add11b9#11/C         | C ?                                  | 
+1060 | 0 2 3 4 6 7 8    | C D Eb E Gb G Ab           | Cadd9#9#11b6               | C ?                                  | 
+1061 | 0 2 3 4 6 7 9    | C D Eb E Gb G A            | C6/9#9#11                  | C ?                                  | 
+1062 | 0 2 3 4 6 7 10   | C D Eb E Gb G Bb           | C9#9#11                    | C ?                                  | 
+1063 | 0 2 3 4 6 7 11   | C D Eb E Gb G B            | Cmaj9#9#11                 | C ?                                  | 
+1064 | 0 2 3 4 6 8 9    | C D Eb E Gb Ab A           | D9b9#11/C                  | C ?                                  | 
+1065 | 0 2 3 4 6 8 10   | C D Eb E Gb Ab Bb          | Caug9#9#11                 | C 9(b5) #9 b13                       | 
+1066 | 0 2 3 4 6 8 11   | C D Eb E Gb Ab B           | Ab7#9#11b13/C              | C ?                                  | 
+1067 | 0 2 3 4 6 9 10   | C D Eb E Gb A Bb           | C13b5#9                    | C ?                                  | 
+1068 | 0 2 3 4 6 9 11   | C D Eb E Gb A B            | D13b9/C                    | C ?                                  | 
+1069 | 0 2 3 4 6 10 11  | C D Eb E Gb Bb B           | Bmaj7(11)b9#9/C            | C ?                                  | 
+1070 | 0 2 3 4 7 8 9    | C D Eb E G Ab A            | C6/9#9b6                   | C ?                                  | 
+1071 | 0 2 3 4 7 8 10   | C D Eb E G Ab Bb           | C9#9b13                    | C min9 b11 b13                       | 
+1072 | 0 2 3 4 7 8 11   | C D Eb E G Ab B            | Cmaj9#9b13                 | C ?                                  | 
+1073 | 0 2 3 4 7 9 10   | C D Eb E G A Bb            | C13#9                      | C ?                                  | 
+1074 | 0 2 3 4 7 9 11   | C D Eb E G A B             | Cmaj13#9                   | C ?                                  | 
+1075 | 0 2 3 4 7 10 11  | C D Eb E G Bb B            | C9#9(maj7)                 | C ?                                  | 
+1076 | 0 2 3 4 8 9 10   | C D Eb E Ab A Bb           | Caug13#9                   | C ?                                  | 
+1077 | 0 2 3 4 8 9 11   | C D Eb E Ab A B            | AminMaj11#11/C             | C ?                                  | 
+1078 | 0 2 3 4 8 10 11  | C D Eb E Ab Bb B           | Caug9#9(maj7)              | C ?                                  | 
+1079 | 0 2 3 4 9 10 11  | C D Eb E A Bb B            | AminAdd9Add11b9#11/C       | C ?                                  | 
+1080 | 0 2 3 5 6 7 8    | C D Eb F Gb G Ab           | Fmin13b9/C                 | C ?                                  | 
+1081 | 0 2 3 5 6 7 9    | C D Eb F Gb G A            | Cmin6/9Add11#11            | C ?                                  | 
+1082 | 0 2 3 5 6 7 10   | C D Eb F Gb G Bb           | Cmin11#11                  | C ?                                  | 
+1083 | 0 2 3 5 6 7 11   | C D Eb F Gb G B            | CminMaj11#11               | C ?                                  | 
+1084 | 0 2 3 5 6 8 9    | C D Eb F Gb Ab A           | F13b9#9/C                  | G#/Ab 13(b9 #11) / C                 | 
+1085 | 0 2 3 5 6 8 10   | C D Eb F Gb Ab Bb          | Ab13#11/C                  | C min11(b5) b13                      | 
+1086 | 0 2 3 5 6 8 11   | C D Eb F Gb Ab B           | Ab13#9#11/C                | G#/Ab 13(#9 #11) / C                 | 
+1087 | 0 2 3 5 6 9 10   | C D Eb F Gb A Bb           | Cmin13b5                   | C min13(b5)                          | 
+1088 | 0 2 3 5 6 9 11   | C D Eb F Gb A B            | D13b9#9/C                  | F 13(b9 #11) / C                     | 
+1089 | 0 2 3 5 6 10 11  | C D Eb F Gb Bb B           | Cmin11b5(maj7)             | C ?                                  | 
+1090 | 0 2 3 5 7 8 9    | C D Eb F G Ab A            | F13#9/C                    | C ?                                  | 
+1091 | 0 2 3 5 7 8 10   | C D Eb F G Ab Bb           | Fmin13/C                   | C min11 b13                          | 
+1092 | 0 2 3 5 7 8 11   | C D Eb F G Ab B            | Fmin13#11/C                | C min maj11 b13                      | 
+1093 | 0 2 3 5 7 9 10   | C D Eb F G A Bb            | Cmin13                     | C min13                              | 
+1094 | 0 2 3 5 7 9 11   | C D Eb F G A B             | CminMaj13                  | C min maj13                          | 
+1095 | 0 2 3 5 7 10 11  | C D Eb F G Bb B            | Cmin11(maj7)               | C ?                                  | 
+1096 | 0 2 3 5 8 9 10   | C D Eb F Ab A Bb           | F13(11)#9/C                | D min7 b9 #11 b13 / C                | 
+1097 | 0 2 3 5 8 9 11   | C D Eb F Ab A B            | F13#9#11/C                 | F 13(#9 #11) / C                     | 
+1098 | 0 2 3 5 8 10 11  | C D Eb F Ab Bb B           | Fmin7(11,13)#11/C          | C ?                                  | 
+1099 | 0 2 3 5 9 10 11  | C D Eb F A Bb B            | Cmin13(maj7)               | C ?                                  | 
+1100 | 0 2 3 6 7 8 9    | C D Eb Gb G Ab A           | Cmin6/9#11b6               | C ?                                  | 
+1101 | 0 2 3 6 7 8 10   | C D Eb Gb G Ab Bb          | Cmin9#11b13                | C min9 #11 b13                       | 
+1102 | 0 2 3 6 7 8 11   | C D Eb Gb G Ab B           | CminMaj9#11b13             | C min maj9 #11 b13                   | 
+1103 | 0 2 3 6 7 9 10   | C D Eb Gb G A Bb           | Cmin13#11                  | C min13(#11)                         | 
+1104 | 0 2 3 6 7 9 11   | C D Eb Gb G A B            | CminMaj13#11               | C min maj13(#11)                     | 
+1105 | 0 2 3 6 7 10 11  | C D Eb Gb G Bb B           | Cmin9#11(maj7)             | G maj11(#9) b13 / C                  | 
+1106 | 0 2 3 6 8 9 10   | C D Eb Gb Ab A Bb          | Cmin13b5b13                | C ?                                  | 
+1107 | 0 2 3 6 8 9 11   | C D Eb Gb Ab A B           | D13b9#11/C                 | D 13(b9 #11) / C                     | 
+1108 | 0 2 3 6 8 10 11  | C D Eb Gb Ab Bb B          | Ab9#9#11/C                 | C ?                                  | 
+1109 | 0 2 3 6 9 10 11  | C D Eb Gb A Bb B           | Cmin13b5(maj7)             | B 7 maj7 b9 #9 / C                   | 
+1110 | 0 2 3 7 8 9 10   | C D Eb G Ab A Bb           | Cmin13b13                  | C ?                                  | 
+1111 | 0 2 3 7 8 9 11   | C D Eb G Ab A B            | CminMaj13b13               | C ?                                  | 
+1112 | 0 2 3 7 8 10 11  | C D Eb G Ab Bb B           | Abmaj9#9#11/C              | C ?                                  | 
+1113 | 0 2 3 7 9 10 11  | C D Eb G A Bb B            | Cmin13(maj7)               | C ?                                  | 
+1114 | 0 2 3 8 9 10 11  | C D Eb Ab A Bb B           | Abadd9b9#9#11/C            | C ?                                  | 
+1115 | 0 2 4 5 6 7 8    | C D E F Gb G Ab            | Cadd9Add11#11b6            | C ?                                  | 
+1116 | 0 2 4 5 6 7 9    | C D E F Gb G A             | C6/9Add11#11               | C ?                                  | 
+1117 | 0 2 4 5 6 7 10   | C D E F Gb G Bb            | C9(11)#11                  | C ?                                  | 
+1118 | 0 2 4 5 6 7 11   | C D E F Gb G B             | Cmaj9(11)#11               | C ?                                  | 
+1119 | 0 2 4 5 6 8 9    | C D E F Gb Ab A            | D9#9#11/C                  | C ?                                  | 
+1120 | 0 2 4 5 6 8 10   | C D E F Gb Ab Bb           | Caug9(11)#11               | C 11(b5) b13                         | 
+1121 | 0 2 4 5 6 8 11   | C D E F Gb Ab B            | E9b9b13/C                  | C ?                                  | 
+1122 | 0 2 4 5 6 9 10   | C D E F Gb A Bb            | C13b5(11)                  | C 13(b5)                             | 
+1123 | 0 2 4 5 6 9 11   | C D E F Gb A B             | Cmaj13b5(11)               | C ?                                  | 
+1124 | 0 2 4 5 6 10 11  | C D E F Gb Bb B            | BminMaj11b9#11/C           | C ?                                  | 
+1125 | 0 2 4 5 7 8 9    | C D E F G Ab A             | Dmin11#11/C                | C ?                                  | 
+1126 | 0 2 4 5 7 8 10   | C D E F G Ab Bb            | C9(11)b13                  | C 11 b13                             | 
+1127 | 0 2 4 5 7 8 11   | C D E F G Ab B             | Dmin13b5/C                 | C maj11 b13                          | 
+1128 | 0 2 4 5 7 9 10   | C D E F G A Bb             | C13(11)                    | C 13                                 | 
+1129 | 0 2 4 5 7 9 11   | C D E F G A B              | Cmaj13(11)                 | C maj13                              | 
+1130 | 0 2 4 5 7 10 11  | C D E F G Bb B             | C9(11)(maj7)               | E min7 b9 #11 b13 / C                | 
+1131 | 0 2 4 5 8 9 10   | C D E F Ab A Bb            | Caug13(11)                 | C 13(#5)                             | 
+1132 | 0 2 4 5 8 9 11   | C D E F Ab A B             | Cmaj13#5(11)               | C maj13(#5)                          | 
+1133 | 0 2 4 5 8 10 11  | C D E F Ab Bb B            | Bb9b9#11/C                 | C ?                                  | 
+1134 | 0 2 4 5 9 10 11  | C D E F A Bb B             | Bbmaj9b9#11/C              | C ?                                  | 
+1135 | 0 2 4 6 7 8 9    | C D E Gb G Ab A            | D9(11)#11/C                | C ?                                  | 
+1136 | 0 2 4 6 7 8 10   | C D E Gb G Ab Bb           | C9#11b13                   | C 9 #11 b13                          | 
+1137 | 0 2 4 6 7 8 11   | C D E Gb G Ab B            | E9#9b13/C                  | C maj9 #11 b13                       | 
+1138 | 0 2 4 6 7 9 10   | C D E Gb G A Bb            | C13#11                     | C 13(#11)                            | 
+1139 | 0 2 4 6 7 9 11   | C D E Gb G A B             | Amin13/C                   | C maj13(#11)                         | 
+1140 | 0 2 4 6 7 10 11  | C D E Gb G Bb B            | C9#11(maj7)                | C maj9 b7 #11                        | 
+1141 | 0 2 4 6 8 9 10   | C D E Gb Ab A Bb           | Caug13#11                  | C 13(#5 #11)                         | 
+1142 | 0 2 4 6 8 9 11   | C D E Gb Ab A B            | D13#11/C                   | C maj13(#5 #11)                      | 
+1143 | 0 2 4 6 8 10 11  | C D E Gb Ab Bb B           | E9#11b13/C                 | C maj9(#5) b7 #11                    | 
+1144 | 0 2 4 6 9 10 11  | C D E Gb A Bb B            | D13b13/C                   | C ?                                  | 
+1145 | 0 2 4 7 8 9 10   | C D E G Ab A Bb            | C13b13                     | C ?                                  | 
+1146 | 0 2 4 7 8 9 11   | C D E G Ab A B             | Cmaj13b13                  | C ?                                  | 
+1147 | 0 2 4 7 8 10 11  | C D E G Ab Bb B            | C9b13(maj7)                | C ?                                  | 
+1148 | 0 2 4 7 9 10 11  | C D E G A Bb B             | C13(maj7)                  | C ?                                  | 
+1149 | 0 2 4 8 9 10 11  | C D E Ab A Bb B            | Caug13(maj7)               | C ?                                  | 
+1150 | 0 2 5 6 7 8 9    | C D F Gb G Ab A            | F6/9b9#9/C                 | C ?                                  | 
+1151 | 0 2 5 6 7 8 10   | C D F Gb G Ab Bb           | Bb13b13/C                  | C ?                                  | 
+1152 | 0 2 5 6 7 8 11   | C D F Gb G Ab B            | Fmin6/9b9#11/C             | C ?                                  | 
+1153 | 0 2 5 6 7 9 10   | C D F Gb G A Bb            | C11(13)#11                 | C ?                                  | 
+1154 | 0 2 5 6 7 9 11   | C D F Gb G A B             | D13(11)#9/C                | C maj13(sus4) #11                    | 
+1155 | 0 2 5 6 7 10 11  | C D F Gb G Bb B            | C11#11(maj7)               | C maj9(sus4) b7 #11                  | 
+1156 | 0 2 5 6 8 9 10   | C D F Gb Ab A Bb           | D7#9#11b13/C               | C ?                                  | 
+1157 | 0 2 5 6 8 9 11   | C D F Gb Ab A B            | D13#9#11/C                 | D 13(#9 #11) / C                     | 
+1158 | 0 2 5 6 8 10 11  | C D F Gb Ab Bb B           | Bb9b9b13/C                 | C ?                                  | 
+1159 | 0 2 5 6 9 10 11  | C D F Gb A Bb B            | D13#9b13/C                 | C ?                                  | 
+1160 | 0 2 5 7 8 9 10   | C D F G Ab A Bb            | Gmin11b9/C                 | C ?                                  | 
+1161 | 0 2 5 7 8 9 11   | C D F G Ab A B             | Dmin7(11,13)#11/C          | C ?                                  | 
+1162 | 0 2 5 7 8 10 11  | C D F G Ab Bb B            | Bb13b9/C                   | C ?                                  | 
+1163 | 0 2 5 7 9 10 11  | C D F G A Bb B             | Bbmaj13b9/C                | C ?                                  | 
+1164 | 0 2 5 8 9 10 11  | C D F Ab A Bb B            | F6Add11#9#11/C             | C ?                                  | 
+1165 | 0 2 6 7 8 9 10   | C D Gb G Ab A Bb           | D7(11)#11b13/C             | C ?                                  | 
+1166 | 0 2 6 7 8 9 11   | C D Gb G Ab A B            | D7(11,13)#11/C             | C ?                                  | 
+1167 | 0 2 6 7 8 10 11  | C D Gb G Ab Bb B           | Gmaj7(11)b9#9/C            | C ?                                  | 
+1168 | 0 2 6 7 9 10 11  | C D Gb G A Bb B            | D7(11,13)b13/C             | C ?                                  | 
+1169 | 0 2 6 8 9 10 11  | C D Gb Ab A Bb B           | D7(13)#11b13/C             | C ?                                  | 
+1170 | 0 2 7 8 9 10 11  | C D G Ab A Bb B            | Gadd9Add11b9#9/C           | C ?                                  | 
+1171 | 0 3 4 5 6 7 8    | C Eb E F Gb G Ab           | Cadd11#9#11b6              | C ?                                  | 
+1172 | 0 3 4 5 6 7 9    | C Eb E F Gb G A            | C6Add11#9#11               | C ?                                  | 
+1173 | 0 3 4 5 6 7 10   | C Eb E F Gb G Bb           | C7(11)#9#11                | C ?                                  | 
+1174 | 0 3 4 5 6 7 11   | C Eb E F Gb G B            | Cmaj7(11)#9#11             | C ?                                  | 
+1175 | 0 3 4 5 6 8 9    | C Eb E F Gb Ab A           | Ab13b9b13/C                | F 7 maj7 b9 #9 / C                   | 
+1176 | 0 3 4 5 6 8 10   | C Eb E F Gb Ab Bb          | Ab13b13/C                  | C ?                                  | 
+1177 | 0 3 4 5 6 8 11   | C Eb E F Gb Ab B           | Ab13#9b13/C                | C ?                                  | 
+1178 | 0 3 4 5 6 9 10   | C Eb E F Gb A Bb           | C13b5(11)#9                | C ?                                  | 
+1179 | 0 3 4 5 6 9 11   | C Eb E F Gb A B            | B7(11)b9#11/C              | C ?                                  | 
+1180 | 0 3 4 5 6 10 11  | C Eb E F Gb Bb B           | Bmaj7(11)b9#11/C           | C ?                                  | 
+1181 | 0 3 4 5 7 8 9    | C Eb E F G Ab A            | C6Add11#9b6                | C ?                                  | 
+1182 | 0 3 4 5 7 8 10   | C Eb E F G Ab Bb           | C7(11)#9b13                | C ?                                  | 
+1183 | 0 3 4 5 7 8 11   | C Eb E F G Ab B            | Cmaj7(11)#9b13             | C maj11(#9) b13                      | 
+1184 | 0 3 4 5 7 9 10   | C Eb E F G A Bb            | C13(11)#9                  | C 13(#9)                             | 
+1185 | 0 3 4 5 7 9 11   | C Eb E F G A B             | Cmaj13(11)#9               | C maj13(#9)                          | 
+1186 | 0 3 4 5 7 10 11  | C Eb E F G Bb B            | C7(11)#9(maj7)             | C maj11(#9) b7                       | 
+1187 | 0 3 4 5 8 9 10   | C Eb E F Ab A Bb           | Caug13(11)#9               | C 13(#5 #9)                          | 
+1188 | 0 3 4 5 8 9 11   | C Eb E F Ab A B            | Cmaj13#5(11)#9             | C maj13(#5 #9)                       | 
+1189 | 0 3 4 5 8 10 11  | C Eb E F Ab Bb B           | Caug7(11)#9(maj7)          | C ?                                  | 
+1190 | 0 3 4 5 9 10 11  | C Eb E F A Bb B            | C13(11)#9(maj7)            | C ?                                  | 
+1191 | 0 3 4 6 7 8 9    | C Eb E Gb G Ab A           | C6#9#11b6                  | C ?                                  | 
+1192 | 0 3 4 6 7 8 10   | C Eb E Gb G Ab Bb          | C7#9#11b13                 | C ?                                  | 
+1193 | 0 3 4 6 7 8 11   | C Eb E Gb G Ab B           | Cmaj7#9#11b13              | C ?                                  | 
+1194 | 0 3 4 6 7 9 10   | C Eb E Gb G A Bb           | C13#9#11                   | C 13(#9 #11)                         | 
+1195 | 0 3 4 6 7 9 11   | C Eb E Gb G A B            | Cmaj13#9#11                | C maj13(#9 #11)                      | 
+1196 | 0 3 4 6 7 10 11  | C Eb E Gb G Bb B           | C7#9#11(maj7)              | C maj7 #9 #11 #13                    | 
+1197 | 0 3 4 6 8 9 10   | C Eb E Gb Ab A Bb          | Caug13#9#11                | C ?                                  | 
+1198 | 0 3 4 6 8 9 11   | C Eb E Gb Ab A B           | Gbmin13b5/C                | C maj13(#5 #9 #11)                   | 
+1199 | 0 3 4 6 8 10 11  | C Eb E Gb Ab Bb B          | Ab9#9b13/C                 | C maj7(#5) #9 #11 #13                | 
+1200 | 0 3 4 6 9 10 11  | C Eb E Gb A Bb B           | Amin6/9b9#11/C             | C ?                                  | 
+1201 | 0 3 4 7 8 9 10   | C Eb E G Ab A Bb           | C13#9b13                   | C ?                                  | 
+1202 | 0 3 4 7 8 9 11   | C Eb E G Ab A B            | Cmaj13#9b13                | E maj11(#9) b13 / C                  | 
+1203 | 0 3 4 7 8 10 11  | C Eb E G Ab Bb B           | C7#9b13(maj7)              | C ?                                  | 
+1204 | 0 3 4 7 9 10 11  | C Eb E G A Bb B            | C13#9(maj7)                | C ?                                  | 
+1205 | 0 3 4 8 9 10 11  | C Eb E Ab A Bb B           | Caug13#9(maj7)             | C ?                                  | 
+1206 | 0 3 5 6 7 8 9    | C Eb F Gb G Ab A           | F9b9#9/C                   | C ?                                  | 
+1207 | 0 3 5 6 7 8 10   | C Eb F Gb G Ab Bb          | Fmin11b9/C                 | C ?                                  | 
+1208 | 0 3 5 6 7 8 11   | C Eb F Gb G Ab B           | Fmin9b9#11/C               | C ?                                  | 
+1209 | 0 3 5 6 7 9 10   | C Eb F Gb G A Bb           | Cmin7(11,13)#11            | C ?                                  | 
+1210 | 0 3 5 6 7 9 11   | C Eb F Gb G A B            | CminMaj7(11,13)#11         | C ?                                  | 
+1211 | 0 3 5 6 7 10 11  | C Eb F Gb G Bb B           | Cmin7(11)#11(maj7)         | C ?                                  | 
+1212 | 0 3 5 6 8 9 10   | C Eb F Gb Ab A Bb          | Ab13b9/C                   | C ?                                  | 
+1213 | 0 3 5 6 8 9 11   | C Eb F Gb Ab A B           | Ab13b9#9/C                 | B 13(b9 #11) / C                     | 
+1214 | 0 3 5 6 8 10 11  | C Eb F Gb Ab Bb B          | Ab13#9/C                   | C ?                                  | 
+1215 | 0 3 5 6 9 10 11  | C Eb F Gb A Bb B           | Cmin7b5(11,13)(maj7)       | C ?                                  | 
+1216 | 0 3 5 7 8 9 10   | C Eb F G Ab A Bb           | Cmin7(11,13)b13            | C ?                                  | 
+1217 | 0 3 5 7 8 9 11   | C Eb F G Ab A B            | F9#9#11/C                  | C ?                                  | 
+1218 | 0 3 5 7 8 10 11  | C Eb F G Ab Bb B           | Fmin11#11/C                | C ?                                  | 
+1219 | 0 3 5 7 9 10 11  | C Eb F G A Bb B            | Cmin7(11,13)(maj7)         | C ?                                  | 
+1220 | 0 3 5 8 9 10 11  | C Eb F Ab A Bb B           | Ab6/9b9#9/C                | C ?                                  | 
+1221 | 0 3 6 7 8 9 10   | C Eb Gb G Ab A Bb          | Cmin7(13)#11b13            | C ?                                  | 
+1222 | 0 3 6 7 8 9 11   | C Eb Gb G Ab A B           | B13b9b13/C                 | G#/Ab 7 maj7 b9 #9 / C               | 
+1223 | 0 3 6 7 8 10 11  | C Eb Gb G Ab Bb B          | Ab9#9(maj7)/C              | C ?                                  | 
+1224 | 0 3 6 7 9 10 11  | C Eb Gb G A Bb B           | Cmin7(13)#11(maj7)         | C ?                                  | 
+1225 | 0 3 6 8 9 10 11  | C Eb Gb Ab A Bb B          | Ab9b9#9/C                  | C ?                                  | 
+1226 | 0 3 7 8 9 10 11  | C Eb G Ab A Bb B           | Abmaj9b9#9/C               | C ?                                  | 
+1227 | 0 4 5 6 7 8 9    | C E F Gb G Ab A            | Fmaj9b9#9/C                | C ?                                  | 
+1228 | 0 4 5 6 7 8 10   | C E F Gb G Ab Bb           | C7(11)#11b13               | C ?                                  | 
+1229 | 0 4 5 6 7 8 11   | C E F Gb G Ab B            | Cmaj7(11)#11b13            | C ?                                  | 
+1230 | 0 4 5 6 7 9 10   | C E F Gb G A Bb            | C7(11,13)#11               | C ?                                  | 
+1231 | 0 4 5 6 7 9 11   | C E F Gb G A B             | Cmaj7(11,13)#11            | C ?                                  | 
+1232 | 0 4 5 6 7 10 11  | C E F Gb G Bb B            | C7(11)#11(maj7)            | C ?                                  | 
+1233 | 0 4 5 6 8 9 10   | C E F Gb Ab A Bb           | Caug7(11,13)#11            | C ?                                  | 
+1234 | 0 4 5 6 8 9 11   | C E F Gb Ab A B            | Fmaj7b9#9#11/C             | C ?                                  | 
+1235 | 0 4 5 6 8 10 11  | C E F Gb Ab Bb B           | FminMaj11b9#11/C           | C ?                                  | 
+1236 | 0 4 5 6 9 10 11  | C E F Gb A Bb B            | Fmaj7(11)b9#11/C           | C ?                                  | 
+1237 | 0 4 5 7 8 9 10   | C E F G Ab A Bb            | C7(11,13)b13               | C ?                                  | 
+1238 | 0 4 5 7 8 9 11   | C E F G Ab A B             | Fmaj9#9#11/C               | C ?                                  | 
+1239 | 0 4 5 7 8 10 11  | C E F G Ab Bb B            | C7(11)b13(maj7)            | C ?                                  | 
+1240 | 0 4 5 7 9 10 11  | C E F G A Bb B             | C7(11,13)(maj7)            | C ?                                  | 
+1241 | 0 4 5 8 9 10 11  | C E F Ab A Bb B            | Fmaj7(11)#9#11/C           | C ?                                  | 
+1242 | 0 4 6 7 8 9 10   | C E Gb G Ab A Bb           | C7(13)#11b13               | C ?                                  | 
+1243 | 0 4 6 7 8 9 11   | C E Gb G Ab A B            | Cmaj7(13)#11b13            | C ?                                  | 
+1244 | 0 4 6 7 8 10 11  | C E Gb G Ab Bb B           | C7#11b13(maj7)             | C ?                                  | 
+1245 | 0 4 6 7 9 10 11  | C E Gb G A Bb B            | Amin13b9/C                 | C ?                                  | 
+1246 | 0 4 6 8 9 10 11  | C E Gb Ab A Bb B           | AminMaj13b9/C              | C ?                                  | 
+1247 | 0 4 7 8 9 10 11  | C E G Ab A Bb B            | C7(13)b13(maj7)            | C ?                                  | 
+1248 | 0 5 6 7 8 9 10   | C F Gb G Ab A Bb           | Fadd9Add11b9#9/C           | C ?                                  | 
+1249 | 0 5 6 7 8 9 11   | C F Gb G Ab A B            | Fadd9b9#9#11/C             | C ?                                  | 
+1250 | 0 5 6 7 8 10 11  | C F Gb G Ab Bb B           | FminAdd9Add11b9#11/C       | C ?                                  | 
+1251 | 0 5 6 7 9 10 11  | C F Gb G A Bb B            | Fadd9Add11b9#11/C          | C ?                                  | 
+1252 | 0 5 6 8 9 10 11  | C F Gb Ab A Bb B           | Ab13b9#9/C                 | C ?                                  | 
+1253 | 0 5 7 8 9 10 11  | C F G Ab A Bb B            | Fadd9Add11#9#11/C          | C ?                                  | 
+1254 | 0 6 7 8 9 10 11  | C Gb G Ab A Bb B           | Ab9b9#9(maj7)/C            | C ?                                  | 

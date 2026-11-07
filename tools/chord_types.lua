@@ -25,6 +25,7 @@ gfx = {
   w = 200, h = 100, x = 0, y = 0, mouse_x = 0, mouse_y = 0, mouse_cap = 0,
   init = function() end, quit = function() end, update = function() end,
   rect = function() end, setfont = function() end,
+  getfont = function() return 1, "Arial" end,   -- the face pickFace() falls back to
   measurestr = function(s) return #s * 6, 12 end,
   set = function() end, circle = function() end, drawstr = function() end,
   dock = function(_, a) if a then return 0, 0, 0, 200, 100 end return 0 end,
