@@ -1,8 +1,8 @@
 # 0011. Let Starting Blocks decide which roots a chord can have
 
-Status   - Accepted
+Status   - Reversed (2026-11-07)
 Date     - 2026-10-10
-Commits  - `df4ea43`
+Commits  - `df4ea43`; reversed on `claude/sharp-brahmagupta-71ammi`
 
 ## Context
 
@@ -78,3 +78,33 @@ to build it from F; the reader's cost keeps it Csus4.
 `tools/sweep.py`, `tools/leadsheet_check.py`, `tools/corpus_scan.py`.
 Noterator's `generators: every Blocks chord reads in the Chords lane...`
 test, and `docs/sessions/2026-10-10.md` for the measurements.
+
+## Reversed, 7 November 2026
+
+The user removed it. Measuring the reader against every chord Scaler Detector
+named (CLAUDE.md, *Can the reader agree with Scaler more often?*) showed the
+dictionary was the one thing overriding the reader's own choice when that
+choice agreed with Scaler - 47 times - and that several of the names it
+forced were poor. Blocks lists only complete chords, so a voicing with a note
+left out, which is how chords are played, lost its root to whatever complete
+chord shared its notes: C D E G A B read `Amin11/C` (Cmaj13 without its 11th),
+C D Eb Bb `A#add9Add11/C` (a Cmin9 shell), C D Bb `A#add9/C` (C7sus2).
+
+The reader is now byte-identical to the one before `df4ea43` - over the sweep
+with no scale and in C major, C minor and Gb major - so everything this
+record listed under *Consequences* is undone exactly:
+
+| | with 0011 | reversed |
+| --- | --- | --- |
+| sweep names moved | - | 1,074 of 17,688, all still exact |
+| lead sheets on the arranger's root | 99.33% | 99.27% |
+| jazznet, Wikipedia's list | 66.7%, 75/75 | unchanged |
+| Scaler Detector's root and bass | 380 of 803 | 397 of 803 |
+| Blocks' own chords on a Blocks root | 100% | 60.8% |
+
+The nine pinned names are back to their earlier values, and
+`tests/test_scaleview_pro.lua` section 4b now pins five of the names above,
+each failing on the script that had the dictionary. The copies in the five
+other repositories took 0011 on branches that were never merged
+(`ccr-ac8da7d9-3sbl5x`); they follow Pro, so those branches should be
+dropped or reverted rather than merged.
