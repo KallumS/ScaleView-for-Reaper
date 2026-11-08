@@ -1758,8 +1758,13 @@ to their `main` branches** (checked 8 November 2026: the Blocks tables are in
 the plugin's `Source/ScaleModel.h`, Midi Suggester's `ms_theory.lua`, Midi
 Variator's `mv_theory.lua`, and Noterator's and Miderator's vendored copies;
 the `ccr-ac8da7d9-3sbl5x` branches are gone). An earlier version of this file
-said they were never merged - wrong. **0011 is reversed here, so all five are
-now out of date with Pro and need the same removal**, which has not been done:
+said they were never merged - wrong. **The removal has been ported to all
+five** (8 November 2026), each on a branch `claude/remove-blocks-0011` with a
+pull request, and each copy names 427,776 voicings - every one- to seven-note
+voicing on every bass, plain and with the bass or top note doubled, in no key
+and seven keys - byte-identically to Pro 1.3.0; the same rig finds 25,824
+differences against the copies with the dictionary. Until those are merged,
+the commits below are the ones still carrying it:
 
 | repository | copy | at | checked against Pro |
 | --- | --- | --- | --- |
@@ -1770,7 +1775,9 @@ now out of date with Pro and need the same removal**, which has not been done:
 | `KallumS/Miderator` | Noterator's files, synced | `324920c` | Noterator's byte for byte |
 
 Middaw carries an older Python port (`middaw/scaleview.py`) that never took
-decisions 0003, 0009 or 0010 (nor 0011, now moot); left for now, the user's call.
+decisions 0003, 0009 or 0010; left for now, the user's call. **It also vendors
+Midi Variator's `mv_theory.lua`** (`family/engines/midi-variator/`), which
+does carry 0011 - found on 8 November 2026 and not yet changed.
 
 The parity rig is 60,212 voicings - the sweep, every one- and two-note chord,
 and every distinct sonority of music21's core corpus with its doublings - fed
