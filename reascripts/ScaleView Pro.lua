@@ -1042,12 +1042,21 @@ local function blocksKeyChords()
   return keyChords.chords
 end
 
+--[[  The one exception to Blocks' roots, decision 0014: maj7(sus2), root 2 5
+    maj7, is not a Blocks chord type, but its notes are Blocks' add11 on the
+    fifth - F G C E is Cadd11 - so without it F G C E over F could only read
+    Cadd11/F, the add11's own 11 in the bass. Scaler says Fmaj7(sus2). Offered
+    on any root, it wins only from the bass: every other position stays an
+    add11, which the cost already prefers. ]]
+local NOT_BLOCKS_TYPES = {[1 | (1 << 2) | (1 << 7) | (1 << 11)] = true}
+
 -- The roots Blocks builds these notes on, or nil if it builds them on none.
 local function blocksRoots(classes)
   local roots, any = {}, false
   local inKey = blocksKeyChords()[maskFrom(classes, 0)] or {}
   for root = 0, 11 do
-    if classes[root] and (inKey[root] or BLOCKS_TYPES[maskFrom(classes, root)]) then
+    local mask = maskFrom(classes, root)
+    if classes[root] and (inKey[root] or BLOCKS_TYPES[mask] or NOT_BLOCKS_TYPES[mask]) then
       roots[root], any = true, true
     end
   end
