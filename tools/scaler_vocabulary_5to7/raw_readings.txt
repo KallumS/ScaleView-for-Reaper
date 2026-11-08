@@ -369,3 +369,886 @@
 369|BminAdd9Add11b9/C|C ?
 370|Cadd9b9b6|C#/Db min maj7 b9 #11 / C
 371|C6/9b9|C 6 9 b9
+372|C9b9|C ?
+373|Cmaj9b9|C ?
+374|Amaj7(11)#9/C|A maj11(#9) / C
+375|Caug9b9|A#/Bb 9(b5) #9 / C
+376|E7(13)b13/C|C ?
+377|C13b9|C ?
+378|Aadd9Add11#9/C|C ?
+379|C9b9(maj7)|C ?
+380|D7(11)#9(maj7)/C|C#/Db maj11(b5 b9) / C
+381|Dbmaj7(11)b9/C|C#/Db maj11(b9) / C
+382|D7#9(maj7)/C|C 6(sus2 b5) b9 11
+383|Bbadd9#9b6/C|F#/Gb maj7 #11 b13 / C
+384|BminAdd9b9#11/C|C ?
+385|Dbmaj7b9#11/C|C ?
+386|G11#11/C|A 11(#5 #9) / C
+387|Gmin7(11)#11/C|C ?
+388|G7(11)#11/C|C ?
+389|Dmin7#11(maj7)/C|D min7 maj7 #11 / C
+390|Bb9#9/C|A#/Bb min9 b11 / C
+391|Dmin7b5(13)(maj7)/C|C ?
+392|Bbmaj9#9/C|C ?
+393|Dmin7(13)(maj7)/C|C#/Db 7(#5) maj7 b9 / C
+394|Bbadd9b9#9/C|C ?
+395|D7b5(11)(maj7)/C|C ?
+396|A13(11)#9/C|G maj9(sus4) #11 / C
+397|GminMaj7(11)#11/C|C ?
+398|Gmaj7(11)#11/C|C ?
+399|D7#11(maj7)/C|D 7 maj7 #11 / C
+400|Ab9b5(11)/C|G#/Ab 11(b5 b9) / C
+401|Bmin6/9b9/C|C ?
+402|D7b13(maj7)/C|C ?
+403|Bmin9b9/C|C ?
+404|BminMaj9b9/C|C ?
+405|A7(11)#9(maj7)/C|G#/Ab maj11(b5 b9) / C
+406|GminAdd11b9#11/C|G#/Ab maj11(b5) / C
+407|Gadd11b9#11/C|C ?
+408|GminAdd9Add11#11/C|C ?
+409|Gadd9Add11#11/C|C ?
+410|Gadd11#9#11/C|C ?
+411|Bb9#9(maj7)/C|C ?
+412|Bmin13b9/C|C ?
+413|Bb9b9#9/C|C ?
+414|Bmin9b9(maj7)/C|C ?
+415|Ebmin13b9/C|C ?
+416|Cadd11b9#9|C ?
+417|Dbmaj9#9/C|C ?
+418|F7b13(maj7)/C|C ?
+419|C7(11)b9#9|C ?
+420|Db9#9(maj7)/C|C ?
+421|Caddb9#9#11|C ?
+422|Ab7(11)b13/C|C#/Db min maj11 / C
+423|Gbmin7(13)#11/C|C 6(b5) b9 #9
+424|C7b5b9#9|C 7(b5) b9 #9
+425|Badd9Add11b9/C|C ?
+426|Caddb9#9b6|C#/Db min maj9 #11 / C
+427|Eb13b5b9/C|C min6 b9 b11
+428|Eb13b9/C|C 7 b9 #9
+429|Cmaj7b9#9|C ?
+430|Amaj7#9#11/C|A maj7 #9 #11 / C
+431|Caug7b9#9|A#/Bb min11(b5) / C
+432|Dbmin9(maj7)/C|C ?
+433|C13b9#9|C ?
+434|Aadd9#9#11/C|C ?
+435|C7b9#9(maj7)|C 7 maj7 b9 #9
+436|CminAdd11b9#11|C#/Db maj11(b5) / C
+437|Dbmaj9(11)/C|C dim b9 11 b13
+438|Ebmin13b5/C|C dim11(b9)
+439|Ebmin13/C|C min11(b5 b9)
+440|Badd9b9#11/C|C ?
+441|Dbmaj9#11/C|C#/Db maj9 #11 / C
+442|Eb13b5/C|C#/Db maj9(#5) #11 / C
+443|Cmin11b9|C min11(b9)
+444|CminMaj11b9|C min maj11(b9)
+445|F7#9b13/C|C#/Db maj11 b13 / C
+446|Bbmin11/C|C min11(b9) b13
+447|Ab6Add11#9/C|B 6(b5) 9 b9 / C
+448|Cmin13b9|C min13(b9)
+449|F7#11b13/C|C min maj13(b9)
+450|BbminAdd9Add11b9/C|C ?
+451|Cminb9#11b6|C#/Db maj9(sus4) #11 / C
+452|Cmin6b9#11|C ?
+453|Cmin7b9#11|C min7 b9 #11
+454|CminMaj7b9#11|C min maj7 b9 #11
+455|Ebmin7b5(11,13)/C|G#/Ab 11(b9) / C
+456|Ab9(11)/C|C#/Db maj13(sus4) / C
+457|B6/9b9/C|B 6 9 b9 / C
+458|Cmin13b5b9|A 6(b5) b9 #9 / C
+459|B9b9/C|C ?
+460|Bmaj9b9/C|C ?
+461|Cmin6b9b6|G#/Ab maj11(b9) / C
+462|Abmaj9(11)/C|D#/Eb 7 11 13 / C
+463|Abmaj7(11)#9/C|G#/Ab maj11(#9) / C
+464|Cmin13b9|A 7(b5) b9 #9 / C
+465|CminMaj13b9|A 9(b5) #9 / C
+466|Eb7(13)b13/C|C ?
+467|Abadd9Add11b9/C|C ?
+468|B13b9/C|C ?
+469|Abadd9Add11#9/C|C ?
+470|Cmin13b9(maj7)|C ?
+471|Cadd11b9#11|C ?
+472|Dbmaj7(11)#9/C|C#/Db maj11(#9) / C
+473|Gbmin7#11(maj7)/C|C#/Db maj11(#5 #9) / C
+474|C7b5(11)b9|C 11(b5 b9)
+475|Cmaj7b5(11)b9|C maj11(b5 b9)
+476|Dbmaj7#9#11/C|C#/Db maj7 #9 #11 / C
+477|C6Add11b9|C#/Db maj7(#5) #9 #11 / C
+478|C7(11)b9|C 11(b9)
+479|Cmaj7(11)b9|C maj11(b9)
+480|Caug6Add11b9|C ?
+481|Caug7(11)b9|A#/Bb min9 #11 / C
+482|Cmaj7#5(11)b9|B 6(sus2 b5) b9 11 / C
+483|C13(11)b9|C 13(b9)
+484|Cmaj13(11)b9|F maj7 #11 b13 / C
+485|BbminAdd9b9#11/C|C ?
+486|Caddb9#11b6|C ?
+487|C6b9#11|F#/Gb min7 b9 #11 / C
+488|C7b9#11|C ?
+489|Cmaj7b9#11|C ?
+490|Gbmin9#11/C|F#/Gb min9 #11 / C
+491|Gb9#11/C|F#/Gb 9 #11 / C
+492|Gb11#11/C|G#/Ab 11(#5 #9) / C
+493|C13b5b9|A min6 b9 b11 / C
+494|Gbmin7(11)#11/C|C ?
+495|Gb7(11)#11/C|C ?
+496|C6b9b6|G 6(sus2 b5) b9 11 / C
+497|C7b9b13|G dim11(b9) / C
+498|Cmaj7b9b13|C#/Db min7 maj7 #11 / C
+499|C13b9|G dim11 / C
+500|Cmaj13b9|A min9 b11 / C
+501|C7b9(maj7)|C ?
+502|Caug13b9|C ?
+503|Amaj9#9/C|C ?
+504|Caug7b9(maj7)|C 7(#5) maj7 b9
+505|Aadd9b9#9/C|C ?
+506|Dbmaj7(11)#11/C|C ?
+507|GbminMaj7b9#11/C|F#/Gb min maj7 b9 #11 / C
+508|Gbmaj7b9#11/C|C ?
+509|G7b5(11)(maj7)/C|C ?
+510|GbminMaj9#11/C|C#/Db maj11 b13 / C
+511|Gbmaj9#11/C|C#/Db maj7 11 13 / C
+512|Ab13(11)#9/C|F#/Gb maj9(sus4) #11 / C
+513|Gbmaj7#9#11/C|F#/Gb maj7 #9 #11 / C
+514|GbminMaj7(11)#11/C|C ?
+515|Gbmaj7(11)#11/C|C ?
+516|Fadd9#9b6/C|C#/Db maj7 #11 b13 / C
+517|Bbmin13/C|G min11(b5 b9) / C
+518|Db7#11(maj7)/C|C#/Db 7 maj7 #11 / C
+519|Aaug7b9#9/C|G min11(b5) / C
+520|G9b5(11)/C|G 11(b5) / C
+521|Bbmin6/9b9/C|C ?
+522|Bbmin9(maj7)/C|C ?
+523|Db7b13(maj7)/C|C ?
+524|Bbmin9b9/C|C ?
+525|BbminMaj9b9/C|C ?
+526|GbminAdd9b9#11/C|C ?
+527|Gbadd9b9#11/C|C ?
+528|Ab7(11)#9(maj7)/C|G maj11(b5 b9) / C
+529|Gbaddb9#9#11/C|C ?
+530|GbminAdd11b9#11/C|G maj11(b5) / C
+531|Gbadd11b9#11/C|C ?
+532|Gbadd9#9#11/C|C ?
+533|GbminAdd9Add11#11/C|C ?
+534|Gbadd9Add11#11/C|C ?
+535|Gbadd11#9#11/C|C ?
+536|Bbmin13(maj7)/C|A 7 maj7 b9 #9 / C
+537|A9#9(maj7)/C|C ?
+538|Bbmin13b9/C|C ?
+539|A9b9#9/C|C ?
+540|Bbmin9b9(maj7)/C|C ?
+541|D9b9#9/C|C ?
+542|Cadd9Add11#9|C ?
+543|CaugAdd9Add11#9|E 7(#5) maj7 b9 / C
+544|Dmin9b9/C|C ?
+545|C9(11)#9|C ?
+546|Cmaj9(11)#9|C ?
+547|Cadd9#9#11|C ?
+548|Ab7#11b13/C|D 9(b5) b9 / C
+549|D9b9/C|C ?
+550|C9b5#9|C 9(b5) #9
+551|D13b9/C|C ?
+552|Cadd9#9b6|G#/Ab maj7 #11 b13 / C
+553|C6/9#9|C ?
+554|C9#9|C min9 b11
+555|Cmaj9#9|C ?
+556|C6/9#5#9|C ?
+557|Caug9#9|A#/Bb 11(b5) / C
+558|Cmaj9#5#9|C ?
+559|C13#9|A#/Bb maj11(b5) / C
+560|AminAdd9Add11#11/C|C ?
+561|C9#9(maj7)|C ?
+562|CminAdd9Add11#11|C ?
+563|Ab7(13)#11/C|D 7(b5) b9 #9 / C
+564|F13b9/C|C dim11
+565|Daug7b9#9/C|C min11(b5)
+566|Baddb9#9#11/C|C ?
+567|Dmin11b5b9/C|D min11(b5 b9) / C
+568|Cmin6/9Add11|D min11(b9) / C
+569|Cmin11|C min11
+570|CminMaj11|C min maj11
+571|F13#9/C|D min7 b9 #11 / C
+572|Bb9(11)/C|C min11 b13
+573|Fmin7(13)#11/C|B 6(b5) b9 #9 / C
+574|Bbmaj9(11)/C|C min13
+575|CminMaj13|C min maj13
+576|Cmin11(maj7)|C ?
+577|CminAdd9#11b6|D 11(b5 b9) / C
+578|Cmin6/9#11|D 11(b9) / C
+579|Cmin9#11|C min9 #11
+580|CminMaj9#11|C min maj9 #11
+581|D7b9#11/C|C ?
+582|Ab9#11/C|G#/Ab 9 #11 / C
+583|D13b5b9/C|B min6 b9 b11 / C
+584|Cmin13b5|A dim11(b9) / C
+585|D13b9/C|A dim11 / C
+586|Cmin9b5(maj7)|C ?
+587|Cmin6/9b6|C ?
+588|Abmaj9#11/C|D#/Eb maj7 11 13 / C
+589|Abmaj7#9#11/C|G#/Ab maj7 #9 #11 / C
+590|Cmin13|C min13
+591|Baug7b9#9/C|A min11(b5) / C
+592|Cmin9(maj7)|C ?
+593|Abadd9b9#11/C|C ?
+594|Abaddb9#9#11/C|C ?
+595|Abadd9#9#11/C|C ?
+596|Cmin13(maj7)|B 7 maj7 b9 #9 / C
+597|Cadd9Add11#11|C ?
+598|FminMaj13b9/C|D 9(b5) #9 / C
+599|D9#9/C|D min9 b11 / C
+600|C9b5(11)|C 11(b5)
+601|Cmaj9b5(11)|C maj11(b5)
+602|Eaug7b9#9/C|D min11(b5) / C
+603|Dmin11/C|D min11 / C
+604|C9(11)|C 11
+605|Cmaj9(11)|C maj11
+606|C6/9#5Add11|D min9 #11 / C
+607|Bb9#11/C|C 11(#5)
+608|Cmaj9#5(11)|C maj11(#5)
+609|C13(11)|C 13
+610|Cmaj13(11)|C maj13
+611|Bbadd9b9#11/C|C ?
+612|Cadd9#11b6|D 11(b5) / C
+613|D9(11)/C|D 11 / C
+614|C9#11|C 9 #11
+615|Cmaj9#11|C maj9 #11
+616|D9#11/C|D 9 #11 / C
+617|Caug9#11|C 9(#5) #11
+618|D13b5/C|C maj9(#5) #11
+619|C13b5|A#/Bb maj9(#5) #11 / C
+620|Cmaj13b5|D 13 / C
+621|Daug13/C|B min maj11(b9) / C
+622|C6/9b6|E 11(#5 #9) / C
+623|Bb13b5/C|G#/Ab maj9(#5) #11 / C
+624|Cmaj9b13|C maj11 b13
+625|C13|C 13
+626|Amin11/C|C maj13
+627|C9(maj7)|A#/Bb 6(b5) 9 b9 / C
+628|Caug13|A min maj11(b9) / C
+629|Cmaj13#5|A min maj11 / C
+630|E7#11b13/C|A#/Bb 9(b5) b9 / C
+631|AminAdd9Add11b9/C|C ?
+632|Fmin6/9b9/C|C ?
+633|F6/9b9/C|C ?
+634|C11#11|D 11(#5 #9) / C
+635|D13(11)#9/C|C maj9(sus4) #11
+636|Ab13b5b9/C|F min6 b9 b11 / C
+637|Ab13b5/C|F#/Gb maj9(#5) #11 / C
+638|Fmin6b9#11/C|C ?
+639|D7#9b13/C|F#/Gb maj7(#5) #9 #11 / C
+640|D13#9/C|B min7 b9 #11 / C
+641|BminMaj7b9#11/C|B min maj7 b9 #11 / C
+642|Dmin7(11)#11/C|C ?
+643|Gmin11b9/C|G min11(b9) / C
+644|Dmin7b5(11,13)/C|G 11(b9) / C
+645|Gmin11/C|C 13(sus4)
+646|G9(11)/C|C maj13(sus4)
+647|C11(maj7)|A#/Bb 6 9 b9 / C
+648|F6Add11#9/C|G#/Ab 6(b5) 9 b9 / C
+649|Dmin7(13)#11/C|G#/Ab 6(b5) b9 #9 / C
+650|Bb9b9/C|C ?
+651|Bbmaj9b9/C|C ?
+652|D7(11)#11/C|C ?
+653|Bbaug13/C|G min maj11(b9) / C
+654|Gmaj7(11)b9/C|G maj11(b9) / C
+655|D7(11)b13/C|G min maj11 / C
+656|Gmaj9(11)/C|D 7 11 13 / C
+657|Gmaj7(11)#9/C|G maj11(#9) / C
+658|D7#11b13/C|G#/Ab 9(b5) b9 / C
+659|D7(13)#11/C|G#/Ab 7(b5) b9 #9 / C
+660|BminMaj13b9/C|G#/Ab 9(b5) #9 / C
+661|D7(13)b13/C|C ?
+662|GminAdd9Add11b9/C|C ?
+663|Gadd9Add11b9/C|C ?
+664|Bb13b9/C|C ?
+665|Gadd9Add11#9/C|C ?
+666|Bb9b9(maj7)/C|C ?
+667|Cadd11#9#11|C ?
+668|Ab7(13)b13/C|C ?
+669|F7b9(maj7)/C|C ?
+670|C7b5(11)#9|C ?
+671|Badd11b9#11/C|C ?
+672|Cadd11#9b6|C ?
+673|C6Add11#9|D#/Eb 6(b5) 9 b9 / C
+674|C7(11)#9|D#/Eb 6 9 b9 / C
+675|Cmaj7(11)#9|C maj11(#9)
+676|Caug6Add11#9|D#/Eb 6(sus2 b5) b9 11 / C
+677|Caug7(11)#9|C 11(#5 #9)
+678|Cmaj7#5(11)#9|C maj11(#5 #9)
+679|C13(11)#9|C 13(#9)
+680|Cmaj13(11)#9|C maj13(#9)
+681|C7(11)#9(maj7)|C maj11(#9) b7
+682|Cadd#9#11b6|C ?
+683|C6#9#11|D#/Eb 6(b5) b9 #9 / C
+684|Gb13b5b9/C|D#/Eb min6 b9 b11 / C
+685|Cmaj7#9#11|C maj7 #9 #11
+686|Gbmin13b5/C|D#/Eb dim11(b9) / C
+687|Gb13b5/C|E maj9(#5) #11 / C
+688|Ab7#9b13/C|C maj7(#5) #9 #11
+689|C13b5#9|C ?
+690|Gbmin7b5(11,13)/C|C maj(b5) #9 13
+691|Bmaj7(11)b9/C|B maj11(b9) / C
+692|C6#9b6|E maj11(#5 #9) / C
+693|C7#9b13|E maj7(#5) #9 #11 / C
+694|Ebaug6Add11b9/C|C ?
+695|C13#9|A min7 b9 #11 / C
+696|Cmaj13#9|A min9 #11 / C
+697|C7#9(maj7)|A#/Bb 6(sus2 b5) b9 11 / C
+698|Caug13#9|A min maj7 b9 #11 / C
+699|AminMaj9#11/C|E maj11 b13 / C
+700|Caug7#9(maj7)|E maj7 #11 b13 / C
+701|AminAdd9b9#11/C|C ?
+702|Fmin9b9/C|C ?
+703|Cmin6Add11#11|C ?
+704|Cmin7(11)#11|C ?
+705|CminMaj7(11)#11|C ?
+706|Ab13b9/C|D#/Eb dim11 / C
+707|Ab13/C|F min11(b9) / C
+708|Ab13#9/C|F min7 b9 #11 / C
+709|Cmin7b5(11,13)|F 11(b9) / C
+710|F7b9#11/C|C ?
+711|Cmin7b5(11)(maj7)|C ?
+712|F9#9/C|F min9 b11 / C
+713|Fmin11/C|F min11 / C
+714|Fmin9#11/C|F min9 #11 / C
+715|F9(11)/C|C min13
+716|F9#11/C|F 9 #11 / C
+717|Cmin7(11)(maj7)|G 11(#5 #9) / C
+718|Ab6/9b9/C|G#/Ab 6 9 b9 / C
+719|B13b5b9/C|G#/Ab min6 b9 b11 / C
+720|Fmin7(11)#11/C|C ?
+721|F7(11)#11/C|C ?
+722|Cmin6#11b6|C ?
+723|Cmin7#11b13|F#/Gb 6(b5) 9 b9 / C
+724|CminMaj7#11b13|F#/Gb 6(sus2 b5) b9 11 / C
+725|Cmin7(13)#11|F#/Gb 6(b5) b9 #9 / C
+726|CminMaj7(13)#11|F#/Gb dim11(b9) / C
+727|Cmin7#11(maj7)|C min7 maj7 #11
+728|Ab9b9/C|C ?
+729|B13b9/C|F#/Gb dim11 / C
+730|Ab9#9/C|G#/Ab min9 b11 / C
+731|Cmin7b5(13)(maj7)|C ?
+732|Cmin7(13)b13|C ?
+733|Abmaj7b9#9/C|C ?
+734|Abmaj9#9/C|C ?
+735|Cmin7(13)(maj7)|B 7(#5) maj7 b9 / C
+736|Abadd9b9#9/C|C ?
+737|Cadd11#11b6|C ?
+738|C6Add11#11|C ?
+739|C7(11)#11|C ?
+740|Cmaj7(11)#11|C ?
+741|Fmaj7b9#9/C|C ?
+742|Caug7(11)#11|F min maj11(b9) / C
+743|FminMaj7b9#11/C|F min maj7 b9 #11 / C
+744|C7b5(11,13)|F maj11(b9) / C
+745|Cmaj7b5(11,13)|C ?
+746|C7b5(11)(maj7)|C ?
+747|Fmaj9#9/C|C ?
+748|C7(11)b13|F min maj11 / C
+749|Cmaj7(11)b13|C maj11 b13
+750|Fmaj9(11)/C|C 7 11 13
+751|Cmaj7(11,13)|C maj7 11 13
+752|C7(11)(maj7)|F maj9(sus4) #11 / C
+753|Caug7(11,13)|F maj11(#9) / C
+754|Cmaj7#5(11,13)|F maj7 #9 #11 / C
+755|FminMaj7(11)#11/C|C ?
+756|Fmaj7(11)#11/C|C ?
+757|C6#11b6|G#/Ab 7(#5) maj7 b9 / C
+758|C7#11b13|F#/Gb 9(b5) b9 / C
+759|Cmaj7#11b13|C maj7 #11 b13
+760|C7(13)#11|F#/Gb 7(b5) b9 #9 / C
+761|Cmaj7(13)#11|F#/Gb min11(b5 b9) / C
+762|C7#11(maj7)|C 7 maj7 #11
+763|Caug7(13)#11|F#/Gb 9(b5) #9 / C
+764|Abaug7b9#9/C|F#/Gb min11(b5) / C
+765|Gb9b5(11)/C|F#/Gb 11(b5) / C
+766|Amin6/9b9/C|C ?
+767|C7(13)b13|C ?
+768|Cmaj7(13)b13|C ?
+769|C7b13(maj7)|C ?
+770|C7(13)(maj7)|C ?
+771|AminMaj9b9/C|C ?
+772|Fadd9b9#9/C|C ?
+773|FminAdd9Add11b9/C|C ?
+774|FminAdd9b9#11/C|C ?
+775|Fadd9Add11b9/C|C ?
+776|Fadd9b9#11/C|C ?
+777|G7(11)#9(maj7)/C|F#/Gb maj11(b5 b9) / C
+778|Ab13b9/C|C ?
+779|Faddb9#9#11/C|C ?
+780|FminAdd11b9#11/C|F#/Gb maj11(b5) / C
+781|Fadd11b9#11/C|C ?
+782|Fadd9Add11#9/C|C ?
+783|Fadd9#9#11/C|C ?
+784|FminAdd9Add11#11/C|C ?
+785|Fadd9Add11#11/C|C ?
+786|Fadd11#9#11/C|C ?
+787|Ab9b9(maj7)/C|C ?
+788|Amin13(maj7)/C|G#/Ab 7 maj7 b9 #9 / C
+789|Ab9#9(maj7)/C|C ?
+790|Amin13b9/C|C ?
+791|Ab9b9#9/C|C ?
+792|Amin9b9(maj7)/C|C ?
+793|D9b9#9(maj7)/C|C ?
+794|Cadd9Add11b9#9|C ?
+795|Dbmaj9b9#9/C|C ?
+796|F7(13)b13(maj7)/C|C ?
+797|C9(11)b9#9|C ?
+798|Db9b9#9(maj7)/C|C ?
+799|Cadd9b9#9#11|C ?
+800|Ab7(11)#11b13/C|C ?
+801|A6Add11#9#11/C|C ?
+802|C9b5b9#9|C ?
+803|Badd9Add11b9#9/C|C ?
+804|Cadd9b9#9b6|C ?
+805|C6/9b9#9|C ?
+806|C9b9#9|C ?
+807|Cmaj9b9#9|C ?
+808|Amaj7(11)#9#11/C|C ?
+809|Caug9b9#9|C ?
+810|E7(13)b13(maj7)/C|C ?
+811|C13b9#9|C ?
+812|Aadd9Add11#9#11/C|C ?
+813|C9b9#9(maj7)|C ?
+814|CminAdd9Add11b9#11|C ?
+815|Ab7(11,13)#11/C|C ?
+816|F13b9b13/C|D 7 maj7 b9 #9 / C
+817|Cmin11b5b9|C ?
+818|Badd9b9#9#11/C|C ?
+819|CminAdd9Add11b9b6|C ?
+820|Cmin6/9Add11b9|C ?
+821|Cmin11b9|C ?
+822|CminMaj11b9|C ?
+823|F13#9b13/C|C ?
+824|Dbmaj13b9/C|C ?
+825|Ab6Add11#9#11/C|C ?
+826|Cmin13b9|C ?
+827|F7(13)#11b13/C|C ?
+828|Bbadd9Add11b9#9/C|C ?
+829|CminAdd9b9#11b6|C ?
+830|Cmin6/9b9#11|C ?
+831|Cmin9b9#11|C ?
+832|CminMaj9b9#11|C ?
+833|Ab7(11)b9#11/C|C ?
+834|Ab9(11)#11/C|C ?
+835|B6/9b9#9/C|C ?
+836|Cmin13b5b9|C ?
+837|B9b9#9/C|C ?
+838|Bmaj9b9#9/C|C ?
+839|Cmin6/9b9b6|C ?
+840|Cmin9b9b13|C ?
+841|Abmaj7(11)#9#11/C|C ?
+842|Cmin13b9|C ?
+843|CminMaj13b9|C ?
+844|Cmin9b9(maj7)|C ?
+845|Abadd9Add11b9#11/C|C ?
+846|B13b9#9/C|C ?
+847|Abadd9Add11#9#11/C|C ?
+848|Cmin13b9(maj7)|C ?
+849|Cadd9Add11b9#11|C ?
+850|Dbmaj7(11)b9#9/C|C ?
+851|D9#9(maj7)/C|C ?
+852|C9b5(11)b9|C ?
+853|BminAdd9Add11b9#11/C|C ?
+854|Cadd9Add11b9b6|C ?
+855|C6/9Add11b9|C ?
+856|C9(11)b9|C ?
+857|Cmaj9(11)b9|C ?
+858|C6/9#5Add11b9|A maj11(#9) b13 / C
+859|Caug9(11)b9|C ?
+860|E13b9b13/C|C#/Db 7 maj7 b9 #9 / C
+861|C13(11)b9|C ?
+862|Cmaj13(11)b9|C ?
+863|Bbadd9b9#9#11/C|C ?
+864|Cadd9b9#11b6|C ?
+865|C6/9b9#11|F#/Gb min7 b9 #11 b13 / C
+866|C9b9#11|C ?
+867|Cmaj9b9#11|C ?
+868|Amaj13(11)#9/C|C 6(b5) 9 b9 b13
+869|Caug9b9#11|C 9(b5) b9 b13
+870|E13b13/C|C ?
+871|C13b5b9|C ?
+872|Bmin11b9/C|C ?
+873|Gb7(11)#11b13/C|C ?
+874|C6/9b9b6|C 6 9 b9 b13
+875|C9b9b13|C ?
+876|E13#9b13/C|C ?
+877|C13b9|C ?
+878|Cmaj13b9|C ?
+879|C9b9(maj7)|C ?
+880|Caug13b9|C ?
+881|E7(11,13)b13/C|C ?
+882|E7(13)#11b13/C|C ?
+883|C13b9(maj7)|C ?
+884|Dbmaj7(11)b9#11/C|C ?
+885|F6/9b9b6/C|C 6(sus2) b5 b9 11
+886|C11b9#11|C ?
+887|G7(11)#11(maj7)/C|C ?
+888|D7#9#11(maj7)/C|C 6(sus2 b5) b9 11 b13
+889|Bb9#9b13/C|D maj7(#5) #9 #11 #13 / C
+890|Bmin6/9b9#11/C|C ?
+891|Bbmaj9#9b13/C|C ?
+892|Bmin9b9#11/C|C ?
+893|BminMaj9b9#11/C|C ?
+894|Dmin7(11)#11(maj7)/C|C ?
+895|Bb13#9/C|C ?
+896|G7(11)b9#11/C|C ?
+897|Gmin11#11/C|C ?
+898|G9(11)#11/C|C ?
+899|Bb6/9b9#9/C|C ?
+900|Bb9#9(maj7)/C|C ?
+901|Bmin13b5b9/C|C ?
+902|Bb9b9#9/C|C ?
+903|Bbmaj9b9#9/C|C ?
+904|D7(11)#11(maj7)/C|C ?
+905|GminMaj11b9#11/C|C ?
+906|Gmaj7(11)b9#11/C|C ?
+907|GminMaj11#11/C|C ?
+908|Gmaj9(11)#11/C|C ?
+909|Gmaj7(11)#9#11/C|C ?
+910|D7#11b13(maj7)/C|C ?
+911|Bmin13b9/C|C ?
+912|BminMaj13b9/C|C ?
+913|D7(13)b13(maj7)/C|C ?
+914|GminAdd9Add11b9#11/C|C ?
+915|Gadd9Add11b9#11/C|C ?
+916|Bb13b9#9/C|C ?
+917|Gadd9Add11#9#11/C|C ?
+918|Bb9b9#9(maj7)/C|C ?
+919|Cadd11b9#9#11|C ?
+920|Ab7(11,13)b13/C|C ?
+921|Ebmin13b5b9/C|C ?
+922|Ebmin13b9/C|C ?
+923|Badd9Add11b9#11/C|C ?
+924|Dbmaj9#9#11/C|C ?
+925|C6Add11b9#9|C ?
+926|C7(11)b9#9|C ?
+927|Cmaj7(11)b9#9|C ?
+928|Dbmaj9#9b13/C|C ?
+929|Bbmin11#11/C|C ?
+930|Db9#9(maj7)/C|C ?
+931|C13(11)b9#9|C ?
+932|F7#11b13(maj7)/C|C ?
+933|BbminAdd9Add11b9#11/C|C ?
+934|DbminMaj11#11/C|C ?
+935|C6b9#9#11|A 13(#9 #11) / C
+936|C7b9#9#11|F#/Gb 13(b9 #11) / C
+937|Cmaj7b9#9#11|C ?
+938|Gbmin13#11/C|C 6(b5) b9 #9 b13
+939|Gb13#11/C|C 7(b5) b9 #9 b13
+940|Gb11(13)#11/C|C ?
+941|C13b5b9#9|F#/Gb 13(#9 #11) / C
+942|Gbmin7(11,13)#11/C|C ?
+943|Gb7(11,13)#11/C|C ?
+944|C6b9#9b6|C min6 b9 b11 b13
+945|C7b9#9b13|C 7 b9 #9 b13
+946|Cmaj7b9#9b13|G#/Ab maj11(#9) b13 / C
+947|C13b9#9|D#/Eb 13(b9 #11) / C
+948|Cmaj13b9#9|C ?
+949|Eb13b9b13/C|C 7 maj7 b9 #9
+950|Caug13b9#9|C ?
+951|Amaj9#9#11/C|C ?
+952|Dbmin13(maj7)/C|C ?
+953|Aadd9b9#9#11/C|C ?
+954|Dbmaj9(11)#11/C|C ?
+955|Cmin6Add11b9#11|C ?
+956|Cmin11b9#11|C ?
+957|CminMaj11b9#11|C ?
+958|Ebmin13b5/C|C dim11(b9) b13
+959|Ebmin13/C|C min11(b5 b9) b13
+960|Ab13(11)#9/C|F min7 b9 #11 b13 / C
+961|Ebmin13#11/C|C min13(b5 b9)
+962|B9b9#11/C|C ?
+963|Bmaj9b9#11/C|C ?
+964|F9#9b13/C|C#/Db maj9 #11 b13 / C
+965|Bbmin13/C|C min11(b9) b13
+966|Abmaj13(11)#9/C|C min maj11(b9) b13
+967|Cmin13b9|C min13(b9)
+968|CminMaj13b9|C min maj13(b9)
+969|Eb13b13/C|C ?
+970|Eb11(13)#11/C|C ?
+971|F7#9#11b13/C|C ?
+972|Bbmin11b9/C|C ?
+973|F7(11)#11b13/C|C ?
+974|Gbmin6/9b9#11/C|C ?
+975|Eb13(11)#9/C|C min7 b9 #11 b13
+976|CminMaj7b9#11b13|C min maj7 b9 #11 b13
+977|Cmin13b9#11|D#/Eb 13(#9 #11) / C
+978|CminMaj13b9#11|C ?
+979|Eb13#9b13/C|C ?
+980|Ebmin7(11,13)#11/C|C ?
+981|B13b9/C|C ?
+982|Bmaj13b9/C|C ?
+983|Gb6Add11#9#11/C|C ?
+984|Cmin13b9b13|C ?
+985|Abmaj7(11)b9#9/C|C ?
+986|Eb7(11,13)b13/C|C ?
+987|Cmin13b9(maj7)|C ?
+988|Abadd9Add11b9#9/C|C ?
+989|Cadd11b9#11b6|C ?
+990|C6Add11b9#11|C ?
+991|C7(11)b9#11|C ?
+992|Cmaj7(11)b9#11|C ?
+993|Gbmin9#11(maj7)/C|C#/Db maj11(#9) b13 / C
+994|Caug7(11)b9#11|C 11(b5 b9) b13
+995|E6/9b9b6/C|C maj11(b5 b9) b13
+996|C13b5(11)b9|C 13(b5 b9)
+997|Cmaj13b5(11)b9|C ?
+998|C7b5(11)b9(maj7)|C ?
+999|C6Add11b9b6|C ?
+1000|C7(11)b9b13|C 11(b9) b13
+1001|Cmaj7(11)b9b13|C maj11(b9) b13
+1002|C13(11)b9|C 13(b9)
+1003|Cmaj13(11)b9|C#/Db maj7(#5) #9 #11 #13 / C
+1004|C7(11)b9(maj7)|C ?
+1005|Caug13(11)b9|F maj11(#9) b13 / C
+1006|Cmaj13#5(11)b9|C ?
+1007|Bbmin9b9#11/C|C ?
+1008|C13(11)b9(maj7)|C ?
+1009|Gbmin9b9#11/C|C ?
+1010|C7b9#11b13|C ?
+1011|Cmaj7b9#11b13|C ?
+1012|C13b9#11|C 13(b9 #11)
+1013|Cmaj13b9#11|C ?
+1014|C7b9#11(maj7)|C ?
+1015|Caug13b9#11|C ?
+1016|Gbmin11#11/C|C ?
+1017|Gb9(11)#11/C|C ?
+1018|A6/9b9#9/C|C ?
+1019|C13b9b13|A 7 maj7 b9 #9 / C
+1020|Cmaj13b9b13|C ?
+1021|C7b9b13(maj7)|C ?
+1022|C13b9(maj7)|C ?
+1023|Amaj9b9#9/C|C ?
+1024|GbminMaj9b9#11/C|C ?
+1025|Gbmaj9b9#11/C|C ?
+1026|FminAdd9b9#11b6/C|C ?
+1027|Gbmaj7b9#9#11/C|C ?
+1028|GbminMaj11b9#11/C|C ?
+1029|Gbmaj7(11)b9#11/C|C ?
+1030|Gbmaj9#9#11/C|C ?
+1031|GbminMaj11#11/C|C ?
+1032|Gbmaj9(11)#11/C|C ?
+1033|Gbmaj7(11)#9#11/C|C ?
+1034|Bbmin13(maj7)/C|C ?
+1035|Fadd9#9#11b6/C|C ?
+1036|Bbmin13b9/C|C ?
+1037|BbminMaj13b9/C|C ?
+1038|Bbmin9b9(maj7)/C|C ?
+1039|Gbadd9b9#9#11/C|C ?
+1040|GbminAdd9Add11b9#11/C|C ?
+1041|Gbadd9Add11b9#11/C|C ?
+1042|A13b9#9/C|C ?
+1043|Gbadd9Add11#9#11/C|C ?
+1044|A9b9#9(maj7)/C|C ?
+1045|Cadd9Add11#9#11|C ?
+1046|Ab7(13)#11b13/C|C ?
+1047|D9b9#9/C|C ?
+1048|C9b5(11)#9|C ?
+1049|D13b9#9/C|C ?
+1050|Cadd9Add11#9b6|C ?
+1051|C6/9Add11#9|C ?
+1052|C9(11)#9|C ?
+1053|Cmaj9(11)#9|C ?
+1054|Dmin9b9#11/C|C ?
+1055|Caug9(11)#9|C ?
+1056|Cmaj9#5(11)#9|C ?
+1057|C13(11)#9|C ?
+1058|Dmin13b9/C|C ?
+1059|Bbadd9Add11b9#11/C|C ?
+1060|Cadd9#9#11b6|C ?
+1061|C6/9#9#11|C ?
+1062|C9#9#11|C ?
+1063|Cmaj9#9#11|C ?
+1064|D9b9#11/C|C ?
+1065|Caug9#9#11|C 9(b5) #9 b13
+1066|Ab7#9#11b13/C|C ?
+1067|C13b5#9|C ?
+1068|D13b9/C|C ?
+1069|Bmaj7(11)b9#9/C|C ?
+1070|C6/9#9b6|C ?
+1071|C9#9b13|C min9 b11 b13
+1072|Cmaj9#9b13|C ?
+1073|C13#9|C ?
+1074|Cmaj13#9|C ?
+1075|C9#9(maj7)|C ?
+1076|Caug13#9|C ?
+1077|AminMaj11#11/C|C ?
+1078|Caug9#9(maj7)|C ?
+1079|AminAdd9Add11b9#11/C|C ?
+1080|Fmin13b9/C|C ?
+1081|Cmin6/9Add11#11|C ?
+1082|Cmin11#11|C ?
+1083|CminMaj11#11|C ?
+1084|F13b9#9/C|G#/Ab 13(b9 #11) / C
+1085|Ab13#11/C|C min11(b5) b13
+1086|Ab13#9#11/C|G#/Ab 13(#9 #11) / C
+1087|Cmin13b5|C min13(b5)
+1088|D13b9#9/C|F 13(b9 #11) / C
+1089|Cmin11b5(maj7)|C ?
+1090|F13#9/C|C ?
+1091|Fmin13/C|C min11 b13
+1092|Fmin13#11/C|C min maj11 b13
+1093|Cmin13|C min13
+1094|CminMaj13|C min maj13
+1095|Cmin11(maj7)|C ?
+1096|F13(11)#9/C|D min7 b9 #11 b13 / C
+1097|F13#9#11/C|F 13(#9 #11) / C
+1098|Fmin7(11,13)#11/C|C ?
+1099|Cmin13(maj7)|C ?
+1100|Cmin6/9#11b6|C ?
+1101|Cmin9#11b13|C min9 #11 b13
+1102|CminMaj9#11b13|C min maj9 #11 b13
+1103|Cmin13#11|C min13(#11)
+1104|CminMaj13#11|C min maj13(#11)
+1105|Cmin9#11(maj7)|G maj11(#9) b13 / C
+1106|Cmin13b5b13|C ?
+1107|D13b9#11/C|D 13(b9 #11) / C
+1108|Ab9#9#11/C|C ?
+1109|Cmin13b5(maj7)|B 7 maj7 b9 #9 / C
+1110|Cmin13b13|C ?
+1111|CminMaj13b13|C ?
+1112|Abmaj9#9#11/C|C ?
+1113|Cmin13(maj7)|C ?
+1114|Abadd9b9#9#11/C|C ?
+1115|Cadd9Add11#11b6|C ?
+1116|C6/9Add11#11|C ?
+1117|C9(11)#11|C ?
+1118|Cmaj9(11)#11|C ?
+1119|D9#9#11/C|C ?
+1120|Caug9(11)#11|C 11(b5) b13
+1121|E9b9b13/C|C ?
+1122|C13b5(11)|C 13(b5)
+1123|Cmaj13b5(11)|C ?
+1124|BminMaj11b9#11/C|C ?
+1125|Dmin11#11/C|C ?
+1126|C9(11)b13|C 11 b13
+1127|Dmin13b5/C|C maj11 b13
+1128|C13(11)|C 13
+1129|Cmaj13(11)|C maj13
+1130|C9(11)(maj7)|E min7 b9 #11 b13 / C
+1131|Caug13(11)|C 13(#5)
+1132|Cmaj13#5(11)|C maj13(#5)
+1133|Bb9b9#11/C|C ?
+1134|Bbmaj9b9#11/C|C ?
+1135|D9(11)#11/C|C ?
+1136|C9#11b13|C 9 #11 b13
+1137|E9#9b13/C|C maj9 #11 b13
+1138|C13#11|C 13(#11)
+1139|Amin13/C|C maj13(#11)
+1140|C9#11(maj7)|C maj9 b7 #11
+1141|Caug13#11|C 13(#5 #11)
+1142|D13#11/C|C maj13(#5 #11)
+1143|E9#11b13/C|C maj9(#5) b7 #11
+1144|D13b13/C|C ?
+1145|C13b13|C ?
+1146|Cmaj13b13|C ?
+1147|C9b13(maj7)|C ?
+1148|C13(maj7)|C ?
+1149|Caug13(maj7)|C ?
+1150|F6/9b9#9/C|C ?
+1151|Bb13b13/C|C ?
+1152|Fmin6/9b9#11/C|C ?
+1153|C11(13)#11|C ?
+1154|D13(11)#9/C|C maj13(sus4) #11
+1155|C11#11(maj7)|C maj9(sus4) b7 #11
+1156|D7#9#11b13/C|C ?
+1157|D13#9#11/C|D 13(#9 #11) / C
+1158|Bb9b9b13/C|C ?
+1159|D13#9b13/C|C ?
+1160|Gmin11b9/C|C ?
+1161|Dmin7(11,13)#11/C|C ?
+1162|Bb13b9/C|C ?
+1163|Bbmaj13b9/C|C ?
+1164|F6Add11#9#11/C|C ?
+1165|D7(11)#11b13/C|C ?
+1166|D7(11,13)#11/C|C ?
+1167|Gmaj7(11)b9#9/C|C ?
+1168|D7(11,13)b13/C|C ?
+1169|D7(13)#11b13/C|C ?
+1170|Gadd9Add11b9#9/C|C ?
+1171|Cadd11#9#11b6|C ?
+1172|C6Add11#9#11|C ?
+1173|C7(11)#9#11|C ?
+1174|Cmaj7(11)#9#11|C ?
+1175|Ab13b9b13/C|F 7 maj7 b9 #9 / C
+1176|Ab13b13/C|C ?
+1177|Ab13#9b13/C|C ?
+1178|C13b5(11)#9|C ?
+1179|B7(11)b9#11/C|C ?
+1180|Bmaj7(11)b9#11/C|C ?
+1181|C6Add11#9b6|C ?
+1182|C7(11)#9b13|C ?
+1183|Cmaj7(11)#9b13|C maj11(#9) b13
+1184|C13(11)#9|C 13(#9)
+1185|Cmaj13(11)#9|C maj13(#9)
+1186|C7(11)#9(maj7)|C maj11(#9) b7
+1187|Caug13(11)#9|C 13(#5 #9)
+1188|Cmaj13#5(11)#9|C maj13(#5 #9)
+1189|Caug7(11)#9(maj7)|C ?
+1190|C13(11)#9(maj7)|C ?
+1191|C6#9#11b6|C ?
+1192|C7#9#11b13|C ?
+1193|Cmaj7#9#11b13|C ?
+1194|C13#9#11|C 13(#9 #11)
+1195|Cmaj13#9#11|C maj13(#9 #11)
+1196|C7#9#11(maj7)|C maj7 #9 #11 #13
+1197|Caug13#9#11|C ?
+1198|Gbmin13b5/C|C maj13(#5 #9 #11)
+1199|Ab9#9b13/C|C maj7(#5) #9 #11 #13
+1200|Amin6/9b9#11/C|C ?
+1201|C13#9b13|C ?
+1202|Cmaj13#9b13|E maj11(#9) b13 / C
+1203|C7#9b13(maj7)|C ?
+1204|C13#9(maj7)|C ?
+1205|Caug13#9(maj7)|C ?
+1206|F9b9#9/C|C ?
+1207|Fmin11b9/C|C ?
+1208|Fmin9b9#11/C|C ?
+1209|Cmin7(11,13)#11|C ?
+1210|CminMaj7(11,13)#11|C ?
+1211|Cmin7(11)#11(maj7)|C ?
+1212|Ab13b9/C|C ?
+1213|Ab13b9#9/C|B 13(b9 #11) / C
+1214|Ab13#9/C|C ?
+1215|Cmin7b5(11,13)(maj7)|C ?
+1216|Cmin7(11,13)b13|C ?
+1217|F9#9#11/C|C ?
+1218|Fmin11#11/C|C ?
+1219|Cmin7(11,13)(maj7)|C ?
+1220|Ab6/9b9#9/C|C ?
+1221|Cmin7(13)#11b13|C ?
+1222|B13b9b13/C|G#/Ab 7 maj7 b9 #9 / C
+1223|Ab9#9(maj7)/C|C ?
+1224|Cmin7(13)#11(maj7)|C ?
+1225|Ab9b9#9/C|C ?
+1226|Abmaj9b9#9/C|C ?
+1227|Fmaj9b9#9/C|C ?
+1228|C7(11)#11b13|C ?
+1229|Cmaj7(11)#11b13|C ?
+1230|C7(11,13)#11|C ?
+1231|Cmaj7(11,13)#11|C ?
+1232|C7(11)#11(maj7)|C ?
+1233|Caug7(11,13)#11|C ?
+1234|Fmaj7b9#9#11/C|C ?
+1235|FminMaj11b9#11/C|C ?
+1236|Fmaj7(11)b9#11/C|C ?
+1237|C7(11,13)b13|C ?
+1238|Fmaj9#9#11/C|C ?
+1239|C7(11)b13(maj7)|C ?
+1240|C7(11,13)(maj7)|C ?
+1241|Fmaj7(11)#9#11/C|C ?
+1242|C7(13)#11b13|C ?
+1243|Cmaj7(13)#11b13|C ?
+1244|C7#11b13(maj7)|C ?
+1245|Amin13b9/C|C ?
+1246|AminMaj13b9/C|C ?
+1247|C7(13)b13(maj7)|C ?
+1248|Fadd9Add11b9#9/C|C ?
+1249|Fadd9b9#9#11/C|C ?
+1250|FminAdd9Add11b9#11/C|C ?
+1251|Fadd9Add11b9#11/C|C ?
+1252|Ab13b9#9/C|C ?
+1253|Fadd9Add11#9#11/C|C ?
+1254|Ab9b9#9(maj7)/C|C ?

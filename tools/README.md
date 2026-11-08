@@ -196,6 +196,19 @@ Every one of the 24 names accounts for exactly the notes played, and the bass
 agreed in all twelve, so what is left is which root to name and how to
 punctuate it.
 
+## `scaler_agree.py` — every chord Scaler Detector named
+
+All 803 chords of two to seven notes over C that Scaler Detector named (the
+`?` rows left out), from `scaler_vocabulary.py` and `scaler_vocabulary_5to7/`,
+named afresh by a script in C Minor (Natural) as they were played, and scored
+on root and bass - so `C maj add 13` and `C6` agree. One line per chord, so
+two builds diff; the summary goes to stderr.
+
+```sh
+python3 tools/scaler_agree.py
+python3 tools/scaler_agree.py --script candidate.lua > after.txt
+```
+
 ## `scaler_vocabulary.py` — every shape Scaler names, two to four notes
 
 All 231 two-, three- and four-note sets containing C, played over C in REAPER
@@ -203,16 +216,16 @@ with Scaler Detector's name and ScaleView Pro's beside each, plus three shapes
 played over all twelve basses (`TRANSPOSED`). It holds data, not a harness:
 run it for the list of shapes Scaler names from the bass, its slash readings
 and the agreement count. The Pro names are as read on 1 November 2026, before
-decision 0014; `CLAUDE.md`, *Scaler's vocabulary, mapped*, has the one that
+decisions 0011 was reversed and 0014 became moot; `CLAUDE.md`, *Scaler's vocabulary, mapped*, has the one that
 has moved since.
 
 ```sh
 python3 tools/scaler_vocabulary.py
 ```
 
-`scaler_vocabulary_5to7/` is the five- to seven-note run, **in progress**:
-371 of 1,254 chords read, with the stepper ReaScript that plays them and the
-steps to resume in its README. Every Pro name in it matches the script.
+`scaler_vocabulary_5to7/` is the five- to seven-note run, **finished**: all
+1,254 chords read, with the stepper ReaScript that plays them. Every Pro name
+in it passes `check_readings.py`.
 
 ## `wikipedia_chords.py` — is anything missing from the vocabulary
 

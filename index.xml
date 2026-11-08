@@ -41,6 +41,10 @@
         <changelog><![CDATA[Easier to see and in your system's typeface, after Apple's design guidelines: circles outside the scale keep their dark fill but get a thin lighter rim, so every note's place shows (3:1 contrast, was 1.4:1); note names and the label use San Francisco on a Mac or Segoe UI on Windows where REAPER can find them, Arial otherwise.]]></changelog>
         <source main="main">https://raw.githubusercontent.com/KallumS/ScaleView-for-Reaper/40ebb48618b9f46138e3073f1d0ecd36a128f840/reascripts/ScaleView%20Pro.lua</source>
       </version>
+      <version name="1.3.0" author="kallums" time="2026-11-07T18:00:00Z">
+        <changelog><![CDATA[Chords are named by ScaleView's own reading again, not checked against Starting Blocks' chord list. That list held only complete chords, so a chord played with a note left out was often named on the wrong root: C D E G A B now reads Cmaj13 (was Amin11/C), C D Eb Bb Cmin9 (was A#add9Add11/C), C D Bb C7sus2 (was A#add9/C), C D Eb Gb A Cdim9 (was D7b9/C). A lone tritone reads out as two notes again.]]></changelog>
+        <source main="main">https://raw.githubusercontent.com/KallumS/ScaleView-for-Reaper/f13f8a647073d9ddfb6dd68ed064819f64b7f556/reascripts/ScaleView%20Pro.lua</source>
+      </version>
       <metadata>
         <description><![CDATA[{\pard ScaleView Pro\par
 A 200x100 icon showing the twelve pitch classes as circles - five black keys over seven white - with the notes of the selected scale lit, the notes you play ringed, and the chord you are holding named underneath.\par

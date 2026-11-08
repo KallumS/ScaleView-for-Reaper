@@ -41,10 +41,10 @@ Commits  - where it landed
 | [0008](0008-adopt-the-house-colour-scheme.md) | Adopt the house colour scheme | Accepted |
 | [0009](0009-an-altered-dominant-keeps-its-root.md) | An altered dominant on its root keeps its alterations | Accepted |
 | [0010](0010-a-draw-goes-to-the-reading-without-a-slash.md) | A draw goes to the reading without a slash | Accepted |
-| [0011](0011-starting-blocks-decides-a-chords-roots.md) | Let Starting Blocks decide which roots a chord can have | Accepted |
+| [0011](0011-starting-blocks-decides-a-chords-roots.md) | Let Starting Blocks decide which roots a chord can have | Reversed |
 | [0012](0012-menu-text-follows-apples-writing-guidelines.md) | Write the menus to Apple's writing guidelines | Accepted |
 | [0013](0013-apples-hig-foundations.md) | Apple's HIG Foundations are the standard for the icon | Accepted |
-| [0014](0014-maj7sus2-is-the-one-root-outside-blocks.md) | Let maj7(sus2) name a chord, the one root outside Starting Blocks | Accepted |
+| [0014](0014-maj7sus2-is-the-one-root-outside-blocks.md) | Let maj7(sus2) name a chord, the one root outside Starting Blocks | Moot (0011 reversed) |
 
 Records 0001 to 0007 were taken before they were written down; the dates and
 commits are when each landed in the code, not when this file was created.

@@ -24,6 +24,9 @@ over all twelve bass notes plus a few octave repeats. They show that Scaler's
 choice of the other root depends on the absolute pitch class, not only on the
 shape. Only Scaler was read for these.
 
+The 5-, 6- and 7-note continuation (in progress) lives in
+scaler_vocabulary_5to7/.
+
 Run it to print the summary; nothing here needs Lua.
 """
 import re, collections

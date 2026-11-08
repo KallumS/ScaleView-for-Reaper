@@ -21,7 +21,7 @@ Rows: tools/scaler_cases.py, last block of CASES (58 rows now; 24 old + 34 new).
 - Pro = Scaler's root on 134/214.
 - Not touched: reascripts/ScaleView Pro.lua. Lua not installed.
 
-## 5-7 note run - paused 2 Nov 2026 (user's weekly limit)
-- Backup + resume steps: ScaleView-for-Reaper-main/tools/scaler_vocabulary_5to7/README.md
-- Done chords 1-371 of 1,254 (all 5-note, 6-note up to 371). readings.txt = table; remaining.txt + chord_stepper.lua to continue.
-- Nothing added to CLAUDE.md or scaler_vocabulary.py for this batch yet.
+## 5-7 note run - FINISHED 7 Nov 2026
+- All 1,254 chords (5, 6 and 7 notes) read; 0 mismatches. Data: ScaleView-for-Reaper-main/tools/scaler_vocabulary_5to7/ (readings.txt). Write-up: CLAUDE.md "Five, six and seven notes".
+- Scaler `?` rate: 26% (5 notes), 47% (6), 79% (7). Pro/Scaler root agreement 47% / 35% / 48% of the 98 named 7-note chords.
+- Open: Scaler-name vs notes check; re-read chords 76, 99, 979. Algorithm untouched; nothing committed.

@@ -131,12 +131,13 @@ CASES = [
     ("C Minor (Natural)", "F A Bb E",  "E",  "Fmaj7 11/E",       "Pro Fmaj7(11)/E: same"),
     ("C Minor (Natural)", "Eb E Gb B", "B",  "Bmaj add 11",      "Pro Badd11: same"),
     #     Without a seventh and with the add11's root not in the bass, Scaler
-    #     takes the maj7(sus2) on the 11 instead. Pro cannot: maj7(sus2) is not
-    #     a Starting Blocks chord type, so that root is never offered.
-    ("C Minor (Natural)", "Eb E Gb B", "E",  "Emaj7(sus2)",      "Pro Badd11/E: the 11 in the bass"),
+    #     takes the maj7(sus2) on the 11 instead. Pro could not while decision
+    #     0011 limited roots to Starting Blocks' chord types; since it was
+    #     reversed (7 November 2026) Pro agrees where its 11 would be the bass.
+    ("C Minor (Natural)", "Eb E Gb B", "E",  "Emaj7(sus2)",      "was Badd11/E under 0011, the 11 in the bass"),
     ("C Minor (Natural)", "Eb E Gb B", "Gb", "Emaj7(sus2)/F#",   "Pro Badd11/Gb"),
     ("C Minor (Natural)", "C E F G",   "E",  "Fmaj7(sus2)/E",    "Pro Cadd11/E"),
-    ("C Minor (Natural)", "C E F G",   "F",  "Fmaj7(sus2)",      "Pro Cadd11/F: the 11 in the bass"),
+    ("C Minor (Natural)", "C E F G",   "F",  "Fmaj7(sus2)",      "was Cadd11/F under 0011, the 11 in the bass"),
 ]
 
 

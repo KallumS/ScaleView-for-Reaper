@@ -678,86 +678,49 @@ tuning them, each of which broke a test first:
   one way and a minor sixth the other. A second, a fourth, a tritone, a sixth
   or a seventh is still read out as notes.
 
-### Starting Blocks decides which roots a chord can have
+### Starting Blocks no longer decides the root (decision 0011, reversed)
 
-Since October 2026 (decision 0011), **Starting Blocks is the dictionary**.
-The user's call: Blocks has the correct chord construction, and wherever Pro
-and Blocks disagree, Blocks is right. Where the notes held are a Blocks chord
-- one of its 78 chord types (`BLOCKS_CHORDS`, `M.CHORDS` in Starting Blocks'
-`sb_engine.lua`) on any root with any of its notes in the bass, or one of the
-key's own chords (`BLOCKS_DIATONIC`, `M.DIATONIC`) on its degrees - the
-symbol is on **one of Blocks' roots for them**, and the cost below chooses
-between those roots as it chooses between any. Everything else is read as
-before. The tables are Starting Blocks' at `fc4dd32`, copied unchanged; if
-they change there, they change here and in every copy.
+From 10 October to 7 November 2026 Starting Blocks' chord list was Pro's
+dictionary: where the notes were one of its 78 chord types on any root, or
+one of the key's own chords, the name had to be on one of Blocks' roots. **The
+user removed it**, and the reader is byte-identical again to the one before
+`df4ea43`. Do not bring a chord list back as a gate on the root without
+reading why it went:
 
-Things learned measuring it, against every chord Blocks builds in all 288
-keys (670,248, generated through Noterator's own Blocks toolbox):
+- **A list of complete chords cannot see an omission.** Players leave out the
+  fifth, and the 11th under a 13th, and Blocks lists neither, so such a
+  voicing lost its root to any complete chord with the same notes: Cmaj13
+  without its 11th read `Amin11/C`, a Cmin9 shell `A#add9Add11/C`, C7sus2
+  `A#add9/C`, Cdim9 `D7b9/C`. Against Scaler Detector the dictionary overrode
+  the reader's own, agreeing, choice 47 times.
+- **Adding omissions to the list made it worse**, not better (-17 against
+  Scaler): every root the list gains is a reading it takes away from the
+  reader wherever the list had happened to have nothing.
+- **It was also hiding real faults in the reader**, and those are back:
+  Dbmaj9 over Ab reads `Ab6Add11`, C7b9 over G `Gdim7Add11`, and Blocks' own
+  chords sit on a Blocks root 60.8% of the time (2,738 voicings: every type,
+  root and inversion). An extended chord in inversion re-read as an odd chord
+  on its bass is the open problem, and any fix for it has to keep the shells
+  above on their roots.
 
-- **No reading of notes alone can match Blocks every time.** 19% of Blocks'
-  chords share their notes and bass with a Blocks chord on another root -
-  C E G A over C is I6 and vi7 in first inversion. Noterator gets 100% for
-  chords *inserted* from Blocks by recording the root with them (its 0046);
-  Pro can only choose, and its ceiling was 85.7%.
-- **Majority voting among Blocks' readings scores higher and reads worse.**
-  It reached 85% but read C F G as `Fsus2/C`: Blocks can build those notes
-  from F three ways (sus2 in two families, the quintal triad) and from C two.
-  Taking the bass first fixed that and read E G B C as `Eminb6` (Blocks'
-  scale-built "6th" on E). Letting the reader's cost choose among Blocks'
-  roots keeps `Csus4` and `Cmaj7/E`.
-- **Restricting roots to the selected key matches Blocks best and reads real
-  music worse**: 83.4% of Blocks' chords, but a Bm7 in F major read `D6/B`
-  and lead-sheet agreement fell from 99.27% to 97.93%. Chord types on any
-  root: 74.4% and 99.33%. The user chose the second.
-- **Count a voicing once.** Blocks offered a "3rd inversion" of a triad, which
-  was its second again; counting it twice flipped C E G# to `Eaug/C`.
-- **Blocks now offers each chord its own inversions** (Starting Blocks'
-  decision 0007, the same day): a triad two, a seventh three, a thirteenth
-  six. The dictionary needed nothing - it already took any of a chord's notes
-  in the bass, and the tables did not change. Re-measured over the new set
-  (735,822 chords in 288 keys, through Noterator's copy of this reader):
-  71.2% on Blocks' root over its bass; 97.0% in root position, 60-70% for
-  the 1st to 5th inversions, 30.2% for a thirteenth's 6th. That last is the
-  notes, not the reader: a diatonic thirteenth is all seven notes of the
-  scale, so I13 over its 13th is vi13 in root position, note for note.
-- **Matching Blocks as far as it can be matched, and no further** (the user
-  chose to leave it here, 10 October 2026). The fairer question than "on the
-  root Blocks used" is "named as something Blocks makes from those notes and
-  bass in that key": 90.35% of the 735,822, **100% of the key's own chords
-  and of every chord whose notes are all in the key**, the bass right on
-  99.93% (the rest are doubled roots read as root position, by design). Every
-  one of the 70,992 others has notes outside the key and is read from a root
-  that is not a note of the key, where Blocks builds only on the key's
-  notes - in C major Blocks' E6 reads `C#min7/G#`. Preferring the key's
-  notes as roots would close it and is the restriction measured above (Bm7
-  in F major as `D6/B`, lead sheets down to 97.93%). The exact-root ceiling
-  from notes, bass and key is 81.0%, from notes and bass alone 72.1%: Blocks
-  builds the same notes over the same bass from different buttons.
-- **In Lua, `t[#t + 1] = table.remove(t, 1) + 12` leaves a hole**: the slot
-  is counted before the removal. The first version read C E G as `D11/C`.
+What it measured, kept because it will be asked again: 19% of Blocks' chords
+share notes and bass with a Blocks chord on another root, so no reading of
+notes alone matches Blocks every time; restricting roots to the selected key
+matched Blocks best (83.4%) and read real music worst (lead sheets 97.93%, a
+Bm7 in F major as `D6/B`). Two lessons from building it still hold: **count a
+voicing once** (a triad's "3rd inversion" is its second again, and counting it
+twice flipped C E G# to `Eaug/C`), and **in Lua, `t[#t + 1] =
+table.remove(t, 1) + 12` leaves a hole**, because the slot is counted before
+the removal.
 
-The blast radius: 1,074 of the 17,688 sweep names in every key (all still
-exact), 8,400 of the corpus's 363,963 sonorities (2.31% - suspended and
-quartal voicings, now Blocks' quartal and whole-tone chords: `Gsus4Add9` to
-`Amin7(11)/G`, `G7sus2` to `Fadd9/G`), lead sheets 99.27% to 99.33%,
-jazznet and Wikipedia's list unchanged. Six pinned names moved, listed in the
-decision.
-
-**One root outside Blocks: maj7(sus2)** (decision 0014, 1 November 2026).
-`{0,2,7,11}` is accepted beside Blocks' types in `blocksRoots`. Its notes are
-Blocks' add11 on its fifth, so without it F G C E over F could only read
-`Cadd11/F` - the add11's own 11 in the bass - where Scaler says
-`Fmaj7(sus2)`. The cost picks it only from its own root; in every other
-position the add11 still wins, in all 288 keys. Measured: 12 sweep names (one
-shape in twelve keys, each `Xadd11/` over its 11 to `Ymaj7sus2`), Scaler root
-agreement 31 to 33 of 58, jazznet and Wikipedia unchanged, lead sheets 99.33%
-to 99.27% (`Eb/Ab` reads `Abmaj7sus2` again), 918 of the music21 corpus's 363,963
-sonorities (0.25%; 222 of 37,106 distinct, mostly F C E G over F, 103 of them),
-the objective score unmoved at 363,959. The 0011 pin
-`Gadd11/C` is `Cmaj7sus2` again. It makes Blocks' add11 voiced over its 11 the
-one Blocks chord in the key not named on a Blocks root. **Do not add a second
-exception without the same evidence** - Scaler naming from the bass where
-Pro's slash puts its own added tone there.
+**Decision 0014 (maj7(sus2) as a root outside Blocks) is moot.** It existed
+only so that F G C E over F could read `Fmaj7sus2` rather than `Cadd11/F`, the
+add11's own 11 in the bass, while 0011 limited roots to Blocks' types. With
+Blocks gone the reader already says `Fmaj7sus2` and `Emaj7sus2` there, and
+keeps `Cadd11/E` and `Cadd11/G` with a chord tone in the bass, so no exception
+is needed; the pins that 0014 added are kept in the suite as they were. What
+0014 measured stands as evidence that the pattern is real (12 sweep names, one
+shape in twelve keys; Scaler root agreement 31 to 33 of 58 with no losses).
 
 ### The complete triad wins
 
@@ -1089,13 +1052,12 @@ lead sheets, 20,030 chord symbols, 135 distinct shapes:
 | | |
 | --- | --- |
 | symbol accounts for exactly the notes, right bass | **100%** (20,027 of 20,027) |
-| names the arranger's root | **99.27%** (19,881) |
+| names the arranger's root | **99.27%** (19,880) |
 
-That is the figure after decision 0014 (1 November 2026). Decision 0011 had
-raised it to 99.33% (19,892), almost all of it `Eb/Ab` (11 symbols) reading
-`Ebadd11/Ab`; 0014 gives that back, because those notes over that bass are
-`Abmaj7sus2`, Eb's 11 no longer standing in the bass. The breakdown below was
-counted before 0011 and has not been redone; run today it is 79 slash over a
+That is the figure with Starting Blocks out (decision 0011 reversed). While 0011
+was in force it read 99.33% (19,892), almost all of it `Eb/Ab` (11 symbols)
+reading `Ebadd11/Ab`; 0014 gave part of that back and the reversal the rest.
+The breakdown below was counted before 0011 and has not been redone; run today it is 79 slash over a
 bass outside the chord, 33 inversions, 31 root position (26 of them `C13`
 reading `Amin11b9/C`, which the list below predates) and 3 symmetric.
 
@@ -1307,17 +1269,13 @@ three groups:
    **Pro does not follow it.** `C7/E` is what musicians write; `E dim #5`
    names a raised fifth that is really a root. Nothing to change.
 2. **maj7(sus2) against add11 (5 readings).** With no seventh and the add11's
-   root not in the bass, Scaler takes the maj7(sus2) on the 11. Pro cannot even
-   offer that root: maj7(sus2), `{0,2,7,11}`, is not a Starting Blocks chord
-   type, and decision 0011 limits roots to Blocks' readings. Two of the five
-   were worth a second look, because Pro's slash put **its own added 11 in the
-   bass**, which is a voicing nobody writes over its root: C E F G over F
-   (`Cadd11/F`, Scaler `Fmaj7(sus2)`) and Eb E Gb B over E (`Badd11/E`, Scaler
-   `Emaj7(sus2)`). **Pro now takes those two** (decision 0014, the one root
-   outside Blocks): `Fmaj7sus2` and `Emaj7sus2`. The other three put a chord
-   tone in the bass and Pro's reading is the more ordinary one; the cost keeps
-   them add11 without being told to. Root agreement over all 58 cases went
-   from 31 to 33, with no losses.
+   root not in the bass, Scaler takes the maj7(sus2) on the 11. Pro could not
+   offer that root while decision 0011 limited roots to Starting Blocks'
+   chord types, which have no maj7(sus2). Two of the five put Pro's **own added
+   11 in the bass**, a voicing nobody writes over its root, and since 0011 was
+   reversed Pro agrees on both: C E F G over F is `Fmaj7sus2` and Eb E Gb B
+   over E is `Emaj7sus2`. The other three put a chord tone in the bass and
+   Pro's add11 is the more ordinary reading; leave them.
 3. **A sixth against a seventh on another root (3 readings).** Scaler chose
    `C6/E` over `Amin7/E` and `Eb6/Bb` over `Cmin7/Bb`, but `Dmin6/F` over
    `Bmin7b5/F` while choosing `F#min7b5/C` over `Amin6/C`, the same two roles
@@ -1397,17 +1355,13 @@ consistent with all 36 readings, so the mechanism is still unknown. Treat it
 as an artefact, not something to copy.
 
 **Pro names Scaler's root on 134 of the 214 chords Scaler names** (6/11 two-
-note, 36/52 three-note, 92/151 four-note). Those are the names read in REAPER
-before decision 0014, and every one matches the script of that day. **Since
-0014 it is 135** (93/151 four-note): C D G B is `Cmaj7sus2`, Scaler's
-`C maj7(sus2)`, where it was `Gadd11/C`. No other row moves. Split by what
-Scaler did, as read:
+note, 36/52 three-note, 92/151 four-note). Split by what Scaler did:
 
-- Scaler named the bass: Pro agrees on 69 of 109 (70 since 0014). Five of the 40 others are
+- Scaler named the bass: Pro agrees on 69 of 109. Five of the 40 others are
   the dyads Pro deliberately spells out as notes (`C Db`). The rest are Pro
   choosing a commoner chord on another root where Scaler has a name from the
   bass: `Amin7(11)/C` for `C 6(sus2)`, `F7/C` for `C min6 11`, `Ab7/C` for
-  `C dim #5`, and `Gadd11/C` for `C maj7(sus2)` until 0014.
+  `C dim #5`, `Gadd11/C` for `C maj7(sus2)`.
 - Scaler used a slash: Pro agrees on 62 of 102. On 13 Pro stays on the bass
   where Scaler leaves it (`Cadd9b9` against `C#/Db min maj7 b9 / C`). On 27
   both leave the bass for different roots; 8 of those 27 are Scaler taking a
@@ -1419,9 +1373,115 @@ lead sheet uses (`5 maj7 #11`, `maj b9 #9`, `dim #5`), and its fallback is not
 transposition-invariant. Treat the list as the place to look when a
 disagreement needs explaining, not as a target.
 
+#### Five, six and seven notes (6-7 November 2026)
+
+The same experiment over every 5-, 6- and 7-note set containing C: all 330
+five-note, 462 six-note and 462 seven-note chords (1,254 in all, run finished
+7 November 2026). Data are in `tools/scaler_vocabulary_5to7/` (`readings.txt`);
+`check_readings.py` confirms every ScaleView name accounts for exactly the
+notes played (1,254 rows, 0 mismatches).
+
+| notes | named from the bass | another root, with a slash | `?` | Pro names Scaler's root |
+| --- | --- | --- | --- | --- |
+| 5 (330) | 83 | 162 | 85 | 114 of 245 |
+| 6 (462) | 71 | 175 | 216 | 85 of 246 |
+| 7 (462) | 67 | 31 | 364 | 47 of 98 |
+
+- **The rule carries over.** Every slash name is again a listed shape on the
+  root it names; Scaler adds no new fallback. 123 distinct qualities are named
+  from the bass at these two sizes, many new: `11`, `maj11`, `min11`, `13`,
+  `maj13`, `min13`, `13(sus4)`, `maj9(sus4)`, `min maj11(b9)`, `7 b9 #9`,
+  `6 9 b9`, `dim11(b9)`, `9(#5) #11`. Elevenths and thirteenths are written with
+  a bare number when the seventh is there (`C 11`, `C maj13`), and a missing
+  fifth is still dropped silently.
+- **`?` grows fast with size**: 26% of five-note, 47% of six-note and **79% of seven-note** chords (664 of 1,254 overall). Seven notes is mostly `?`: of the 98 named, 67 are named from the bass and only 31 get a slash. Names that do appear are almost all 13ths and altered extensions: `C 13(b9 #11)`, `C maj13(#9)`, `C min13(b5 b9)`, `C maj7(#5) #9 #11 #13`.
+  The three-adjacent-semitones description from the smaller sizes is too
+  narrow (27 of the five-note `?` chords have no such run). What all 301 `?`
+  chords share is **two or more adjacent-semitone pairs**, but so do 345 of the
+  491 named ones, so that is necessary and not sufficient. No simple description of the `?` sets has been found.
+- **Pro and Scaler agree on the root less often as chords grow**: 47% at five
+  notes, 35% at six, 48% of the 98 named seven-note chords, against 63% at four. Most disagreements are Pro reading a
+  chord on a Blocks root where Scaler names it from its bass (`Amin9/C`
+  against `C maj13`, `Bbmaj9/C` against `C 13(sus4)`).
+- **Reading Pro off the screen drops `b` characters** at small sizes
+  (`Cmin9#11b6` for `Cminb9#11b6`); the notes check caught it three times, and
+  caught a batch that was off by one chord. Nothing here is a change
+  recommendation: it is data to weigh. Seven-note chords add no new rule: a seven-note set is
+  the complement of a five-note one, and Scaler's `?` there is the common case,
+  so ScaleView Pro's answer is the only one on screen for 79% of them.
+
 **Scaler's names are also spaced and bracketed differently** - `C maj add 13`
 for C6, `min7(b5)`, both enharmonic roots on a black key - which is the
 punctuation question below, not a reading.
+
+#### Can the reader agree with Scaler more often? Measured, 7 November 2026
+
+The user asked for refinements to the algorithm - not a chord list - that
+would raise agreement with Scaler, ignoring every `?`. **The answer is no, not
+without giving up something already decided.** `tools/scaler_agree.py` names
+all 803 chords Scaler named (2 to 7 notes) with the shipped script and
+compares root and bass, so a different spelling of the same reading counts as
+agreement. It reproduces the recorded figures exactly (134/214, 114/245,
+85/246, 47/98), and all 1,485 Pro names read off REAPER's screen match what
+the runner prints. Shipped: **380 of 803, 47.3%.**
+
+The 423 disagreements, by cause:
+
+| | |
+| --- | --- |
+| Starting Blocks bars Scaler's root (decision 0011) - in 47 of these Pro's own cost already picks Scaler's root | 92 |
+| Scaler slashes to another root where Pro names the bass | 119 |
+| both leave the bass, for different roots | 101 |
+| Scaler names the bass where Pro takes another root | 58 |
+| Scaler's root is the semitone above the bass - the pitch-order artefact above | 40 |
+| a dominant seventh's inversion named from its bass (Pro keeps `X7/bass`) | 8 |
+| two notes, which Pro reads out as an interval by design | 5 |
+
+What was tried, each judged against every other reference here - the sweep,
+jazznet, OpenEWLD's 20,027 lead-sheet symbols, Wikipedia's list, Scaler's 58
+cases and Blocks' own chords (all 78 types on all 12 roots in every
+inversion, plus the key's, 2,738 voicings):
+
+| change | Scaler | what it costs |
+| --- | --- | --- |
+| any one weight, from 0 to 3x | at most +6 | - |
+| a cost for a tension (not root, 3rd, 5th or 7th) in the bass | at most +5 | Scaler puts tensions in the bass as often as Pro, on other roots |
+| a third over a missing fifth counts as a triad for alterations | +6 | 873 sweep names, some worse (C D A B `Bmin7b9/C`) |
+| the same, major third only | +3 | 732 sweep names |
+| b9 and b13 at home on a dim or half-diminished (Locrian) | +7 | lead sheets 99.326% to 99.271%, jazznet down |
+| `COST_SUS_EXTRA` 12 to 3 | +5 | lead sheets down 5 |
+| Blocks dictionary removed | +17 | everything 0011 was for |
+| Blocks overridden when another reading is cheaper by a margin | up to +20 | Blocks' own chords on a Blocks root: 100% down to 70-84% |
+| the same, only for the bass read as root | up to +23 | Blocks' own chords: 73-86% |
+| Blocks types with the fifth (or 9th/11th under a 13th) omittable | **-17** | Blocks' own chords 95.8% |
+
+**Two findings worth keeping.**
+
+- **The weights are not the lever, now at 33 times the evidence.** The note
+  below found that on 24 chords; on 803 the best single weight buys six. What
+  is left is Scaler's fixed list and its pitch-order fallback, which the user
+  ruled out copying.
+- **Decision 0011 is the only large lever, and it cannot be loosened cheaply.**
+  In 47 cases it overrides Pro's own reader, which agrees with Scaler, and some
+  of the names it forces are poor: C D E G A B reads `Amin11/C` (Cmaj13), C D
+  Eb Bb `Bbadd9Add11/C` (a Cmin9 shell), C D Bb `Bbadd9/C` (C7sus2), C D Eb Gb
+  A `D7b9/C` (Cdim9). The cause is that Blocks lists only complete chords, so a
+  voicing with a note left out loses to whatever complete chord shares its
+  notes. But the dictionary is also repairing real faults in the reader: once
+  the bass may escape it, Dbmaj9 over Ab reads `Ab6Add11` and C7b9 over G
+  reads `Gdim7Add11` - an extended chord in inversion re-read as an odd chord
+  on its bass - which is why every loosening tried costs Blocks' own chords 15
+  to 30 points. Adding
+  omissions to the dictionary instead made things worse: it takes away the
+  free reading wherever Blocks had happened to have no chord (C D G Bb went
+  from `C7sus2` to `Bb6/9/C`). **A fix here is a change to 0011, so it is the
+  user's call**, and it needs a rule that keeps Blocks' inversions while
+  letting a shell voicing keep its root; none of the ones above does.
+
+Nothing was changed in either script that day. **The user then removed 0011**
+(see *Starting Blocks no longer decides the root*), which takes the shipped
+figure from 380 to **397 of 803**, the +17 in the table, with the costs it
+lists.
 
 **Tuning the weights cannot buy Scaler's remaining roots. This was measured.**
 Twelve of the 24 roots differ, and two weights look responsible for most of
@@ -1693,8 +1753,18 @@ notes come from. Verified from the JSFX reference:
 **ScaleView Pro is the reference for every copy of the chord reader** - the
 user's instruction, October 2026, and the direction every port runs. Five
 repositories carry it. All took Pro's `f9e2691` changes (since merged), and
-all took the Blocks dictionary of `df4ea43` (decision 0011) on branches named
-`ccr-ac8da7d9-3sbl5x`, **not yet merged**:
+all took the Blocks dictionary of `df4ea43` (decision 0011). **They merged it
+to their `main` branches** (checked 8 November 2026: the Blocks tables are in
+the plugin's `Source/ScaleModel.h`, Midi Suggester's `ms_theory.lua`, Midi
+Variator's `mv_theory.lua`, and Noterator's and Miderator's vendored copies;
+the `ccr-ac8da7d9-3sbl5x` branches are gone). An earlier version of this file
+said they were never merged - wrong. **The removal has been ported to all
+five** (8 November 2026), each on a branch `claude/remove-blocks-0011` with a
+pull request, and each copy names 427,776 voicings - every one- to seven-note
+voicing on every bass, plain and with the bass or top note doubled, in no key
+and seven keys - byte-identically to Pro 1.3.0; the same rig finds 25,824
+differences against the copies with the dictionary. Until those are merged,
+the commits below are the ones still carrying it:
 
 | repository | copy | at | checked against Pro |
 | --- | --- | --- | --- |
@@ -1705,11 +1775,9 @@ all took the Blocks dictionary of `df4ea43` (decision 0011) on branches named
 | `KallumS/Miderator` | Noterator's files, synced | `324920c` | Noterator's byte for byte |
 
 Middaw carries an older Python port (`middaw/scaleview.py`) that never took
-decisions 0003, 0009, 0010 or 0011; left for now, the user's call.
-
-**None of the five has taken decision 0014** (maj7(sus2), November 2026). It
-is one entry beside Blocks' chord types in each; the 12 sweep names it moves
-are the parity check.
+decisions 0003, 0009 or 0010; left for now, the user's call. **It also vendors
+Midi Variator's `mv_theory.lua`** (`family/engines/midi-variator/`), which
+does carry 0011 - found on 8 November 2026 and not yet changed.
 
 The parity rig is 60,212 voicings - the sweep, every one- and two-note chord,
 and every distinct sonority of music21's core corpus with its doublings - fed

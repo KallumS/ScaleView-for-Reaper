@@ -1,6 +1,6 @@
 # 0014. Let maj7(sus2) name a chord, the one root outside Starting Blocks
 
-Status   - Accepted
+Status   - Moot (2026-11-07): 0011 was reversed, so there is no Blocks list to make an exception to
 Date     - 2026-11-01
 Commits  - see `git log -- docs/decisions/0014*`
 
@@ -63,3 +63,11 @@ all 288 keys identically, so the simpler form was kept.
 the probe found*. `tests/test_scaleview_pro.lua`, the maj7(sus2) block in
 section 6e. `tools/scaler_cases.py`, `tools/sweep.py`,
 `tools/leadsheet_check.py`. `docs/sessions/2026-11-01-maj7sus2.md`.
+
+## Moot, 7 November 2026
+
+Decision 0011 was reversed and the Blocks tables are gone from Pro. The reader
+now names F G C E over F `Fmaj7sus2` and E D# F# B over E `Emaj7sus2` by
+itself, and keeps the add11 with a chord tone in the bass, so this exception
+has nothing to be an exception to. Its pins are kept in
+`tests/test_scaleview_pro.lua`; they pass on the reader without it.
