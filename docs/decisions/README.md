@@ -44,6 +44,7 @@ Commits  - where it landed
 | [0011](0011-starting-blocks-decides-a-chords-roots.md) | Let Starting Blocks decide which roots a chord can have | Reversed |
 | [0012](0012-menu-text-follows-apples-writing-guidelines.md) | Write the menus to Apple's writing guidelines | Accepted |
 | [0013](0013-apples-hig-foundations.md) | Apple's HIG Foundations are the standard for the icon | Accepted |
+| [0014](0014-maj7sus2-is-the-one-root-outside-blocks.md) | Let maj7(sus2) name a chord, the one root outside Starting Blocks | Moot (0011 reversed) |
 
 Records 0001 to 0007 were taken before they were written down; the dates and
 commits are when each landed in the code, not when this file was created.

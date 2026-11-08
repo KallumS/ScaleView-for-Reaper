@@ -713,6 +713,15 @@ twice flipped C E G# to `Eaug/C`), and **in Lua, `t[#t + 1] =
 table.remove(t, 1) + 12` leaves a hole**, because the slot is counted before
 the removal.
 
+**Decision 0014 (maj7(sus2) as a root outside Blocks) is moot.** It existed
+only so that F G C E over F could read `Fmaj7sus2` rather than `Cadd11/F`, the
+add11's own 11 in the bass, while 0011 limited roots to Blocks' types. With
+Blocks gone the reader already says `Fmaj7sus2` and `Emaj7sus2` there, and
+keeps `Cadd11/E` and `Cadd11/G` with a chord tone in the bass, so no exception
+is needed; the pins that 0014 added are kept in the suite as they were. What
+0014 measured stands as evidence that the pattern is real (12 sweep names, one
+shape in twelve keys; Scaler root agreement 31 to 33 of 58 with no losses).
+
 ### The complete triad wins
 
 Where two readings fit, the one holding a complete triad - a real third with a
@@ -851,7 +860,15 @@ every inversion. Scores are chordified with music21 - used only as a file
 reader, never for naming - and driven through a real script by `runner.lua`,
 rebuilt from the test suite's mocks: it reads MIDI note numbers on stdin and
 writes the name the script shows. Scanning the whole corpus takes about twenty
-minutes on four cores.
+minutes on four cores (an hour on the sandbox's in November 2026).
+
+**Every corpus figure here counts sonorities of three or more pitch classes.**
+`corpus_scan.py` keeps anything with two or more distinct MIDI notes, so its
+output also holds octaves (G G G) and dyads: 490,732 sonorities and 42,609
+distinct with music21 10.5.2, which score 95.3% because a single note or an
+interval is not a chord to check. Filtered to three or more pitch classes the
+same scan gives exactly 363,963 and 37,106, and 363,959 named exactly - the
+figures above. Filter before scoring, or the number is the denominator.
 
 **The tools are in `tools/`** - `runner.lua`, `check_symbol.py`,
 `corpus_scan.py` and the rest, with a README explaining each. `sweep.py`
@@ -1036,6 +1053,13 @@ lead sheets, 20,030 chord symbols, 135 distinct shapes:
 | --- | --- |
 | symbol accounts for exactly the notes, right bass | **100%** (20,027 of 20,027) |
 | names the arranger's root | **99.27%** (19,880) |
+
+That is the figure with Starting Blocks out (decision 0011 reversed). While 0011
+was in force it read 99.33% (19,892), almost all of it `Eb/Ab` (11 symbols)
+reading `Ebadd11/Ab`; 0014 gave part of that back and the reversal the rest.
+The breakdown below was counted before 0011 and has not been redone; run today it is 79 slash over a
+bass outside the chord, 33 inversions, 31 root position (26 of them `C13`
+reading `Amin11b9/C`, which the list below predates) and 3 symmetric.
 
 The 147 root differences are four kinds, and three are notation:
 

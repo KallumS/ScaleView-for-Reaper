@@ -504,6 +504,15 @@ expect({C4, C4 + 7, C4 + 10}, "C7(no3)", "but a missing third changes the qualit
 -- chord that has a third in it.
 expect({C4, C4 + 2, C4 + 7, C4 + 11}, "Cmaj7sus2",
        "deliberately not Cmaj9(no3): a 2 with no 3 is a suspension")
+-- maj7(sus2) wins from its own root, where an add11 reading would put its own
+-- 11 in the bass, and nowhere else: the other positions stay an add11, as
+-- Scaler Detector read the same notes on 1 November 2026. (Decision 0014 had to
+-- make an exception for this while 0011 was in force; the reader needs none.)
+expect({65, 79, 84, 88}, "Fmaj7sus2", "F G C E over F: Scaler Fmaj7(sus2)")
+expect({64, 75, 78, 83}, "Emaj7sus2", "E D# F# B over E: Scaler Emaj7(sus2)")
+expect({64, 77, 79, 84}, "Cadd11/E", "a chord tone in the bass keeps the add11")
+expect({67, 77, 84, 88}, "Cadd11/G", "and over its fifth")
+expect({60, 76, 77, 79}, "Cadd11", "and from its own root")
 
 -- 6f) The scale only ever breaks a tie. A chord from outside the key is named
 --     for what it is, never bent to fit, and everything still works with no
