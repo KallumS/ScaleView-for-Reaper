@@ -1753,10 +1753,13 @@ notes come from. Verified from the JSFX reference:
 **ScaleView Pro is the reference for every copy of the chord reader** - the
 user's instruction, October 2026, and the direction every port runs. Five
 repositories carry it. All took Pro's `f9e2691` changes (since merged), and
-all took the Blocks dictionary of `df4ea43` (decision 0011) on branches named
-`ccr-ac8da7d9-3sbl5x`, **never merged**. 0011 has since been reversed here, so
-those branches are out of date with Pro and should be dropped or reverted, not
-merged; the commits below are the ones that carry it:
+all took the Blocks dictionary of `df4ea43` (decision 0011). **They merged it
+to their `main` branches** (checked 8 November 2026: the Blocks tables are in
+the plugin's `Source/ScaleModel.h`, Midi Suggester's `ms_theory.lua`, Midi
+Variator's `mv_theory.lua`, and Noterator's and Miderator's vendored copies;
+the `ccr-ac8da7d9-3sbl5x` branches are gone). An earlier version of this file
+said they were never merged - wrong. **0011 is reversed here, so all five are
+now out of date with Pro and need the same removal**, which has not been done:
 
 | repository | copy | at | checked against Pro |
 | --- | --- | --- | --- |

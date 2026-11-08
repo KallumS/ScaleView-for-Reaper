@@ -105,6 +105,6 @@ record listed under *Consequences* is undone exactly:
 The nine pinned names are back to their earlier values, and
 `tests/test_scaleview_pro.lua` section 4b now pins five of the names above,
 each failing on the script that had the dictionary. The copies in the five
-other repositories took 0011 on branches that were never merged
-(`ccr-ac8da7d9-3sbl5x`); they follow Pro, so those branches should be
-dropped or reverted rather than merged.
+other repositories took 0011 and merged it to their `main` branches (checked
+8 November 2026), so they still have it: the plugin, Midi Suggester, Midi
+Variator, Noterator and Miderator each need the same removal.
