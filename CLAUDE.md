@@ -1759,7 +1759,7 @@ the plugin's `Source/ScaleModel.h`, Midi Suggester's `ms_theory.lua`, Midi
 Variator's `mv_theory.lua`, and Noterator's and Miderator's vendored copies;
 the `ccr-ac8da7d9-3sbl5x` branches are gone). An earlier version of this file
 said they were never merged - wrong. **The removal has been ported to all
-five** (8 November 2026), each on a branch `claude/remove-blocks-0011` with a
+five, and to Middaw** (8 November 2026), each on a branch `claude/remove-blocks-0011` with a
 pull request, and each copy names 427,776 voicings - every one- to seven-note
 voicing on every bass, plain and with the bass or top note doubled, in no key
 and seven keys - byte-identically to Pro 1.3.0; the same rig finds 25,824
@@ -1774,10 +1774,16 @@ the commits below are the ones still carrying it:
 | `KallumS/Noterator` | the plugin's `ScaleModel.h` and both Lua engines, vendored | `58b10f1` | the plugin's file byte for byte |
 | `KallumS/Miderator` | Noterator's files, synced | `324920c` | Noterator's byte for byte |
 
-Middaw carries an older Python port (`middaw/scaleview.py`) that never took
-decisions 0003, 0009 or 0010; left for now, the user's call. **It also vendors
-Midi Variator's `mv_theory.lua`** (`family/engines/midi-variator/`), which
-does carry 0011 - found on 8 November 2026 and not yet changed.
+**Middaw** (`KallumS/Middaw`) carries the reader four times: a Python port
+(`middaw/scaleview.py`), a JavaScript copy of that (`runtime/composer/core.js`),
+and vendored `ms_theory.lua` and `mv_theory.lua`. An earlier version of this
+file said its Python port never took 0003, 0009 or 0010 - wrong: it took all
+of them, and 0011, in its `f93d973`. The removal of 0011 is on its branch
+`claude/remove-blocks-0011` (KallumS/Middaw#5): Python and JavaScript each name
+the 427,776 voicings byte-identically to Pro. Middaw measures harmony against
+human analyses, and taking 0011 out moved When in Rome from 64.3% to 64.1% on
+the analyst's root (118 of 52,685) and the music21 chorales from 80.2% to
+80.5% (three of 1,041).
 
 The parity rig is 60,212 voicings - the sweep, every one- and two-note chord,
 and every distinct sonority of music21's core corpus with its doublings - fed
