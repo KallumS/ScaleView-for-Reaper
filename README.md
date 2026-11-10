@@ -34,6 +34,8 @@ MIDI editor snap settings, or anything else.
 
 **In Ableton Live:** `ableton/` has ScaleView as a Max for Live MIDI effect. See [`ableton/README.md`](ableton/README.md).
 
+![ScaleView in Ableton Live](ableton/window.png)
+
 ## Installing with ReaPack
 
 In REAPER: **Extensions > ReaPack > Import repositories**, and paste exactly

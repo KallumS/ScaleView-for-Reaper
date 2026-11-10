@@ -31,7 +31,7 @@ The scale and the options are kept with the Live set (the script's ExtState and 
 ableton/device.json` writes the `.amxd`, the `.maxpat` and the script bundle
 `ScaleView.js`. The bundle is Middaw's Lua 5.4 runtime, `reascripts/ScaleView Pro.lua`, and the shared host (`ableton/kit/lua_device.js`, `gfx.js`). See `ableton/kit/VENDORED.md`.
 
-`node --test ableton/tests/test_device.js` runs the device on a pretend Max and Live: the twelve notes drawn, a click opening the scale list and the scale chosen shown and spelled (Eb major with flats), a menu closed with nothing chosen, a chord played into the device named under the key and passed on, and the scale kept with the set.
+`node --test ableton/tests/test_device.js` runs the device on a pretend Max and Live: the twelve notes drawn, a click opening the scale list and the scale chosen shown and spelled (Eb major with flats), a menu closed with nothing chosen, a chord played into the device named under the key and passed on, and the scale kept with the set. `node ableton/window.js` redraws the picture above from the device's own drawing code (it needs Playwright's Chromium).
 
 ## Limits
 
