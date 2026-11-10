@@ -32,6 +32,8 @@ scale; the notes belonging to that scale change colour. Picking a scale does
 nothing else - it is purely a visual reference, it does not touch the project,
 MIDI editor snap settings, or anything else.
 
+**In Ableton Live:** `ableton/` has ScaleView as a Max for Live MIDI effect. See [`ableton/README.md`](ableton/README.md).
+
 ## Installing with ReaPack
 
 In REAPER: **Extensions > ReaPack > Import repositories**, and paste exactly

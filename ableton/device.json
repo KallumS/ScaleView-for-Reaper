@@ -1,0 +1,12 @@
+{
+  "name": "ScaleView",
+  "slug": "ScaleView",
+  "kind": "midi",
+  "template": "inline_midi",
+  "window": [200, 100],
+  "description": "The key at a glance, its notes spelled for the key, and the chord you play named under it.",
+  "device": { "main": "ScaleView Pro.lua", "size": [200, 100] },
+  "files": { "ScaleView Pro.lua": "../reascripts/ScaleView Pro.lua" },
+  "scripts": ["kit/runtime/polyfill.js", "kit/runtime/lua_parse.js", "kit/runtime/lua_runtime.js", "kit/runtime/lua_compile.js",
+              "kit/gfx.js", "kit/lua_device.js"]
+}
