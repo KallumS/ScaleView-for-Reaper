@@ -121,7 +121,7 @@ var REAPER = {
   GetOS: function () { return 'macOS-arm64'; },
   GetResourcePath: function () { return '/Live'; },
   GetAppVersion: function () { return '7.0/macOS-arm64'; },
-  get_action_context: function () { return new L.Multi([false, DEVICE.main, 0, 0, 0, 0, 0]); },
+  get_action_context: function () { return new L.Multi([false, '/Live/' + DEVICE.main, 0, 0, 0, 0, 0]); },
   set_action_options: function () { return L.NONE; },
   SetToggleCommandState: function () { return true; },
   RefreshToolbar2: function () { return L.NONE; },
@@ -161,6 +161,8 @@ function readFile(path) {
 var env = L.makeEnv({ print: function (s) { post(String(s) + '\n'); }, readFile: readFile, writeFile: function () {} });
 env.set('gfx', G);
 env.set('reaper', RT);
+// what a Mac's Lua says about its paths (scripts read the separator from it)
+env.get('package').set('config', '/\n;\n?\n!\n-\n');
 
 function start() {
   if (R.started) return;
