@@ -2,6 +2,8 @@
 
 A Max for Live MIDI effect. It is `reascripts/ScaleView Pro.lua` itself, unchanged, running on Middaw's Lua 5.4 runtime, drawn on the device: the key at a glance, its notes spelled for the key, and the chord you play named underneath.
 
+**Its colours are Live's**, after Ableton Live 8's default theme: neutral greys and one amber for what is on, so it sits beside Live's own devices. The REAPER version keeps the house scheme's yellow. The window is the script's own, drawn in those colours: its greys turn neutral at the same brightness, so every contrast it was checked for still holds, and its yellow becomes the amber.
+
 ## Installing
 
 Needs **Live 12.1 or later with Max for Live** (Live Suite, or Standard with
